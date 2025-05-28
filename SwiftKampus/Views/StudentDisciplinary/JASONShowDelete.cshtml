@@ -1,0 +1,40 @@
+﻿
+@{
+    Layout = null;
+}
+
+@model SwiftKampus.ViewModels.MisconductVm.ShowStudentDetailViewModel
+
+
+        @{
+            Model.FullName = $"{Model.LastName} {Model.FirstName} {Model.MiddleName}";
+        }
+        <h3>Are you sure you want to delete this misconduct for @Model.FullName </h3>
+        <div>
+            <hr />
+            <h4>Student Misconduct Detail</h4>
+
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.MisconductName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.MisconductName)
+                </dd>
+
+            </dl>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.DefaulterId)
+
+                @*<div class="form-actions no-color">
+                    <input type="submit" value="Delete" class="btn btn-danger" /> |
+                    @Html.ActionLink("Back to List", "Index")
+                </div>*@
+            }
+        </div>
+
+

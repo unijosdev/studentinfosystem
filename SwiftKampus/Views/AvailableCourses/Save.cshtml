@@ -1,0 +1,140 @@
+﻿@model SwiftKampusModel.AddmissionApplicant.AvailableCourseVm
+
+<form id="myform" role="form" onsubmit="return false;">
+    @Html.AntiForgeryToken()
+
+
+    <div class="card">
+        <div class="card-head style-primary">
+            <header>
+                @if (Model != null && Model.AvailableCourseId > 0)
+                {
+                    <div class="form-header  purple darken-4">
+                        <h3>
+                            <i class="fa fa-save"></i> Update Record
+                        </h3>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-header  purple darken-4">
+                        <h3><i class="fa fa-save"></i> Save</h3>
+                    </div>
+                }
+            </header>
+
+        </div><!--end .card-head -->
+        <div class="card-body">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @if (Model != null && Model.AvailableCourseId > 0)
+            {
+                @Html.HiddenFor(model => model.AvailableCourseId)
+            }
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.SchoolProgrammeId)
+                @Html.DropDownList("SchoolProgrammeId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SchoolProgrammeId, "", new { @class = "text-danger" })
+            </div>
+            @Html.HiddenFor(model => model.AvailableCourseId, new { id = "AvailableCourseId" })
+
+            @if (Model != null && Model.AvailableCourseId > 0)
+            {
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ProgrammeId)
+                    @Html.DropDownList("ProgrammeId", null, htmlAttributes: new { @class = "form-control js-example-basic-single", @multiple = "true" })
+                    @Html.ValidationMessageFor(model => model.ProgrammeId, "", new { @class = "text-danger" })
+                </div>
+
+
+
+
+            }
+            else
+            {
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ProgrammeId)
+                    @Html.DropDownList("ProgrammeId", null, htmlAttributes: new { @class = "form-control js-example-basic-single", @multiple = "true" })
+                    @Html.ValidationMessageFor(model => model.ProgrammeId, "", new { @class = "text-danger" })
+                </div>
+
+
+
+
+            }
+
+            <div class="form-group">
+                <div class="checkbox-circle form-check checkbox-success">
+                    @Html.LabelFor(model => model.IsActive)
+                    @Html.CheckBox("IsActive", false)
+                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="md-form">
+
+                    @if (Model != null && Model.AvailableCourseId > 0)
+                    {
+                        <input id="btnsubmit" type="submit" value="Update" class="btn btn-success btn-sm" />
+                    }
+                    else
+                    {
+                        <input id="btnsubmit" type="submit" value="Save" class="btn btn-success btn-sm" />
+                    }
+                    <a href="#" class="btn btn-danger btn-sm" data-dismiss="modal">Cancel</a>
+                </div>
+            </div>
+
+
+
+
+        </div><!--end .card-body -->
+    </div><!--end .card -->
+</form>
+
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script src="~/Scripts/chosen.jquery.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
+<script type="text/javascript">
+    //jQuery(function ($) {
+    //    $('.js-example-basic-single').select2({
+    //        placeholder: 'Select an option...',
+    //        allowClear: true
+    //    });
+    //});
+
+    $("#btnsubmit").click(function () {
+
+        var data = $("#myform").serialize();
+
+        $.ajax({
+            type: "POST",
+            url: "/AvailableCourses/Save",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+
+                    window.oTable.ajax.reload(); //run my_fun() ondomready
+                    toastr["success"](data.message);
+                    $('#myform')[0].reset();
+                } else {
+                    //$('#actionsList').modal("hide");
+                    toastr["error"](data.message);
+                }
+
+            }
+        });
+    });
+</script>
+

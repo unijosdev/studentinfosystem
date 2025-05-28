@@ -1,0 +1,89 @@
+﻿@model SwiftKampusModel.CourseRegistration
+
+<div class="card">
+    <div class="card-head style-primary">
+        <header>
+            <h3>
+                <i class="fa fa-plus"></i> Approve Student Registration
+            </h3>
+        </header>
+
+    </div><!--end .card-head -->
+    <div class="card-body">
+        <h3>Are you sure you want to Approve this Registration?</h3>
+        <div>
+            <dl class="dl-horizontal">
+                <dt>
+                   Matric No
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Students.MatricNo)
+                </dd>
+
+                <dt>
+                   Full Name
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Students.FullName)
+                </dd>
+
+                <dt>
+                   Session
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Session.SessionName)
+                </dd>
+
+                <dt>
+                    Semester
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Semester.SemesterName)
+                </dd>
+
+            </dl>
+
+
+            <form id="myform" onsubmit="return false;">
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" id="id" name="id" class="form-control" value="@Model.StudentId">
+                <input id="btndelete" type="submit" value="Confirm All Courses" class="btn btn-primary" /> |
+
+                <a href="#" class="btn btn-info" data-dismiss="modal">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $("#btndelete").click(function () {
+
+        var data = $("#myform").serialize();
+
+        window.alert(data);
+        $.ajax({
+            type: "POST",
+            url: "/CourseRegistrations/ConfirmAllCourses",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+                    window.oTable.ajax.reload(); //run my_fun() ondomready
+
+                    toastr["info"](data.message);
+                    $('#myform')[0].reset();
+                } else {
+                    //$('#actionsList').modal("hide");
+                    toastr["error"](data.message);
+                }
+
+            }
+        });
+    });
+</script>

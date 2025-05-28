@@ -1,0 +1,76 @@
+﻿@model SwiftKampusModel.AddmissionApplicant.ChangeOfCoursePayment
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+<form id="myform" onsubmit="return false;">
+    @Html.AntiForgeryToken()
+    <div class="card">
+        <div class="card-head style-primary">
+
+
+        </div><!--end .card-head -->
+        <div class="card-body">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @if (Model != null && Model.ChangeOfCoursePaymentId > 0)
+            {
+                @Html.HiddenFor(model => model.ChangeOfCoursePaymentId)
+            }
+
+            <div class="form-group">
+                @Html.Label("Programmes")
+                @Html.DropDownList("ProgrammeId", (SelectList)ViewBag.ProgrammeId, "", new { @class = "form-control" })
+            </div>
+
+            <div class="md-form">
+
+                @if (Model != null && Model.ChangeOfCoursePaymentId > 0)
+                {
+                    <input id="btnsubmit" type="submit" value="Submit" class="btn btn-primary btn-lg" />
+                }
+                else
+                {
+                    <input id="btnsubmit" type="submit" value="Save" class="btn btn-primary btn-lg" />
+                }
+                <a href="#" class="btn btn-danger btn-lg" data-dismiss="modal">Cancel</a>
+            </div>
+        </div><!--end .card-body -->
+
+    </div>
+</form>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+
+<script type="text/javascript">
+
+    $("#btnsubmit").click(function () {
+
+        var data = $("#myform").serialize();
+
+        $.ajax({
+            type: "POST",
+            url: "/ChangeOfCoursePayments/Save",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+                    toastr["success"](data.message);
+                    swal({
+                        title: "Great",
+                        text: data.message,
+                        type: "success",
+                    });
+                     window.open('@Url.Action("Index", "ChangeOfCoursePayments")', '_self');
+                } else {
+                    toastr["error"](data.message);
+                    //$('#actionsList').modal("hide");
+
+                }
+
+            }
+        });
+    });
+</script>
+

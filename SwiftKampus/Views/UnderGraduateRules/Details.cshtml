@@ -1,0 +1,42 @@
+﻿@model SwiftKampusModel.AddmissionApplicant.UnderGraduateRule
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>UnderGraduateRule</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Programme.ProgrammeCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Programme.ProgrammeCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Subject.CourseCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Subject.CourseCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SubjectGrade)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SubjectGrade)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.UnderGraduateRuleId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

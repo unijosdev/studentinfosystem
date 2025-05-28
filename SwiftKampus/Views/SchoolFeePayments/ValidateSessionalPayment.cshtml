@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "Validate Sessional Payment";
+}
+
+
+<div class="row ibox-title">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <h2>Change Transaction Payment Session or Level</h2>
+        <h2 class="text-danger">@ViewBag.Message</h2>
+        @using (Html.BeginForm("ValidateSessionalPayment", "SchoolFeePayments", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Get, new { @class = "", role = "form" }))
+        {
+
+            <br />
+            <input id="studentId" name="studentId" class="form-control" type="text" required placeholder="Type the Jamb Reg No/Form No/ Matric No" />
+            <br />
+
+            <label for="Session" style="font-size: 14px;font-weight: normal">Choose the session that was paid for</label>
+            @Html.DropDownList("Session", null, "Select Session", htmlAttributes: new { @class = "form-control", @required = "true"})
+            <br />
+
+            <label for="wrongSession" style="font-size: 14px;font-weight: normal">Choose the correct session (Leave blank if only change of level)</label>
+            @Html.DropDownList("CorrectSession", null, "Select Session", htmlAttributes: new { @class = "form-control"})
+            <br />
+
+            <input id="level" name="level" class="form-control" type="number" min="100" max="900" step="100" placeholder="Type the correct level" />
+            <br />
+
+            <button class="btn btn bg-primary" type="submit">Change Payment Session<span class="icon-more-icon"></span></button>
+        }
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+

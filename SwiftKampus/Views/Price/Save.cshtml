@@ -1,0 +1,123 @@
+﻿@model SwiftKampusModel.MarketPlace.Price
+
+<form id="myform" onsubmit="return false;">
+    @Html.AntiForgeryToken()
+
+    <div class="card">
+        <div class="card-head style-primary">
+            <header>
+                @if (Model != null && Model.Id > 0)
+                {
+                    <div class="form-header  purple darken-4">
+                        <h3>
+                            <i class="fa fa-save"></i> Update Record
+                        </h3>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-header  purple darken-4">
+                        <h3><i class="fa fa-save"></i> Save</h3>
+                    </div>
+                }
+            </header>
+
+        </div><!--end .card-head -->
+        <div class="card-body">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @if (Model != null && Model.Id > 0)
+            {
+                @Html.HiddenFor(model => model.Id)
+            }
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+            @*<div class="form-group">
+                @Html.LabelFor(model => model.Product.ProductName)
+                @Html.EditorFor(model => model.Product.ProductName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Product.ProductName, "", new { @class = "text-danger" })
+            </div>*@
+
+            <div class="form-group">
+                @Html.Label("Select Product")
+                @Html.DropDownList("ProductId", (IEnumerable<SelectListItem>)ViewBag.ProductsId, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                    @Html.LabelFor(model => model.BuyPrice)
+                    @Html.EditorFor(model => model.BuyPrice, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.BuyPrice, "", new { @class = "text-danger" })
+                </div>
+
+            <div class="form-group">
+                    @Html.LabelFor(model => model.SalePrice)
+                    @Html.EditorFor(model => model.SalePrice, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.SalePrice, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Discount)
+                    @Html.EditorFor(model => model.Discount, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Discount, "", new { @class = "text-danger" })
+                </div>
+
+            <div class="form-group">
+                <div>
+                    @Html.LabelFor(model => model.Visible)
+                </div>
+                <select name="Visible" id="Visible" class="form-control">
+                    <option value="null">select...</option>
+                    <option value="0">Disable</option>
+                    <option value="1">Active</option>
+                    @*<option value="papaya">Papaya</option>*@
+                </select>
+            </div>
+
+            <div class="md-form">
+
+                @if (Model != null && Model.Id > 0)
+                {
+                    <input id="btnsubmit" type="submit" value="Update" class="btn btn-success btn-lg" />
+                }
+                else
+                {
+                    <input id="btnsubmit" type="submit" value="Save" class="btn btn-success btn-lg" />
+                }
+                <a href="#" class="btn btn-danger btn-lg" data-dismiss="modal">Cancel</a>
+            </div>
+        </div>
+    </div>
+
+</form>
+@*@section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }*@
+
+<script type="text/javascript">
+    $("#btnsubmit").click(function () {
+
+        var data = $("#myform").serialize();
+        $.ajax({
+            type: "POST",
+            url: "/Price/Save",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+                    window.oTable.ajax.reload(); //run my_fun() ondomready
+                    toastr["success"](data.message);
+                    $('#myform')[0].reset();
+                } else {
+                    //$('#actionsList').modal("hide");
+                    toastr["error"](data.message);
+                }
+
+            }
+        });
+    });
+</script>
+
+

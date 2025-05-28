@@ -1,0 +1,80 @@
+﻿@model SwiftKampusModel.AddmissionApplicant.AttendedSchool
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>AttendedSchool</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplicantId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApplicantId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SchoolName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SchoolName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SchoolAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SchoolAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CourseOfStudy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CourseOfStudy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ClassOfDegree)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClassOfDegree)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ResultGrade)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResultGrade)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FromDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FromDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ToDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ToDate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.AttendedSchoolId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

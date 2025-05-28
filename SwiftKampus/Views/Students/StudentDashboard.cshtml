@@ -1,0 +1,178 @@
+﻿@model SwiftKampus.ViewModels.StudentDashboardVM
+@{
+    ViewBag.Title = "Student Dashboard";
+}
+
+<style>
+    .clearance h5 {
+       font-size: 14px;
+       font-weight: 600;
+       padding-bottom: 6px;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-3">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <span class="label label-success pull-right"></span>
+                <h5>Faculty</h5>
+            </div>
+            <div class="ibox-content">
+                <h3 class="no-margins"> @Model.FacultyName </h3>
+                <div class="stat-percent font-bold text-success"> <i class="fa fa-bolt"></i></div>
+                <h4 class="text-bold">Population ( @Model.FacultyPopulation )</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <span class="label label-info pull-right"></span>
+                <h5>Department</h5>
+            </div>
+            <div class="ibox-content">
+                <h3 class="no-margins">@Model.DepartmentName</h3>
+                <div class="stat-percent font-bold text-info"><i class="fa fa-level-up"></i></div>
+                <h4 class="text-bold">Population ( @Model.DepartmentPopulation )</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <span class="label label-danger pull-right"></span>
+                <h5>Programme</h5> 
+            </div>
+            <div class="ibox-content">
+                <h3 class="no-margins">@ViewBag.ProgrammeName</h3>
+                <div class="stat-percent font-bold text-info"><i class="fa fa-angle-down"></i></div>
+                <h4 class="text-bold">Population ( @Model.DepartmentPopulation )</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <span class="label label-primary pull-right">Current</span>
+                <h5>Level/Semester</h5>
+            </div>
+            <div class="ibox-content">
+                <h3 class="no-margins">@Model.SessionName</h3>
+                <div class="stat-percent font-bold text-navy">
+                    @Model.CurrentLevel Level <i class="fa fa-level-up"></i>
+                    <br />
+                    <a href="#" class="btn btn-primary btn-sm" onclick="ChangeLevel('@Model.StudentId')" data-toggle="tooltip" data-placement="top" title="Update Student"><i class="fa fa-info" aria-hidden="true"></i>Change Level</a>&nbsp;&nbsp;
+                </div>
+                <h4 class="text-bold">@Model.SemesterName</h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Display student's clearance status, blood group and matric num-->
+<div class="row">
+    @*<div class="col-xs-2">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Clearance Status</h5>
+                </div>
+            </div>
+        </div>*@
+    <div class="col-xs-6 col-sm-6 col-md-2">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5 class="no-margins">Department Clearance</h5>
+            </div>
+            <div class="ibox-content">
+                <h5 class="no-margins">@ViewBag.DClearance</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-2">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5 class="no-margins">Faculty Clearance</h5>
+            </div>
+            <div class="ibox-content">
+                <h5 class="no-margins">@ViewBag.FClearance</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-2">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5 class="no-margins">Academic Clearance</h5>
+            </div>
+            <div class="ibox-content">
+                <h5 class="no-margins">@ViewBag.AClearance</h5>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-6 col-sm-6 col-md-2">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5 class="no-margins">Blood Group</h5>
+            </div>
+            <div class="ibox-content">
+                @if (ViewBag.BloodGroup != null)
+                {
+                    <h5 class="no-margins">@ViewBag.BloodGroup</h5>
+                }
+                else
+                {
+                    <h5 class="no-margins"><a href="/Students/BloodGroupList" style="color: #0e9bcc;">Update Blood Group</a></h5>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5 class="no-margins">Matric No  ( @Model.MatricNo )</h5>
+            </div>
+            <div class="ibox-content" style="padding-bottom: 10px;padding-top: 5px;">
+                <h5 class="no-margins">Jamb/Form No ( @Model.JambReg )</h5>
+                <small> Official Email ( @Model.PrimaryEmail )</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade inmodal" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content animated">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">STUDENT</h4>
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+
+    function ChangeLevel(studentId) {
+        var url = "/Departments/UpgradeLevel?studentId=" + studentId;
+        $('#myModalDivBody').load(url,
+            function () {
+                jQuery.noConflict();
+                $('#actionsList').modal("show");
+            });
+    };
+</script>

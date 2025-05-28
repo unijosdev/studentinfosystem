@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "Get Matric Number";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h2>Get a Student Matric Number</h2> <br />
+    <h3 class="text-danger" style="font-weight:500;">@ViewBag.message</h3>
+
+    <div class="row">
+
+        @using (Html.BeginForm("GetMatricNo", "Students", FormMethod.Get, new { @class = "", role = "form" }))
+        {
+            <div class="col-md-4">
+                <input name="id" class="form-control" type="text" required placeholder="Type the Jamb Reg No" /> <br />
+            </div>
+
+            <div class="col-md-4">
+                <button class="btn btn bg-primary" style="width:60%" type="submit">Submit</button>
+            </div>
+        }
+    </div>
+    <h3>@ViewBag.matricNo</h3>
+
+</div>
+
+
+@*For client side validation*@
+@Scripts.Render("~/bundles/jqueryval")
+

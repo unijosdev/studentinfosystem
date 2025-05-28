@@ -1,0 +1,527 @@
+﻿@model SwiftKampus.ViewModels.MisconductVm.StudentDetailViewModel
+@{
+    ViewBag.Title = "Student";
+}
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+@*<h2>Find Student</h2>*@
+<br />
+<div class="col-lg-12">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>Student Disciplinary Status</h5>
+            <div class="ibox-tools">
+                  <a class="btn-box-tool btn-sm btn-success" href="@Url.Action("Create", "StudentDisciplinary", new { id = Model.StudentId })">Add Misconduct</a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <div>
+                <div>
+                    <div class="form-group">
+                        <div>
+                            <h4 class="pull-left">Student's Details</h4>
+                        </div>
+                        <br />
+                        <hr />
+                        <table>
+                            <tr>
+                                <td width="70%">
+                                    <dl class="dl-horizontal">
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.MatriculationNumber)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.MatriculationNumber)
+                                        </dd>
+
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.FullName)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.FullName)
+                                        </dd>
+
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.PhoneNumber)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.PhoneNumber)
+                                        </dd>
+
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.FacultyName)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.FacultyName)
+                                        </dd>
+
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.DepartmentName)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.DepartmentName)
+                                        </dd>
+
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.DepartmentOptionName)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.DepartmentOptionName)
+                                        </dd>
+
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.LevelName)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.LevelName)
+                                        </dd>
+
+                                        @if ((Model.StudentDisciplinaryStatus == null))
+                                        {
+
+                                        }
+                                        else if (Model.StudentDisciplinaryStatus.DisciplineName == null)
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            <dt>
+                                                @Html.DisplayNameFor(model => model.StudentDisciplinaryStatus.DisciplineName)
+                                            </dt>
+
+                                            <dd>
+                                                <font color="red">@Html.DisplayFor(model => model.StudentDisciplinaryStatus.DisciplineName)</font>
+                                            </dd>
+                                        }
+
+                                </dl>
+                            </td>
+                            <td  width="10%"></td>
+                            <td width="15%">
+                                <img src="@Url.Action("RenderImage", "Students", new { studentId = Model.StudentId})" alt="Alternate Text" width="120" height="160" style="padding-bottom:15px;"/> @*Put student passport here!*@
+                            </td>
+                        </tr>
+                    </table>
+                    <hr />
+                    <h4>Student's misconduct detail</h4>
+                    @{
+                        var sn = 0;
+                    }
+                    <div class="table-responsive">
+                        <table id="example" class="table table-striped table-bordered table-hover dataTables-example">
+                            <thead>
+                                <tr>
+                                    <th>S/N</th>
+                                    <th>@Html.DisplayName("Misconduct")</th>
+                                    <th>@Html.DisplayName("Inccident Date")</th>
+                                    <th>@Html.DisplayName("Status")</th>
+                                    <th>@Html.DisplayName("Actions")</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var misconduct in Model.DefaulterMisconductViewModel)
+                                {
+                                    sn += 1;
+                                <tr>
+                                    <td> @sn </td>
+                                    <td> @Html.DisplayName(misconduct.MisconductName)</td>
+                                    <td> @Html.DisplayName(misconduct.IncidentDate.ToString())</td>
+
+                                    @if (misconduct.Status == false)
+                                    {
+                                        <td> @Html.DisplayName("Case Pending")</td>
+                                        <td>
+                                            @Html.ActionLink("Details", "Details", new { id = misconduct.DefaulterId }) |
+                                            @Html.ActionLink("Edit", "Edit", new { id = misconduct.DefaulterId }) |
+                                            @Html.ActionLink("Delete", "Delete", new { id = misconduct.DefaulterId })
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td> @Html.DisplayName("Case treated")</td>
+                                        <td><font color="green">@Html.DisplayName("Record Archived")</font></td>
+                                    }
+
+                                            </tr>
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <p>
+                        @Html.ActionLink("Back", "Index")
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Update Student Status</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            @*@using (Html.BeginForm( null, null, FormMethod.Post,  new { id = "notificationForm", enctype = "multipart/form-data"}))
+                {*@
+            <form method="post" id="notificationForm" enctype="multipart/form-data">
+                @*@Html.AntiForgeryToken()*@
+                <div class="modal-body">
+                    <div id="partialview">
+
+                    </div>
+
+                </div>
+                <div class="modal-footer" id="modal-footer">
+                    <button class="btn btn-primary btnSave" value="Submit" id="btnSave"></button>
+                    @*<input type="submit" value="Submit" class="btn btn-outline-primary" id="btnSave" />*@
+
+                    <div id="response"></div>
+                </div>
+                @*}*@
+            </form>
+        </div>
+    </div>
+</div>
+<script src="~/AdminTemplate/js/jquery-3.1.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
+<script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $('#example').DataTable({
+            pageLength: 25,
+            responsive: true,
+            dom: '<"html5buttons"B>lTfgitp',
+            buttons: [
+                { extend: 'copy' },
+                { extend: 'csv' },
+                { extend: 'excel', title: 'ExampleFile' },
+                { extend: 'pdf', title: 'ExampleFile' },
+
+                {
+                    extend: 'print',
+                    customize: function (win) {
+                        $(win.document.body).addClass('white-bg');
+                        $(win.document.body).css('font-size', '10px');
+
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+                    }
+                }
+            ]
+
+
+        });
+
+        $('.modal').on('hidden.bs.modal', function (e) {
+            $(this).removeData();
+        });
+
+        $('#addMisconduct').on('click', function () {
+
+            var id = $(this).attr("data"); // GET THE DATA IN ATTR
+
+            $(".modal-title").text("Create Misconduct");
+            $('#btnSave').text('Create');
+            $('#btnSave').addClass('btn-primary');
+            $('#btnSave').removeClass('btnEdit');
+            $('#btnSave').addClass('btnSave');
+            //$('#btnSave').removeAttr('type');
+            //$('#btnSave').removeAttr('value');
+            //$('#btnSave').removeAttr('id');
+            //$('#notificationForm').attr('novalidate', 'novalidate');
+            //$("#updateModal").modal("clear");
+
+            $.ajax({
+                url: "/StudentDisciplinary/JASONCreateStudentMisconduct?id=" + id,
+                type: 'Get',
+                contentType: 'application/json',
+                //data: JSON.stringify(forData),
+                success: function (value) {
+
+                    $("#partialview").html(value);
+                    console.log(value);
+                    $("#updateModal").modal("show");
+                }
+            });
+        });
+
+        $(document).on('click', '.btnSave', function (e) {
+            //e.preventDefault();
+            var data = $(this).attr("data"); // GET THE DATA IN ATTR
+            var defaulterId = $("#DefaulterId").val(); // GET THE DATA IN ATTR
+
+            var file = document.getElementById("EvidenceFile").files[0];
+            var formData = new FormData($('#notificationForm')[0]);
+            console.log(file);
+            //formData.append("EvidenceFile", file);
+            //formData.append("Name", Name);
+
+            $('form[id="notificationForm"]').validate({
+                rules: {
+                    MisconductId: {
+                        required: true,
+                    },
+                    SemesterId: {
+                        required: true,
+                    },
+                    SessionId: {
+                        required: true,
+                    },
+                    //EvidenceFile: {
+                    //    required: false,
+                    //    accept: "jpg,png,jpeg,gif"
+                    //}
+                },
+                messages: {
+                    MisconductId: {
+                        minlength: 'This field is Required'
+                    },
+                    SemesterId: {
+                        minlength: 'This field is Required'
+                    },
+                    SessionId: {
+                        minlength: 'This field is Required'
+                    },
+                    //EvidenceFile: {
+                    //    required: "Select Image",
+                    //    accept: "Only image of type jpg/png/jpeg/gif is allowed"
+                    //}
+                },
+                submitHandler: function (form) {
+                    // var formData = {
+                    //    MisconductId: $('#MisconductId').val(),
+                    //    SemesterId: $('#SemesterId').val(),
+                    //    SessionId: $('#SessionId').val(),
+                    //    StudentId: $('#StudentID').val(),
+                    //    DefaulterId: defaulterId,
+                    //};
+                    //var formData = new FormData($('#notificationForm')[0]);
+                    //formData.append("FileUpload", file);
+                    console.log(formData);
+                    $.ajax({
+                        type: "POST",
+                        //contentType: 'application/json',
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        //dataType: 'json',
+                        url: "/StudentDisciplinary/Create/",
+                        data: formData,
+                        success: function (data) {
+                            console.log(data);
+                            swal({
+                                title: "Successful!",
+                                text: data,
+                                type: "success",
+                            });
+
+                            $("#updateModal").modal('toggle');
+                        }
+                    });
+                }
+            });
+        });
+
+        $('.EditMisconduct').on('click', function () {
+
+            $(".modal-title").text("Edit Misconduct");
+            $('#btnSave').text('Update');
+            $('#btnSave').addClass('btn-warning');
+            $('#btnSave').removeClass('btnSave');
+            $('#btnSave').addClass('btnEdit');
+            $('#btnSave').removeAttr('type');
+            //$('#btnSave').removeAttr('value');
+            $('#btnSave').removeAttr('id');
+            //$('#notificationForm').attr('novalidate', 'novalidate');
+
+            var id = $(this).attr("data"); // GET THE DATA IN ATTR
+            event.preventDefault();
+
+            console.log(id);
+
+            $.ajax({
+                url: "/StudentDisciplinary/JASONShowEdit?id=" + id,
+                type: 'Get',
+                contentType: 'application/json',
+                //data: JSON.stringify(forData),
+                success: function (value) {
+
+                    $("#partialview").html(value);
+                    $("#updateModal").modal("show");
+                }
+            });
+        });
+
+        $(document).on('click', '.btnEdit', function () {
+
+            var data = $("#DefaulterId").val(); // GET THE DATA IN ATTR
+            var formData = new FormData($('#notificationForm')[0]);
+            console.log(formData);
+            //var file = document.getElementById("EvidenceFile").files[0];
+            //formData.append("FileUpload", file),
+            //formData.append("Name", Name)
+
+            $('form[id="notificationForm"]').validate({
+                rules: {
+                    MisconductId: {
+                        required: true,
+                    },
+                    SemesterId: {
+                        required: true,
+                    },
+                    SessionId: {
+                        required: true,
+                    }
+                },
+                messages: {
+                    MisconductId: {
+                        minlength: 'This field is Required'
+                    },
+                    SemesterId: {
+                        minlength: 'This field is Required'
+                    },
+                    SessionId: {
+                        minlength: 'This field is Required'
+                    }
+                },
+                submitHandler: function (form) {
+
+                    $.ajax({
+                        type: "POST",
+                        contentType: false,
+                        processData: false,
+                        cache: false,
+                        //dataType: 'json',
+                        url: "/StudentDisciplinary/Create",
+                        data: formData,
+                        success: function (data) {
+                            //window.location.reload();
+                            swal({
+                                title: "Successful!",
+                                text: data,
+                                type: "success",
+                            });
+
+                            $("#updateModal").modal('toggle');
+                        }
+                    });
+                }
+            });
+        });
+
+
+        $('.DeleteMisconduct').on('click', function () {
+
+            $(".modal-title").text("Delete Misconduct");
+            $('#btnSave').text('Delete');
+            //$('#btnSave').addClass('glyphicon-check');
+            //$('#btnSave').addClass('glyphicon-trash');
+            $('#btnSave').addClass('btn-danger');
+            $('#btnSave').removeClass('btnSave');
+            $('#btnSave').addClass('btnDelete');
+            $('#btnSave').removeAttr('type');
+            $('#btnSave').removeAttr('id');
+            $('#notificationForm').removeAttr('id');
+
+
+            var studentId = $(this).attr("data"); // GET THE DATA IN ATTR
+            event.preventDefault();
+            //alert(id);
+            //console.log(id);
+
+            swal({
+                title: "Delete Misconduct",
+                text: "Are you sure you want to Delete this Misconduct?..",
+                type: "warning",
+                buttons: "true",
+                dangerMode: "true",
+                showCancelButton: true,
+                confirmButtonColor: "#ab973a",
+                confirmButtonText: "Yes, Delete Misconduct!",
+                cancelButtonText: "No, Cancel!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+                function (isConfirm) {
+                    if (isConfirm) {
+                        var AllData = {
+                            "id": studentId,
+                        };
+                        var Mydata = JSON.stringify(AllData);
+
+                        $.ajax({
+                            contentType: 'application/json',
+                            type: "POST",
+                            url: "/StudentDisciplinary/JASONDelete?id=" + studentId,
+                            data: Mydata,
+                            success: function (data) {
+                                if (data.status) {
+                                    swal({
+                                        title: "Great",
+                                        text: data.message,
+                                        type: "success",
+                                    });
+                                    $('#example').ajax.reload(); //run my_fun() ondomready
+                                    toastr["success"](data.message);
+                                } else {
+                                    swal({
+                                        title: "Warning",
+                                        text: data.message,
+                                        type: "warning",
+                                    });
+                                    toastr["error"](data.message);
+                                }
+
+                            }
+                        });
+                    }
+                    else {
+                        //RejectStudent(studentId);
+                        swal("Good", "Operation has been cancelled successfully", "success");
+
+                    }
+                });
+        });
+
+        $('.btnDelete').on('click', function () {
+            var id = $("DefaulterId"); // GET THE DATA IN ATTR
+            event.preventDefault();
+            alert(id);
+            console.log(id);
+
+            $.ajax({
+                url: "/studentdisciplinary/JASONDelete?id=" + id,
+                type: 'get',
+                contenttype: 'application/json',
+                //data: json.stringify(fordata),
+                success: function (value) {
+
+                    $("#partialview").html(value);
+                    console.log(value);
+                    $("#updatemodal").modal("show");
+                }
+            });
+        });
+
+    });
+</script>

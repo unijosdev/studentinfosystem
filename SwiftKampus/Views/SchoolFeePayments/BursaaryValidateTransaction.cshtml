@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "BursaryValidateTransaction";
+}
+
+
+<div class="row ibox-title">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <h2>Import Remita Transaction</h2>
+        <br />
+        <h3 class="text-danger" style="font-weight:500;">@ViewBag.Message</h3>
+
+        @using (Html.BeginForm("BursaaryValidateTransaction", "SchoolFeePayments", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Get, new { @class = "", role = "form" }))
+        {
+
+            <br />
+            <input id="studentId" name="studentId" class="form-control" type="text" required placeholder="Type your Jamb Reg No/Form No/ Matric No" />
+
+            <br />
+            <input id="rrr" name="rrr" class="form-control" type="number" required placeholder="Remita Reference (RRR)" />
+            <br />
+            <div class="form-group">
+                @Html.Label("Select Payment Category", htmlAttributes: new { @class = "control-label", @style = "font-size:16px" })
+                <div>
+                    @Html.DropDownList("FeeCategory", null, htmlAttributes: new { @class = "form-control", onchange = "extraDetails()" })
+                </div>
+            </div>
+
+            <div class="form-group extraDetails">
+                @*<label for="session" style="font-size: 14px;font-weight: normal">Choose the session that was paid for</label>*@
+                @Html.DropDownList("Sessions", null, "Select Payment Session", htmlAttributes: new { @class = "form-control" })
+                <br />
+
+                @*<input id="paymentYear" name="paymentYear" class="form-control" type="number" placeholder="Type the year of payment on the remita receipt" />*@
+                <br />
+            </div>
+
+            @*<br />
+                <br />*@
+
+            <button class="btn btn bg-primary" type="submit">Validate Transaction<span class="icon-more-icon"></span></button>
+
+        }
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+<script>
+
+    // Show or hide field for payment session & remita year
+    function extraDetails() {
+        var feeCategory = $('#FeeCategory').val();
+
+        if (feeCategory != "Acceptance" && feeCategory != "School_Charges") {
+            $('.extraDetails').attr("hidden", "true");
+        }
+        else if (feeCategory == "Acceptance" || feeCategory == "School_Charges") {
+            $('.extraDetails').removeAttr("hidden");
+        }
+    }
+</script>
+
+

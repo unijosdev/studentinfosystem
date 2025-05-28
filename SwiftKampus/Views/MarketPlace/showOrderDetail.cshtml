@@ -1,0 +1,112 @@
+﻿@model IEnumerable<SwiftKampusModel.MarketPlace.OrderDetail>
+<div id="update-message">
+</div>
+
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+<div class="ibox">
+    <div class="ibox-title">
+        <h5>Cart Summary</h5>
+    </div>
+    <div class="ibox-content table table-responsive">
+        @if (Model != null && Model.Count() > 0)
+        {
+            <p>
+                Customer Name:
+            </p>
+            <table class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Product.ProductName</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.Product.ProductPrice</td>
+                        <td>
+                            <a href="#" class="text-success RemoveLink" data-id="@item.OrderDetailId"><i class="fa " aria-hidden="true">&nbsp; Issue</i></a>
+                        </td>
+                    </tr>
+
+                }
+
+                <thead>
+                    <tr>
+                        <th>Total</th>
+                        <th class="font-bold">@Model.Sum(s => s.Product.ProductPrice * s.Quantity)</th>
+                    </tr>
+                </thead>
+            </table>
+            <input type="hidden" name="orderId" id="orderId" value="@Model.First().OrderId">
+
+            <div class="m-t-sm">
+                <div class="btn-group">
+                    <a id="checkout" href="#" class="btn btn-primary btn-sm" data-id="@Model.First().OrderId"><i class=""></i> Issued</a>
+                    <a href="#" class="btn btn-white btn-sm"> Cancel</a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <h3>No Cart Item</h3>
+        }
+
+    </div>
+</div>
+
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        // Document.ready -> link up remove event handler
+        $(".RemoveLink").click(function () {
+            // Get the id from the link
+            var recordToDelete = $(this).attr("data-id");
+            if (recordToDelete != '') {
+                // Perform the ajax post
+                $.post("/ShoppingCart/IssueItem", { "id": recordToDelete },
+                    function (data) {
+                        // Successful requests get here
+                        // Update the page elements
+                        if (data.ItemCount == 0) {
+                            $('#row-' + data.DeleteId).fadeOut('slow');
+                        } else {
+                            $('#item-count-' + data.DeleteId).text(data.ItemCount);
+                        }
+                        $('#cart-total').text(data.CartTotal);
+                        $('#update-message').text(data.Message);
+                        $('#cart-status').text('Cart (' + data.CartCount + ')');
+                    });
+                var cartUrl = "/MarketPlace/CartSummary";
+                $('#partialCart').load(cartUrl);
+            }
+        });
+
+        $('#checkout').click(function () {
+            var orderId = $('#checkout').data('id');
+            var url = "/MarketPlace/setCollected?id=";
+            $.ajax
+                ({
+                    url: url + orderId,
+                    type: 'get',
+                    datatype: 'application/json',
+                    contenttype: 'application/json',
+                    success: function (result) {
+
+                        swal("Good", result, "success");
+                    },
+                    error: function () {
+                        swal("Oops", "Please Try again!", "error");
+                    }
+                });
+
+        });
+    });
+</script>
+

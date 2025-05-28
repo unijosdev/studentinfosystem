@@ -1,0 +1,52 @@
+﻿@model IEnumerable<string>
+
+@foreach (var link in Model)
+{
+
+    <div class="feed-element">
+        <div>
+            @*<small class="pull-right text-navy">1m ago</small>
+                <strong>Monica Smith</strong>*@
+            <div>
+                <a href="@Url.Action("Index", "Posts",
+                             new
+                             {
+                                 category = link,
+                                 page = 1
+
+                             })">@link</a>
+                        </div>
+                        @*<small class="text-muted">Today 5:60 pm - 12.06.2014</small>*@
+                    </div>
+                </div>
+
+                @*<div class="feed-element">
+                    <div>
+                        <small class="pull-right text-navy">1m ago</small>
+                        <strong>Monica Smith</strong>
+                        <div>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum</div>
+                        <small class="text-muted">Today 5:60 pm - 12.06.2014</small>
+                    </div>
+                </div>*@
+
+
+
+
+
+            }
+
+@*<div class="panel panel-default">
+        <div class="panel-heading">
+            <h4><a href="@Url.Action("Index", "Posts",
+                    new
+                    {
+                        category = "",
+                        page = 1
+
+                    })">Latest Post</a></h4>
+        </div>
+
+
+
+    </div>*@
+

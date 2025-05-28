@@ -1,0 +1,121 @@
+﻿@model IEnumerable<SwiftKampusModel.Payment.IdCardPayment>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>ID CARD Payment History</h5>
+                    <div class="ibox-tools">
+
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <table class="table table-responsive">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Session.SessionName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Student.MatricNo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ReferenceNo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.OrderId)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.TotalAmount)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.PaymentDateTime)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.IsPayed)
+                            </th>
+                            @*<th>
+                                    @Html.DisplayNameFor(model => model.IsExpired)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.IsProcessed)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.IsDownloaded)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ProcessedStatus)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TransactionMessage)
+                                </th>*@
+
+                            <th></th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Session.SessionName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Student.MatricNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ReferenceNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OrderId)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TotalAmount)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PaymentDateTime)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IsPayed)
+                                </td>
+                                @*<td>
+                                        @Html.DisplayFor(modelItem => item.IsExpired)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.IsProcessed)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.IsDownloaded)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ProcessedStatus)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TransactionMessage)
+                                    </td>
+
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new { id=item.IdCardPaymentId }) |
+                                        @Html.ActionLink("Details", "Details", new { id=item.IdCardPaymentId }) |
+                                        @Html.ActionLink("Delete", "Delete", new { id=item.IdCardPaymentId })
+                                    </td>*@
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

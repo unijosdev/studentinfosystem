@@ -1,0 +1,219 @@
+﻿@model IEnumerable<SwiftKampusModel.Payment.DepartmentFeeType>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">DEPARTMENTAL FEE TYPE</h4>
+                    @*<a class="btn btn-primary btn-sm">Create new action</a>*@
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>List of Departmental Fee</h5>
+                    <div class="ibox-tools">
+                        <a href="#" onclick="myFunction()" class="btn btn-primary"><i class="fa fa-plus left"></i> ADD DEPARTMENT FEE TYPE</a>
+
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <article class="margin-bottom-xxl">
+                        <p class="lead">
+                            Please use the following parameters to perform Query
+                        </p>
+                    </article>
+                    <div class="card-body">
+                        <form class="form-inline" id="formFilter" onsubmit="return false;">
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <div class="form-group">
+                                        <label>Faculty Name</label>
+                                        @Html.DropDownList("DepartmentId", (SelectList)ViewBag.DepartmentId, "", new { @class = "form-control" })
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-1">
+                                    <div class="form-group">
+                                        <label for="LevelId">Level</label>
+                                        @Html.DropDownList("LevelId", (SelectList)ViewBag.LevelId, "", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>Semester Name</label>
+                                        @Html.DropDownList("SessionId", (SelectList)ViewBag.SessionId, "", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>Student Type</label>
+                                        @Html.DropDownList("StudentType", (SelectList)ViewBag.StudentType, "", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <br />
+                                    <button type="submit" id="btn-search" class="btn btn-primary btn-lg">Search/View</button>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    @*<button type="submit" id="btn-dwn" class="btn btn-raised btn-default-light ink-reaction">Export To Pdf</button>
+                            <button type="submit" id="btn-excel" class="btn btn-raised btn-default-light ink-reaction">Export to Excel</button>*@
+                                </div>
+                            </div>
+                        </form>
+                    </div><!--end .row -->
+
+                </div>
+                <div class="ibox-content">
+
+                    <div class="table-responsive">
+                        <table id="Jdatatable" class="table table-striped table-bordered table-hover table-responsive dataTables-example">
+                            <thead>
+                                <tr>
+                                    <th>Department Name</th>
+                                    <th>Session Name</th>
+                                    @*<th>Student Type</th>*@
+                                    <th>Fee Name</th>
+                                    <th>Level Name</th>
+                                    <th>Amount</th>
+                                    <th>Amount In Words</th>
+                                    <th>Description</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                        </table>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        window.oTable = $("#Jdatatable").DataTable({
+            "processing": true, // for show progress bar while loading
+         
+            "ajax": {
+                "url": "/DepartmentFeeTypes/GetIndex",
+                "type": "POST",
+                "data": function (d) {
+                    return $('#formFilter').serialize();
+                },
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "DeptName", "autoWidth": true },
+                { "data": "SessionName", "autoWidth": true },
+                //{ "data": "StudentType", "autoWidth": true },
+                { "data": "FeeName", "autoWidth": true },
+                { "data": "LevelName", "autoWidth": true },
+                { "data": "Amount", "autoWidth": true },
+                { "data": "AmountInWords", "autoWidth": true },
+                { "data": "Description", "autoWidth": true },
+              
+                {
+                    "data": "DepartmentFeeTypeId",
+                    "autoWidth": true,
+                    "render": function (data) {
+                        return '<a href="#" data-toggle="modal" data-target="#actionsList" onclick="Edit(' + data + ')" >  <i class="fa fa-pencil" aria-hidden="true" >&nbsp;Edit</i></a>&nbsp;&nbsp;' +
+                            '<a href="#" class="text-danger" data-toggle="modal" data-target="#actionsList"  onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" >&nbsp;Remove<i /></a>';
+                    }
+                }
+
+            ],
+            responsive: true,
+            dom: '<"html5buttons"B>lTfgitp',
+            buttons: [
+                { extend: 'copy' },
+                { extend: 'csv' },
+                { extend: 'excel', title: 'Faculty Fee Type' },
+                { extend: 'pdf', title: 'Faculty Fee Type' },
+
+                {
+                    extend: 'print',
+                    customize: function (win) {
+                        $(win.document.body).addClass('white-bg');
+                        $(win.document.body).css('font-size', '10px');
+
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+                    }
+                }
+            ]
+        });
+
+    });
+
+    $("#btn-search").click(function () {
+        window.oTable.ajax.reload();
+
+    });
+
+    function Edit(departmentFeeTypeId) {
+        var url = "/DepartmentFeeTypes/Save?id=" + departmentFeeTypeId;
+        $('#myModal').appendTo("body").modal('show');
+        //window.alert(url);
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal('show');
+            });
+    };
+    function Delete(departmentFeeTypeId) {
+        var url = "/DepartmentFeeTypes/Delete?id=" + departmentFeeTypeId;
+        //$('#actionsList').modal("show");
+        //window.alert(url);
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    function myFunction() {
+        var url = "/DepartmentFeeTypes/Save?id=0";
+
+        $('#actionsList').modal('show');
+
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+</script>

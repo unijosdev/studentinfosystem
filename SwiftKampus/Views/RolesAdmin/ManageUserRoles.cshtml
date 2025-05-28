@@ -1,0 +1,190 @@
+﻿@{
+    ViewBag.Title = "ManageUserRoles";
+}
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Manage User Accounts</h5>
+                    <div class="ibox-tools">
+
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+
+                    <h2>Manage User Roles</h2>
+                    @Html.ActionLink("Create New Role", "Create") | @Html.ActionLink("Manage User Role", "ManageUserRoles")
+                    <hr />
+
+                    @using (Html.BeginForm("RoleAddToUser", "RolesAdmin", FormMethod.Post, new { @class = "form-inline" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <!-- BEGIN INLINE FORM -->
+                        <div class="row">
+                            <div class="col-lg-7">
+                                <article class="margin-bottom-xxl">
+                                    <h2>Add Role to User</h2>
+                                    <p class="lead">
+                                        Please use the Form below to assign Role to User
+                                    </p>
+                                </article>
+                            </div><!--end .col -->
+                            <div class="col-lg-12">
+                                <form class="form-inline">
+                                    <div class="card">
+                                        <div class="card-body">
+
+                                            <div class="form-group">
+                                                @Html.DropDownList("Username", (SelectList)ViewBag.Username, "", new { @class = "form-control js-example-basic-single" })
+                                                <label for="Username">Username</label>
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.DropDownList("RoleName", (SelectList)ViewBag.Roles, "", new { @class = "form-control js-example-basic-single" })
+                                                <label for="RoleName">Role Name</label>
+                                            </div>
+                                            <button type="submit" class="btn btn-raised btn-primary ink-reaction"><i class="md-add-circle"></i> Add User to Role</button>
+                                        </div><!--end .card-body -->
+                                    </div><!--end .card -->
+                                </form>
+                            </div><!--end .col -->
+                        </div>
+
+                        <!--end .row -->
+                    }
+                    <hr />
+                    <hr />
+
+                    @using (Html.BeginForm("GetRoles", "RolesAdmin", FormMethod.Post, new { @class = "form-inline" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @*<p>
+                                Username : @Html.DropDownList("Username", (SelectList)ViewBag.Username, "")
+                                <input type="submit" value="Get Roles for this User" />
+                            </p>*@
+
+                        <div class="row">
+                            <div class="col-lg-7">
+                                <article class="margin-bottom-xxl">
+                                    <h3>Get Roles for a User</h3>
+                                    <p class="lead">
+                                        Get all the roles for the selected User
+                                    </p>
+                                </article>
+                            </div><!--end .col -->
+                            <div class="col-lg-12">
+
+                                <div class="card">
+                                    <div class="card-body">
+
+                                        <div class="form-group">
+                                            @Html.DropDownList("Username", (SelectList)ViewBag.Username, "", new { @class = "form-control js-example-basic-single" })
+                                            <label for="Username">Username</label>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-raised btn-primary -light ink-reaction"><i class="fa fa-search"></i> Search User to Role</button>
+                                    </div><!--end .card-body -->
+                                </div><!--end .card -->
+                            </div><!--end .col -->
+                        </div>
+                    }
+
+                    @if (ViewBag.RolesForThisUser != null)
+                    {
+                        @*<div style="background-color:yellow;">
+                                <h3>Roles for this user </h3>
+                                <ol>
+                                    @foreach (string s in ViewBag.RolesForThisUser)
+                                    {
+                                        <li>@s</li>
+                                    }
+                                </ol>
+                            </div>*@
+
+                        <div class="alert alert-success">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+
+                            <h3>Roles for this user </h3>
+                            <ol>
+                                @foreach (string s in ViewBag.RolesForThisUser)
+                                {
+                                    <li>@s</li>
+                                }
+                            </ol>
+                        </div>
+                    }
+
+                    <hr />
+
+                    @using (Html.BeginForm("DeleteRoleForUser", "RolesAdmin", FormMethod.Post, new { @class = "form-inline" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @*<p>
+                                Username : @Html.DropDownList("Username", (SelectList)ViewBag.Username, "")
+                                Role Name: @Html.DropDownList("RoleName", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select ...")
+                            </p>
+
+                            <input type="submit" value="Delete this user from Role" />*@
+                        <!-- BEGIN INLINE FORM -->
+                        <div class="row">
+                            <div class="col-lg-7">
+                                <article class="margin-bottom-xxl">
+                                    <h3>Delete A User from a Role</h3>
+                                    <p class="lead">
+                                        Please use the Form below to assign Role to User
+                                    </p>
+                                    <p class="lead text-danger">@ViewBag.ResultMessage</p>
+                                </article>
+                            </div><!--end .col -->
+                            <div class="col-lg-12">
+                                <form class="form-inline">
+                                    <div class="card">
+                                        <div class="card-body">
+
+                                            <div class="form-group">
+                                                @Html.DropDownList("Username", (SelectList)ViewBag.Username, "", new { @class = "form-control js-example-basic-single" })
+                                                <label for="Username">Username</label>
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.DropDownList("RoleName", (SelectList)ViewBag.Roles, "", new { @class = "form-control js-example-basic-single" })
+                                                <label for="RoleName">Role Name</label>
+                                            </div>
+                                            <button type="submit" class="btn btn-raised btn-primary -light ink-reaction"><i class="md md-delete"></i> Delete Role From User</button>
+                                        </div><!--end .card-body -->
+                                    </div><!--end .card -->
+                                </form>
+                            </div><!--end .col -->
+                        </div>
+
+                        <!--end .row -->
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        jQuery(function ($) {
+            $('.js-example-basic-single').select2({
+                placeholder: 'Select an option...',
+                allowClear: true
+            });
+        });
+    });
+
+</script>

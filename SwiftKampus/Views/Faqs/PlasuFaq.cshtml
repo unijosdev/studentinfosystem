@@ -1,0 +1,143 @@
+﻿
+@{
+    ViewBag.Title = "PlasuFaq";
+    Layout = "~/Views/Shared/_LayoutLanding.cshtml";
+    int count = 1;
+
+}
+
+<!--============================
+        FAQ Header
+    =============================-->
+<section class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h1>Frequently Asked Questions</h1>
+                <ul class="list-unstyled">
+                    <li><a href="">Home</a></li>
+                    <li class="active">FAQs</li>
+                    <li>
+                        <span>
+                            <button onclick="myFunction()" title="Create new cluster" class="btn btn-primary btn-lg"><i class="fa fa-plus"></i> <span class="bold">Add question</span></button>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section><!-- Ends: .page-header -->
+<!--============================
+    FAQ Content
+=============================-->
+<section class="faq-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 faq-header">
+               
+                <h3>Answer all of your questions</h3>
+            </div><!-- Ends: .faq-header -->
+            <div class="col-sm-12 faq-tabs">
+                <div class="row">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-sm-6">
+                            @if (count <= 1 || count % 2 == 1)
+                            {
+                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="@item.FaqId">
+                                            <h4 class="panel-title">
+                                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#@count" aria-expanded="true" aria-controls="@count">
+                                                    @item.Question
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="@count" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="@item.FaqId">
+                                            <div class="panel-body">
+                                                @item.Answer
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            }
+                        </div><!-- Ends: .col-sm-6 -->
+
+                        <div class="col-sm-6">
+                            @if (count > 1 && (count == 2 || count % 2 == 0))
+                            {
+                                <div class="panel-group" id="accordion2" role="tablist" aria-multiselectable="true">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="@item.FaqId">
+                                            <h4 class="panel-title">
+                                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#@count" aria-expanded="true" aria-controls="@count">
+                                                    @item.Question
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="@count" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="@item.FaqId">
+                                            <div class="panel-body">
+                                                @item.Answer
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            }
+                        </div><!-- Ends: .col-sm-6 -->
+                        {
+                            count = count + 1;
+                        }
+                    }
+                </div>
+            </div><!-- Ends: .faq-tabs -->
+
+
+        </div>
+    </div>
+</section><!-- Ends: .faq-wrapper -->
+<!-- Modal -->
+<div class="modal fade inmodal" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content animated flipInY">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">FAQ</h4>
+                    @*<a class="btn btn-primary btn-sm">Create new action</a>*@
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+<script type="text/javascript">
+
+
+    function myFunction() {
+        var url = "/Faqs/Save?id=0";
+
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+
+
+
+
+</script>
+

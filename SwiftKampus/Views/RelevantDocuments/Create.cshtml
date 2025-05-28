@@ -1,0 +1,205 @@
+﻿@model SwiftKampusModel.AddmissionApplicant.RelevantDocument
+
+
+@{
+    Layout = null;
+    ViewBag.Title = "Create";
+}
+<style>
+    .border-radius-right {
+        border-radius: 0 4px 4px 0;
+    }
+
+    .margin-none {
+        margin: 0 !important;
+    }
+
+    .padding-none {
+        padding: 0 !important;
+    }
+
+    .border-none {
+        border: 0;
+    }
+</style>
+
+<link href="~/AdminTemplate/css/plugins/jasny/jasny-bootstrap.min.css" rel="stylesheet" />
+
+<form id="frmUpload" method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="hr-line-dashed"></div>
+                        <div class="repeatable">
+                            <div class="col-sm-10 row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <input type="text" name="FileName" class="form-control document_name" placeholder="Document Name" required />
+                                    </div>
+                                </div>
+                                <div class="fileinput fileinput-new  col-sm-5 row" data-provides="fileinput">
+                                    <div class="col-sm-6 input-group-append" data-trigger="fileinput">
+                                        <i class="glyphicon glyphicon-file fileinput-exists"></i>
+                                        <span class="fileinput-filename">no file selected</span>
+                                    </div>
+                                    <span class="btn-file padding-none margin-none col-sm-3">
+                                        <span class="fileinput-new btn btn-info border-none margin-none">Select file</span>
+                                        <span class="fileinput-exists btn btn-info border-none margin-none">Change</span>
+                                        <input type="file" name="FileUpload" accept="application/pdf" class="padding-none margin-none uploaded_files">
+
+                                    </span>
+                                    <a href="#" class="btn fileinput-exists btn-danger margin-none border-radius-right" data-dismiss="fileinput">Remove</a>
+                                </div>
+                                <span id="add_button" class="input-group-btn col-sm-1">
+                                    <button type="button" class="btn btn-default margin-none"><i class="fa fa-plus"></i></button>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <input type="submit" value="Upload" class="btn btn-primary" id="btnSubmit" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+</form>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/jquery-2.2.4.min.js"></script>
+
+<script src="~/AdminTemplate/js/plugins/jasny/jasny-bootstrap.min.js"></script>
+<script type="text/javascript">
+    var count = 1;
+
+    function remove_button(elem) {
+        if (count > 1) {
+            $(elem).closest('div').remove();
+            count--;
+        }
+    }
+
+    $(document).ready(function () {
+
+        $('#add_button').click(function () {
+            console.log('called');
+            if (count <= 4) {
+                var new_field = `<div class="col-sm-10 row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <input type="text" name="FileName" class="form-control document_name" placeholder="Document Name" required />
+                                    </div>
+                                </div>
+                                <div class="fileinput fileinput-new  col-sm-5 row" data-provides="fileinput">
+                                    <div class="col-sm-6 input-group-append" data-trigger="fileinput">
+                                        <i class="glyphicon glyphicon-file fileinput-exists"></i>
+                                        <span class="fileinput-filename">no file selected</span>
+                                    </div>
+                                    <span class="btn-file padding-none margin-none col-sm-3">
+                                        <span class="fileinput-new btn btn-info border-none margin-none">Select file</span>
+                                        <span class="fileinput-exists btn btn-info border-none margin-none">Change</span>
+                                        <input type="file" name="FileUpload" accept="application/pdf" class="padding-none margin-none uploaded_files">
+                                        
+                                    </span>
+                                    <a href="#" class="btn fileinput-exists btn-danger margin-none border-radius-right" data-dismiss="fileinput">Remove</a>
+                                </div>
+                                <span onclick="remove_button(this)" class="input-group-btn col-sm-1">
+                                    <button type="button" class="btn btn-default margin-none"><i class="fa fa-minus"></i></button>
+                                </span>
+
+                            </div>`;
+                $('.repeatable').append(new_field);
+                count++;
+            } else {
+                alert("Maximum number of fields exceeded!");
+            }
+        });
+
+
+
+        $('#frmUpload').submit(function (e) {
+            var file = [];
+            var filename = [];
+            var FileList = [];
+
+            //pulling the form data using the class and adding it to a list
+            $.each($('.uploaded_files'), function () {
+                file.push(this.files);
+            });
+
+            $.each($('.document_name'), function () {
+                filename.push($(this).val());
+            });
+
+            filename = JSON.stringify(filename);
+
+            for (var i = 0; i < file.length; i++) {
+                var newList = {
+                    "FileName": filename[i],
+                    "FileUpload": file[i]
+                };
+                FileList.push(newList);
+            }
+
+            var formData = new FormData();
+            formData.append('files',FileList);
+          
+            //var Mydata = JSON.stringify(FileList);
+            console.log(FileList); 
+
+            $.ajax({
+                type: "POST",
+                //contentType: 'application/json',
+                //processData:false,
+                dataType: 'json',
+                url: "/RelevantDocuments/Create",
+                data: formData,
+                success: function (data) {
+                    if (data.status) {
+                        swal({
+                            title: "Good Job!!!",
+                            text: "Did you want to add More Files?..",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#ab973a",
+                            confirmButtonText: "Yes, Add More it!",
+                            cancelButtonText: "No, See Uploaded Files!",
+                            closeOnConfirm: false,
+                            closeOnCancel: false
+                        },
+                            function (isConfirm) {
+                                if (isConfirm) {
+                                    swal("Great!", "You can now add more.", "success");
+                                } else {
+                                    swal("Great", "You can now see uploaded File list", "success");
+                                    window.open('@Url.Action("Index", "RelevantDocuments")', '_self');
+
+                                }
+                            });
+                        toastr["success"](data.message);
+                    } else {
+                        swal({
+                            title: "Warning",
+                            text: data.message,
+                            type: "warning",
+                        });
+                        toastr["success"](data.message);
+                    }
+                }
+            });
+            e.preventDefault();
+        });
+    });
+</script>
+
+

@@ -1,0 +1,90 @@
+﻿
+@{
+    ViewBag.Title = "MigrateFromApplicantToStudent";
+}
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h2>Migrate Student Level</h2>
+            <br />
+            <h3 class="text-warning">*For level by level migration, start with highest level in the faculty first, then proceed down to the lowest.</h3>
+            <br />
+            <form id="myform" onsubmit="return false;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.Label("School Programme")
+                            @Html.DropDownList("SchoolProgrammeId", (SelectList)ViewBag.SchoolProgrammeId, "", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.Label("Faculty Name")
+                            @Html.DropDownList("FacultyId", (SelectList)ViewBag.FacultyId, "", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.Label("Level Name")
+                            @Html.DropDownList("LevelId", (SelectList)ViewBag.LevelId, "", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="md-form">
+                            <br />
+                            <input id="btnsubmit" type="submit" value="Migrate Student" class="btn btn-success btn-lg" />
+                        </div>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#myform').submit(function () {
+            $("input[type='submit']", this)
+                .val("Uploading Please Wait...")
+                .attr('disabled', 'disabled');
+            return true;
+        });
+    });
+    $("#btnsubmit").click(function () {
+        var data = $("#myform").serialize();
+        $.ajax({
+            type: "POST",
+            url: "/Students/BatchStudentsLevelMigration",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    toastr["success"](data.message);
+                    swal({
+                        title: "STUDENTS' LEVEL MIGRATION",
+                        text: data.message,
+                        type: "success",
+                    });
+                } else {
+                    swal({
+                        title: "STUDENTS' LEVEL MIGRATION",
+                        text: data.message,
+                        type: "error",
+                    });
+                    toastr["error"](data.message);
+
+                }
+                $("input[type='submit']", this)
+                .val("Migrate Students")
+                .attr('enable', 'enable');
+
+            }
+        });
+    });
+</script>

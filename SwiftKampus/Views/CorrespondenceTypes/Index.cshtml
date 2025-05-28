@@ -1,0 +1,45 @@
+﻿@model IEnumerable<SwiftKampusModel.CorrespondenceType>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Correspondence.StudentId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CorrespondenceTypeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Correspondence.StudentId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CorrespondenceTypeName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.CorrespondenceTypeId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.CorrespondenceTypeId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.CorrespondenceTypeId })
+        </td>
+    </tr>
+}
+
+</table>

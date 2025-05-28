@@ -1,0 +1,106 @@
+﻿@model IEnumerable<SwiftKampusModel.Payment.SchoolFeePayment>
+
+@{
+    ViewBag.Title = "Payment History";
+}
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Payment History</h5>
+                    <div class="ibox-tools">
+
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+
+                    </div>
+                </div>
+                <div class="ibox-content table-responsive">
+                    <table class="table">
+                        <tr>
+                            <th>
+                                Fee Type
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Semester.SemesterName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Session.SessionName)
+                            </th>
+                            <th>
+                               FullName
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.PaidFee)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.TotalAmount)
+                            </th>
+                            @*<th>
+                                    @Html.DisplayNameFor(model => model.PaymentMode)
+                                </th>*@
+                            <th>
+                                @Html.DisplayNameFor(model => model.Date)
+                            </th>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.PaymentStatus)
+                            </th>
+                            <th></th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FeeCategory)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Semester.SemesterName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Session.SessionName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Students.FullName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PaidFee)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TotalAmount)
+                                </td>
+                                @*<td>
+                                        @Html.DisplayFor(modelItem => item.PaymentMode)
+                                    </td>*@
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Date)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PaymentStatus)
+                                </td>
+                                <td>
+                                    @*@Html.ActionLink("Print Receipt", "PrintReceipt", new { id = item.SchoolFeePaymentId })*@
+                                    <a class="btn btn-sm btn-success" href="@Url.Action("PrintReceipt","SchoolFeePayments", new{ id = item.SchoolFeePaymentId, SessionId = item.SessionId})">Print Receipt</a>
+                                    @*<a href="#">Print Receipt</a>*@
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

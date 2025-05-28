@@ -1,0 +1,128 @@
+﻿@*@model SwiftKampusModel.Accomodation.StudentAssignedRoom*@
+@model SwiftKampusModel.Accomodation.StudentAssignedRoom
+@{
+    ViewBag.Title = "Student Room Details";
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-6">
+        @if (@Model.PaymentStatus)
+        {
+            <h2>
+                ASSIGNED ROOM (PAYEMENT CONFIRMED)
+            </h2>
+        }
+        else
+        {
+            <h2>
+                Hostel Maintenance Fee
+            </h2>
+        }
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <div class="row">
+                <div class="col-md-6">
+                    <table class="table table-responsive">
+                        <tr>
+                            <td> <strong>Full Name</strong></td>
+                            <td> @Html.DisplayFor(model => model.Student.FullName)</td>
+                        </tr>
+                        <tr>
+                            <td> <strong>Hostel Name</strong></td>
+                            <td> @Html.DisplayFor(model => model.Hostel.HostelName)</td>
+                        </tr>
+                        <tr>
+                            <td> <strong>Block Name</strong></td>
+                            <td> @Html.DisplayFor(model => model.Block.BlockName)</td>
+                        </tr>
+                        <tr>
+                            <td> <strong>Room Name</strong></td>
+                            <td> @Html.DisplayFor(model => model.Room.RoomName)</td>
+                        <tr>
+                            <td> <strong>Bed Space</strong></td>
+                            <td> @Html.DisplayFor(model => model.BedSpace)</td>
+
+                        <tr>
+                            <td> <strong>Session Name</strong></td>
+                            <td> @Html.DisplayFor(model => model.Session.SessionName)</td>
+                        </tr>
+                        <tr>
+                            <td> <strong>Amount</strong></td>
+                            <td> @Html.DisplayFor(model => model.Hostel.HostelPrice)</td>
+                        </tr>
+                        <tr>
+                            <td> <strong>RRR</strong></td>
+                            <td> @ViewBag.rrr</td>
+                        </tr>
+
+                    </table>
+                    <dl class="dl-horizontal">
+
+                        @if (@Model.PaymentStatus)
+                        {
+                            <dd>
+                                @*<a href="@Url.Action("PrintHostelAcceptanceLetter","AssignedRooms")" class="btn btn-success btn-lg" role="button">Print Acceptance Form</a>*@
+                            </dd>
+                        }
+                        else
+                        {
+                            <dd>
+                                <a href="@Url.Action("AccommodationFeePayment","AssignedRooms", new{id = Model.StudentAssignedRoomId})" class="btn btn-info btn-lg" role="button">Proceed To Payment</a>
+                            </dd>
+                        }
+
+                    </dl>
+                </div>
+                <div class="col-md-6">
+                    <dl class="dl-horizontal">
+                        @if (@Model.PaymentStatus)
+                        {
+                            <dd>
+                                <h3> Payment Status is Successful</h3>
+                                <h3>You have been Successfully Assigned the Room</h3>
+                            </dd>
+                            <dd>
+                                <a href="" class="btn btn-info btn-sm" role="button"><i class="fa fa-print"></i> Print Receipt Details</a>
+                                <a href="@Url.Action("PrintHostelAcceptanceLetter","AssignedRooms")" class="btn btn-success btn-sm" role="button"><i class="fa fa-gear"></i> Proceed to Print Acceptance Form</a>
+                            </dd>
+                        }
+                        else
+                        {
+                            <dd>
+                                <img class="img-responsive" src="~/Content/Images/remita-payment-logo-vertical.png" width="300" />
+                            </dd>
+
+                        }
+                    </dl>
+
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="card">
+                <div class="card-head style-primary">
+                    <header>
+                        <div class="form-header  purple darken-4">
+                            <h3>ASSIGNED ROOM HISTORY</h3>
+                        </div>
+
+                    </header>
+
+                </div><!--end .card-head -->
+
+                <div class="card-body">
+                    @*@Html.Action("HostelHistory", new { id = "" })*@
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>

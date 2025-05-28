@@ -1,0 +1,287 @@
+﻿@using SwiftKampusModel
+@model SwiftKampus.ViewModels.StudentBioData.StudentFullBioDataVm
+
+@{
+    ViewBag.Title = "Student Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var address = Model.Address;
+}
+<div class="block-header">
+    <div class="row">
+        <div class="col-lg-5 col-md-8 col-sm-12">
+
+        </div>
+    </div>
+</div>
+
+<div class="row clearfix">
+
+    <div class="col-md-4">
+        <div class="widget-head-color-box navy-bg p-lg text-center">
+            <div class="m-b-md">
+                <h2 class="font-bold no-margins">
+                    @Html.Raw(Model.Student.FullName)
+                </h2>
+                <small>@Model.Student.Email</small>
+            </div>
+            <img src="@Url.Action("RenderImage", "Students", new { studentId = Model.Student.StudentId})" class="img-circle circle-border m-b-md" height="150px" width="150px" alt="profile">
+            <div>
+                <span>12 Courses</span> |
+                <span>0 Carry-overs</span> |
+                <span>12 Passed</span>
+            </div>
+            <div>
+                <a class="btn btn-warning" href="@Url.Action("StudentFullDetail", new { id = Model.Student.StudentId})" target="_blank">Print BioData</a>
+                @if (User.IsInRole("SuperAdmin"))
+                {
+                    <a href="#" class="btn btn-warning" onclick="MakeSchoorlashipTwo('@Model.Student.StudentId')"> Update Schoolarship </a>
+                }
+            </div>
+        </div>
+        <div class="widget-text-box">
+
+            <h4 class="media-heading">You are Currently on a CGPA of:  </h4>
+            <br />
+            <h3>OLEVEL RESULT </h3>
+            <div class="table-responsive">
+                <div class="row col-md-12">
+                    @if (Model.OLevelResult != null)
+                    {
+                        foreach (var item in ViewBag.ResultName)
+                        {
+                            var newModel = Model.OLevelResult.Where(x => x.ResultName.Equals(item)).FirstOrDefault();
+                            <div class="col-md-6">
+                                <dl class="dl-horizontal">
+                                    <dt>
+                                        Result Name
+                                    </dt>
+
+                                    <dd>
+                                        @newModel.ResultName
+                                    </dd>
+
+                                    <dt>
+                                        Examination Center
+                                    </dt>
+
+                                    <dd>
+                                        @newModel.ExaminationCenter
+                                    </dd>
+
+                                    <dt>
+                                        Year
+                                    </dt>
+
+                                    <dd>
+                                        @newModel.Year
+                                    </dd>
+
+                                </dl>
+                                <table class=" table table-responsive">
+                                    <tr>
+                                        <th>
+                                            Subject Name
+                                        </th>
+
+                                        <th>
+                                            Subject Grade
+                                        </th>
+                                    </tr>
+                                    @foreach (var modelItem in Model.OLevelResult.Where(x => x.ResultName.Equals(item)))
+                                    {
+                                        <tr>
+                                            <td>
+                                                @modelItem.Subject.CourseName
+
+                                            </td>
+                                            <td>
+                                                @modelItem.SubjectGrade
+                                            </td>
+
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
+                        }
+                        <br />
+                        <br />
+                    }
+
+                </div>
+            </div>
+
+            <h3>CONTACT ADDRESS </h3>
+            @if (Model.Address != null)
+            {
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>State</td>
+                            <td><div class="p-xxs bg-muted">@Model.Address.State</div></td>
+                        </tr>
+                        <tr>
+                            <td>LGA</td>
+                            <td><div class="p-xxs bg-muted">@Model.Address.Lga</div></td>
+                        </tr>
+                        <tr>
+                            <td>Town</td>
+                            <td><div class="p-xxs bg-muted">@Model.Address.Town</div></td>
+                        </tr>
+                        <tr>
+                            <td>Street</td>
+                            <td><div class="p-xxs bg-muted"> @Model.Address.Street</div></td>
+                        </tr>
+
+                        <tr>
+                            <td>House No</td>
+                            <td><div class="p-xxs bg-muted">@Model.Address.HouseNo</div></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            }
+
+
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="row">
+            <div class="ibox-title">
+                <h5>Bio-Data</h5>
+            </div>
+            <div class="ibox-content">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>School Programme</td>
+                            <td><div class="p-xxs bg-muted">@Model.Student.SchoolProgramme.FancyName</div></td>
+                        </tr>
+                        <tr>
+                            <td>Current Level</td>
+                            <td><div class="p-xxs bg-muted">@Model.Student.Level.LevelName</div></td>
+                        </tr>
+                        <tr>
+                            <td>Faculty</td>
+                            <td><div class="p-xxs bg-muted">@Model.Student.Programme.Department.Faculty.FacultyName</div></td>
+                        </tr>
+                        <tr>
+                            <td>Department</td>
+                            <td><div class="p-xxs bg-muted">@Model.Student.Programme.Department.DeptName</div></td>
+                        </tr>
+                        <tr>
+                            <td>Programme</td>
+                            <td><div class="p-xxs bg-muted">@Model.Student.Programme.ProgrammeName</div></td>
+                        </tr>
+                        <tr>
+                            <td>Phone Number</td>
+                            <td><div class="p-xxs bg-muted">@Model.Student.PhoneNumber</div></td>
+                        </tr>
+                        <tr>
+                            <td>Age</td>
+                            <td><div class="p-xxs bg-muted"> @Model.Student.Age Years</div></td>
+                        </tr>
+                        <tr>
+                            <td>L.G.A</td>
+                            <td><div class="p-xxs bg-muted">@Model.Student.Lga</div></td>
+                        </tr>
+                        <tr>
+                            <td>State of Origin</td>
+                            <td><div class="p-xxs bg-muted"> @Model.Student.StateOfOrigin</div></td>
+                        </tr>
+                        <tr>
+                            <td>Nationality</td>
+                            <td><div class="p-xxs bg-muted">@Model.Student.Nationality</div></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="ibox-title">
+                <h5>Next of Kin</h5>
+            </div>
+            <div class="ibox-content">
+                <table class="table table-responsive">
+                    <tr>
+                        <th> S/N </th>
+                        <th> Full Name </th>
+                        <th> Email</th>
+                        <th> Phone Number</th>
+                        <th> Status</th>
+
+                    </tr>
+                    @if (Model.Sponsors != null)
+                    {
+                        var number6 = 1;
+
+                        foreach (var item in Model.Sponsors)
+                        {
+                            <tr>
+                                <td> @number6 </td>
+                                <td> @item.FullName </td>
+                                <td> @item.Email </td>
+                                <td>@item.PhoneNumber</td>
+                                <td>@item.Address</td>
+                            </tr>
+                            {
+                                number6 = number6 + 1;
+                            }
+                        }
+                    }
+
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade inmodal" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content animated">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">STUDENT</h4>
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+    function ChangeLevel(studentId) {
+        var url = "/Departments/UpgradeLevel?studentId=" + studentId;
+        $('#myModalDivBody').load(url,
+            function () {
+                jQuery.noConflict();
+                $('#actionsList').modal("show");
+            });
+    };
+    function MakeSchoorlashipTwo(studentId) {
+        var url = "/Students/MakeSchoolarshipStudent?studentId=" + studentId;
+        $('#myModalDivBody').load(url,
+            function () {
+                jQuery.noConflict();
+                $('#actionsList').modal("show");
+            });
+    };
+</script>

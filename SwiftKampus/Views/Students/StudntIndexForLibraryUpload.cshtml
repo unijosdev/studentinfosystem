@@ -1,0 +1,386 @@
+﻿
+@{
+    ViewBag.Title = "Result List";
+}
+
+<h2>@ViewBag.Gender</h2>
+<div class="container-fluid">
+    <!-- First row -->
+    <div class="row">
+        <!-- First column -->
+        <div class="col-md-12">
+            <div class="wrapper wrapper-content animated fadeInRight">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>List of Students</h5>
+                                <div class="ibox-tools">
+                                    @if (ViewBag.Message != null)
+                                    {
+                                        <div class="alert alert-success">
+                                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                            <strong>@ViewBag.Message</strong>
+                                        </div>
+                                    }
+
+                                    <a class="collapse-link">
+                                        <i class="fa fa-chevron-up"></i>
+                                    </a>
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        <i class="fa fa-wrench"></i>
+                                    </a>
+                                </div>
+                                <div class="ibox-content">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label>School Programme</label>
+                                                    @Html.DropDownList("SchoolProgrammeId", (SelectList)ViewBag.SchoolProgrammeId, "", new { @class = "form-control" })
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Faculty</label>
+                                                    @Html.DropDownList("FacultyId", (SelectList)ViewBag.FacultyId, "", new { @class = "form-control", @onchange = "getDeptList()" })
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <br />
+                                        <div class="row ">
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label>Department</label>
+                                                    @Html.DropDownList("DepartmentId", (SelectList)ViewBag.DepartmentId, "", new { @class = "form-control", @onchange = "getProgrammeList()" })
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <div class="form-group">
+                                                    <label>Dept Option</label>
+                                                    @Html.DropDownList("ProgrammeId", (SelectList)ViewBag.ProgrammeId, "", new { @class = "form-control", @onchange = "getCourseList()" })
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label>Admitted Session</label>
+                                                    @Html.DropDownList("SessionId", (SelectList)ViewBag.SessionId, "", new { @class = "form-control", @onchange = "getProgrammeList()" })
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label>Level Name</label>
+                                                    @Html.DropDownList("LevelId", (SelectList)ViewBag.LevelId, "", new { @class = "form-control", @onchange = "getProgrammeList()" })
+                                                </div>
+                                            </div>
+                                            <div class="col-m-1">
+                                                <br />
+                                                <button type="submit" id="btn-search" class="btn btn-primary">Search/View</button>
+                                                <button type="submit" id="btn-download" class="btn btn-primary">Download</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!--end .row -->
+                        </div>
+                    </div>
+
+
+                    <div class="ibox-content">
+                        <div class="table-responsive">
+                            <table id="Jdatatable" class="table table-striped table-bordered table-hover table-responsive dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th> cardnumber</th>
+                                        <th> surname</th>
+                                        <th> firstname</th>
+                                        <th> title</th>
+                                        <th> othernames</th>
+                                        <th> initials</th>
+                                        <th> streetnumber</th>
+                                        @*<th> streettype</th>*@
+                                        <th> address</th>
+                                        @*<th> address2</th>*@
+                                        <th> city</th>
+                                        <th> state</th>
+                                        @*<th> zipcode</th>*@
+                                        <th> country</th>
+                                        <th> email</th>
+                                        <th> phone</th>
+                                        @*<th> mobile</th>
+            <th> fax</th>
+            <th> emailpro</th>
+            <th> phonepro</th>
+            <th> B_streetnumber</th>
+            <th> B_streettype</th>*@
+                                        <th> B_address</th>
+                                        <th> B_address2</th>
+                                        <th> B_city</th>
+                                        <th> B_state</th>
+                                        <th> B_zipcode</th>
+                                        <th> B_country</th>
+                                        <th> B_email</th>
+                                        <th> B_phone</th>
+                                        <th> dateofbirth</th>
+                                        <th> branchcode</th>
+                                        <th> categorycode</th>
+                                        <th> dateenrolled</th>
+                                        @*<th> dateexpiry</th>
+            <th> date_renewed</th>
+            <th> gonenoaddress</th>
+            <th> lost</th>
+            <th> debarred</th>
+            <th> debarredcomment</th>
+            <th> contactname</th>
+            <th> contactfirstname</th>
+            <th> contacttitle</th>
+            <th> guarantorid</th>
+            <th> borrowernotes</th>
+            <th> relationship</th>*@
+                                        <th> sex</th>
+                                        <th> password</th>
+                                        @*<th> flags</th>*@
+                                        <th> userid</th>
+                                        @*<th> opacnote</th>
+            <th> contactnote</th>
+            <th> sort1</th>
+            <th> sort2</th>*@
+                                        <th> altcontactfirstname</th>
+                                        <th> altcontactsurname</th>
+                                        <th> altcontactaddress1</th>
+                                        @*<th> altcontactaddress2</th>
+            <th> altcontactaddress3</th>
+            <th> altcontactstate</th>
+            <th> altcontactzipcode</th>*@
+                                        <th> altcontactcountry</th>
+                                        <th> altcontactphone</th>
+                                        @*<th> smsalertnumber</th>
+            <th> sms_provider_id</th>
+            <th> privacy</th>
+            <th> privacy_guarantor_checkouts</th>
+            <th> checkprevcheckout</th>
+            <th> updated_on</th>
+            <th> lastseen</th>
+            <th> lang</th>
+            <th> login_attempts</th>
+            <th> overdrive_auth_token</th>*@
+
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.First column -->
+
+    </div>
+
+</div>
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+   
+
+    $(document).ready(function () {
+        window.oTable = $("#Jdatatable").DataTable({
+            "processing": true, // for show progress bar while loading
+            "serverSide": true, // if it is true the preocess is done on server side
+            "filter": true, // disables search box
+            "info": true,
+
+            "stateSave": true,
+            "orderMulti": false, // disable multiple column loading at once
+            "ajax": {
+                "url": "/Students/GetLibraryIndex",
+                "type": "POST",
+                "datatype": "json",
+                "data": function (d) {
+                    d.SchoolProgrammeId = $('#SchoolProgrammeId').val();
+                    d.hasRegistered = $('#hasRegistered').val();
+                    d.FacultyId = $('#FacultyId').val();
+                    d.DepartmentId = $('#DepartmentId').val();
+                    d.ProgrammeId = $('#ProgrammeId').val();
+                    d.SessionId = $('#SessionId').val();
+                    d.LevelId = $('#LevelId').val();
+                }
+            },
+            "columns": [
+                { "data": "cardnumber", "autoWidth": true, "orderable": true },
+                { "data": "surname", "autoWidth": true, "orderable": true },
+                { "data": "firstname", "autoWidth": true, "orderable": true },
+                { "data": "title", "autoWidth": true, "orderable": true },
+                { "data": "othernames", "autoWidth": true },
+                { "data": "initials", "autoWidth": true },
+                { "data": "streetnumber", "autoWidth": true },
+                //{ "data": "streettype", "autoWidth": true },
+                { "data": "address", "autoWidth": true },
+                //{ "data": "address2", "autoWidth": true },
+                { "data": "city", "autoWidth": true },
+                { "data": "state", "autoWidth": true },
+                //{ "data": "zipcode", "autoWidth": true },
+                { "data": "country", "autoWidth": true },
+                { "data": "email", "autoWidth": true },
+                { "data": "phone", "autoWidth": true },
+                //{ "data": "mobile", "autoWidth": true },
+                //{ "data": "fax", "autoWidth": true },
+                //{ "data": "emailpro", "autoWidth": true },
+                //{ "data": "phonepro", "autoWidth": true },
+                //{ "data": "B_streetnumber", "autoWidth": true },
+                //{ "data": "B_streettype", "autoWidth": true },
+                { "data": "B_address", "autoWidth": true },
+                { "data": "B_address2", "autoWidth": true },
+                { "data": "B_city", "autoWidth": true },
+                { "data": "B_state", "autoWidth": true },
+                { "data": "B_zipcode", "autoWidth": true },
+                { "data": "B_country", "autoWidth": true },
+                { "data": "B_email", "autoWidth": true },
+                { "data": "B_phone", "autoWidth": true },
+                { "data": "dateofbirth", "autoWidth": true },
+                { "data": "branchcode", "autoWidth": true },
+                { "data": "categorycode", "autoWidth": true },
+                { "data": "dateenrolled", "autoWidth": true },
+                //{ "data": "dateexpiry", "autoWidth": true },
+                //{ "data": "date_renewed", "autoWidth": true },
+                //{ "data": "gonenoaddress", "autoWidth": true },
+                //{ "data": "lost", "autoWidth": true },
+                //{ "data": "debarred", "autoWidth": true },
+                //{ "data": "debarredcomment", "autoWidth": true },
+                //{ "data": "contactname", "autoWidth": true },
+                //{ "data": "contactfirstname", "autoWidth": true },
+                //{ "data": "contacttitle", "autoWidth": true },
+                //{ "data": "guarantorid", "autoWidth": true },
+                //{ "data": "borrowernotes", "autoWidth": true },
+                //{ "data": "relationship", "autoWidth": true },
+                { "data": "sex", "autoWidth": true },
+                { "data": "password", "autoWidth": true },
+                //{ "data": "flags", "autoWidth": true },
+                { "data": "userid", "autoWidth": true },
+                //{ "data": "opacnote", "autoWidth": true },
+                //{ "data": "contactnote", "autoWidth": true },
+                //{ "data": "sort1", "autoWidth": true },
+                //{ "data": "sort2", "autoWidth": true },
+                { "data": "altcontactfirstname", "autoWidth": true },
+                { "data": "altcontactsurname", "autoWidth": true },
+                { "data": "altcontactaddress1", "autoWidth": true },
+                //{ "data": "altcontactaddress2", "autoWidth": true },
+                //{ "data": "altcontactaddress3", "autoWidth": true },
+                //{ "data": "altcontactstate", "autoWidth": true },
+                //{ "data": "altcontactzipcode", "autoWidth": true },
+                { "data": "altcontactcountry", "autoWidth": true },
+                { "data": "altcontactphone", "autoWidth": true },
+
+
+                //{
+                //    "data": "StudentId",
+                //    "autoWidth": true,
+                //    "render": function(data) {
+                //        return '<a href="#" onclick="Detail(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="View Details"><i class="fa fa-info-circle" aria-hidden="true">Details&nbsp;&nbsp;</i></a>' +
+                //            '<a href="#" onclick="Edit(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="Edit Student"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</a>&nbsp;&nbsp;' +
+                //            '<a href="#" onclick="ChangeLevel(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="Update Student"><i class="fa fa-info" aria-hidden="true"></i>Update</a>&nbsp;&nbsp;'; +
+                //            '<a href="#" onclick="MakeSchoorlaship(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="Update Student"><i class="fa fa-info" aria-hidden="true"></i>Schoolarship</a>&nbsp;&nbsp;';
+                //            //'<a href="#" onclick="Delete(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="Delete Student Record">&nbsp;&nbsp;<i class="fa fa-remove" aria-hidden="true" >Delete</i></a>';
+                //    }
+                //}
+            ],
+            dom: '<"html5buttons"B>lTfgitp',
+             lengthMenu: [
+                [10, 25, 50, 100, 200, 500, 1000, 2000, 4000, 5000],
+                [10, 25, 50, 100, 200, 500, 1000, 2000, 4000, 5000]
+            ],
+            buttons: [
+                { extend: 'copy'},
+                {extend: 'csv'},
+                {extend: 'excel', title: 'Student List'},
+                { extend: 'pdf', title: 'Student List'},
+
+                {extend: 'print',
+                    customize: function (win){
+                        $(win.document.body).addClass('white-bg');
+                        $(win.document.body).css('font-size', '10px');
+
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+                    }
+                }
+            ]
+        });
+        window.oTable.fnSort([[1, "asc"], [2, "desc"]]);
+
+    });
+
+    function getDeptList() {
+        var facultyid = $("#FacultyId").val();
+        $.ajax
+            ({
+                url: '/students/getdeptlist?codeid=' + facultyid,
+                type: 'get',
+                datatype: 'application/json',
+                contenttype: 'application/json',
+                success: function (result) {
+                    $("#DepartmentId").html("");
+                    $.each(JSON.parse(result),
+                        function (i, city) {
+                            $("#DepartmentId").append($('<option></option>').val(city.DepartmentId).html(city.DeptName));
+                        });
+
+                },
+                error: function () {
+                    $("#DepartmentId").html("");
+                    $("#Programmeid").html("");
+                }
+            });
+    }
+
+    function getProgrammeList() {
+        var deptid = $("#DepartmentId").val();
+        $.ajax
+            ({
+                url: '/students/getprogrammelist?codeid=' + deptid,
+                type: 'get',
+                datatype: 'application/json',
+                contenttype: 'application/json',
+                success: function (result) {
+                    $("#ProgrammeId").html("");
+                    $.each(JSON.parse(result),
+                        function (i, city) {
+                            $("#ProgrammeId").append($('<option></option>').val(city.ProgrammeId).html(city.ProgrammeName));
+                        });
+                },
+                error: function () {
+                    $("#ProgrammeId").html("");
+                }
+            });
+
+        //$("#btn-search").click(function () {
+        //    var url = "/ConvocationList/getConvocationList?programmeid=" + $('#ProgrammeId').val();
+        //    jQuery.noConflict();
+        //    $('#Jdatatable').load(url);
+        //});
+    }
+
+    //$("#btn-search").click(function () {
+    //    window.oTable.ajax.reload();
+
+    //});
+
+    $("#btn-search").click(function () {
+        window.oTable.ajax.reload();
+    });
+
+    $("#btn-download").click(function () {
+        var url = "/Students/DownloadMatGenReport?SchoolProgrammeId=" + $('#SchoolProgrammeId').val() + "&FacultyId=" + $('#FacultyId').val() +
+                    "&DepartmentId=" + $('#DepartmentId').val() + "&ProgrammeId=" + $('#ProgrammeId').val() + "&SessionId=" + $('#SessionId').val() +
+                    "&LevelId=" + $('#LevelId').val();
+        window.open(url, '_blank');
+    });
+
+
+</script>

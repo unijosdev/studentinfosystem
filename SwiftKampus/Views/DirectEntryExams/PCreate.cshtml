@@ -1,0 +1,160 @@
+﻿@model SwiftKampusModel.AddmissionApplicant.DirectEntryExam
+@*@model SwiftKampus.ViewModels.StudentBioData.DirectEntryExamVm*@
+
+@{
+    ViewBag.Title = "Add Exam Taken";
+    Layout = null;
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-6">
+        <h2>
+            <i class="fa fa-plus"></i> Highest Qualification
+        </h2>
+
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="card">
+            <br />
+            <div class="card-body">
+                <form id="myExamDeForm" onsubmit="return false;">
+                    @Html.AntiForgeryToken()
+                    <div class="form-horizontal">
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.NameOfInstitution)
+                                @Html.EditorFor(model => model.NameOfInstitution, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.NameOfInstitution, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        @Html.LabelFor(model => model.CertificateType)
+                                        @Html.DropDownList("CertificateType", null, htmlAttributes: new { @class = "form-control", @onchange = "loadDiscipline()" })
+                                        @Html.ValidationMessageFor(model => model.CertificateType, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        @Html.LabelFor(model => model.ExamNumber)
+                                        @Html.EditorFor(model => model.ExamNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.ExamNumber, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        @Html.LabelFor(model => model.OverallGrade)
+                                        @Html.EditorFor(model => model.OverallGrade, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.OverallGrade, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        @Html.LabelFor(model => model.ExamDate)
+                                        @Html.EditorFor(model => model.ExamDate, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.ExamDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-6">
+                                <input id="btnsubmitsponsor" type="submit" value="SAVE AND CONTINUE" class="btn block btn-lg btn-primary col-md-12" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <a id="btnexamDeNext" href="#" class="btn btn-warning btn-lg btnNext" data-dismiss="modal">NEXT</a>
+        <a id="btndeExamprevious" href="#" class="btn btn-warning btn-lg btnPrevious" data-dismiss="modal">PREVIOUS</a>
+
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script>
+
+    $("#btnexamDeNext").click(function () {
+        //window.open('@Url.Action("Details", "Students")', '_self');
+        $("#admissionLetter").click();
+    });
+
+    $("#btndeExamprevious").click(function () {
+        $("#sponsors").click();
+    });
+
+    $("#btnsubmitsponsor").click(function () {
+        var data = $("#myExamDeForm").serialize();
+        $.ajax({
+            type: "POST",
+            url: "/DirectEntryExams/PCreate",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    swal({
+                        title: "Good Job!!!",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#ab973a",
+                        confirmButtonText: "Proceed",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                        function (isConfirm) {
+                            if (isConfirm) {
+                                swal("Great", "You can proceed now", "success");
+                                //window.open('@Url.Action("StudentFullDetail", "Students")', '_self');
+                                $("#admissionLetter").click();
+                            }
+                            toastr["success"](data.message);
+                        });
+                } else {
+                    swal({
+                        title: "Warning",
+                        text: data.message,
+                        type: "warning",
+                    });
+                    toastr["success"](data.message);
+                }
+
+            }
+        });
+    });
+
+</script>
+
+
+
+
+

@@ -1,0 +1,2082 @@
+﻿@model SwiftKampus.Models.AddmisionRegistrationVm
+@using SwiftKampus.Models
+@{
+    ViewBag.Title = "RegisterApplicants";
+    Layout = "~/Views/Shared/_LayoutWebSite2.cshtml";
+}
+<link href="~/Content/my_css/footer.css" rel="stylesheet" />
+
+
+<section class="divider">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-push-1">
+                <div class="border-1px p-20 mb-0" style="border: 1px solid #cac9c9 !important;">
+
+                    <div class="row">
+
+                        <div class="col-md-5 border-right">
+                            <button class='view-modal btn btn-primary' data-toggle='modal'><i class='fa fa-external-link'></i> Click to View Admission Requirement</button>
+                            <h4 class="font-bold"> Admission Procedure</h4>
+                            <h5>List of Currently Available Admission Forms</h5>
+                            <ul class="list">
+                                @foreach (var item in ViewBag.Programme)
+                                {
+                                    <li><i class="italic bold"></i>&nbsp; @item</li>
+                                }
+                            </ul>
+                            <h3>Instructions</h3>
+                            <h4>1. Sign-Up</h4>
+                            <ul class="list check">
+                                <li>Fill out the sign-up form correctly</li>
+                                <li>Carefully Choose the School Programme you wish to enroll for.</li>
+                                <li>You are expected to use a <b>Valid/Active email address.</b></li>
+                                <li>Confirmation Link will be sent to your email address.</li>
+                                <li>Please confirm the Link to login and complete the application process.</li>
+                                <li>Part of the application process involves upload of scanned certificates.</li>
+                                <li>Please Keep your password safe and simple to Remember</li>
+                            </ul>
+
+                            <h4>2. Payment of Application Fee</h4>
+                            <ul class="list check">
+                                <li>visits portal.unijos.edu.ng</li>
+                                <li>Click on LOGIN </li>
+                                <li>Type your email and password</b></li>
+                                <li>Click on Log In. The systems logs you in to your personalized dashboard</li>
+                                <li>Click on <b>Payment</b></li>
+                                <li>Click <b>SELECT PAYMENT</b></li>
+                                <li>Enter the required information requested and continue to follow the prompts until payment of Application Fee is successful</li>
+                                <li>Print the receipt for the portal and the remita receipt sent to your email and proceed to the next stage.</li>
+                            </ul>
+
+                            <h4>3. Bio-Data Registration</h4>
+                            <ul class="list check">
+                                <li>visits portal.unijos.edu.ng</li>
+                                <li>Click on LOGIN </li>
+                                <li>Type your email and password</b></li>
+                                <li>Click on <b>Proceed button</b></li>
+                                <li>Complete the online Bio-data registration. Ensure you complete all taps. Ensure your passport and Relevant Documents (in pdf format) are uploaded before Completion.</li>
+                            </ul>
+                            <br />
+                            <p><strong>DISCLAIMER:</strong><br />Please ensure to select appropriate course of choice before completing the application.</p>
+                            <h5 class="text-danger">@ViewBag.Message</h5>
+                        </div>
+
+
+                        <div class="col-md-7">
+                            @using (Html.BeginForm("AddmissionRegistration", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <h4 class="text-center">Register an account.</h4>
+                                <h5 class="text-danger">@ViewBag.Message</h5>
+                                <hr />
+                                @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                                <div class="form-group">
+                                    @Html.Label("Surname", new { @class = "col-md-3 control-label" })
+                                    <div class="col-md-8">
+                                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Enter Surname" })
+                                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.FirstName, new { @class = "col-md-3 control-label" })
+                                    <div class="col-md-8">
+                                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "Enter First Name" })
+                                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-3 control-label" })
+                                    <div class="col-md-8">
+                                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @placeholder = "Enter Phone Number" })
+                                        @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Email, new { @class = "col-md-3 control-label" })
+                                    <div class="col-md-8">
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Enter Email" })
+                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Programme of Choice", htmlAttributes: new { @class = "col-md-3 control-label" })
+                                    <div class="col-md-8">
+                                        @Html.DropDownList("SchoolProgrammeId", (SelectList)ViewBag.SchoolProgramme, "--Select Programme--", new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.SchoolProgrammeId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Password, new { @class = "col-md-3 control-label" })
+                                    <div class="col-md-8">
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Enter Password" })
+                                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-3 control-label" })
+                                    <div class="col-md-8">
+                                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Enter Confirm Password" })
+                                        @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-offset-3 col-md-8">
+                                        <input type="submit" class="btn btn-primary btn-lg" value="Register" />
+                                    </div>
+                                </div>
+                            }
+                        </div><!--end .col -->
+                        <div class="modal inmodal" id="viewModal" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog  modal-lg">
+                                <div class="modal-content animated bounceInRight">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">
+                                            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                                        </button>
+                                        <h4 class="modal-title">Postgraduate School</h4>
+                                        <small class="font-bold">General Admission Requirement For All Programmes...</small>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="wrapper wrapper-content  animated fadeInRight article">
+                                            <div class="row justify-content-md-center">
+                                                <div class="col-lg-10">
+                                                    <div class="ibox">
+                                                        <div class="ibox-content">
+                                                            @*<div class="float-right">
+            <button class="btn btn-white btn-xs" type="button">Model</button>
+            <button class="btn btn-white btn-xs" type="button">Publishing</button>
+            <button class="btn btn-white btn-xs" type="button">Modern</button>
+        </div>*@
+                                                            <div class="text-center article-title">
+                                                                @*<span class="text-muted"><i class="fa fa-clock-o"></i> 28th Oct 2015</span>*@
+                                                                @*<h1>
+                Postgraduate School
+            </h1>*@
+                                                                <h3>General Admission Requirement</h3>
+                                                            </div>
+                                                            <p>
+                                                                <strong> <a name="_Hlk141270818">Postgraduate School</a></strong>
+                                                            </p>
+                                                            <div align="center">
+                                                                <hr size="3" width="100%" align="center" />
+                                                            </div>
+                                                            <p>
+                                                                <strong>General Admission  Requirement:</strong> <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                1. A candidate  seeking admission must possess five credit passes including
+                                                                English and  Mathematics and other relevant subjects at O' Level. Candidates
+                                                                seeking  Admission into a Master’s Degree or Postgraduate Diploma of the
+                                                                University of  Jos must hold a good (First or second class) Honours Degree
+                                                                of this University  or of other Universities recognized by the Senate of
+                                                                University of Jos. The  first degree must be in a discipline relevant to the
+                                                                programme into which  admission is being sought. <br />
+                                                                <br />
+                                                                2. A candidate seeking admission into an M.Phil/Ph.D. programme must in
+                                                                addition possess a Master’s degree in the relevant discipline. M.Phil/Ph.D.
+                                                                candidates are in addition required to have returned a weighted Score
+                                                                Average  (WSA) of 60% and above in the final assessment result for the
+                                                                Master’s Degree  as well as 60% and above in the Research Project. On
+                                                                admission, M.Phil/Ph.D  candidates register for M.Phil in the first instance
+                                                                and on satisfactory  performance may be subsequently upgraded to Ph.D.
+                                                                registration. <br />
+                                                                <br />
+                                                                3. For all admissions, degree result transcripts are required. <br />
+                                                                <br />
+                                                                4. All Advertised programmes will run on a full-time basis.
+                                                            </p>
+                                                            <p>
+                                                                <br />
+                                                                <strong>1</strong> <strong>. FACULTY OF ARTS</strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>A. DEPARTMENT OF ENGLISH</strong>
+                                                            </p>
+                                                            <p>
+                                                                1.            MA English Language
+                                                            </p>
+                                                            <p>
+                                                                2.            MA Literature in English
+                                                            </p>
+                                                            <p>
+                                                                3.            MA Oral Literature
+                                                            </p>
+                                                            <p>
+                                                                4.            MPhil/PhD English Language
+                                                            </p>
+                                                            <p>
+                                                                5.            MPhil/PhD Literature in English
+                                                            </p>
+                                                            <p>
+                                                                6.            MPhil/PhD Oral Literature
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>B. DEPARTMENT OF HISTORY AND INTERNATIONAL STUDIES</strong>
+                                                            </p>
+                                                            <p>
+                                                                i.   M.A. Economic History
+                                                            </p>
+                                                            <p>
+                                                                ii.   M.A. African History
+                                                            </p>
+                                                            <p>
+                                                                iii.   M.A. History and International Studies
+                                                            </p>
+                                                            <p>
+                                                                iv.   M.Phil/Ph.D Economic History
+                                                            </p>
+                                                            <p>
+                                                                v.   M.Phil/Ph.D African History
+                                                            </p>
+                                                            <p>
+                                                                vi.   M.Phil/Ph.D History and International Studies
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>C.  DEPARTMENT OF LINGUISTICS AND NIGERIAN LANGUAGES</strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>Programmes:</strong>
+                                                            </p>
+                                                            <p>
+                                                                M  Phil/Ph.D in Linguistics
+                                                            </p>
+                                                            <p>
+                                                                M.  A Linguistics
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>D. DEPARTMENT OF MASS COMMUNICATION</strong>
+                                                            </p>
+                                                            <p>
+                                                                i.       Postgraduate Diploma in Mass Communication
+                                                            </p>
+                                                            <p>
+                                                                ii.     M.A Mass Communication
+                                                            </p>
+                                                            <p>
+                                                                iii.  MPhil/Ph.D Mass Communication
+                                                            </p>
+                                                            <p>
+                                                                .
+                                                            </p>
+                                                            <p>
+                                                                <strong>E. DEPARTMENT OF RELIGION AND PHILOSOPHY</strong>
+                                                            </p>
+                                                            <p>
+                                                                a. M.A Arabic
+                                                            </p>
+                                                            <p>
+                                                                b. M.A. Ethics  and Philosophy
+                                                            </p>
+                                                            <p>
+                                                                c. M.A New  Testament
+                                                            </p>
+                                                            <p>
+                                                                d. M.A Sociology  of Religions
+                                                            </p>
+                                                            <p>
+                                                                e. M.A Church  History
+                                                            </p>
+                                                            <p>
+                                                                f. M.A  Interaction of Religions
+                                                            </p>
+                                                            <p>
+                                                                g. M.A Old Testament
+                                                            </p>
+                                                            <p>
+                                                                h. M.A Islamic  Studies
+                                                            </p>
+                                                            <p>
+                                                                i. M.A African  Traditional Religion
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>MPHIL/PHD PROGRAMMES</strong>
+                                                            </p>
+                                                            <p>
+                                                                a. MPhil/PhD. Arabic
+                                                            </p>
+                                                            <p>
+                                                                b. MPhil/PhD.  Ethics and Philosophy
+                                                            </p>
+                                                            <p>
+                                                                c. MPhil/PhD.  New Testament
+                                                            </p>
+                                                            <p>
+                                                                d. MPhil/PhD. Sociology  of Religions
+                                                            </p>
+                                                            <p>
+                                                                e. MPhil/PhD.  Church History
+                                                            </p>
+                                                            <p>
+                                                                f   MPhil/PhD. Interaction of Religions
+                                                            </p>
+                                                            <p>
+                                                                g. MPhil/PhD. Old Testament
+                                                            </p>
+                                                            <p>
+                                                                h. MPhil/PhD.  Islamic Studies
+                                                            </p>
+                                                            <p>
+                                                                i.  MPhil/PhD. African Traditional Religion
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>F. Department of Theatre and Film  Arts</strong>
+                                                            </p>
+                                                            <p>
+                                                                a. M.A Play creating
+                                                            </p>
+                                                            <p>
+                                                                b. M.A Directing
+                                                            </p>
+                                                            <p>
+                                                                c. M.A Dramatic Literature  &amp; Criticism
+                                                            </p>
+                                                            <p>
+                                                                d. M.A Film Arts
+                                                            </p>
+                                                            <p>
+                                                                e. M.A. Development  Theatre/Communication Studies
+                                                            </p>
+                                                            <p>
+                                                                g. MPhil/PhD. Theatre and  Film Arts <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>G. DEPARTMENT OF ARCHAEOLOGY AND HERITAGE STUDIES</strong>
+                                                            </p>
+                                                            <p>
+                                                                a. M.A. Degree in Archaeology
+                                                            </p>
+                                                            <p>
+                                                                b. MPhil Degree in  Archaeology
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>2. FACULTY OF AGRICULTURE<a name="_Toc425095866"></a></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>Department of Animal Production</strong>
+                                                            </p>
+                                                            <p>
+                                                                1.      Postgraduate Diploma (PGD) Animal Production
+                                                            </p>
+                                                            <p>
+                                                                2.      M.Sc. in Animal  Science
+                                                            </p>
+                                                            <p>
+                                                                3.      MPhil/PhD. Animal Science
+                                                            </p>
+                                                            <p>
+                                                                (b)   M.Sc. in Animal Science (Options in Animal Breeding and Genetics,
+                                                                Monogastric Nutrition,  Ruminant Nutrition, Animal Management/Production,
+                                                                Pasture and Rangeland  Management/Production, Animal Products and
+                                                                Processing, Animal Physiology and  Reproduction) <em></em>
+                                                            </p>
+                                                            <p>
+                                                                (c)    MPhil/PhD.  Animal Science (with options in Animal Breeding and
+                                                                Genetics,  Monogastric Nutrition, Ruminant Nutrition, Animal
+                                                                Management/Production,  Pasture and Rangeland Management/Production, Animal
+                                                                Products and Processing,  Animal Physiology and Reproduction)
+                                                            </p>
+                                                            <p>
+                                                                <strong>Areas of  Specialization at PG level</strong>
+                                                            </p>
+                                                            <p>
+                                                                1                  Animal Breeding and Genetics
+                                                            </p>
+                                                            <p>
+                                                                2                  Monogastric Animal Nutrition
+                                                            </p>
+                                                            <p>
+                                                                3                  Ruminant Animal Nutrition
+                                                            </p>
+                                                            <p>
+                                                                4                  Animal Management/Production
+                                                            </p>
+                                                            <p>
+                                                                5                  Pasture and Rangeland  Management/Production
+                                                            </p>
+                                                            <p>
+                                                                6                  Animal Products and Processing
+                                                            </p>
+                                                            <p>
+                                                                7                  Animal Physiology and Reproduction
+                                                            </p>
+                                                            <p>
+                                                                <strong>Department of Agricultural Economics and Extension</strong>
+                                                            </p>
+                                                            <p>
+                                                                1.      Postgraduate Diploma (PGD) Farm Management and Agricultural Extension and Rural Sociology (weekend/part time programme).
+                                                            </p>
+                                                            <p>
+                                                                2.      Master of Science (M.Sc.) Agricultural Economics and Agricultural extension and Rural Development.
+                                                            </p>
+                                                            <p>
+                                                                3.      Master of Philosophy (M.Phil.)/ Doctor of Philosophy (Ph.D.) Agricultural Economics and Agricultural Extension and Rural Development
+                                                            </p>
+                                                            <p>
+                                                                <strong> Department Crop Production  </strong>
+                                                            </p>
+                                                            <p>
+                                                                1.      M.Sc. Agronomy (Crop Production)
+                                                            </p>
+                                                            <p>
+                                                                2.      M.Sc. Agronomy (Crop Physiology)
+                                                            </p>
+                                                            <p>
+                                                                3.      M.Sc Agronomy (Horticulture)
+                                                            </p>
+                                                            <p>
+                                                                4.      M.Sc. Agronomy (Weed Science)
+                                                            </p>
+                                                            <p>
+                                                                5.      M.Sc. Agronomy (Irrigation Agronomy)
+                                                            </p>
+                                                            <p>
+                                                                6.      M.Sc. Agronomy (Farming Systems)
+                                                            </p>
+                                                            <p>
+                                                                7.      MPhil/PhD Agronomy (Field crop Production)
+                                                            </p>
+                                                            <p>
+                                                                8.      MPhil/PhD Agronomy (Crop Physiology)
+                                                            </p>
+                                                            <p>
+                                                                9.      MPhil/PhD Agronomy (Horticulture)
+                                                            </p>
+                                                            <p>
+                                                                10.      MPhil/PhD Agronomy (Weed Science)
+                                                            </p>
+                                                            <p>
+                                                                11.      MPhil/PhD Agronomy (Irrigation Agronomy)
+                                                            </p>
+                                                            <p>
+                                                                12.      MPhil/PhD Agronomy (Farming Systems)
+                                                            </p>
+                                                            <p>
+                                                                13.      MPhil/PhD Crop Production and Soil Science
+                                                            </p>
+                                                            <p>
+                                                                <strong>3.   FACULTY OF BASIC CLINICAL SCIENCES</strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>A. DEPARTMENT  OF CHEMICAL PATHOLOGY</strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>I.</strong><strong>MSc in Clinical Pathology/ Clinical Biochemistry</strong>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>B.  DEPARTMENT OF MEDICAL MICROBIOLOGY</strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>I.</strong> <strong>MSc.  Medical Microbiology</strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>II.</strong> <strong>PhD  Medical Microbiology</strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>Available  Areas of Research in Medical Microbiology</strong>
+                                                            </p>
+                                                            <p>
+                                                                A candidate may undertake research in any of  the major specialties below:
+                                                            </p>
+                                                            <p>
+                                                                1.         Bacteriology
+                                                            </p>
+                                                            <p>
+                                                                2.         Immunology
+                                                            </p>
+                                                            <p>
+                                                                3.         Medical Mycology
+                                                            </p>
+                                                            <p>
+                                                                4.         Parasitology
+                                                            </p>
+                                                            <p>
+                                                                5.         Virology.
+                                                            </p>
+
+                                                            <p>
+                                                                <strong>C.  DEPARTMENT OF PATHOLOGYY</strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>I.</strong> <strong>MPhil/PhD. Anatomic Pathology</strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>4. FACULTY OF BASIC MEDICAL SCIENCES</strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>A.  DEPARTMENT OF BIOCHEMISTRY</strong>
+                                                            </p>
+                                                            <p>
+                                                                i.                  Postgraduate Diploma in Nutrition and  Dietetics.
+                                                            </p>
+                                                            <p>
+                                                                ii.                M.Sc. Biochemistry
+                                                            </p>
+                                                            <p>
+                                                                iii.              M.Phil/Ph.D. Biochemistry
+                                                            </p>
+                                                            <p>
+                                                                Areas of  Specialization
+                                                            </p>
+                                                            <p>
+                                                                i.                  Medical Biochemistry(cancer and  diabetes)
+                                                            </p>
+                                                            <p>
+                                                                ii.                Molecular Biology and Biotechnology
+                                                            </p>
+                                                            <p>
+                                                                iii.              Parasite Biochemistry
+                                                            </p>
+                                                            <p>
+                                                                iv.              Environmental Biochemistry
+                                                            </p>
+                                                            <p>
+                                                                v.                Nutrition and Nutrigenomics
+                                                            </p>
+                                                            <p>
+                                                                vi.              Toxicology
+                                                            </p>
+                                                            <p>
+                                                                vii.            Phytomedicine/Ethnobiochemistry
+                                                            </p>
+                                                            <p>
+                                                                viii.          Micro biome
+                                                            </p>
+                                                            <p>
+                                                                ix.              Forensic Biochemistry
+                                                            </p>
+                                                            <p>
+                                                                x.                Drug Research
+                                                            </p>
+                                                            <p>
+                                                                <strong>B.  DEPARTMENT OF HUMAN ANATOMY</strong>
+                                                            </p>
+                                                            <p>
+                                                                i. M.Sc. Human Anatomy
+                                                            </p>
+                                                            <p>
+                                                                ii. M.Phil/Ph.D Human Anatomy
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>C. DEPARTMENT OF HUMAN PHYSIOLOGY</strong>
+                                                            </p>
+                                                            <p>
+                                                                i.  M.Sc. Physiology
+                                                            </p>
+                                                            <p>
+                                                                ii.  M.Phil/Ph.D. Physiology
+                                                            </p>
+                                                            <p>
+                                                                <strong>5.  FACULTY OF CLINICAL SCIENCES</strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>A.  DEPARTMENT OF OBSTETRICS AND GYNAECOLOGY</strong>
+                                                            </p>
+                                                            <p>
+                                                                1. Master of Reproductive  Sciences
+                                                            </p>
+                                                            <p>
+                                                                2. MPhil/Ph.D Reproductive  Sciences <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                3. MD Reproductive  Sciences/OBGYN <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                4. Doctor of  Medicine (MD) Degree Programme in Obstetrics and Gynaecology
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>B</strong><strong>.</strong>DEPARTMENT OF COMMUNITY MEDICINE
+                                                            </p>
+                                                            <p>
+                                                                i.  M.Sc. Clinical Epidemiology
+                                                            </p>
+                                                            <p>
+                                                                ii. M.Sc. Field Epidemiology
+                                                            </p>
+                                                            <p>
+                                                                iii. Masters of Public Health
+                                                            </p>
+
+                                                            <p>
+                                                                <strong>5. CENTRE FOR CONFLICT MANAGEMENT AND PEACE STUDIES</strong><strong>
+                                                                    <br />
+                                                                </strong>1. M.Sc. Conflict Management and Peace studies
+                                                            </p>
+                                                            <p>
+                                                                2. Postgraduate Diploma in Conflict Management and Peace Studies
+                                                            </p>
+                                                            <p>
+                                                                3. MPhil/PhD Conflict Management and Peace Studies <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>6. CENTRE FOR GENDER AND WOMEN STUDIES</strong> <br />
+                                                                1. M.Phil/Ph.D. Women Studies <br />
+                                                                2. M.Phil/Ph.D. Gender Studies
+                                                            </p>
+                                                            <p>
+                                                                3. M.A. Women Studies <br />
+                                                                4. M.Sc. Gender Studies <br />
+                                                                <br />
+                                                            </p>
+                                                            <p>
+                                                                <strong>7. FACULTY OF EDUCATION</strong> <strong>
+                                                                    <br />
+                                                                </strong> <br />
+                                                                <strong>A</strong>. <strong>DEPARTMENT OF ADULT EDUCATION</strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>1.</strong> MPhil/Ph.D. Adult Education
+                                                            </p>
+                                                            <p>
+                                                                2.  Master of Education (Adult Education)
+                                                            </p>
+                                                            <p>
+                                                                3. Postgraduate Diploma (PGD)  in Adult Education and Community Development
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>Available specializations</strong>
+                                                            </p>
+                                                            <p>
+                                                                1.       Adult and Non-Formal Education <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                2.       Community Development <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                3.       Social Welfare <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                4.       Industrial Education <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                5.       Communication Arts in Adult Education/Community  Development
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                6.       Vocational Adult Education <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                7.       Cooperative Management <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                8.       Distance Education <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                9.       Extension Education <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>
+                                                                    B. DEPARTMENT OF SPECIAL EDUCATION AND  REHABILITATION SCIENCES
+                                                                </strong>
+                                                                <br />
+                                                                1. M.Phil/Ph.D Hearing Handicap <br />
+                                                                2. M.Phil/Ph.D Learning Disabilities <br />
+                                                                3. M.Phil/Ph.D Visual Handicaps <br />
+                                                                4. M.Ed. Hearing Handicap <br />
+                                                                5. M.Ed. Learning Disabilities <br />
+                                                                6. M.Ed. Visual Handicaps. <br />
+                                                                <br />
+                                                                <strong>C.</strong> <strong>DEPARTMENT OF ARTS EDUCATION</strong> <br />
+                                                                1. M.Phil/Ph.D. History and International Studies Education <br />
+                                                                2. M.Phil/Ph.D. Religion Education
+                                                            </p>
+                                                            <p>
+                                                                3. MPhil/Ph.D. English Education
+                                                            </p>
+                                                            <p>
+                                                                4. MPhil/Ph.D. French Education <br />
+                                                                5. M.Ed. English Education <br />
+                                                                6. M.A. Ed. History and International Studies Education
+                                                            </p>
+                                                            <p>
+                                                                7.  M.Ed. French Education
+                                                            </p>
+                                                            <p>
+                                                                8. M.Ed.  Religion Education <br />
+                                                                <br />
+                                                                <strong>D.</strong> <strong>DEPARTMENT OF EDUCATIONAL FOUNDATION</strong>
+                                                                <br />
+                                                                1. M.Phil/Ph.D. Guidance and Counseling <br />
+                                                                2. M.Phil/Ph.D. Philosophy of Education <br />
+                                                                3. M.Phil/Ph.D. Sociology of Education <br />
+                                                                4. M.Phil/Ph.D. Educational Psychology <br />
+                                                                5. M.Phil/Ph.D. Educational Research, Measurement and Evaluation <br />
+                                                                6. M.Phil/Ph.D. Educational Management <br />
+                                                                7. M.Ed. Guidance and Counseling <br />
+                                                                8. M.Ed. Philosophy of Education <br />
+                                                                9. M.Ed. Sociology of Education <br />
+                                                                10. M.Ed. Educational Psychology <br />
+                                                                11. M.Ed. Educational Research, Measurement and Evaluation <br />
+                                                                12. M.Ed. Educational Management <br />
+                                                                <br />
+                                                                <strong>E</strong>
+                                                                <strong>
+                                                                    . DEPARTMENT OF SOCIAL SCIENCE  EDUCATION
+                                                                </strong>
+                                                                <br />
+                                                                1. M.Phil/Ph.D. Social Studies Education
+                                                            </p>
+                                                            <p>
+                                                                2. MPhil/PhD. Library and  Information Science <br />
+                                                                3. M.Ed. Social Studies Education <br />
+                                                                4. M.Sc. Ed. Economics Education
+                                                            </p>
+                                                            <p>
+                                                                5. Master  in Library and Information Science (MLIS)
+                                                            </p>
+                                                            <p>
+                                                                6. Postgraduate Diploma in Library and  Information Science (PGDLIS)
+                                                            </p>
+                                                            <p>
+                                                                <strong>F.  DEPARTMENT OF PHYSICAL AND HEALTH   EDUCATION</strong>
+                                                                <strong>
+                                                                    .
+                                                                </strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>1. MPhil/Ph.D.  Physical Education
+                                                            </p>
+                                                            <p>
+                                                                2. MPhil/Ph.D. Health Education
+                                                            </p>
+                                                            <p>
+                                                                3. M.Sc. Ed Physical Education
+                                                            </p>
+                                                            <p>
+                                                                4.  M.Sc. Ed. Health Education
+                                                            </p>
+                                                            <p>
+                                                                <strong>Areas of specialisation</strong> <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                a.        Sports Management
+                                                            </p>
+                                                            <p>
+                                                                b.       Exercise  and Sports Science
+                                                            </p>
+                                                            <p>
+                                                                c.       Physical  Education Curriculum
+                                                            </p>
+                                                            <p>
+                                                                d.       Health  Education Curriculum
+                                                            </p>
+                                                            <p>
+                                                                e.       Public  Health Education &amp; Community Health Education
+                                                            </p>
+                                                            <p>
+                                                                f.        School  health Education
+                                                            </p>
+                                                            <p>
+                                                                g.       Environmental  Health Education
+                                                            </p>
+                                                            <p>
+                                                                <strong>G. DEPARTMENT OF  SCIENCE AND TECHNOLOGY EDUCATION</strong> <br />
+                                                                1. M.Phil./Ph.D. Biology Education <br />
+                                                                2. M.Phil./Ph.D. Chemistry Education <br />
+                                                                3. M.Phil./Ph.D. Physics Education <br />
+                                                                4. M.Phil./Ph.D. Educational Technology <br />
+                                                                5. M.Phil./Ph.D. Mathematics Education <br />
+                                                                6. M.Phil./Ph.D. Science Education <br />
+                                                                7. M.Phil./Ph.D. Curriculum Studies <br />
+                                                                8. M.Phil./Ph.D. Geography Education
+                                                            </p>
+                                                            <p>
+                                                                9. MPhil/PhD.  Home Economics
+                                                            </p>
+                                                            <p>
+                                                                10. MPhil/Ph.D. Computer Science  Education
+                                                            </p>
+                                                            <p>
+                                                                11. MPhil/Ph.D. Technology Education
+                                                            </p>
+                                                            <p>
+                                                                <strong>Areas of specialization:</strong>
+                                                            </p>
+                                                            <p>
+                                                                Building Technology
+                                                            </p>
+                                                            <p>
+                                                                Electrical/Electronic Technology
+                                                            </p>
+                                                            <p>
+                                                                Mechanical Technology
+                                                            </p>
+                                                            <p>
+                                                                12. M.Sc. Ed. Biology Education <br />
+                                                                13. M.Sc. Ed. Chemistry Education <br />
+                                                                14. M.Sc. Ed. Physics Education <br />
+                                                                15. M.Sc. Ed. Educational Technology <br />
+                                                                16. M.Sc. Ed. Mathematics Education <br />
+                                                                17. M.Sc. Ed. Geography Education <br />
+                                                                18. M.Sc. Ed. Science Education <br />
+                                                                19. M.Sc. Ed. Curriculum Studies
+                                                            </p>
+                                                            <p>
+                                                                20. M.Sc. Ed Technology Education
+                                                            </p>
+                                                            <p>
+                                                                21. M.Sc. Ed. Computer Science  Education
+                                                            </p>
+                                                            <p>
+                                                                22. M.Sc. Ed. Home Economics
+                                                            </p>
+                                                            <p>
+                                                                23. Postgraduate Diploma in Computer Science Education (PGDCSE)
+                                                            </p>
+                                                            <p>
+                                                                Areas of  specialisation:
+                                                            </p>
+                                                            <p>
+                                                                Building Technology
+                                                            </p>
+                                                            <p>
+                                                                Electrical/Electronic Technology
+                                                            </p>
+                                                            <p>
+                                                                Mechanical Technology
+                                                            </p>
+                                                            <p>
+                                                                Home Economics Education
+                                                            </p>
+                                                            <p>
+                                                                Child development
+                                                            </p>
+                                                            <p>
+                                                                Home Management
+                                                            </p>
+                                                            <p>
+                                                                Clothing Textile
+                                                            </p>
+                                                            <p>
+                                                                Food nutrition and Meal Management
+                                                            </p>
+                                                            <p>
+                                                                Hospitality and institutional  Management
+                                                            </p>
+                                                            <p>
+                                                                Building/Woodwork Technology
+                                                            </p>
+                                                            <p>
+                                                                Electrical/Electronic Technology
+                                                            </p>
+                                                            <p>
+                                                                Metal Work/Automobile Technology
+                                                            </p>
+                                                            <p>
+                                                                <strong>8.</strong><strong></strong>
+                                                                <strong>
+                                                                    FACULTY  OF ENGINEERING
+                                                                </strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>A.</strong> <strong>DEPARTMENT  OF CIVIL ENGINEERING</strong>
+                                                            </p>
+                                                            <p>
+                                                                1.      PGD  Civil Engineering
+                                                            </p>
+                                                            <p>
+                                                                2.      M.Sc.  Geotechnical Engineering
+                                                            </p>
+                                                            <p>
+                                                                3.      M.Sc.  Structural Engineering
+                                                            </p>
+                                                            <p>
+                                                                4.      M.Sc.  Water Resources and Environmental Engineering
+                                                            </p>
+                                                            <p>
+                                                                5.      M.Phil./PhD  Geotechnical Engineering
+                                                            </p>
+                                                            <p>
+                                                                6.      M.Phil./PhD  Structural Engineering
+                                                            </p>
+                                                            <p>
+                                                                7.      M.Phil./PhD  Water Resources and Environmental Engineering
+                                                            </p>
+                                                            @*<p>
+            8.      M.Phil./PhD  Civil Engineering
+        </p>*@
+                                                            <p>
+                                                                <strong>B.</strong>
+                                                                <strong>
+                                                                    DEPARTMENT  OF ELECTRICAL / ELECTRONICS ENGINEERING
+                                                                </strong>
+                                                            </p>
+                                                            <p>
+                                                                1. PGD <a name="_Hlk176516574">Power and Machines</a>
+                                                            </p>
+                                                            <p>
+                                                                2. PGD <a name="_Hlk176516600">Computer Engineering</a>
+                                                            </p>
+                                                            <p>
+                                                                3. PGD <a name="_Hlk176516616">Electronics and Telecommunication</a>
+                                                            </p>
+                                                            <p>
+                                                                4. M.Sc.  Power and Machines
+                                                            </p>
+                                                            <p>
+                                                                5. M.Sc.  Computer Engineering
+                                                            </p>
+                                                            <p>
+                                                                6. M.Sc.  Electronics and Telecommunication
+                                                            </p>
+                                                            <p>
+                                                                7. M.Phil./PhD Power  and Machines
+                                                            </p>
+                                                            <p>
+                                                                8. M.Phil./PhD Computer Engineering
+                                                            </p>
+                                                            <p>
+                                                                9.      M.Phil./PhD  Electronics and Telecommunication
+                                                            </p>
+                                                            <p>
+                                                                10.  M.Phil)/  Ph.D.  Electrical/Electronic/Computer  Engineering
+                                                            </p>
+                                                            <p>
+                                                                <strong>C.</strong> <strong>DEPARTMENT  OF MECHANICAL ENGINEERING</strong>
+                                                            </p>
+                                                            <p>
+                                                                1.  PGD Mechanical Engineering
+                                                            </p>
+                                                            <p>
+                                                                2. M.Sc. Mechanical Engineering <strong><em></em></strong>
+                                                            </p>
+                                                            <p>
+                                                                3. M.Sc.  Energy Engineering
+                                                            </p>
+                                                            <p>
+                                                                4.  M.Sc. Industrial and Production Engineering
+                                                            </p>
+                                                            <p>
+                                                                5.  M.Phil./PhD Energy Engineering
+                                                            </p>
+                                                            <p>
+                                                                6.  M.Phil./PhD Industrial and Production Engineering
+                                                            </p>
+                                                            <p>
+                                                                7.  MPhil/PhD. Mechanical Engineering
+                                                            </p>
+                                                            <p>
+                                                                <strong>D.</strong> <strong>DEPARTMENT  OF MINING ENGINEERING</strong>
+                                                            </p>
+                                                            <p>
+                                                                1. Postgraduate  Diploma in Mining Engineering
+                                                            </p>
+                                                            <p>
+                                                                2. M.Sc. Mining  Engineering
+                                                            </p>
+                                                            <p>
+                                                                3. M.Phil/PhD Mining Engineering
+                                                            </p>
+                                                            <p>
+                                                                Areas of  specialization are:
+                                                            </p>
+                                                            <p>
+                                                                (I)          Surface Mining Engineering
+                                                            </p>
+                                                            <p>
+                                                                (II)             Underground Mining Engineering
+                                                            </p>
+                                                            <p>
+                                                                (III)           Rock Mechanics Engineering
+                                                            </p>
+                                                            <p>
+                                                                <strong>9. FACULTY OF ENVIRONMENTAL SCIENCES</strong> <br />
+                                                                <strong>DEPARTMENT OF ARCHITECTURE</strong> <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                1. Masters of Science (M.Sc.)  Architecture by research
+                                                            </p>
+                                                            <p>
+                                                                2. Masters of Science (M.Sc.)  Architecture by design
+                                                            </p>
+                                                            <p>
+                                                                3. Doctor of Philosophy  (PhD.) Architecture by research
+                                                            </p>
+                                                            <p>
+                                                                4. Doctor of Architecture  (PhD.) by design
+                                                            </p>
+                                                            <p>
+                                                                <br />
+                                                                <strong>2. Department of Building</strong> <br />
+                                                                a. M.Phil/Ph.D. in Construction Management <br />
+                                                                b. M.Phil/Ph.D. Construction Technology
+                                                            </p>
+                                                            <p>
+                                                                c. M.Sc. Construction Management <br />
+                                                                d. M.Sc. Construction Technology
+                                                            </p>
+                                                            <p>
+                                                                3.  DEPARTMENT OF ESTATE MANAGEMENT
+                                                            </p>
+                                                            <p>
+                                                                1. Postgraduate Diploma in Estate Management
+                                                            </p>
+                                                            <p>
+                                                                2. M. Sc. Property Development and Management
+                                                            </p>
+                                                            <p>
+                                                                3. M.Sc. Housing Studies
+                                                            </p>
+                                                            <p>
+                                                                4. M.Sc. Property Valuation and Approval
+                                                            </p>
+                                                            <p>
+                                                                5. M.Sc. Land Management
+                                                            </p>
+                                                            <p>
+                                                                6. M. Phil/PhD Valuation and Appraisal
+                                                            </p>
+                                                            <p>
+                                                                7. M. Phil/PhD Property Development and Management
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>4.</strong> <strong>DEPARTMENT OF GEOGRAPHY AND PLANNING</strong>
+                                                                <br />
+                                                                1. M.Phil/Ph.D Environmental and Resources Planning (ERP) <br />
+                                                                2. M.Phil/Ph.D Population and Man Power Planning (PMP)
+                                                            </p>
+                                                            <p>
+                                                                3. MPhil/Ph.d Geography (with options   in Climatology)
+                                                            </p>
+                                                            <p>
+                                                                4. MPhil/Ph.d Geography (with options   in Geomorphology)
+                                                            </p>
+                                                            <p>
+                                                                5. MPhil/Ph.d Geography (with options   in Transportation)
+                                                            </p>
+                                                            <p>
+                                                                6. MPhil/Ph.d Geography (with options   in Population)
+                                                            </p>
+                                                            <p>
+                                                                7. M.Sc. Environmental and Resources Planning (ERP) <br />
+                                                                8. M.Sc. Population and Man Power Planning (PMP)
+                                                            </p>
+                                                            <p>
+                                                                9. M.Sc. Geography (with options   in Climatology)
+                                                            </p>
+                                                            <p>
+                                                                10. M.Sc. Geography (with options   in Geomorphology)
+                                                            </p>
+                                                            <p>
+                                                                11. M.Sc. Geography (with options   in Transportation)
+                                                            </p>
+                                                            <p>
+                                                                12. M.Sc. Geography (with options   in Population)
+                                                            </p>
+                                                            <p>
+                                                                13. PGD Tourism and Recreation Management
+                                                            </p>
+                                                            <p>
+                                                                14. PGD Geographic Information Systems (GIS)
+                                                            </p>
+                                                            <p>
+                                                                15. PGD Environmental Resources Management
+                                                            </p>
+                                                            <p>
+                                                                5. DEPARTMENT OF QUANTITY SURVEYING
+                                                            </p>
+                                                            <p>
+                                                                1. Postgraduate Programmes in Quantity Surveying
+                                                            </p>
+                                                            <p>
+                                                                2. Master of Science Degree in Quantity  Surveying
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>6. DEPARTMENT OF URBAN AND REGIONAL  PLANNING</strong> <br />
+                                                                1. M.Phil/Ph.D. Urban and Regional  Planning <br />
+                                                                2. M.Sc. Urban and Regional Planning <br />
+                                                                3. Postgraduate Diploma Urban and  Regional Planning
+                                                            </p>
+                                                            <p>
+                                                                <strong>
+                                                                    7. Department of Fine and Applied Arts
+                                                                </strong>
+                                                            </p>
+                                                            <p>
+                                                                1. Masters of Fine and Applied Arts Painting
+                                                            </p>
+                                                            <p>
+                                                                2. Masters in Fine and Applied Arts Sculpture
+                                                            </p>
+                                                            <p>
+                                                                3. Masters of  Arts in Art History
+                                                            </p>
+                                                            <p>
+                                                                4. Masters in Fine and Applied Arts Graphics                                                               n
+                                                            </p>
+                                                            <p>
+                                                                5. Masters of Arts in Textile
+                                                            </p>
+                                                            <p>
+                                                                6. MPhil/PhD Painting
+                                                            </p>
+                                                            <p>
+                                                                7. MPhil/PhD Sculpture
+                                                            <p>
+                                                                8. MPhil/PhD Art History
+                                                            </p>
+                                                            <p>
+                                                                9. MPhil/PhD  in Ceramics in Fine and Applied Arts
+                                                            </p>
+                                                            <p>
+                                                                10. MPhil/PhD in Textiles in Fine and Applied and Applied Arts
+                                                            </p>
+                                                            <p>
+                                                                11. MPhil/PhD in Graphics in Fine and Applied Arts
+                                                            </p>
+                                                            <p>
+                                                                <strong>10. FACULTY OF HEALTH SCIENCES AND  TECHNOLOGY</strong><strong>
+                                                                    <br />
+                                                                </strong><strong>A.</strong><strong>Department Of Medical Laboratory Science</strong>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>1.</strong>Postgraduate Diploma MLS (Histopathology)
+                                                            </p>
+                                                            <p>
+                                                                <strong>2.</strong>Postgraduate Diploma MLS (Chemical Pathology)
+                                                            </p>
+                                                            <p>
+                                                                <strong>3.</strong>MSc. MLS Medical Microbiology (Medical Parasitology,
+                                                                Medical  Bacteriology, Medical Virology &amp;     Medical Mycology)
+                                                            </p>
+                                                            <p>
+                                                                4. MSc MLS  Haematology &amp; blood transfusion science
+                                                            </p>
+                                                            <p>
+                                                                5. MSc. MLS  Chemical pathology
+                                                            </p>
+                                                            <p>
+                                                                6. MSc. MLS  Histopathology
+                                                            </p>
+                                                            <p>
+                                                                7. MSc. MLS Immunology and immunochemistry <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                8.          MPhil/PhD. MLS Medical Microbiology (Medical  Parasitology,
+                                                                Medical Bacteriology, Medical Virology &amp;  Medical Mycology)
+                                                            </p>
+                                                            <p>
+                                                                9.          MPhil/PhD MLS Haematology &amp; blood transfusion science
+                                                            </p>
+                                                            <p>
+                                                                11.     MPhil/PhD MLS Chemical pathology
+                                                            </p>
+                                                            <p>
+                                                                12.     MPhil/PhD MLS Histopathology
+                                                            </p>
+                                                            <p>
+                                                                13.    MPhil/PhD MLS Immunology and immunochemistry
+                                                            </p>
+                                                            <p>
+                                                                <strong>2. DEPARTMENT OF NURSING</strong>
+                                                            </p>
+                                                            <p>
+                                                                1. MSc Medical and Surgical Nursing
+                                                            </p>
+                                                            <p>
+                                                                2. MSc Psychiatric/Mental Health  Nursing
+                                                            </p>
+                                                            <p>
+                                                                3. MSc Community Health Nursing
+                                                            </p>
+                                                            <p>
+                                                                4. MSc Maternal and Child Health  Nursing
+                                                            </p>
+                                                            <p>
+                                                                5. MSc Nursing Education
+                                                            </p>
+                                                            <p>
+                                                                6. MSc Health and Nursing  Administration
+                                                            </p>
+                                                            <p>
+                                                                7.<strong></strong>M.Phil/PhD Medical and  Surgical Nursing
+                                                            </p>
+                                                            <p>
+                                                                8. M.Phil/PhD Psychiatric/Mental  Health Nursing
+                                                            </p>
+                                                            <p>
+                                                                9. M.Phil/PhD Community Health Nursing
+                                                            </p>
+                                                            <p>
+                                                                10. M.Phil/PhD Maternal and Child Health  Nursing
+                                                            </p>
+                                                            <p>
+                                                                11. M.Phil/PhD Nursing Education
+                                                            </p>
+                                                            <p>
+                                                                12. M.Phil/PhD Health and Nursing  Administration
+                                                            </p>
+                                                            <p>
+                                                                11.  INSTITUTE OF EDUCATION
+                                                            </p>
+                                                            <p>
+                                                                a. Postgraduate Diploma in Education (PGDE)
+                                                            </p>
+                                                            <p>
+                                                                b.   Postgraduate Diploma in Technology Education (PGDTE)
+                                                            </p>
+                                                            <p>
+                                                                <strong>10. FACULTY OF LAW</strong> <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                1. LL.M. (Taxation Law and Policy)
+                                                            </p>
+                                                            <p>
+                                                                2. LL.M. (Energy and Natural Resources Law)
+                                                            </p>
+                                                            <p>
+                                                                3. LL.M. (Intellectual Property Law and Policy)
+                                                            </p>
+                                                            <p>
+                                                                4. LL.M. (International Law and Diplomacy)
+                                                            </p>
+                                                            <p>
+                                                                5. LL.M. (Law of Alternative Dispute Resolution)
+                                                            </p>
+                                                            <p>
+                                                                6. LL.M. (Constitutional and Human Rights Law)
+                                                            </p>
+                                                            <p>
+                                                                7. LL.M. (Law)
+                                                            </p>
+                                                            <p>
+                                                                8. MPhil/PhD. Law
+                                                            </p>
+                                                            <p>
+                                                                9. MPhil/PhD Law and Diplomacy
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p align="left">
+                                                                13.  FACULTY OF MANAGEMENT SCIENCES <br />
+                                                                A. DEPARTMENT OF ACCOUNTING AND FINANCE <br />
+                                                                <br />
+                                                                1. M.Sc. Accounting and Finance
+                                                            </p>
+                                                            <p>
+                                                                2. M.Sc. Forensic Accounting
+                                                            </p>
+                                                            <p>
+                                                                3. MPhil/PhD Accounting
+                                                            </p>
+                                                            <p>
+                                                                B.  DEPARTMENT OF ACTUARIAL SCIENCE
+                                                            </p>
+                                                            <p>
+                                                                1. Postgraduate Diploma in Actuarial  Science
+                                                            </p>
+                                                            <p>
+                                                                2. Masters of  Science (M.Sc.) in Actuarial Science
+                                                            </p>
+                                                            <p>
+                                                                <strong>c. Department of Business Administration</strong> <br />
+                                                                <strong></strong>1.<strong></strong>M.Phil./Ph.D. Management
+                                                            </p>
+                                                            <p>
+                                                                2. M.Sc. Management
+                                                            </p>
+                                                            <p>
+                                                                3. Postgraduate Diploma in Management  (PGDM)
+                                                            </p>
+                                                            <p>
+                                                                <strong>D. DEPARTMENT OF BANKING AND FINANCE</strong>
+                                                            </p>
+                                                            <p>
+                                                                1.      PGD  Banking and Finance
+                                                            </p>
+                                                            <p>
+                                                                2.      M.Sc.  Banking and Finance
+                                                            </p>
+                                                            <p>
+                                                                3.      MPhil./Ph.D.  Banking and Finance
+                                                            </p>
+                                                            <p>
+                                                                E.  DEPARTMENT OF MARKETING
+                                                            </p>
+                                                            <p>
+                                                                1. PGD Marketing
+                                                            </p>
+                                                            <p>
+                                                                2. MSc. Marketing
+                                                            </p>
+                                                            <p>
+                                                                3. MPhil/PhD Marketing
+                                                            </p>
+                                                            <p>
+                                                                F. DEPARTMENT OF INSURANCE
+                                                            </p>
+                                                            <p>
+                                                                1. PGD Insurance
+                                                            </p>
+                                                            <p>
+                                                                2. MSc. Insurance &amp; Risk Management
+                                                            </p>
+                                                            <p>
+                                                                3. MPhil/PhD Insurance &amp; Risk  Management
+                                                            </p>
+                                                            <p>
+                                                                <strong>14. FACULTY OF  NATURAL SCIENCES</strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>A. DEPARTMENT OF  COMPUTER SCIENCE</strong> <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                1. Postgraduate  Diploma in Computer Science
+                                                            </p>
+                                                            <p>
+                                                                2. M.Sc. Computer  Science Programme
+                                                            </p>
+                                                            <p>
+                                                                3. MPhil/ Ph.D.  Computer Science
+                                                            </p>
+                                                            <p>
+                                                                <br />
+                                                                <strong>B. DEPARTMENT OF GEOLOGY</strong> <br />
+                                                                1. M.Phil/Ph.D. Ore Geology <br />
+                                                                2. M.Phil/Ph.D. Geochemistry <br />
+                                                                3. M.Phil/Ph.D. Environmental Geology <br />
+                                                                4. M.Phil/Ph.D. Hydrogeology and Engineering Geology
+                                                            </p>
+                                                            <p>
+                                                                5. M.Sc. Mineral  Exploration and Mining Geology <br />
+                                                                6. M.Sc. Engineering Geology and Hydrogeology <br />
+                                                                7. M.Sc. Petroleum and Geology/Sedimentology <br />
+                                                                8. M.Sc. Environmental Geology <br />
+                                                                9. Postgraduate Diploma in Environmental Geology (PDEG) <br />
+                                                                10. Postgraduate Diploma in Mining Geology (PDMG)
+                                                            </p>
+                                                            <p>
+                                                                <strong>C. Department of Science  Laboratory Technology</strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>1. M.Sc. Biological Sciences Techniques <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                2. M.Sc. Biochemistry Techniques
+                                                            </p>
+                                                            <p>
+                                                                3.  M.Sc. Chemical Sciences /Petroleum Techniques
+                                                            </p>
+                                                            <p>
+                                                                4.  M.Sc. Geology Techniques
+                                                            </p>
+                                                            <p>
+                                                                5. M.Sc. Microbiology Techniques
+                                                            </p>
+                                                            <p>
+                                                                6.         M.Phil/Ph.D Degree in Science Laboratory  Technology (Biological
+                                                                Sciences Techniques)
+                                                            </p>
+                                                            <p>
+                                                                7.         M.Phil/Ph.D Degree in Science Laboratory  Technology
+                                                                (Biochemistry Techniques)
+                                                            </p>
+                                                            <p>
+                                                                8.         M.Phil/Ph.D Degree in Science Laboratory  Technology
+                                                                (Microbiology Techniques)
+                                                            </p>
+                                                            <p>
+                                                                9.         M.Phil/Ph.D Degree in Science Laboratory  Technology (Chemical
+                                                                Sciences /Petroleum Techniques)
+                                                            </p>
+                                                            <p>
+                                                                10.      M.Phil/Ph.D  Degree in Science Laboratory Technology (Geology
+                                                                Techniques)
+                                                            </p>
+                                                            <p>
+                                                                <strong>D. Department of Physics</strong> <br />
+                                                                1.  M.Phil/Ph.D. Acoustics <br />
+                                                                2.  M.Phil/Ph.D. Atmospheric Physics <br />
+                                                                3.  M.Phil/Ph.D. Electronic and  Telecommunication <br />
+                                                                4. M.Phil/Ph.D. Geophysics
+                                                            </p>
+                                                            <p>
+                                                                5.  M.Phil/Ph.D. Medical/Radiation Biophysics
+                                                            </p>
+                                                            <p>
+                                                                6. M.Phil/Ph.D. Theoretical Physics <br />
+                                                                7. M.Sc. Pure Physics <br />
+                                                                8. M.Sc. Applied Physics
+                                                            </p>
+                                                            <p>
+                                                                9. Postgraduate Diploma in Electronics and Physics <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>E. Department of Chemistry</strong> <br />
+                                                                1. M.Phil/Ph.D. Applied Analytical Chemistry <br />
+                                                                2. M.Phil/Ph.D. Applied Inorganic Chemistry <br />
+                                                                3. M.Phil/Ph.D. Applied Organic Chemistry <br />
+                                                                4. M.Phil/Ph.D. Applied Physical Chemistry
+                                                            </p>
+                                                            <p>
+                                                                5. M.Sc. Applied Analytical Chemistry <br />
+                                                                6. M.Sc. Applied Inorganic Chemistry <br />
+                                                                7. M.Sc. Applied Organic Chemistry <br />
+                                                                8. M.Sc. Applied Physical Chemistry
+                                                            </p>
+                                                            <p>
+                                                                9. Postgraduate Diploma in Environmental and Industrial Chemistry <br />
+                                                                <br />
+                                                                <strong>F. Department of Plant Science and Technology</strong><strong>
+                                                                    <br />
+                                                                </strong>1. M.Phil/Ph.D Phycology and Aquatic Plants <br />
+                                                                2. M.Phil/Ph.D Plant Physiology
+                                                            </p>
+                                                            <p>
+                                                                3. M.Phil/Ph.D Plant Anatomy
+                                                            </p>
+                                                            <p>
+                                                                4. M.Phil/Ph.D Plant Ecology
+                                                            </p>
+                                                            <p>
+                                                                5. M.Phil/Ph.D Plant Pathology
+                                                            </p>
+                                                            <p>
+                                                                6. M.Phil/Ph.D Plant Taxonomy
+                                                            </p>
+                                                            <p>
+                                                                7. M.Phil/Ph.D Medicinal Botany
+                                                            </p>
+                                                            <p>
+                                                                8. M.Phil/Ph.D  Cytogenetic and  Plant Breeding
+                                                            </p>
+                                                            <p>
+                                                                9. M.Phil/Ph.D Applied Microbiology
+                                                            </p>
+                                                            <p>
+                                                                10. MPhil/PhD. Plant Biotechnology
+                                                            </p>
+                                                            <p>
+                                                                11. M.Sc. Phycology and Aquatic Plants
+                                                            </p>
+                                                            <p>
+                                                                12. M.Sc. Plant Physiology
+                                                            </p>
+                                                            <p>
+                                                                13. M.Sc. Plant Anatomy
+                                                            </p>
+                                                            <p>
+                                                                14. M.Sc. Plant Ecology
+                                                            </p>
+                                                            <p>
+                                                                15. M.Sc. Plant Pathology
+                                                            </p>
+                                                            <p>
+                                                                16. M.Sc. Taxonomy and Systematics
+                                                            </p>
+                                                            <p>
+                                                                17. M.Sc. Medicinal Botany
+                                                            </p>
+                                                            <p>
+                                                                18. M.Sc. cytogenic and Plant Breeding
+                                                            </p>
+                                                            <p>
+                                                                19. M.Sc. Applied Microbiology and Plant Pathology
+                                                            </p>
+                                                            <p>
+                                                                20. M.Sc. Plant Biotechnology
+                                                            </p>
+                                                            <p>
+                                                                21. Postgraduate Diploma (PGD) Plant Biotechnology
+                                                            </p>
+                                                            <p>
+                                                                <br />
+                                                                <strong>G. Department of Zoology</strong> <br />
+                                                                1. M.Phil/Ph.D. Entomology (with specialization in Entomology (Medical,
+                                                                Agricultural  and General), <br />
+                                                                2. M.Phil/Ph.D. Parasitology(Medical, Veterinary and General) <br />
+                                                                3. M.Phil/Ph.D. Applied Hydrobiology and Fisheries
+                                                            </p>
+                                                            <p>
+                                                                4. M.Sc. Applied Entomology and Parasitology <br />
+                                                                5. M.Sc. Applied Hydrobiology and Fisheries <br />
+                                                                6. M.Sc. Conservation Biology
+                                                            </p>
+                                                            <p>
+                                                                <br />
+                                                                <strong>H. Department of Microbiology</strong> <br />
+                                                                1. M.Phil/Ph.D Microbial Biotechnology <br />
+                                                                2. M.Phil/Ph.D Food and Industrial Microbiology <br />
+                                                                3. M.Phil/Ph.D Environmental Microbiology <br />
+                                                                4. M.Phil/Ph.D Public Health and Sanitary Microbiology <br />
+                                                                5. M.Phil/Ph.D Medical Microbiology and Immunology
+                                                            </p>
+                                                            <p>
+                                                                6. M.Sc. Microbial Biotechnology <br />
+                                                                7. M.Sc. Food and Industrial Microbiology <br />
+                                                                8. M.Sc. Environmental Microbiology <br />
+                                                                9. M.Sc. Public Health and Sanitary Microbiology <br />
+                                                                10. M.Sc. Medical Microbiology and Immunology
+                                                            </p>
+                                                            <p>
+                                                                11. Postgraduate Diploma in  Microbiology <br />
+                                                                <br />
+                                                                <strong>I. Department of Mathematics</strong> <br />
+                                                                <strong>M.Phil/Ph.D Programmes</strong>: <br />
+                                                                1. M.Phil/Ph.D. Abstract Algebra <br />
+                                                                2. M.Phil/Ph.D. Numerical Analysis <br />
+                                                                3. M.Phil/Ph.D. Biomathematics <br />
+                                                                4. M.Phil/Ph.D. Control Theory <br />
+                                                                5. M.Sc. Abstract Algebra <br />
+                                                                6. M.Sc. Numerical Analysis <br />
+                                                                7. M.Sc. Biomathematics <br />
+                                                                8. M.Sc. Control Theory <br />
+                                                                <br />
+                                                                <strong>15. FACULTY OF SOCIAL SCIENCES</strong> <br />
+                                                                <strong>1. DEPARTMENT OF ECONOMICS</strong> <br />
+                                                                1. M.Phil/Ph.D Economics
+                                                            </p>
+                                                            <p>
+                                                                2. M.Sc. Economics <br />
+                                                                <br />
+                                                            </p>
+                                                            <p>
+                                                                <strong>2. DEPARTMENT OF GENERAL AND APPLIED PSYCHOLOGY</strong> <br />
+                                                                1. M.Phil/Ph.D. Clinical Psychology <br />
+                                                                2. M.Phil/Ph.D. Organizational Psychology
+                                                            </p>
+                                                            <p>
+                                                                3. M.Sc. Clinical Psychology <br />
+                                                                4. M.Sc. Organizational Psychology <br />
+                                                                5. M.Sc. Social and Terrorism Psychology
+                                                            </p>
+                                                            <p>
+                                                                6. M.Sc. Counselling Psychology
+                                                            </p>
+                                                            <p>
+                                                                7. Postgraduate Diploma in Psychology <br />
+                                                                <br />
+                                                                <strong>3. DEPARTMENT OF POLITICAL SCIENCE</strong> <br />
+                                                                1. M.Phil/Ph.D. International Relations <br />
+                                                                2. M.Phil/Ph.D. Political Economy and Development Studies <br />
+                                                                3. M.Phil/Ph.D. Public Administration.
+                                                            </p>
+                                                            <p>
+                                                                4. M.Sc. International Relations and  Strategic Studies <br />
+                                                                5. M.Sc. Political Economy and Development Studies <br />
+                                                                6. M.Sc. Public Policy and Administration.
+                                                            </p>
+                                                            <p>
+                                                                7. Master of Research and Public  Policy (MRPP)
+                                                            </p>
+                                                            <p>
+                                                                <strong>4. Department of Sociology</strong> <br />
+                                                                1.  Postgraduate Diploma (PGD) in  Social Work
+                                                            </p>
+                                                            <p>
+                                                                2. M.Sc. Sociology  (with Specialization in Criminology, Medical  Sociology,
+                                                                Sociology of Development,    Industrial  Sociology, etc.) <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                3.<strong></strong>M.Sc. Social Work  (MSSW)
+                                                            </p>
+                                                            <p>
+                                                                4. MPhil/PhD Sociology
+                                                            </p>
+                                                            <p>
+                                                                5. MPhil/PhD Social Work.
+                                                            </p>
+                                                            <p>
+                                                                <strong>16. FACULTY OF PHARMACEUTICAL SCIENCES</strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong><em>1.</em></strong>
+                                                                <strong>
+                                                                    <em>DEPARTMENT OF PHARMACEUTICAL AND MEDICINAL CHEMISTRY</em>
+                                                                </strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                1. Post Graduate Diploma in  Pharmaceutical Chemistry
+                                                            </p>
+                                                            <p>
+                                                                2. M.Sc. Pharmaceutical Chemistry <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                3. M.Sc. Bioinformatics and Genomics <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                4. M.Phil/Ph.D Pharmaceutical Chemistry <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>
+                                                                    2. DEPARTMENT OF  PHARMACEUTICAL TECHNOLOGY AND INDUSTRIAL PHARMACY
+                                                                </strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                1. M.Sc. Pharmaceutical Technology <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                2. M.Phil/Ph.D Pharmaceutical Technology <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>3. DEPARTMENT OF  PHARMACOGNOSY AND TRADITIONAL MEDICINE</strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                1. M.Sc. Pharmacognosy and Traditional Medicine <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                2. M.Phil/Ph.D Pharmacognosy and Traditional Medicine <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>4.</strong>
+                                                                <strong>
+                                                                    DEPARTMENT OF PHARMACEUTICAL MICROBIOLOGY AND BIOTECHNOLOGY
+                                                                </strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                1. M.Sc. Pharmaceutical Microbiology <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                2. M.Sc. Biotechnology <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                3. M.Phil/Ph.D Pharmaceutical Microbiology <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                4. M.Phil/PhD Biotechnology <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong><em>5.</em></strong>
+                                                                <strong>
+                                                                    <em>DEPARTMENT OF PHARMACEUTICS</em>
+                                                                </strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                1. M.Sc. Drug Delivery <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                2. M.Sc. Cosmetic Science <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                3. M.Phil/Ph.D Drug Delivery <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                4. M.Phil/Ph.D Cosmetic Science <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong><em>6.</em></strong>
+                                                                <strong>
+                                                                    <em>DEPARTMENT OF PHARMACOLOGY AND TOXICOLOGY</em>
+                                                                </strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>1.</strong>M.Sc. Pharmacology <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>2.</strong>M.Sc. Clinical Pharmacology <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>3.</strong>M.Sc. Forensic Toxicology <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>4.</strong>MPhil/Ph.D Pharmacology <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>5.</strong>MPhil/Ph.D Clinical  Pharmacology <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>6.</strong>MPhil/Ph.D Forensic  Toxicology <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong><em>7.</em></strong>
+                                                                <strong>
+                                                                    <em>DEPARTMENT OF CLINICAL PHARMACY AND PHARMACY PRACTICE</em>
+                                                                </strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                1. Post Graduate Diploma  (PGD) in Clinical Pharmacy and Pharmacy Practice
+                                                            </p>
+                                                            <p>
+                                                                2. M.Sc. Clinical Pharmacy  and Pharmacy <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                3. M.Phil/Ph.D Clinical Pharmacy and  Pharmacy Practice <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>17. FACULTY OF VETERINARY MEDICINE</strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>DEPARTMENT OF VETERINARY ANATOMY POSTGRADUATE PROGRAMMES</strong>
+                                                            </p>
+                                                            <p>
+                                                                1. Master of Science (MSc) in  Veterinary Anatomy
+                                                            </p>
+                                                            <p>
+                                                                2. Doctor of Philosophy (PhD) in  Veterinary Anatomy <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>2.  DEPARTMENT OF VETERINARY MICROBIOLOGY AND PATHOLOGY</strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>MICROBIOLOGY PG PROGRAMME</strong>
+                                                            </p>
+                                                            <p>
+                                                                1.      MSc/PhD in Veterinary Anatomic and  Clinical Pathology
+                                                            </p>
+                                                            <p>
+                                                                2.      PhD in: Bacteriology and Molecular biology
+                                                            </p>
+                                                            <p>
+                                                                3.      MSc/PhD in Veterinary Immunology
+                                                            </p>
+                                                            <p>
+                                                                4.      PhD in: Veterinary Mycology
+                                                            </p>
+                                                            <p>
+                                                                5.      MSc/PhD in: Veterinary Virology
+                                                            </p>
+                                                            <p>
+                                                                6.      MSc/PhD in: Veterinary Microbiology
+                                                            </p>
+                                                            <p>
+                                                                <strong>
+                                                                    3. DEPARTMENT OF VETERINARY PARASITOLOGY AND ENTOMOLOGY
+                                                                    POSTGRADUATE  CURRICULUM
+                                                                </strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                1.  Veterinary Protozoology (MSc. Vet. Protozoology),
+                                                            </p>
+                                                            <p>
+                                                                2. Veterinary Helminthology  (MSc. Vet. Helminthology) and
+                                                            </p>
+                                                            <p>
+                                                                3. Veterinary Entomology (MSc.  Vet .Entomology).
+                                                            </p>
+                                                            <p>
+                                                                4. Veterinary Protozoology <em>(PhD  Veterinary Protozoology),</em>
+                                                            </p>
+                                                            <p>
+                                                                5. Veterinary Helminthology <em>(PhD Veterinary Helminthology)</em>and
+                                                            </p>
+                                                            <p>
+                                                                6. Veterinary Entomology <em>(PhD Veterinary Entomology)</em>.
+                                                            </p>
+                                                            <p>
+                                                                7. Postgraduate Diploma In  Veterinary Parasitology (PGDVP
+                                                                <strong>
+                                                                    )
+                                                                </strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>3.</strong>
+                                                                <strong>
+                                                                    DEPARTMENT OF VETERINARY PUBLIC HEALTH AND PREVENTIVE MEDICINE
+                                                                    POSTGRADUATE CURRICULUM
+                                                                </strong>
+                                                            </p>
+                                                            <p>
+                                                                1.     M.Sc.<strong></strong>Veterinary Public Health and Preventive
+                                                                Medicine
+                                                            </p>
+                                                            <p>
+                                                                2.     M.Sc. One Health
+                                                            </p>
+                                                            <p>
+                                                                3.     MPhil/Ph.D  Veterinary Public Health and Preventive  Medicine
+                                                            </p>
+                                                            <p>
+                                                                <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>
+                                                                    4.  DEPARTMENT OF THERIOGENOLOGY AND PRODUCTION POSTGRADUATE
+                                                                </strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>CURRICULUM</strong>
+                                                            </p>
+                                                            <p>
+                                                                1.      PGD  Animal Health and Production
+                                                            </p>
+                                                            <p>
+                                                                2.      MSc  Theriogenology
+                                                            </p>
+                                                            <p>
+                                                                3.      MSc  Animal Health and Production
+                                                            </p>
+                                                            <p>
+                                                                4.      PhD Theriogenology
+                                                            </p>
+                                                            <p>
+                                                                5.      PhD  Animal Health and Production
+                                                            </p>
+                                                            <p>
+                                                                <strong>5.  DEPARTMENT OF VETERINARY MEDICINE</strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>Departmental Postgraduate Programmes</strong>
+                                                            </p>
+                                                            <p>
+                                                                1. MSc.<strong><em></em></strong>Veterinary Medicine and PhD.<strong><em></em></strong>Veterinary
+                                                                Medicine  with options in:
+                                                            </p>
+                                                            <p>
+                                                                i. Avian Medicine
+                                                            </p>
+                                                            <p>
+                                                                ii. Large Animal Medicine
+                                                            </p>
+                                                            <p>
+                                                                iii. Fish and Aquatic Medicine
+                                                            </p>
+                                                            <p>
+                                                                <strong>6.  DEPARTMENT OF VETERINARY SURGERY AND RADIOLOGY</strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>
+                                                                    1. MSc. Veterinary Soft  Tissue Surgery and PhD. Veterinary Soft Tissue
+                                                                    Surgery
+                                                                </strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>Options/Research Areas</strong>
+                                                            </p>
+                                                            <p>
+                                                                General Surgery
+                                                            </p>
+                                                            <p>
+                                                                Plastic and Reconstructive Surgery
+                                                            </p>
+                                                            <p>
+                                                                Wound Management
+                                                            </p>
+                                                            <p>
+                                                                2.      MSc. Veterinary Orthopaedic Surgery <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                3.      MSc. Veterinary Anaesthesia
+                                                            </p>
+                                                            <p>
+                                                                4.      MPhil<strong>/</strong>PhD. Veterinary Orthopaedic Surgery
+                                                            </p>
+                                                            <p>
+                                                                5.      MPhil/PhD. PhD. Veterinary  Anaesthesia
+                                                            </p>
+                                                            <p>
+                                                                <strong>Options/Research Areas</strong>
+                                                            </p>
+                                                            <p>
+                                                                Traumatology
+                                                            </p>
+                                                            <p>
+                                                                Fracture Management
+                                                            </p>
+                                                            <p>
+                                                                <strong>Options/Research Areas</strong>
+                                                            </p>
+                                                            <p>
+                                                                Anaesthesia
+                                                            </p>
+                                                            <p>
+                                                                Analgesia/Pain Management
+                                                            </p>
+                                                            <p>
+                                                                Wildlife Immobilization
+                                                            </p>
+                                                            <p>
+                                                                <strong>
+                                                                    7.  DEPARTMENT OF VETERINARY PHYSIOLOGY, BIOCHEMISTRY AND PHARMACOLOGY
+                                                                    POSTGRADUATE  PROGRAMME
+                                                                </strong>
+                                                            </p>
+                                                            <p>
+                                                                <strong>1.</strong>Masters of Science in Veterinary Physiology
+                                                            </p>
+                                                            <p>
+                                                                2.  Masters in Veterinary Pharmacology
+                                                            </p>
+                                                            <p>
+                                                                3.  Masters in Veterinary Toxicology
+                                                            </p>
+                                                            <p>
+                                                                4.  Masters in Veterinary Pharmacology <strong></strong>
+                                                            </p>
+                                                            <p>
+                                                                5. MPhil/PhD. Philosophy  in Veterinary Physiology
+                                                            </p>
+                                                            <p>
+                                                                6.  MPhil/PhD Veterinary Pharmacology
+                                                            </p>
+                                                            <p>
+                                                                7. MPhil/PhD Veterinary Toxicology
+                                                            </p>
+                                                            <p>
+                                                                8. MPhil/PhD Veterinary  Physiology
+                                                            </p>
+                                                            <p>
+                                                                Signed
+                                                            </p>
+                                                            <p>
+                                                                Registrar: Dr. Rejoice James Songden
+                                                            </p>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary print">Print</button>
+                                        <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!--end .row -->
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script>
+
+    $(document).ready(function () {
+        $('#viewModal').modal('show');
+    });
+
+    $(document).on('click', '.view-modal', function () {
+
+        $('.modal-title').text('Postgraduate School');
+        $('#viewModal').modal('show');
+
+    });
+
+    $(document).on("click", ".print", function () {
+        const section = $("section");
+        const modalBody = $(".modal-body").detach();
+
+        const content = $(".content").detach();
+        section.append(modalBody);
+        window.print();
+        section.empty();
+        section.append(content);
+        $("..modal-body-wrapper").append(modalBody);
+    });
+</script>

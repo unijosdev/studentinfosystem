@@ -1,0 +1,95 @@
+﻿@model IEnumerable<SwiftKampusModel.CBTE.QuestionAnswer>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Course.CourseCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Level.LevelName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Question)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Option1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Option2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Option3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Option4)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Answer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.QuestionHint)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsFillInTheGag)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsMultiChoiceAnswer)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Course.CourseCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Level.LevelName)
+            </td>
+            <td>
+                @Html.Raw(item.Question)
+            </td>
+            <td>
+                @Html.Raw(item.Option1)
+            </td>
+            <td>
+                @Html.Raw(item.Option2)
+            </td>
+            <td>
+                @Html.Raw(item.Option3)
+            </td>
+            <td>
+                @Html.Raw(item.Option4)
+            </td>
+            <td>
+                @Html.Raw(item.Answer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuestionHint)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsFillInTheGag)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsMultiChoiceAnswer)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.QuestionAnswerId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.QuestionAnswerId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.QuestionAnswerId })
+            </td>
+        </tr>
+    }
+
+</table>

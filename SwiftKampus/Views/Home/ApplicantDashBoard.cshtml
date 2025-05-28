@@ -1,0 +1,268 @@
+﻿@using SwiftKampusModel
+@model SwiftKampus.Controllers.ApplicantTypeVm
+
+@{
+    ViewBag.Title = "ApplicantDashBoard";
+}
+
+@*<h2>ApplicantDashBoard</h2>
+    <div class="card-head style-primary">
+        <header>
+            <div class="form-header  purple darken-4">
+                <h3> INSTRUCTION PAGE </h3>
+            </div>
+
+        </header>
+    </div>
+
+    <div class="card-body">
+        <h3>Please Read the Instructions carefully</h3>
+        <p>
+            By completing this registration, you agree that all information and documents herein presented are true<br />
+            and you accept liability for any discovered misinformation/false documentation
+        </p>
+
+        <h3>Please attach all evidence of </h3>
+        <ul>
+            <li>O level result(s).</li>
+            <li>Pre-degree/Original JAMB result(s).</li>
+            <li>Post UTME result.</li>
+            <li>Certificate of LGA of origin.</li>
+            <li>Recent Passport.</li>
+        </ul>
+        <div style="text-align: center;">
+            <a class="btn btn-primary btn-lg" href="@Url.Action("Edit","UtmeApplicants")"> Proceed</a>
+        </div>
+    </div>*@
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Applicant Dashboard</h2>
+
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div class="ibox product-detail">
+                <div class="ibox-content">
+
+                    <div class="row">
+                        <div class="col-md-5">
+
+                            <div class="product-images">
+                                <div>
+                                    <h3 class="text-info text-center">@ViewBag.ProcessStatus</h3>
+                                    <div class="image-imitation">
+                                        @if (Model.ApplicantType.Equals(ProgrammeCategory.UnderGraduate.ToString()) && Model.TimeType.Equals(ProgrammeType.Full_Time.ToString()))
+                                        {
+                                            <img src="@Url.Action("RenderImage", "UtmeApplicants", new { userId = ViewBag.UserId })" width="140" height="160" class="contact-avatar my-2 mx-auto">
+                                        }
+                                        else
+                                        {
+                                            <img src="@Url.Action("RenderImage", "Applicants", new { studentId = ViewBag.UserId })" width="140" height="160" class="contact-avatar my-2 mx-auto">
+                                        }
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="col-md-7">
+                            @*<h2 class="font-bold m-b-xs">
+                                    Instructions
+                                </h2>
+                                <p>
+                                    By completing this registration, you agree that all information and documents herein presented are true
+                                    and you accept liability for any discovered misinformation/false documentation.
+                                </p>*@
+                            @if (!string.IsNullOrEmpty(Model.ApplicantType) && !string.IsNullOrEmpty(Model.TimeType))
+                            {
+                                <div class="m-t-md">
+                                    <h3>Please attach the following: </h3>
+                                    <ul class="list check">
+                                        @if (Model.ApplicantType.Equals(ProgrammeCategory.UnderGraduate.ToString()) && Model.TimeType.Equals(ProgrammeType.Full_Time.ToString()))
+                                        {
+                                            <li>Recent Passport (max <strong class="text-danger">25kb Jpeg/png</strong>  format).</li>
+                                            <li>O level result(s).</li>
+                                            @*if (ViewBag.UtmeType.Equals(true))
+                                                {
+                                                    <li>Academic Qualification</li>
+                                                }*@
+                                        }
+                                        @if (Model.ApplicantType.Equals(ProgrammeCategory.UnderGraduate.ToString()) &&
+                                                Model.TimeType.Equals(ProgrammeType.Part_Time.ToString()))
+                                        {
+                                            <li>Update your bio-data and upload recent passport (max <strong class="text-danger">25kb Jpeg/png</strong>  format).</li>
+                                            <li>Add O level result(s).</li>
+                                            <li>Add Next of kin </li>
+                                            <li>Add Employment history </li>
+                                            <li>Upload relevant documents </li>
+                                        }
+                                        @if (Model.ApplicantType.Equals(ProgrammeCategory.IJMB.ToString()))
+                                        {
+                                            <li>Update your bio-data and upload recent passport (max <strong class="text-danger">25kb Jpeg/png</strong>  format).</li>
+                                            <li>Add O level result(s).</li>
+                                            <li>Add Next of kin </li>
+                                            <li>Add Employment history </li>
+                                            <li>Subject Combinations </li>
+                                            <li>Upload relevant documents </li>
+                                        }
+                                        @if (Model.ApplicantType.Equals(ProgrammeCategory.Institute_Of_Education.ToString()) ||
+                                            Model.ApplicantType.Equals(ProgrammeCategory.CCE.ToString()) ||
+                                            Model.ApplicantType.Equals(ProgrammeCategory.Diploma.ToString()) ||
+                                            Model.ApplicantType.Equals(ProgrammeCategory.Preliminary_French.ToString()) ||
+                                            Model.ApplicantType.Equals(ProgrammeCategory.Remedial_Science.ToString()) ||
+                                            Model.ApplicantType.Equals(ProgrammeCategory.ICT.ToString()))
+                                        {
+                                            <li>Update your bio-data and upload recent passport (max <strong class="text-danger">25kb Jpeg/png</strong>  format).</li>
+                                            <li>Add O level result(s).</li>
+                                            <li>Add Next of kin </li>
+                                            <li>Add Employment history </li>
+                                            <li>Upload relevant documents </li>
+                                        }
+
+                                        @if (Model.ApplicantType.Equals(ProgrammeCategory.Masters.ToString()) ||
+                                            Model.ApplicantType.Equals(ProgrammeCategory.MBA.ToString()) ||
+                                            Model.ApplicantType.Equals(ProgrammeCategory.Post_Graduate.ToString()))
+                                        {
+                                            <li>Update your bio-data and upload recent passport (max <strong class="text-danger">25kb Jpeg/png</strong>  format).</li>
+                                            <li>Add O level result(s).</li>
+                                            <li>Add Next of kin </li>
+                                            <li>Add Referee </li>
+                                            <li>Add Employment history </li>
+                                            <li>Upload relevant documents </li>
+                                        }
+                                        @if (Model.ApplicantType.Equals(ProgrammeCategory.Phd.ToString()))
+                                        {
+                                            <li>Update your bio-data and upload recent passport (max <strong class="text-danger">25kb Jpeg/png</strong>  format).</li>
+                                            <li>Add O level result(s).</li>
+                                            <li>Add Next of kin </li>
+                                            <li>Add Refree </li>
+                                            <li>Add Employment history </li>
+                                            <li>Add Thesis</li>
+                                            <li>Add Publications</li>
+                                            <li>Upload relevant documents </li>
+                                        }
+
+
+                                    </ul>
+                                </div>
+
+
+                                <div class="m-t-md">
+                                    <h3>Application process description</h3>
+
+                                    <ul class="list check">
+                                        @if (Model.ApplicantType.Equals(ProgrammeCategory.UnderGraduate.ToString()))
+                                        {
+                                            <li>Pay the required fee.</li>
+                                            <li>Upload your recent passport. </li>
+                                            <li>Add your five (5) relevant O-Level results in not more than two sittings. </li>
+                                            @*if (ViewBag.UtmeType.Equals(true))
+                                                {
+                                                    <li>Add Academic Qualification</li>
+                                                }*@
+                                        }
+                                        <li>Confirm and print your details.</li>
+                                    </ul>
+                                </div>
+                                <br />
+                                <br />
+                                <div>
+                                    @if (bool.Parse(ViewBag.PaymentStatus.ToString()))
+                                    {
+                                        <h4 class="text-success">Payment successful.</h4>
+                                        <br />
+                                        <br />
+                                        <div>
+                                            @if (Model.ApplicantType.Equals(ProgrammeCategory.UnderGraduate.ToString()) && Model.TimeType.Equals(ProgrammeType.Full_Time.ToString()))
+                                            {
+                                                if (bool.Parse(ViewBag.HasCompleteOLevel.ToString()))
+                                                {
+                                                    @*if (ViewBag.ScreenningClosed != true)
+                {
+                    <div class="btn-group">
+                        <a class="btn btn-primary btn-lg" href="@Url.Action("Edit","UtmeApplicants")"><i class="fa fa-edit"></i> Edit</a>
+                    </div>
+                }*@
+                                                    //else
+                                                    //{
+                                                    //    <div>
+                                                    //        <h2 class="text-danger">Screening is closed! You cannot edit your biodata</h2>
+                                                    //    </div>
+                                                    //}
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-primary btn-lg" href="@Url.Action("PrintDetails","UtmeApplicants")"><i class="fa fa-print"></i> Print Details</a>
+                                                    </div>
+                                                }
+                                                else if (!bool.Parse(ViewBag.HasCompleteOLevel.ToString()) && !bool.Parse(ViewBag.ScreenningClosed.ToString()))
+                                                {
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-primary btn-lg" href="@Url.Action("Edit","UtmeApplicants")"><i class="fa fa-upload"></i> Proceed</a>
+                                                    </div>
+                                                }
+                                                else if (bool.Parse(ViewBag.ScreenningClosed.ToString()))
+                                                {
+                                                    <div>
+                                                        <h2 class="text-danger">Screening is closed! You cannot edit your biodata</h2>
+                                                    </div>
+
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-primary btn-lg" href="@Url.Action("PrintDetails","UtmeApplicants")"><i class="fa fa-print"></i> Print Details</a>
+                                                    </div>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <div class="btn-group">
+                                                    <a class="btn btn-primary btn-lg" href="@Url.Action("ProcessForm","Applicants")"><i class="fa fa-upload"></i> Proceed</a>
+                                                </div>
+                                            }
+
+                                        </div>
+                                    }
+                                    else
+                                    {
+
+                                        <div>
+                                            <div class="btn-group">
+                                                <a class="btn btn-primary btn-lg" href="@Url.Action("Edit","UtmeApplicants")"><i class="fa fa-cart-plus"></i> Click to make payment</a>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="m-t-md">
+                                    <h3>Error displaying your dashboard </h3>
+                                </div>
+                            }
+
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="ibox-footer">
+                    <span class="pull-right">
+                        UNIJOS - <i class="fa fa-clock-o"></i> @DateTime.Now.Date.ToString("dd MMM yyyy")
+                    </span>
+                    Please be aware that fund payed are not refundable
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+

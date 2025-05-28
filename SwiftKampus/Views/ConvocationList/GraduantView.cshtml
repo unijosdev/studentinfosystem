@@ -1,0 +1,296 @@
+﻿@model SwiftKampus.ViewModels.ConvocationVm.ConvocationListVm
+
+@{
+    ViewBag.Title = "Details";
+}
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+<h2>Details</h2>
+
+<div class="col-lg-12">
+    <h2>Graduand's Detail</h2>
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>G R A D U A N D' S -- D E T A I L</h5>
+            </div>
+            <div class="ibox-content">
+                <div>
+                    <div>
+                        <table>
+                            <tr>
+                                <td width="70%">
+                                    <dl class="dl-horizontal">
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.Matric)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.Matric)
+                                        </dd>
+
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.Fullname)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.Fullname)
+                                        </dd>
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.Faculty)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.Faculty)
+                                        </dd>
+
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.Department)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.Department)
+                                        </dd>
+
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.ProgrammeOfStudy)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.ProgrammeOfStudy)
+                                        </dd>
+
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.PhoneNumber)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.PhoneNumber)
+                                        </dd>
+
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.Email)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.Email)
+                                        </dd>
+
+                                    </dl>
+                                </td>
+                                <td width="10%"></td>
+                                <td width="15%">
+                                    <img src="/Content/Passport/images.png" alt="Alternate Text" width="100" height="150" style="padding-bottom:15px;" /> @*Put student passport here!*@
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <input type="hidden" name="studentId" id="studentId" value=@Model.studentId />
+                <div class="col-md-4">
+                    <a onclick="myFunction()" class="btn btn-primary"><i class="fa fa-file-excel-o"></i> Edit Name</a>
+                </div>
+                <div class="col-md-4">
+                    <a onclick="myFunction1()" class="btn btn-primary"><i class="fa fa-file-excel-o"></i> I Will Attend</a>
+                </div>
+                <div class="col-md-4">
+                    <a onclick="myFunction2()" class="btn btn-primary"><i class="fa fa-file-excel-o"></i> Lease Gown</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade inmodal" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content animated">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+<script src="~/AdminTemplate/js/jquery-3.1.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
+<script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#hideshow').on('click', function (event) {
+        });
+    });
+
+    function myFunction() {
+        var url = '/ConvocationList/ShowGrauandName?studentId=' + $('#studentId').val();
+        $('#myModalDivBody').load(url,
+            function () {
+                jQuery.noConflict();
+                $('#actionsList').modal("show");
+            });
+    };
+
+    function myFunction1() {
+        var studentId = $('#studentId').val();
+        //alert(studentId);
+        swal({
+            title: "Are you going to attend the Convocation?",
+            text: "By Clicking Yes, Preparation shall be made with you in view!",
+            type: "info",
+            buttons: "true",
+            dangerMode: "true",
+            showCancelButton: true,
+            confirmButtonColor: "#ab973a",
+            confirmButtonText: "Yes, Count me in",
+            cancelButtonText: "No, Cancel!",
+            closeOnConfirm: true,
+            closeOnCancel: false
+        },
+            function (isConfirm) {
+                if (isConfirm) {
+
+                    $.ajax({
+                        contentType: 'application/json',
+                        type: "GET",
+                        url: "/ConvocationList/JASONOptAttendance?studentId=" + $('#studentId').val(),
+                        //data: studentId,
+                        success: function (data) {
+                            if (data) {
+                                //swal({
+                                //    title: "Great",
+                                //    text: "Your name has been enlisted successfully!",
+                                //    type: "success",
+                                //});
+                                swal("Good", "Your name has been enlisted successfully!", "success");
+                                toastr["success"](data);
+                            } else {
+                                swal({
+                                    title: "Warning",
+                                    text: "Error!, please try again",
+                                    type: "warning",
+                                });
+                                toastr["error"](data);
+                            }
+
+                        }
+                    });
+                }
+                else {
+                    //RejectStudent(studentId);
+                    swal("Good", "Operation has been cancelled successfully", "success");
+
+                }
+            });
+        
+    };
+
+    function myFunction2() {
+        var url = '/ConvocationList/ShowLeaseGown?studentId=' + $('#studentId').val();
+        $('#myModalDivBody').load(url,
+            function () {
+                jQuery.noConflict();
+                $('#actionsList').modal("show");
+            });
+    };
+
+    $(document).on('click', '.btnSave', function (e) {
+        var data = $(this).attr("data"); // GET THE DATA IN ATTR
+
+        var formData = new FormData($('#notificationForm')[0]);
+        console.log(formData);
+
+        $('form[id="notificationForm"]').validate({
+            rules: {
+                Corrected_LastName: {
+                    required: true,
+                },
+                Corrected_FirstName: {
+                    required: true,
+                },
+                //Corrected_MiddleName: {
+                //    required: true,
+                //},
+
+            },
+            messages: {
+                Corrected_LastName: {
+                    minlength: 'This field is Required'
+                },
+                Corrected_FirstName: {
+                    minlength: 'This field is Required'
+                },
+                //Corrected_MiddleName: {
+                //    minlength: 'This field is Required'
+                //},
+
+            },
+            submitHandler: function (form) {
+
+                console.log(formData);
+                $.ajax({
+                    type: "POST",
+                    //contentType: 'application/json',
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    //dataType: 'json',
+                    url: "/ConvocationList/JASONUpdateGraduandNames/",
+                    data: formData,
+                    success: function (data) {
+                        console.log(data);
+                        //swal({
+                        //    title: "",
+                        //    text: data,
+                        //    type: "success",
+                        //});
+                        swal({
+                            title: data,
+                            text: "The above is the name and arrangement the will appear on your certificate!",
+                            type: "warning",
+                            buttons: "true",
+                            dangerMode: "true",
+                            showCancelButton: true,
+                            confirmButtonColor: "#ab973a",
+                            confirmButtonText: "Yes, Name is correct",
+                            cancelButtonText: "No, Edit!",
+                            closeOnConfirm: true,
+                            closeOnCancel: false
+                        },
+                            function (isConfirm) {
+                                if (isConfirm) {
+                                    $('#actionsList').modal("toggle");
+                                }
+                                else {
+                                    //RejectStudent(studentId);
+                                    swal("Ok", "Please edit your name as appriopraite", "info");
+
+                                }
+                            });
+
+                        $("#updateModal").modal('toggle');
+                    }
+                });
+            }
+        });
+    });
+
+    //$('#saveBtn').on('click', function () {
+    //    //if (eventCourse.val())
+    //    console.log(eventCourse.val();
+    //});
+
+
+</script>

@@ -1,0 +1,333 @@
+﻿@model SwiftKampus.ViewModels.StudentBioData.RefereeFormVm
+
+@{
+    //Layout = null;
+}
+
+<h3 align="center">Referee Questionaire Form</h3>
+<hr>
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+<h6 align="center">Applicant Details requesting your response </h6>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    @*<div class="col-lg-10 offset-1">*@
+                    <div class="span11 offset1">
+                        <form action="#" method="POST" class="referee_form form-horizontal" id="notificationForm">
+
+                            @Html.HiddenFor(m => m.ApplicantId)
+                            @Html.HiddenFor(m => m.RefereeId)
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" value="" name="referee_id" />
+                            <!-- applicant name -->
+                            <div class="control-group">
+                                <label class="control-label" for="inputApplicantName">Name</label>
+                                <div class="controls">
+                                    <div class="input-prepend">
+                                        <span class="add-on"><i class="icon-user"></i></span>
+                                        @Html.EditorFor(model => model.ApplicantName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- applicant phone number -->
+                            <div class="control-group">
+                                <label class="control-label" for="inputPhoneNumber">Phone Number</label>
+                                <div class="controls">
+                                    <div class="input-prepend">
+                                        <span class="add-on"><i class="icon-hdd"></i></span>
+                                        @Html.EditorFor(model => model.ApplicantPhoneNumber, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <!-- Referee Name -->
+                            <h6 align="center">All Fields are Required </h6>
+
+                            <div class="control-group">
+                                <label class="control-label" for="inputRefereeName">Referee Name</label>
+                                <div class="controls">
+                                    <div class="input-prepend">
+                                        <span class="add-on"><i class="icon-user"></i></span>
+                                        @Html.EditorFor(model => model.RefereeName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- professional rank of referee -->
+                            <div class="control-group">
+                                <label class="control-label" for="inputProfessionalRank">Professional Rank</label>
+                                <div class="controls">
+                                    <div class="input-prepend">
+                                        <span class="add-on"><i class="icon-user"></i></span>
+                                        <input type="text" class="form-control" name="Profession" id="Profession" value="" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Address -->
+                            <div class="control-group">
+                                <label class="control-label" for="inputAdress">Address</label>
+                                <div class="controls">
+                                    <div class="input-prepend">
+                                        <span class="add-on"><i class="icon-home"></i></span>
+                                        <textarea rows="4" class="form-control" id="Address" name="Address"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Job Description -->
+                            <div class="control-group">
+                                <label class="control-label" for="inputJobDescription">Job Description</label>
+                                <div class="controls">
+                                    <div class="input-prepend">
+                                        <span class="add-on"><i class="icon-home"></i></span>
+                                        <textarea rows="4" class="form-control" id="JobDescription" name="JobDescription"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- How long have you known the candidate -->
+                            <div class="control-group">
+                                <label class="control-label" for="howLong">How long have you known the candidate</label>
+                                <div class="controls">
+                                    <div class="input-prepend">
+                                        <span class="add-on"><i class="icon-calendar"></i></span>
+                                        <input type="text" class="form-control" name="KnownLong" id="KnownLong" value="" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- in what capacity -->
+                            <div class="control-group">
+                                <label class="control-label" for="inputAdress">In What Capacity</label>
+                                <div class="controls">
+                                    <div class="input-prepend">
+                                        <span class="add-on"><i class="icon-question-sign"></i></span>
+                                        <textarea rows="4" class="form-control" id="Capacity" name="Capacity"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Comment on the candidate -->
+                            <div class="control-group">
+                                <label class="control-label" for="inputAdress">Comment on the candidate</label>
+                                <div class="controls">
+                                    <div class="input-prepend">
+                                        <span class="add-on"><i class="icon-question-sign"></i></span>
+                                        <textarea rows="4" class="form-control" id="Comment" name="Comment"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Rank a candidate -->
+                            <div class="control-group">
+                                <label class="control-label" for="howLong">Rank Candidate (/100%)</label>
+                                <div class="controls">
+                                    <div class="input-prepend">
+                                        <span class="add-on"><i class="icon-bookmark"></i></span>
+                                        <input type="number" max="100" min="10" maxlength="2" class="form-control" name="rank_candidate" id="rank_candidate" value="" />
+                                    </div>
+                                </div>
+                            </div>
+                            <h4 align="center">Please fill the questionnaire below</h4>
+                            <table class="table table-bordered" align="center">
+                                <tr>
+                                    <th></th>
+                                    <th>Excellent</th>
+                                    <th>Very Good</th>
+                                    <th>Good</th>
+                                    <th>Slightly Above Average</th>
+                                    <th>Average</th>
+                                    <th>Below Average</th>
+                                    <th>Can't Assess</th>
+                                </tr>
+                                <tr>
+                                    <td>Intellectual Capacity</td>
+                                    <td><input type="radio" value="Excellent" name="IntellectualCapacity" /></td>
+                                    <td><input type="radio" value="Very Good" name="IntellectualCapacity" /></td>
+                                    <td><input type="radio" value="Good" name="IntellectualCapacity" /></td>
+                                    <td><input type="radio" value="Slightly Above Average" name="IntellectualCapacity" /></td>
+                                    <td><input type="radio" value="Average" name="IntellectualCapacity" /></td>
+                                    <td><input type="radio" value="Below Average" name="IntellectualCapacity" /></td>
+                                    <td><input type="radio" value="Can't Assess" name="IntellectualCapacity" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Capacity for persistent and independent academic study</td>
+                                    <td><input type="radio" value="Excellent" name="AcademicStudy" /></td>
+                                    <td><input type="radio" value="Very Good" name="AcademicStudy" /></td>
+                                    <td><input type="radio" value="Good" name="AcademicStudy" /></td>
+                                    <td><input type="radio" value="Slightly Above Average" name="AcademicStudy" /></td>
+                                    <td><input type="radio" value="Average" name="AcademicStudy" /></td>
+                                    <td><input type="radio" value="Below Average" name="AcademicStudy" /></td>
+                                    <td><input type="radio" value="Can't Assess" name="AcademicStudy" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Ability for imaginative thought</td>
+                                    <td><input type="radio" value="Excellent" name="ImaginativeThought" /></td>
+                                    <td><input type="radio" value="Very Good" name="ImaginativeThought" /></td>
+                                    <td><input type="radio" value="Good" name="ImaginativeThought" /></td>
+                                    <td><input type="radio" value="Slightly Above Average" name="ImaginativeThought" /></td>
+                                    <td><input type="radio" value="Average" name="ImaginativeThought" /></td>
+                                    <td><input type="radio" value="Below Average" name="ImaginativeThought" /></td>
+                                    <td><input type="radio" value="Can't Assess" name="ImaginativeThought" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Promise of productive scholarship</td>
+                                    <td><input type="radio" value="Excellent" name="Scholarship" /></td>
+                                    <td><input type="radio" value="Very Good" name="Scholarship" /></td>
+                                    <td><input type="radio" value="Good" name="Scholarship" /></td>
+                                    <td><input type="radio" value="Slightly Above Average" name="Scholarship" /></td>
+                                    <td><input type="radio" value="Average" name="Scholarship" /></td>
+                                    <td><input type="radio" value="Below Average" name="Scholarship" /></td>
+                                    <td><input type="radio" value="Can't Assess" name="Scholarship" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Quality of previous work</td>
+                                    <td><input type="radio" value="Excellent" name="PreviousWork" /></td>
+                                    <td><input type="radio" value="Very Good" name="PreviousWork" /></td>
+                                    <td><input type="radio" value="Good" name="PreviousWork" /></td>
+                                    <td><input type="radio" value="Slightly Above Average" name="PreviousWork" /></td>
+                                    <td><input type="radio" value="Average" name="PreviousWork" /></td>
+                                    <td><input type="radio" value="Below Average" name="PreviousWork" /></td>
+                                    <td><input type="radio" value="Can't Assess" name="PreviousWork" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Oral and written expressions in English Language</td>
+                                    <td><input type="radio" value="Excellent" name="OralWritting" /></td>
+                                    <td><input type="radio" value="Very Good" name="OralWritting" /></td>
+                                    <td><input type="radio" value="Good" name="OralWritting" /></td>
+                                    <td><input type="radio" value="Slightly Above Average" name="OralWritting" /></td>
+                                    <td><input type="radio" value="Average" name="OralWritting" /></td>
+                                    <td><input type="radio" value="Below Average" name="OralWritting" /></td>
+                                    <td><input type="radio" value="Can't Assess" name="OralWritting" /></td>
+                                </tr>
+                            </table>
+
+                            <div id="accept_terms">
+                                <div class="control-group">
+                                    <div class="controls">
+                                        <button type="button" class="btn btn-primary" id="referee_form_submit">Save</button>
+                                        <button type="button" onClick="document.location.href='logout.php?logoff';" class="btn">Exit</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    @*</div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $(document).on('click', '#referee_form_submit', function (e) {
+            var data = $(this).attr("data"); // GET THE DATA IN ATTR
+
+            var formData = new FormData($('#notificationForm')[0]);
+            $.ajax({
+                type: "POST",
+                contentType: 'application/json',
+                contentType: false,
+                cache: false,
+                processData: false,
+                dataType: 'json',
+                url: "/Referees/RefreeResponseCreate/",
+                data: formData,
+                success: function (data) {
+                    if (data.status) {
+                        swal("Ok", data.message, "success");
+                        window.location.href = "/Home/Index";
+                    }
+                }
+            });
+
+            //$('form[id="notificationForm"]').validate({
+            //    rules: {
+            //        Id: {
+            //            required: true,
+            //        },
+            //        GownHeight: {
+            //            required: true,
+            //        },
+            //        programme_code: {
+            //            required: true,
+            //        },
+            //        lease_type: {
+            //            required: true,
+            //        },
+
+            //    },
+            //    messages: {
+            //        Id: {
+            //            minlength: 'This field is Required'
+            //        },
+            //        GownHeight: {
+            //            minlength: 'This field is Required'
+            //        },
+            //        programme_code: {
+            //            minlength: 'This field is Required'
+            //        },
+            //        lease_type: {
+            //            minlength: 'This field is Required'
+            //        },
+
+            //    },
+            //    submitHandler: function (form) {
+            //        swal({
+            //            title: "You are about to pay for " + $('#Id :selected').text(),
+            //            text: "Please make sure to select the correct item as error may incur correction charge!",
+            //            type: "warning",
+            //            buttons: "true",
+            //            dangerMode: "true",
+            //            showCancelButton: true,
+            //            confirmButtonColor: "#ab973a",
+            //            confirmButtonText: "Yes,Proceed",
+            //            cancelButtonText: "No, Edit!",
+            //            closeOnConfirm: true,
+            //            closeOnCancel: false
+            ////        },
+            //            function (isConfirm) {
+            //                if (isConfirm) {
+            //                    $('#actionsList').modal("toggle");
+            //                    console.log(formData);
+            //                    $.ajax({
+            //                        type: "POST",
+            //                        contentType: 'application/json',
+            //                        contentType: false,
+            //                        cache: false,
+            //                        processData: false,
+            //                        dataType: 'json',
+            //                        url: "/ConvocationList/JASONCreateLeaseGown/",
+            //                        data: formData,
+            //                        success: function (data) {
+            //                            console.log(data);
+            //                            window.location.href = "/SundryAndOtherIncomeChargesPayment/MakePayment?sundryIncomeItemId=" + sundryItemId;
+            //                            $("#updateModal").modal('toggle');
+            //                        }
+            //                    });
+            //                }
+            //                else {
+            //                    //RejectStudent(studentId);
+            //                    swal("Ok", "Please edit your name as appriopraite", "info");
+
+            //                }
+            //            });
+
+
+            //        }
+            //    });
+        });
+    });
+</script>

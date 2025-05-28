@@ -1,0 +1,29 @@
+﻿@model IEnumerable<SwiftKampusModel.Payment.SchoolFeePayment>
+
+@{
+    ViewBag.Title = "DisplayEmailSearch";
+}
+
+<h2>Display Email Search</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <td>Student Id</td>
+            <td>Full Name</td>
+            <td>Order No</td>
+            <td>Reference No</td>
+            <td>Status</td>
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Students.StudentId</td>
+            <td>@item.Students.FullName</td>
+            <td>@item.OrderId</td>
+            <td>@item.ReferenceNo</td>
+            <td>@item.Status</td>
+        </tr>
+    }
+</table>
+

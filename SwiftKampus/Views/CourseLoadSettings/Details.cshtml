@@ -1,0 +1,50 @@
+﻿@model SwiftKampusModel.CourseLoadSetting
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CourseLoadSetting</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Department.DeptCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Department.DeptCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Session.SessionName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Session.SessionName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MaximumCreditLoad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaximumCreditLoad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MinimumCreditLoad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MinimumCreditLoad)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CourseLoadSettingId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

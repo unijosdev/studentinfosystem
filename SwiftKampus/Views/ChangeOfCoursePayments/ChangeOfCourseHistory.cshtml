@@ -1,0 +1,297 @@
+﻿
+@{
+    ViewBag.Title = "Change of Course List";
+}
+<div class="container-fluid">
+    <!-- First row -->
+    <div class="row">
+        <!-- First column -->
+        <div class="col-md-12">
+            <div class="wrapper wrapper-content animated fadeInRight">
+                <div class="row">
+                    <form id="formFilter" onsubmit="return false;" class="col-md-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>Change of Course History</h5>
+                                <div class="ibox-tools">
+                                    @if (ViewBag.Message != null)
+                                    {
+                                        <div class="alert alert-success">
+                                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                            <strong>@ViewBag.Message</strong>
+                                        </div>
+                                    }
+
+                                    <a class="collapse-link">
+                                        <i class="fa fa-chevron-up"></i>
+                                    </a>
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        <i class="fa fa-wrench"></i>
+                                    </a>
+                                </div>
+                                <div class="ibox-content">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label>Session Name</label>
+                                                    @Html.DropDownList("SessionId", (SelectList)ViewBag.SessionId, "", new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label>School Programme</label>
+                                                    @Html.DropDownList("SchoolProgrammeId", (SelectList)ViewBag.SchoolProgrammeId, "", new { @class = "form-control" })
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Faculty</label>
+                                                    @Html.DropDownList("FacultyId", (SelectList)ViewBag.FacultyId, "", new { @class = "form-control", @onchange = "getDeptList()" })
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <br />
+                                        <div class="row ">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Department</label>
+                                                    @Html.DropDownList("DepartmentId", (SelectList)ViewBag.DepartmentId, "", new { @class = "form-control", @onchange = "getProgrammeList()" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Dept Option</label>
+                                                    @Html.DropDownList("ProgrammeId", (SelectList)ViewBag.ProgrammeId, "", new { @class = "form-control", @onchange = "getCourseList()" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <br />
+                                                <button type="submit" id="btn-search" class="btn btn-primary">Search/View</button>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!--end .row -->
+                        </div>
+                    </form>
+                </div>
+
+
+                <div class="ibox-content">
+                    <div class="table-responsive">
+                        <table id="Jdatatable" class="table table-striped table-bordered table-hover table-responsive dataTables-example">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase">S/N</th>
+                                    <th class="text-uppercase">Reg No</th>
+                                    <th class="text-uppercase"> Full Name</th>
+                                    <th class="text-uppercase"> Mode of Entry</th>
+                                    <th class="text-uppercase"> Email</th>
+                                    <th class="text-uppercase"> Phone Number</th>
+                                    <th class="text-uppercase"> Old Course</th>
+                                    <th class="text-uppercase"> New Course For</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.First column -->
+</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade inmodal" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content animated">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">STUDENT</h4>
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        window.oTable = $("#Jdatatable").DataTable({
+            "processing": true, // for show progress bar while loading
+            //"serverSide": true, // if it is true the preocess is done on server side
+            "filter": true, // disables search box
+            "info": true,
+
+            "stateSave": true,
+            "orderMulti": false, // disable multiple column loading at once
+            "ajax": {
+                "url": "/ChangeOfCoursePayments/GetHistoryIndex",
+                "type": "POST",
+                "datatype": "json",
+                //"data": function (d) {
+                //    d.SchoolProgrammeId = $('#SchoolProgrammeId').val();
+                //    d.hasRegistered = $('#hasRegistered').val();
+                //    d.FacultyId = $('#FacultyId').val();
+                //    d.DepartmentId = $('#DepartmentId').val();
+                //    d.ProgrammeId = $('#ProgrammeId').val();
+                //}
+                "data": function (d) {
+                    return $('#formFilter').serialize();
+                },
+            },
+            "columns": [
+                { "data": "Id", "autoWidth": true, "orderable": true },
+                { "data": "RegNo", "autoWidth": true, "orderable": true },
+                { "data": "FullName", "autoWidth": true, "orderable": true },
+                { "data": "ModeOfEntry", "autoWidth": true, "orderable": true },
+                { "data": "Email", "autoWidth": true, "orderable": true },
+                { "data": "PhoneNumber", "autoWidth": true, "orderable": true },
+                { "data": "CourseAdmitted", "autoWidth": true },
+                { "data": "NewCourseApplied", "autoWidth": true },
+                
+            ],
+            dom: '<"html5buttons"B>lTfgitp',
+            buttons: [
+                { extend: 'copy' },
+                { extend: 'csv' },
+                { extend: 'excel', title: 'Student List' },
+                { extend: 'pdf', title: 'Student List' },
+
+                {
+                    extend: 'print',
+                    customize: function (win) {
+                        $(win.document.body).addClass('white-bg');
+                        $(win.document.body).css('font-size', '10px');
+
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+                    }
+                }
+            ]
+        });
+        window.oTable.fnSort([[1, "asc"], [2, "desc"]]);
+
+    });
+
+    $(window).scroll(function () {
+        $("#mydetailBody").stop().animate({ "marginTop": ($(window).scrollTop()) + "px", "marginLeft": ($(window).scrollLeft()) + "px" }, "slow");
+    });
+    $("#btn-search").click(function () {
+        window.oTable.ajax.reload();
+
+    });
+
+    $("#btn-downloadReport").click(function () {
+        swal({
+            title: "Download Change of Course List",
+            text: "Be sure you want to Download Recommeded List for processing?..",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#ab973a",
+            confirmButtonText: "Yes, Download Now!",
+            cancelButtonText: "No, Pls Cancel!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+            function (isConfirm) {
+                if (isConfirm) {
+                    swal({
+                        title: "Great",
+                        text: "You have downloaded the Recommeded List successfully",
+                        type: "success",
+                    });
+                    var url = "/ChangeOfCoursePayments/ChangeOfCourseReport?SchoolProgrammeId=" + $('#SessionId').val() + "&FacultyId=" + $('#FacultyId').val()
+                                    + "&DepartmentId=" + $('#DepartmentId').val()+ "&ProgrammeId=" + $('#ProgrammeId').val();
+                    window.open(url, '_blank');
+                } else {
+                    swal("Oops", "Try again to download the List again", "warning");
+                }
+            });
+    });
+
+    function Detail(studentId) {
+        var url = "/Students/PartialDetails?id=" + studentId;
+        jQuery.noConflict();
+        $('#mydetailBody').load(url);
+
+    };
+
+    function myFunction() {
+        var url = "/Students/ExcelUpload";
+        $('#myModalDivBody').load(url,
+            function () {
+                jQuery.noConflict();
+                $('#actionsList').modal("show");
+            });
+    };
+
+    function getDeptList() {
+        var facultyId = $("#FacultyId").val();
+        //alert(stateId);
+        $.ajax
+            ({
+                url: '/Students/GetDeptList?codeId=' + facultyId,
+                type: 'GET',
+                datatype: 'application/json',
+                contentType: 'application/json',
+                success: function (result) {
+                    $("#DepartmentId").html("");
+                    $.each($.parseJSON(result),
+                        function (i, city) {
+                            //alert(result);
+                            $("#DepartmentId").append($('<option></option>').val(city.DepartmentId).html(city.DeptName));
+                        });
+
+                },
+                error: function () {
+                    $("#DepartmentId").html("");
+                    $("#ProgrammeId").html("");
+                }
+            });
+    }
+    function getProgrammeList() {
+        var deptId = $("#DepartmentId").val();
+        //alert(stateId);
+        $.ajax
+            ({
+                url: '/Students/GetProgrammeList?codeId=' + deptId,
+                type: 'GET',
+                datatype: 'application/json',
+                contentType: 'application/json',
+                //data: JSON.stringify({
+                //    codeId: +stateId
+                //}),
+                success: function (result) {
+                    $("#ProgrammeId").html("");
+                    $.each($.parseJSON(result),
+                        function (i, city) {
+                            //alert(result);
+                            $("#ProgrammeId").append($('<option></option>').val(city.ProgrammeId).html(city.ProgrammeName));
+                        });
+
+                },
+                error: function () {
+                    $("#ProgrammeId").html("");
+                }
+            });
+    }
+</script>

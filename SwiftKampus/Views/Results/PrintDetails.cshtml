@@ -1,0 +1,114 @@
+﻿@model IEnumerable<SwiftKampusModel.ContinuousAssessment>
+@using SwiftKampus.Models
+
+@{
+    ViewBag.Title = "PrintDetails";
+    Layout = "~/Views/Shared/_LayoutPrint.cshtml";
+    var myModel = Model.FirstOrDefault();
+
+}
+
+<div class="image">
+
+    <div class="transparentbox">
+        <div style="text-align: center;">
+            <img src="~/Content/Images/@SchoolSetUp.SchoolLogo" />
+        </div>
+        @if (!myModel.IsSenateApproved)
+        {
+            <h4 class="text-center"> PROVISIONAL RESULT FOR @myModel.Semester.SemesterName Semester of  @myModel.Sessions.SessionName</h4>
+        }
+        else
+        {
+            <h4 class="text-center"> RESULT FOR @myModel.Semester.SemesterName Semester of  @myModel.Sessions.SessionName</h4>
+        }
+        <div>
+
+            <table class="table table-banded no-margin table-responsive">
+                <tbody>
+                    <tr>
+                        <td>FULLNAME: <strong> @myModel.Student.FullName</strong></td>
+                        <td>GENDER <strong> @myModel.Student.Gender</strong></td>
+                        <td>LEVEL: <strong> @myModel.Level.LevelName</strong></td>
+                        <td rowspan="3"><img src="@Url.Action("RenderImage", "Students",new { studentId = myModel.StudentId})" width="100" height="100" /></td>
+
+                    </tr>
+                    <tr>
+                        <td>MATRIC NO: <strong> @myModel.Student.MatricNo</strong></td>
+                        <td>DEPARTMENT: <strong> @myModel.Programme.Department.DeptName</strong></td>
+                        @*<td><strong>ABSENT: </strong>@Model.AssignBehavior.NoOfAbsence</td>*@
+                        <td>DEPT OPTION:<strong> @myModel.Programme.ProgrammeName</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Session: </strong> @myModel.Sessions.SessionName</td>
+                        <td><strong>Semester: </strong>@myModel.Semester.SemesterName</td>
+
+                    </tr>
+                </tbody>
+            </table>
+            <p class="text-success">GPA: @ViewBag.Gpa &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; CGPA: @ViewBag.Cgpa</p>
+        </div><!--end .card-body -->
+
+        <div class="table-responsive">
+            <table class="table">
+                <tr>
+                    <th>Course Code</th>
+                    <th>Course Title</th>
+                    <th>Course Credit</th>
+                    @*<th>Total</th>
+                    <th>Grade Point</th>*@
+                    <th>Grade</th>
+                    <th>Remark</th>
+
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Course.CourseCode)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Course.CourseName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CourseUnit)
+                        </td>
+
+                        @*<td>
+                            @Html.DisplayFor(modelItem => item.Total)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GradePoint)
+                        </td>*@
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Grading)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Remark)
+                        </td>
+                    </tr>
+                }
+
+
+            </table>
+        </div>
+    </div>
+    <br />
+
+
+
+</div>
+<script type="text/javascript">
+    function Excel() {
+        var url = "/CourseRegistrations/PrintDetails?model=" +@ViewBag.Course ;
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    function AddNew() {
+        window.open('@Url.Action("Create", "Students")', '_self');
+    };
+</script>
+

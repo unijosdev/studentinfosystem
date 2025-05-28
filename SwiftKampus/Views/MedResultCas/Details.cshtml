@@ -1,0 +1,50 @@
+﻿@model SwiftKampusModel.MedicalScience.MedResultCa
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>MedResultCa</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ResultCategoryId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResultCategoryId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResultCaName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResultCaName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MaximumScore)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaximumScore)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PassMark)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PassMark)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MedResultCaId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

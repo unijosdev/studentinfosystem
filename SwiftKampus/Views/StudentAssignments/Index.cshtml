@@ -1,0 +1,76 @@
+﻿@model IEnumerable<SwiftKampusModel.StudentAssignment>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Course.CourseCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Level.LevelName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Programme.ProgrammeCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Semester.SemesterName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sessions.SessionName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Student.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AssignmentQuestion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AssignmentAnswer)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Course.CourseCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Level.LevelName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Programme.ProgrammeCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Semester.SemesterName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sessions.SessionName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Student.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AssignmentQuestion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AssignmentAnswer)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.StudentAssignmentId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.StudentAssignmentId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.StudentAssignmentId })
+        </td>
+    </tr>
+}
+
+</table>

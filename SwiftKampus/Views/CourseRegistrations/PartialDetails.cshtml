@@ -1,0 +1,102 @@
+﻿@using SwiftKampus.Models
+@using Microsoft.Ajax.Utilities;
+
+@model IEnumerable<SwiftKampusModel.CourseRegistration>
+@{
+    var detail = Model.FirstOrDefault();
+    var semesters = Model.DistinctBy(d => d.Course.SemesterId).Select(s => s.Course.SemesterId).ToList();
+}
+<a href="#" onclick="Excel()" class="btn btn-primary btn-sm"><i class="fa fa-file-excel-o"></i>&nbsp;PRINT</a>
+<p>
+    <h4 class="text-center">@detail.Programme.ProgrammeName</h4>
+    <h4 class="text-center">@detail.Level.LevelName</h4>
+    <h4 class="text-center">@detail.Session.SessionName</h4>
+</p>
+<div class="table-responsive">
+    <table class="table">
+        <tr>
+            <th>Course Code</th>
+            <th>Course Name</th>
+            <th>Credit</th>
+            <th>Semester</th>
+
+        </tr>
+        @foreach (var semester in semesters)
+        {
+            foreach (var item in Model.Where(x => x.Course.SemesterId.Equals(semester)))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Course.CourseCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Course.CourseName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Course.Credits)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Course.Semester.SemesterName)
+                    </td>
+
+                </tr>
+            }
+            <tr>
+                <td></td>
+                <td><strong>Total</strong></td>
+                <td><strong> @Model.Where(x => x.Course.SemesterId.Equals(semester)).Sum(s => s.Course.Credits)</strong></td>
+                <td></td>
+            </tr>
+        }
+        <tr>
+            <td></td>
+            <td><strong>Sum Total</strong></td>
+            <td><strong> @Model.Sum(s => s.Course.Credits)</strong></td>
+            <td></td>
+        </tr>
+    </table>
+</div>
+@{
+    ViewBag.Course = Model.Select(x => x.CourseRegistrationId).FirstOrDefault();
+}
+
+
+
+<script type="text/javascript">
+    function Excel() {
+        var url = "/CourseRegistrations/PrintDetails?id=" +"@ViewBag.Course";
+        window.open(url, '_blank');
+    };
+
+    function DeleteCourse(courseRegistrationId) {
+        //window.alert("Hello" + courseRegistrationId);
+        $.ajax({
+            type: "POST",
+            url: "/CourseRegistrations/Delete?id=" + courseRegistrationId,
+            success: function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+                    toastr["info"](data.message);
+                    reload(data.studentId);
+                } else {
+
+                    toastr["error"](data.message);
+                }
+
+            }
+        });
+
+        function reload(studentId) {
+           // window.alert(studentId);
+            var url = "/CourseRegistrations/PartialDetails?id=" + studentId;
+            $('#myModalDivBody').load(url,
+                function () {
+                    $('#actionsList').modal("show");
+                });
+
+        }
+
+    };
+
+</script>
+

@@ -1,0 +1,198 @@
+﻿@model SwiftKampusModel.CourseVm
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Add Course";
+
+}
+<link href="~/AdminTemplate/css/plugins/chosen/bootstrap-chosen.css" rel="stylesheet" />
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h3>Add Course</h3>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <form id="myform" onsubmit="return false;">
+                            @Html.AntiForgeryToken()
+                            <div class="card">
+                                <div class="card-head style-primary">
+                                </div><!--end .card-head -->
+                                <div class="card-body">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-5">
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        @if (Model != null && Model.CourseId > 0)
+                                        {
+                                            @Html.HiddenFor(model => model.CourseId)
+                                        }
+
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.CourseCode)
+                                            @Html.EditorFor(model => model.CourseCode, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.CourseCode, "", new { @class = "text-danger" })
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.CourseName)
+
+                                            @Html.EditorFor(model => model.CourseName, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.CourseName, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.CourseType)
+                                            @Html.DropDownList("CourseType", null, htmlAttributes: new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.CourseType, "", new { @class = "text-danger" })
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.CourseDescription)
+
+                                            @Html.EditorFor(model => model.CourseDescription, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.CourseDescription, "", new { @class = "text-danger" })
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Credits)
+
+                                            @Html.EditorFor(model => model.Credits, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Credits, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="md-form">
+
+                                            @if (Model != null && Model.CourseId > 0)
+                                            {
+                                                <input id="btnsubmit" type="submit" value="Update" class="btn btn-primary btn-block btn-lg" />
+                                            }
+                                            else
+                                            {
+                                                <input id="btnsubmit" type="submit" value="Save" class="btn btn-primary btn-block  btn-lg" />
+                                            }
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            @Html.Label("Semester Name")
+
+                                            @Html.DropDownList("SemesterId", null, htmlAttributes: new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.SemesterId, "", new { @class = "text-danger" })
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.Label("Level Name")
+
+                                            @Html.DropDownList("LevelId", null, htmlAttributes: new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.LevelId, "", new { @class = "text-danger" })
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.Label("Department Option")
+                                            @Html.DropDownList("ProgrammeId", new SelectList(ViewBag.ProgrammeId, "Value", "Text"), "-- Select Option --", new { @class = "form-control select" })
+                                            @Html.ValidationMessageFor(model => model.ProgrammeId, "", new { @class = "text-danger" })
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.Label("School Programme")
+                                            @Html.DropDownList("SchoolProgrammeId", new SelectList(ViewBag.SchoolProgrammeId, "Value", "Text"), "-- Select Option --", new { @class = "form-control select" })
+                                            @Html.ValidationMessageFor(model => model.SchoolProgrammeId, "", new { @class = "text-danger" })
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.Label("Course Prerequisites")
+                                            @Html.DropDownList("PrerequisiteteCourseId", (MultiSelectList)ViewBag.PrerequisiteteCourseId, "", new { @class = "form-control chosen-select", @multiple = "true" })
+                                            @Html.ValidationMessageFor(model => model.ProgrammeId, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.Label("Is SIWES", htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                <div class="checkbox">
+                                                    @Html.EditorFor(model => model.IsSiwes)
+                                                    @Html.ValidationMessageFor(model => model.IsSiwes, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-1"></div>
+                                    </div>
+                                </div>
+                            </div><!--end .card-body -->
+                        </form>
+                    </div><!--end .card -->
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/chosen/chosen.jquery.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
+
+<script type="text/javascript">
+    jQuery(function ($) {
+        $('.select').select2();
+    });
+    $('.chosen-select').chosen();
+
+    $("#btnsubmit").click(function () {
+        var data = $("#myform").serialize();
+        $.ajax({
+            type: "POST",
+            url: "/Courses/Save",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    swal({
+                        title: "Course Added Successfully",
+                        text: data.message,
+                        type: "success",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Yes, Add More!",
+                        cancelButtonText: "No, cancel plx!",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                        function (isConfirm) {
+                            if (isConfirm) {
+                                swal("warning!", "You can now add more course.", "success");
+                                $('#myform')[0].reset();
+                            } else {
+                                swal("Cancelled", "You will be redirected to list of courses now :)", "warning");
+                                window.open("/Courses/Index", '_self');
+                            }
+                        });
+                } else {
+                    swal("Cancelled", data.message, "error");
+                    toastr["error"](data.message);
+                }
+
+            }
+        });
+    });
+</script>
+
+

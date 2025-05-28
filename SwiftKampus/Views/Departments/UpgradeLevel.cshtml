@@ -1,0 +1,190 @@
+﻿@model SwiftKampusModel.Student
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+
+<form id="myform" onsubmit="return false;">
+    @Html.AntiForgeryToken()
+
+
+    <div class="card">
+        <div class="card-head style-primary">
+            <header>
+                <h4>Name: @Model.FullName</h4>
+                <h4>Matric No: @Model.MatricNo</h4>
+                <h4>Date Of Birth: @Model.DateOfBirth</h4>
+            </header>
+
+
+        </div><!--end .card-head -->
+        <div class="card-body">
+            <h3>@ViewBag.Message</h3>
+            @if (User.IsInRole("Student"))
+            {
+                @Html.HiddenFor(model => model.StudentId)
+                @Html.HiddenFor(model => model.MatricNo)
+                @Html.HiddenFor(model => model.PrimaryEmail)
+                @Html.HiddenFor(model => model.LastName)
+                @Html.HiddenFor(model => model.FirstName)
+                @Html.HiddenFor(model => model.MiddleName)
+                @Html.HiddenFor(model => model.Gender)
+                @Html.HiddenFor(model => model.Email)
+                @Html.HiddenFor(model => model.StudentStatus)
+                @Html.HiddenFor(model => model.DateOfBirth)
+                @Html.HiddenFor(model => model.SchoolProgrammeId)
+                @Html.HiddenFor(model => model.IsPhysicallyChallenged)
+                @Html.HiddenFor(model => model.ModeOfEntry)
+                @Html.HiddenFor(model => model.SessionId)
+            }
+            else
+            {
+                @Html.HiddenFor(x => x.StudentId)
+            }
+            @if (User.IsInRole("Student"))
+            {
+                <div class="form-group">
+                    @Html.Label("Pick Level")
+                    @Html.DropDownList("LevelId", null, htmlAttributes: new { @class = "form-control" })
+                </div>
+
+            }
+            else
+            {
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MatricNo)
+                    @Html.EditorFor(model => model.MatricNo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.MatricNo, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PrimaryEmail)
+                    @Html.EditorFor(model => model.PrimaryEmail, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PrimaryEmail, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("Email/Email for SignUp")
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.LastName)
+                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.FirstName)
+                            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.MiddleName)
+                            @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.MiddleName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-6 form-group">
+                            @Html.Label("Mode of Entry")
+                            @Html.DropDownList("ModeOfEntry", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.StudentStatus, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DateOfBirth)
+                            @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.Label("School Programme")
+                            @Html.DropDownList("SchoolProgrammeId", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.StudentStatus, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        @Html.LabelFor(model => model.Gender)
+                        @Html.DropDownList("Gender", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-6 form-group">
+                        @Html.Label("Student Status")
+                        @Html.DropDownList("StudentStatus", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.StudentStatus, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class=" col-md-6 form-group">
+                        @Html.Label("Pick Level")
+                        @Html.DropDownList("LevelId", null, htmlAttributes: new { @class = "form-control" })
+                    </div>
+                    <div class=" col-md-6 form-group">
+                        @Html.Label("Admitted Session")
+                        @Html.DropDownList("SessionId", null, htmlAttributes: new { @class = "form-control" })
+                    </div>
+                    <div class=" col-md-6 form-group">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IsPhysicallyChallenged)
+                            <input type="checkbox" name="IsPhysicallyChallenged" value="@Model.IsPhysicallyChallenged"><br><br>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            }
+
+            <div class="md-form">
+                <input id="btnsubmit" type="submit" value="Update Student" class="btn btn-success" />
+
+                <a href="#" class="btn btn-danger btn-lg" data-dismiss="modal">Cancel</a>
+            </div>
+        </div><!--end .card-body -->
+    </div><!--end .card -->
+</form>
+
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script type="text/javascript">
+    $("#btnsubmit").click(function () {
+        var data = $("#myform").serialize();
+        $.ajax({
+            type: "POST",
+            url: "/Departments/SaveUpgradeLevel",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    toastr["success"](data.message);
+                    swal("success", data.message, "success");
+                    $('#actionsList').modal("hide");
+                    $('#myform')[0].reset();
+                } else {
+                    swal("warning", data.message, "Warning");
+                    toastr["error"](data.message);
+                }
+
+            }
+        });
+    });
+</script>
+
+
+
+
+

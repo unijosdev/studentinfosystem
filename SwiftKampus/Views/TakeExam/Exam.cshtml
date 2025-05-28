@@ -1,0 +1,332 @@
+﻿@model SwiftKampusModel.CBTE.StudentQuestion
+@{
+    ViewBag.Title = "Exam";
+    ViewBag.StudentId = Model.StudentId;
+    ViewBag.CourseId = Model.CourseId;
+    ViewBag.LevelId = Model.LevelId;
+
+}
+@*<h1>@DateTime.Now</h1>
+    <h1>@ViewBag.Rem_Time</h1>*@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row">
+                    <h2 class="text-accent-dark"><strong>Course Code:</strong> @ViewBag.Course</h2>
+                </div>
+                <div class="row">
+                    <h2 class="text-accent-dark"> <strong>LevelId:</strong> @ViewBag.Level</h2>
+                </div>
+
+
+            </div>
+
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="row">
+                        <h3 class="text-warning">Timer Countdown</h3>
+                    </div>
+                    <div class="row float-right text-accent">
+                        <h2 id="timecountdown"></h2>
+                    </div>
+                </div>
+                @*<div class="col-md-1"></div>*@
+            </div>
+        </div>
+        @*<div class="row">
+                <div class="col-md-12">
+                    <h2 class="text-accent-dark"> <strong>LevelId:</strong> @ViewBag.LevelId</h2>
+                </div>
+            </div>*@
+    </div>
+</div>
+
+
+<div class="card">
+    <div class="card-body">
+
+        <form action="" method="post">
+            @Html.HiddenFor(model => model.ExamTypeId)
+            @Html.HiddenFor(model => model.QuestionNumber)
+            @Html.HiddenFor(model => model.CourseId)
+            @Html.HiddenFor(model => model.StudentId)
+            @Html.HiddenFor(model => model.Option1)
+            @Html.HiddenFor(model => model.Option2)
+            @Html.HiddenFor(model => model.Option3)
+            @Html.HiddenFor(model => model.Option4)
+            @Html.HiddenFor(model => model.FilledAnswer)
+            @Html.HiddenFor(model => model.IsFillInTheGag)
+            @Html.HiddenFor(model => model.IsMultiChoiceAnswer)
+            @Html.HiddenFor(model => model.LevelId)
+            @Html.HiddenFor(model => model.SemesterId)
+            @Html.HiddenFor(model => model.SessionId)
+            @ViewBag.Check1 = @Html.DisplayFor(modelItem => Model.Check1)
+
+            <div class="row">
+                <h2 class="text-accent-dark"> Question @Html.DisplayFor(modelItem => Model.QuestionNumber).</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-10">
+                    <h3 class="text-success"> @Html.Raw(Model.Question)</h3>
+                </div>
+                <div class="col-md-1">
+
+                </div>
+            </div>
+
+
+
+
+
+            @if (Model.IsFillInTheGag.Equals(false) && Model.IsMultiChoiceAnswer.Equals(false))
+            {
+                <div class="row">
+                    <div class="col-md-1">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="radio radio-styled">
+                            <label>
+                                @Html.RadioButtonFor(model => model.SelectedAnswer, Model.Option1, new { @class = "radio-styled" }) @Html.Raw(@Model.Option1)
+                            </label>
+                            <br />
+                            <br />
+                            <label>
+                                @Html.RadioButtonFor(model => model.SelectedAnswer, Model.Option2) @Html.Raw(@Model.Option2)
+                            </label>
+
+                            <br />
+                            <br />
+                            <label>
+                                @Html.RadioButtonFor(model => model.SelectedAnswer, Model.Option3) @Html.Raw(@Model.Option3)
+                            </label>
+
+                            <br />
+                            <br />
+                            <label>
+                                @Html.RadioButtonFor(model => model.SelectedAnswer, Model.Option4) @Html.Raw(@Model.Option4)
+                            </label>
+
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                    </div>
+                </div>
+
+
+            }
+            @if (Model.IsFillInTheGag.Equals(true))
+            {
+                <br />
+                <div class="row">
+                    <div class="col-md-1">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                @*@Html.EditorFor(model => model.FilledAnswer, new { htmlAttributes = new { @class = "form-control", @placeholder = "Type Your Answer Here" } })
+                                    @Html.ValidationMessageFor(model => model.FilledAnswer, "", new { @class = "text-danger" })*@
+
+                                <input type="text" class="form-control" name="fiiledAnswer" placeholder="Type Your Answer here..." autocomplete="off">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                    </div>
+                </div>
+
+                @*@Html.EditorFor(model => model.FilledAnswer, new { htmlAttributes = new { @class = "form-control" } })*@
+
+            }
+
+            @if (Model.IsMultiChoiceAnswer.Equals(true))
+            {
+                <div class="row">
+                    <div class="col-md-1">
+                    </div>
+                    <div class="col-md-10">
+                        <div class="checkbox checkbox-styled">
+                            <h3>
+                                @*<div class="checkbox checkbox-styled">*@
+                                <label>
+                                    @*<input type="checkbox" name="Check1" value="@Model.Option1"> <span>@Html.DisplayFor(modelItem => Model.Option1)</span>*@
+                                    @Html.CheckBoxFor(m => m.Check1) <span>@Html.DisplayFor(modelItem => Model.Option1)</span>
+                                </label>
+                                <br /><br />
+                                <label>
+                                    @*<input type="checkbox" name="Check2" value="@Model.Option2"> <span>@Html.DisplayFor(modelItem => Model.Option2)</span>*@
+                                    @Html.CheckBoxFor(m => m.Check2) <span>@Html.DisplayFor(modelItem => Model.Option2)</span>
+                                </label>
+                                <br /><br />
+                                <label>
+                                    @*<input type="checkbox" name="Check3" value="@Model.Option3"> <span>@Html.DisplayFor(modelItem => Model.Option3)</span>*@
+                                    @Html.CheckBoxFor(m => m.Check3) <span>@Html.DisplayFor(modelItem => Model.Option3)</span>
+                                </label>
+                                <br /><br />
+                                <label>
+                                    @*<input type="checkbox" name="Check4" value="@Model.Option4"> <span>@Html.DisplayFor(modelItem => Model.Option4)</span>*@
+                                    @Html.CheckBoxFor(m => m.Check4) <span>@Html.DisplayFor(modelItem => Model.Option4)</span>
+                                </label>
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                    </div>
+                </div>
+            }
+
+
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-sm-3">
+                            <p>
+                                @if (Model.QuestionNumber != 1)
+                                {
+                                    <input type="submit" value="Previous" class="btn btn-block ink-reaction btn-flat btn-raised btn-primary" name="action:Previous" />
+                                }
+                            </p>
+                            @*<p><button type="button" class="btn btn-block ink-reaction btn-flat btn-default">Default</button>
+                                </p>*@
+                        </div><!--end .col -->
+                        <div class="col-sm-3">
+                            <p>
+                                @if (Model.QuestionNumber != Model.TotalQuestion)
+                                {
+                                    <span><input type="submit" value="Next" class="btn btn-block ink-reaction btn-flat btn-raised btn-primary" name="action:Next" /></span>
+                                }
+                            </p>
+                            @*<p><button type="button" class="btn btn-block ink-reaction btn-flat btn-primary">Primary</button>
+                                </p>*@
+
+                        </div><!--end .col -->
+                        <div class="col-sm-3">
+                            <p><span><input type="submit" value="Submit Exam" class="btn btn-block ink-reaction btn-flat btn-raised btn-danger" name="action:SubmitExam" /></span></p>
+                            @*<p><button type="button" class="btn btn-block ink-reaction btn-flat btn-accent">Accent</button>
+                                </p>*@
+                        </div><!--end .col -->
+                        <div class="col-sm-3">
+                            @*<p><button type="button" class="btn btn-block ink-reaction btn-flat btn-warning">Warning</button></p>*@
+                        </div><!--end .col -->
+                    </div><!--end .row -->
+                </div><!--end .card-body -->
+                <h3><b>Select Question</b></h3>
+                <table>
+                    <thead>
+                    </thead>
+                    <tbody>
+                        @{ var counter = 1; var questionCount = 0; }
+                        @*@foreach (var question in @ViewBag.Questions)*@
+                        @for (var i = 0; i < @ViewBag.Questions.Count; i++)
+                        {
+                            <tr width="5%">
+                                @for (var j = 0; j < 3; j++)
+                                {
+                                    if (counter > @ViewBag.Questions.Count)
+                                    {
+                                        break;
+                                    }
+                                    var your_colour = @ViewBag.Questions[questionCount].IsFillInTheGag == true && @ViewBag.Questions[questionCount].SelectedAnswer != null || @ViewBag.Questions[questionCount].IsFillInTheGag != true && !string.IsNullOrEmpty(@ViewBag.Questions[questionCount].SelectedAnswer) ? "green" : "black";
+                                    <td width="8%">
+                                        <label>
+                                            <a class="" onclick="SelectQuestion(@ViewBag.Questions[questionCount].QuestionNumber)" id="@ViewBag.Questions[questionCount].QuestionNumber" value="@ViewBag.Questions[questionCount].QuestionNumber" style="color:@your_colour; font-size:25px"><b>@counter</b></a>
+                                        </label>
+                                    </td>
+                                    counter++;
+                                    questionCount++;
+
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            @*<div class="form-group">
+                    <div class="row">
+                        <br />
+                        <div class="col-md-1">
+
+                        </div>
+                        <div class="col-md-2">
+                            @if (Model.QuestionNo != 1)
+                            {
+                                <input type="submit" value="Previous" class="btn btn-raised btn-primary" name="action:Previous" />
+                            }
+                        </div>
+                        <div class="col-md-2">
+                            @if (Model.QuestionNo != Model.TotalQuestion)
+                            {
+                                <span><input type="submit" value="Next" class="btn btn-raised btn-primary" name="action:Next" /></span>
+                            }
+                        </div>
+                        <div class="col-md-2">
+                            <span><input type="submit" value="Submit Exam" class="btn btn-raised btn-danger" name="action:SubmitExam" /></span>
+                        </div>
+                        <div class="col-md-5">
+
+                        </div>
+                    </div>
+
+
+                </div>*@
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+                //window.alert(5 + 6);
+                var dt = '@ViewBag.Rem_Time';
+                var dateAr = dt.split('-');
+                var newDate = dateAr[0] + '/' + dateAr[1] + '/' + dateAr[2];
+
+                var end = new Date(dateAr[0] + '/' + dateAr[1] + '/' + dateAr[2]);
+
+                var _second = 1000;
+                var _minute = _second * 60;
+                var _hour = _minute * 60;
+                var _day = _hour * 24;
+                var timer;
+
+                function showRemaining() {
+                    var now = new Date();
+                   // var newend = new Date('end');
+
+                    //console.log(now + 'now');
+                    //window.alert(end + 'end');
+                    var distance = end - now;
+                    if (distance < 0) {
+                        clearInterval(timer);
+                        document.getElementById('timecountdown').innerHTML = 'Count Down Ends!';
+                        window.location.href = '/TakeExam/SubmitExam?studentId=+@ViewBag.StudentId&courseId=@ViewBag.CourseId&levelId=@ViewBag.LevelId&examType=@Model.ExamTypeId';
+
+                        return;
+                    }
+                    var days = Math.floor(distance / _day);
+                    var _hours = Math.floor((distance % _day) / _hour);
+                    var _minutes = Math.floor((distance % _hour) / _minute);
+                    var _seconds = Math.floor((distance % _minute) / _second);
+
+                    document.getElementById('timecountdown').innerHTML = ' Hrs: ' + _hours;
+                    document.getElementById('timecountdown').innerHTML += ' Mins: ' + _minutes;
+                    document.getElementById('timecountdown').innerHTML += ' Secs: ' + _seconds;
+                }
+                timer = setInterval(showRemaining, 1000);
+
+                function SelectQuestion(elem) {
+                    var value = elem.value;
+                    var courseId = document.getElementById("CourseId").value;
+                    var studentId = document.getElementById("StudentId").value;
+                    var level = document.getElementById("LevelId").value;
+
+                    var url = "/TakeExam/Exam?questionNo=" + elem + "&courseId=" + courseId + "&studentid=" + studentId + "&level=" + level;
+                    window.location.href = url;
+                };
+    </script>
+}

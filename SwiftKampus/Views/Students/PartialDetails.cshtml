@@ -1,0 +1,31 @@
+﻿@model SwiftKampusModel.Student
+
+<div class="mt-1 mb-1">
+    <img src="@Url.Action("RenderImage", new { studentId = Model.StudentId})" alt="" class="img-fluid rounded-circle contact-avatar mx-auto" style="max-width: 100px; display: block; margin-left: auto; margin-right: auto;">
+</div>
+
+<h3 class="h3-responsive text-center">@Html.Raw(Model.FullName)</h3>
+@if (Model.Active)
+{
+    <p class="text-center grey-text">Active Student</p>
+}
+else
+{
+    <p class="text-center grey-text">In-active Student</p>
+}
+<ul class="striped">
+    <li><strong>State of Origin: </strong> @Model.StateOfOrigin</li>
+    <li><strong>Age: </strong> @Model.Age</li>
+    <li><strong>Blood Group: </strong> @Model.BloodGroup</li>
+    <li><strong>Email: </strong> @Model.Email</li>
+    <li><strong>Phone Number:</strong> @Model.PhoneNumber</li>
+    <li><strong>Student Status: </strong> @Model.StudentStatus</li>
+    <li><strong>Dept Clearance: </strong> @Model.IsClearedDepartment</li>
+    <li><strong>Academic Clearance: </strong> @Model.IsClearedAcademics</li>
+    <li><strong>Faculty Clearance: </strong> @Model.IsClearedFaculty</li>
+
+</ul>
+@Html.ActionLink("Check Full Details", "Details", new { id = Model.StudentId }, new { @class = "btn btn-primary" })
+
+
+

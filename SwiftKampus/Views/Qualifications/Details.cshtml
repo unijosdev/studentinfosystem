@@ -1,0 +1,113 @@
+﻿@using SwiftKampusModel
+@model SwiftKampusModel.Qualification
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Qualification</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NameOfInstitution)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NameOfInstitution)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QualificationName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QualificationName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FromDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FromDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ToDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ToDate)
+        </dd>
+
+        <dt>
+
+
+    </dl>
+</div>
+@*<div>
+    @if (Model.FileType == FileType.MP4.ToString())
+    {
+        <div style="text-align:center">
+            <button onclick="playPause()">Play/Pause</button>
+            <button onclick="makeBig()">Big</button>
+            <button onclick="makeSmall()">Small</button>
+            <button onclick="makeNormal()">Normal</button>
+            <br><br>
+            @*<video controls="controls">
+                    <source src="~/TopicMaterials/How%20to%20Use%20our%20Learning%20Management%20System.mp4" type="video/mp4" />
+                </video>
+            <video controls="controls" id="video1" width="420">
+                <source src="~/QualificationDocument/@Model.FileLocation" type="video/mp4">
+                Your browser does not support HTML5 video.
+            </video>
+        </div>
+    }
+    else if (Model.FileType == FileType.PDF.ToString())
+    {
+        <iframe height="500" width="100%" src="~/QualificationDocument/@Model.FileLocation" allowfullscreen></iframe>
+    }
+            @*else if{
+            <iframe src="http://docs.google.com/gview?url=http://www.yourwebsite.com/powerpoint.ppt&embedded=true" style="width:600px; height:500px;" frameborder="0"></iframe>
+            }
+    </div>*@
+
+
+
+<script>
+
+    var myVideo = document.getElementById("video1");
+
+    function playPause() {
+        if (myVideo.paused)
+            myVideo.play();
+        else
+            myVideo.pause();
+    }
+
+    function makeBig() {
+        myVideo.width = 760;
+    }
+
+    function makeSmall() {
+        myVideo.width = 320;
+    }
+
+    function makeNormal() {
+        myVideo.width = 520;
+    }
+</script>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.QualificationId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

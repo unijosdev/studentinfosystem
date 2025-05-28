@@ -1,0 +1,50 @@
+﻿@model SwiftKampusModel.Payment.IdCardPaymentSetting
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>IdCardPaymentSetting</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Session.SessionName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Session.SessionName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Amount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Amount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AmountInWords)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AmountInWords)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StudentType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StudentType)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdCardPaymentSettingId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

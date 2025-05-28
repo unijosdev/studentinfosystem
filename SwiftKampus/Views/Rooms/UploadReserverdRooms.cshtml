@@ -1,0 +1,37 @@
+﻿
+<a class="btn btn-primary" href="~/Excel Template/Upload ReserveRoom.xlsx"> Download Excel Template</a>
+<div class="card-body">
+    <h3>Instructions</h3>
+    <ul>
+        <li>Please the button above to download the format required for the upload.</li>
+        <li>Please leave no cell empty in the excel template before you upload.</li>
+        <li>Please use a valid Room Name.</li>
+        <li>You will be redirect to the list of Rooms after successful upload.</li>
+    </ul>
+    <div>
+    </div>
+</div>
+
+@using (Html.BeginForm("UploadReserverdRooms", "Rooms", FormMethod.Post, new { enctype = "multipart/form-data", id = "excelform" }))
+{
+    @Html.Raw(ViewBag.Error)
+    <span>Excel File </span> <input type="file" name="excelfile" />
+    <br />
+    <input id="btnsubmitExcel" type="submit" value="Upload Reserved Room" class="btn btn-lg btn-primary" />
+}
+
+
+<script type="text/javascript">
+    $(function () {
+        $('#excelform').submit(function () {
+            $("input[type='submit']", this)
+                .val("Uploading Please Wait...")
+                .attr('disabled', 'disabled');
+            return true;
+        });
+    });
+</script>
+
+
+
+

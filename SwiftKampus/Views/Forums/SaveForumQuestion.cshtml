@@ -1,0 +1,101 @@
+﻿@model SwiftKampusModel.CourseForum.ForumQuestion
+<link href="~/AdminTemplate/css/plugins/summernote/summernote.css" rel="stylesheet">
+<link href="~/AdminTemplate/css/plugins/summernote/summernote-bs3.css" rel="stylesheet">
+
+<div class="card">
+       <div class="card-body">
+
+
+        <form id="myform" onsubmit="return false;">
+
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.Label("Forum Name")
+                    @Html.DropDownList("CourseId", null, htmlAttributes: new { @class = "form-control", @readonly = "true" })
+                    @Html.ValidationMessageFor(model => model.CourseId, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Title)
+                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Question)
+                    @*@Html.TextAreaFor(model => model.Question, new { htmlAttributes = new { @class = "summernote" } })*@
+                    <textarea id="Question" name="Question" class="summernote"/>
+                    @Html.ValidationMessageFor(model => model.Question, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.StudentId, "StudentId")
+                    @Html.DropDownList("StudentId", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.StudentId, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <div class="text-center">
+                        <input id="btnsubmit2" type="submit" value="ADD QUESTION" class="btn btn-primary btn-lg" />
+                        @*<input id="btnsubmit3" type="submit" value="CANCEL" class="btn btn-success btn-lg" />*@
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="~/Admintemplate/js/plugins/summernote/summernote.min.js"></script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.summernote').summernote();
+    });
+
+    $("#btnsubmit2").click(function () {
+        var data = $("#myform").serialize();
+      
+        $.ajax({
+            type: "POST",
+            url: "/Forums/SaveForumQuestionPost",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    toastr["success"](data.message);
+                    //$('#myform')[0].reset();
+                    window.GetCourseForum(data.id);
+                } else {
+                    //$('#actionsList').modal("hide");
+                    toastr["error"](data.message);
+                }
+
+            }
+        });
+    });
+
+    function GetQuestion(forumQuestionId) {
+
+        var url = "/Forums/GetForum?id=" + forumQuestionId;
+        $('#topicContentDetail').load(url);
+        $('html, body').animate({ scrollTop: $('#topicContentDetail').offset().top }, 'slow');
+
+    };
+
+    function GetCourseForum(courseId) {
+        var url = "/Forums/GetForumDetails?id=" + courseId;
+        window.open(url, '_self');
+        //$('#topicContentDetail').load(url);
+        //$('html, body').animate({ scrollTop: $('#topicContentDetail').offset().top }, 'slow');
+    };
+</script>
+
+
+
+
+

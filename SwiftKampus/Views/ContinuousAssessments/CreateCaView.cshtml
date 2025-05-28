@@ -1,0 +1,180 @@
+﻿@model SwiftKampus.ViewModels.SelectCaVm
+@{
+    ViewBag.Title = "CreateCaView";
+}
+
+<link href="~/AdminTemplate/js/plugins/select2/select2.min.css" rel="stylesheet">
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Add / Update Result</h5>
+
+                    <div class="ibox-tools">
+
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <article class="margin-bottom-xxl">
+                        <p class="lead">
+                            Please use the following parameters to perform Search
+                        </p>
+                        <p class="lead text-danger">@ViewBag.Message</p>
+                        <p class="text-danger" style="margin-top: 10px; margin-bottom: 20px; font-size: 16px; ">
+                            *Select the faculty, department and programme to get the list of students taking the course from others departments
+                        </p>
+                    </article>
+                    <div class="card-body">
+                        <form action="" method="post" class="form-inline">
+                            <!-- First row -->
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Faculty Name</label>
+                                        @Html.DropDownList("FacultyId", (SelectList)ViewBag.FacultyId, "", new { @class = "form-control js-example-basic-single", @style = "", @onchange = "getDeptList()" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Department Name</label>
+                                        <select id="DepartmentId" class="form-control js-example-basic-single" onchange = "getProgrammeList()"><option></option></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Programme Name</label>
+                                        <select id="ProgrammeId" class="form-control js-example-basic-single" onchange="getCourseList()"><option></option></select>
+                                        @*@Html.DropDownList("ProgrammeId", (SelectList)ViewBag.ProgrammeId, "", new { @class = "form-control js-example-basic-single", @style = "", @onchange = "getCourseList()" })*@
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Second row -->
+                            <div class="row" style="margin-top:20px;">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Course Name</label>
+                                        @Html.DropDownList("CourseId", (SelectList)ViewBag.CourseId, "", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Semester Name</label>
+                                        @Html.DropDownList("SemesterId", (SelectList)ViewBag.SemesterId, "", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Session Name</label>
+                                        @Html.DropDownList("SessionId", (SelectList)ViewBag.SessionId, "", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2" style="margin-top:20px;">
+                                        <input type="submit" value="Add/Edit Result" class="btn btn-block btn-raised btn-primary" name="action:CreateCa" />
+                                </div>
+                                <div class="col-md-2" style="margin-top:20px;">
+                                        <span>
+                                            <input type="submit" value="Download Template" class="btn btn-block ink-reaction   btn-primary" name="action:DownloadCa" />
+                                        </span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/select2/select2.min.js"></script>
+
+<script type="text/javascript">
+
+    jQuery(function ($) {
+        $('.js-example-basic-single').select2({
+            placeholder: 'Select an option...',
+            allowClear: true,
+            width: '100%'
+        });
+    });
+
+    function getDeptList() {
+        var facultyId = $("#FacultyId").val();
+        $.ajax
+            ({
+                url: '/Students/GetDeptList?codeId=' + facultyId,
+                type: 'GET',
+                datatype: 'application/json',
+                contentType: 'application/json',
+                success: function (result) {
+                    $("#DepartmentId").html("");
+                    $.each($.parseJSON(result),
+                        function (i, city) {
+                            $("#DepartmentId").append($('<option></option>').val(city.DepartmentId).html(city.DeptName));
+                        });
+
+                },
+                error: function () {
+                    $("#DepartmentId").html("");
+                    $("#ProgrammeId").html("");
+                }
+            });
+    }
+
+    function getProgrammeList() {
+        var deptId = $("#DepartmentId").val();
+        $.ajax
+            ({
+                url: '/Students/GetProgrammeList2?codeId=' + deptId,
+                type: 'GET',
+                datatype: 'application/json',
+                contentType: 'application/json',
+                success: function (result) {
+                    $("#ProgrammeId").html("");
+                    $.each($.parseJSON(result),
+                        function (i, city) {
+                            $("#ProgrammeId").append($('<option></option>').val(city.ProgrammeId).html(city.ProgrammeName));
+                        });
+                },
+                error: function () {
+                    $("#ProgrammeId").html("");
+                }
+            });
+    }
+
+    function getCourseList() {
+        var programmeId = $("#ProgrammeId").val();
+        $.ajax
+            ({
+                url: '/Students/GetCourseCodeList?codeId=' + programmeId,
+                type: 'GET',
+                datatype: 'application/json',
+                contentType: 'application/json',
+                success: function (result) {
+                    $("#CourseId").html("");
+                    $.each($.parseJSON(result),
+                        function (i, city) {
+                            $("#CourseId").append($('<option></option>').val(city.CourseId).html(city.CourseCode));
+                        });
+                },
+                error: function () {
+                    $("#CourseId").html("");
+                }
+            });
+    }
+
+</script>
+
+

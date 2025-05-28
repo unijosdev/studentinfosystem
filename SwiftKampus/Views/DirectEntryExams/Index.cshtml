@@ -1,0 +1,63 @@
+﻿@model IEnumerable<SwiftKampusModel.AddmissionApplicant.DirectEntryExam>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CertificateType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NameOfInstitution)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExamNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OverallGrade)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExamDate)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CertificateType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NameOfInstitution)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExamNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OverallGrade)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExamDate)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.DirectEntryExamId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.DirectEntryExamId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.DirectEntryExamId })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,99 @@
+﻿@model IEnumerable<SwiftKampusModel.MedicalScience.MedContiniousAssesment>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.MedResultCa.ResultCaName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Session.SessionName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Student.MatricNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Score)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Submitted)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsDeptApproved)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsFacultyApproved)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsSenateApproved)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsAbsentForExam)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsDisqualified)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NoOfSubmission)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReasonForReject)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.MedResultCa.ResultCaName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Session.SessionName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Student.MatricNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Score)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Submitted)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsDeptApproved)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsFacultyApproved)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsSenateApproved)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsAbsentForExam)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsDisqualified)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NoOfSubmission)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReasonForReject)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.MedContiniousAssesmentId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.MedContiniousAssesmentId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.MedContiniousAssesmentId })
+        </td>
+    </tr>
+}
+
+</table>

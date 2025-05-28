@@ -1,0 +1,394 @@
+﻿@model SwiftKampus.ViewModels.SetTimeTableVm
+<link href="~/AdminTemplate/css/plugins/fullcalendar/fullcalendar.css" rel="stylesheet" />
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+
+<div class="row animated fadeInDown">
+
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Session TimeTable</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-wrench"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li>
+                            <a href="#">Config option 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Config option 2</a>
+                        </li>
+                    </ul>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <div id="calendar"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal fade" id="myModal7" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="btn-newevent" class="btn btn-primary" style="float:left;"><i class="fa fa-plus"></i> <strong>New</strong> </button>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Allocation Details</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    @Html.Label("Course")
+                    <div>
+                        <input type="text" id="allocatedCourse" value="" readonly="readonly" class="form-control m-b" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Room")
+                    <div>
+                        <input type="text" id="allocatedRoom" value="" readonly="readonly" class="form-control m-b" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Start Time")
+                    <div>
+                        <input type="text" id="allocatedStartTime" value="" readonly="readonly" class="form-control m-b" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("End Time")
+                    <div>
+                        <input type="text" id="allocatedEndTime" value="" readonly="readonly" class="form-control m-b" />
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                @*<button type="button" class="btn btn-white" data-dismiss="modal">Close</button>*@
+                <button id="btnEditAllocation" type="button" class="btn btn-primary">Edit Allocation</button>
+                <button id="btnDelete" type="button" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal inmodal fade" id="myModal6" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">ADD TIMETABLE</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SelectedCourseId, "Course")
+                    <div>
+                        @Html.DropDownListFor(m => m.SelectedCourseId, new SelectList(Model.SelectableCourses, "CourseId", "CourseCode"), "Select Course", new { @class = "form-control m-b", name = "course", id = "txtcourse" })
+                        @Html.ValidationMessageFor(model => model.SelectedCourseId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SelectableLectureRoomId, "Room")
+                    <div>
+                        @Html.DropDownListFor(m => m.SelectableLectureRoomId, new SelectList(Model.SelectableLectureRooms, "LectureRoomId", "LectureRoomCode"), "Select Lecture Room", new { @class = "form-control m-b", name = "lectureRoom", id = "txtlectureroom" })
+                        @Html.ValidationMessageFor(model => model.SelectableLectureRoomId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @Html.HiddenFor(m => m.TimeTableId)
+
+                @Html.HiddenFor(m => m.TimeTableAllocationId)
+            </div>
+            <div class="modal-footer">
+                <button id="btnSave" type="button" class="btn btn-primary">Save Allocation</button>
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/AdminTemplate/js/jquery-3.1.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+
+        var startDay, startBin, startVal, endDay, eventCourse, eventLectureRoom, eventTimeTable, eventStartTime, eventEndTime, eventTimeTableAllocation;
+        var events = [];
+        eventStartTime = $('#startTime');
+        eventEndTime = $('#endTime');
+        eventTimeTable = $('#TimeTableId');
+        eventTimeTableAllocation = $('#TimeTableAllocationId');
+        eventCourse = $('#txtcourse');
+        eventLectureRoom = $('#txtlectureroom');
+
+        var allocatedCourse = $('#allocatedCourse'),
+            allocatedRoom = $('#allocatedRoom'),
+            allocatedStartTime = $('#allocatedStartTime'),
+            allocatedEndTime = $('#allocatedEndTime');
+
+        var calendar = $('#calendar'),
+            myModal = $('#myModal6'),
+            detailsModal = $('#myModal7');
+
+        $('#btnEditAllocation').click(function (e) {
+            detailsModal.modal('toggle');
+            myModal.modal('toggle');
+        });
+
+        $('#btn-newevent').click(function (e) {
+            eventCourse.val('');
+            eventLectureRoom.val('');
+            eventTimeTableAllocation.val(0);
+            detailsModal.modal('toggle');
+            myModal.modal('toggle');
+        });
+
+
+        $('#btnDelete').click(function (e) {
+            $.ajax({
+                type: "DELETE",
+                url: "/ClassRoomAllocations/AllocationDelete/" + eventTimeTableAllocation.val(),
+                success: function (data) {
+                    swal("Good", "Class room allocation was removed successful", "success");
+                    console.log("success");
+                }
+            });
+            e.preventDefault();
+            detailsModal.modal('toggle');
+            calendar.fullCalendar('removeEvents', eventTimeTableAllocation.val());
+        });
+
+        $('#btnSave').click(function (e) {
+            var eventData;
+            if (eventCourse.val()) {
+                eventData = {
+                    id: 0,
+                    dow: [startDay],
+                    title: eventCourse.val(),
+                    start: startBin,
+                    end: endDay
+                };
+                calendar.fullCalendar('renderEvent', eventData, true); // stick? = true
+            }
+            calendar.fullCalendar('unselect');
+
+            //Ajax Request after submit button clicked.
+            var formData = {
+                ClassRoomAllocationId: eventTimeTableAllocation.val(),
+                timeTablePeriodId: eventTimeTable.val(),
+                courseId: eventCourse.val(),
+                lectureRoomId: eventLectureRoom.val(),
+                startTime: new Date(startBin),
+                endTime: new Date(endDay),
+                isApproved: true
+            };
+            console.log(formData);
+
+            $.ajax({
+                type: "POST",
+                contentType: 'application/json',
+                //processData:false,
+                dataType: 'json',
+                url: "/ClassRoomAllocations/SetAllocation",
+                data: JSON.stringify(formData),
+                success: function (data) {
+                    if (data) {
+                        // console.log(data);
+                        // console.log(data.ClassRoomAllocationId);
+                        // console.log(new Date(data.StartTime));
+                        /*---- Update Current Event on the client side ----*/
+                        var sd = new Date(data.StartTime);
+                        sd = new Date(sd.getTime() + sd.getTimezoneOffset() * 60 * 1000);
+                        var ed = new Date(data.EndTime);
+                        ed = new Date(ed.getTime() + sd.getTimezoneOffset() * 60 * 1000);
+                        eventData.title = data.CourseCode + " " + data.LectureRoomCode;
+                        eventData.id = data.ClassRoomAllocationId;
+                        eventData.dow = [sd.getDay()];
+                        eventData.start = sd;
+                        eventData.end = ed;
+
+                        /*---- Update Event on Calendar ----*/
+                        // calendar.fullCalendar("updateEvent", eventData);
+                        calendar.fullCalendar('removeEvents', 0);
+                        calendar.fullCalendar('removeEvents', eventData.id);
+                        calendar.fullCalendar('renderEvent', eventData, true); // stick? = true
+                        calendar.fullCalendar('unselect');
+                        swal("Good", "Class room allocation was successful", "success");
+                        // toastr["success"](data.message);
+                    } else {
+                        swal("Warning", "Class room allocation failed", "warning");
+                        // toastr["success"](data.message);
+                    }
+                }
+            });
+            e.preventDefault();
+            myModal.modal('toggle');
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "/ClassRoomAllocations/TimeTableList/" + eventTimeTable.val(),
+            success: function (data) {
+                console.log(data);
+                for (var i = 0; i < data.length; i++) {
+                    var sd = new Date(data[i]["StartDate"]);
+                    sd = new Date(sd.getTime() + sd.getTimezoneOffset() * 60 * 1000);
+
+                    var ed = new Date(data[i]["EndDate"]);
+                    ed = new Date(ed.getTime() + sd.getTimezoneOffset() * 60 * 1000);
+
+                    var list = {
+                        id: data[i]["TimeTableAllocationId"],
+                        dow: [sd.getDay()],
+                        title: data[i]["CourseCode"] + " " + data[i]["LectureRoomCode"],
+                        start: sd,
+                        end: ed
+                    }
+                    events.push(list);
+                }
+                /* initialize the calendar
+         -----------------------------------------------------------------*/
+                var date = new Date();
+                var d = date.getDate();
+                var m = date.getMonth();
+                var y = date.getFullYear();
+
+                calendar.fullCalendar({
+                    header: {
+                        theme: true,
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,agendaWeek,agendaDay'
+                    },
+                    defaultView: 'agendaWeek',
+                    minTime: '08:00:00',
+                    maxTime: '18:00:00',
+                    slotDuration: '01:00:00',
+                    navLinks: true, // can click day/week names to navigate views
+                    selectable: true,
+                    selectHelper: true,
+                    weekends: false,
+                    select: function (start, end) {
+                        eventTimeTableAllocation.val(0)
+                        startBin = start;
+                        var strDate = new Date(start);
+                        startDay = strDate.getDay();
+
+                        endDay = end;
+                        strDate = new Date(end);
+                        myModal.modal('toggle');
+
+                    },
+                    editable: true,
+                    eventResize: function (event, delta, revertFunc) {
+                        // alert(event.title + " end is now " + event.end.format());
+
+                        swal({
+                            title: "Edit Period",
+                            text: "Are you sure you want to edit this period?",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#ab973a",
+                            confirmButtonText: "Yes, Edit Now!",
+                            cancelButtonText: "No, Please Cancel!",
+                            closeOnConfirm: false,
+                            closeOnCancel: false
+                        },
+                        function (isConfirm) {
+                                if (isConfirm) {
+                                    var formData = {
+                                        classRoomAllocationId: event.id,
+                                        startTime: new Date(event.start),
+                                        endTime: new Date(event.end)
+                                    };
+                                    // console.log("update timetable allocation");
+                                    $.ajax({
+                                        type: "POST",
+                                        contentType: 'application/json',
+                                        //processData:false,
+                                        dataType: 'json',
+                                        url: "/ClassRoomAllocations/ExtendAllocatedTime/" + event.id,
+                                        data: JSON.stringify(formData),
+                                        success: function (data) {
+                                            swal("Good", "Period extention was successful", "success");
+                                        }
+                                    });
+                                }
+                                else {
+                                    swal("Good", "Operation has been cancelled successfully", "success");
+                                    revertFunc();
+                                }
+                            });
+
+                    },
+                    eventLimit: true, // allow "more" link when too many events
+                    events: events,
+                    eventClick: function (calEvent, jsEvent, view) {
+                        var currentEvent = $(this);
+
+                        /* --- Find TimeTableAllocation Record and Display on modal ---*/
+                        $.ajax({
+                            type: "GET",
+                            url: "/ClassRoomAllocations/AllocationDetail/" + calEvent.id,
+                            success: function (data) {
+                                if (data) {
+                                    // console.log(data);
+                                    eventTimeTableAllocation.val(data["ClassRoomAllocationId"]);
+                                    eventCourse.val(data["CourseId"]);
+                                    eventLectureRoom.val(data["LectureRoomId"]);
+
+                                    // edit allocation modal
+                                    allocatedCourse.val(data["CourseCode"]);
+                                    allocatedRoom.val(data["LectureRoomCode"]);
+
+                                    var startDate = new Date(data["StartTime"]);
+                                    startDate = new Date(startDate.getTime() + startDate.getTimezoneOffset() * 60 * 1000);
+                                    var startDateMin = startDate.getMinutes();
+                                    if (startDateMin < 10) {
+                                        startDateMin = "0" + startDateMin;
+                                    }
+                                    allocatedStartTime.val(startDate.getHours() + ':' + startDateMin);
+
+                                    var endDate = new Date(data["EndTime"]);
+                                    endDate = new Date(endDate.getTime() + endDate.getTimezoneOffset() * 60 * 1000);
+                                    var endDateMin = endDate.getMinutes();
+                                    if (endDateMin < 10) {
+                                        endDateMin = "0" + endDateMin;
+                                    }
+                                    allocatedEndTime.val(endDate.getHours() + ':' + endDateMin);
+
+                                    detailsModal.modal('toggle');
+
+                                    /* Add new allocation from view details */
+                                    startDate = new Date(data["StartTime"]);
+                                    endDate = new Date(data["EndTime"]);
+
+                                    startDay = startDate.getDay();
+                                    startBin = startDate;
+                                    endDay = endDate;
+                                } else {
+                                    swal("Warning", "Allocation failed", "warning");
+                                }
+                            }
+                        });
+
+                    }
+                });
+                console.log(events);
+            }
+        });
+    });
+
+</script>

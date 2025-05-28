@@ -1,0 +1,195 @@
+﻿@{
+    ViewBag.Title = "Re-Absorption Request List For HOD";
+}
+
+<h2>Students Re-Absorption Request List For HoD</h2>
+
+<table id="studentRequests" class="table table-bordered table-striped table-hover" style="width:100%"></table>
+
+<div class="modal inmodal fade" id="reqModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "applicationForm", @class = "applicationForm" }))
+        {
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Re-Absorption Request Details</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered table-striped table-hover" style="width:100%">
+                        <tbody id="requestDetail"></tbody>
+                    </table>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4">HOD Comment</label>
+                        <div class="col-md-8">
+                            <textarea name="HODComment" id="HODComment" class="form-control"></textarea>
+                        </div>
+                    </div>
+
+                    <input id="defermentReabsorptionId" type="hidden" />
+                </div>
+
+                <br /><br /><br />
+
+                <div class="modal-footer">    
+                    <button id="btnReject" data-value="false" type="submit" class="btn btn-danger">Reject</button>
+                    <button id="btnApprove" data-value="true" type="submit" class="btn btn-primary">Approve and Save Comment</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<script src="~/AdminTemplate/js/jquery-3.1.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var reqModal = $("#reqModal"),
+            requestDetail = $("#requestDetail"),
+            hODComment = $("#HODComment"),
+            process = $("#defermentReabsorptionId"),
+            fileBaseURL = "/DefermentReabsorptions/DisplayDocument/",
+            currentObj;
+
+        $('.btn').on('click', function () {
+            var approval = $(this).data('value');
+            $('form[id="applicationForm"]').validate({
+                rules: {
+                    HODComment: {
+                        required: true,
+                        minlength: 10
+                    },
+                    defermentReabsorptionId: {
+                        required: true
+                    }
+                },
+                messages: {
+                    defermentReabsorptionId: 'Something went wrong. Please click on the "View Application" button',
+                    HODComment: {
+                        minlength: 'This field must be at least 8 characters long'
+                    }
+                },
+                submitHandler: function (form) {
+                    var formData = {
+                        HODComment: hODComment.val(),
+                        DefermentReabsorptionId: process.val(),
+                        HODApprovalForReabsorption: approval
+                    };
+
+                    $.ajax({
+                        type: "POST",
+                        contentType: 'application/json',
+                        //processData:false,
+                        dataType: 'json',
+                        url: "/DefermentReabsorptions/JSONReabsorptionReqestHODComment/",
+                        data: JSON.stringify(formData),
+                        success: function (data) {
+                            reqModal.modal('toggle');
+
+                            // clear HOD's comment
+                            hODComment.val("");
+
+                            swal({
+                                title: "Successful!",
+                                text: "Your comment saved successfully.",
+                                type: "success",
+                            });
+
+                            table.row(currentObj.parents('tr'))
+                                .remove().draw();
+                        }
+                    });
+                }
+            });
+        });
+
+        $("#studentRequests").on("click", ".commentBtn", function () {
+            currentObj = $(this);
+            var id = currentObj.data("id");
+            process.val(id);
+            console.log(id);
+            // load information via AJAX
+            $.ajax({
+                type: "GET",
+                url: "/DefermentReabsorptions/JSONReabsorptionReqestDetailsForHOD/" + id,
+                success: function (data) {
+                    console.log(data);
+                    requestDetail.html("");
+
+                    var str = '<tr><td colspan="4"><h3 class="label label-info">Personal Details</h3></td></tr>';
+                    str += '<tr>';
+                    str += '<td>Matriculation Number:</td><td>' + data.MatriculationNumber + '</td>';
+                    str += '<td>Full Name:</td><td>' + data.FullName + '</td>';
+                    str += '</tr>';
+                    str += '<tr>';
+                    str += '<td>Department:</td><td>' + data.DepartmentName + '</td>';
+                    str += '<td>Programme:</td><td>' + data.DepartmentOptionName + '</td>';
+                    str += '</tr>';
+                    str += '<tr>';
+                    str += '<td>Reason For Deferment:</td><td colspan="3">' + data.ReasonForDeferment + '</td>';
+                    str += '</tr>';
+                    str += '<tr>';
+                    str += '<td>Reason For Extension of Duration:</td><td colspan="3">' + data.ReasonForExtensionDuration + '</td>';
+                    str += '</tr>';
+                    str += '<tr><td colspan="4"><h3 class="label label-info">HoD\'s Comment</h3></td></tr>';
+                    str += '<tr>';
+                    str += '<td>HoD\'s Comment on Deferment:</td><td colspan="3">' + data.HODCommentForDeferment + '</td>';
+                    str += '</tr>';
+                    str += '<tr><td colspan="4"><h3 class="label label-info">Documents</h3></td></tr>';
+                    jQuery.each(data.DefermentReabsorptionDocuments, function (key, value) {
+                        if (value.IsDefermentDocument) {
+                            str += '<tr><td colspan="4"><a class="btn btn-warning" href="' + fileBaseURL + value.DocumentName + '" target="_blank">View Document for Deferment</a></td></tr>';
+                        } else {
+                            str += '<tr><td colspan="4"><a class="btn btn-warning" href="' + fileBaseURL + value.DocumentName + '" target="_blank">View Document for Reabsorption</a></td></tr>';
+                        }
+                    });
+                    requestDetail.append(str);
+
+                }
+            });
+            // display modal
+            reqModal.modal('toggle');
+        });
+
+        var table = $('#studentRequests').DataTable({
+            "processing": true, // for show progress bar
+            "serverSide": true, // for process server side
+            "filter": true, // this is for disable filter (search box)
+            "orderMulti": false, // for disable multiple column at once
+            "pageLength": 10,
+
+            "ajax": {
+                "url": "/DefermentReabsorptions/JSONStudentReabsorptionReqestsForHOD/",
+                "type": "GET",
+                "dataSrc": ""
+            },
+
+            "columnDefs":
+                [{
+                    "targets": [0],
+                    "searchable": false
+                },
+                {
+                    "targets": [1],
+                    "searchable": false,
+                    "orderable": false
+                }],
+
+            "columns": [
+                //{ "data": "DefermentReabsorptionId", "name": "DefermentReabsorptionId", "autoWidth": true },
+                { "data": "MatriculationNumber", "title": "Matriculation Number", "name": "MatriculationNumber", "autoWidth": true },
+                { "data": "FullName", "title": "FullName", "name": "FullName", "autoWidth": true },
+                { "data": "FacultyName", "title": "Faculty", "name": "FacultyName", "autoWidth": true },
+                { "data": "DepartmentName", "title": "Department", "name": "DepartmentName", "autoWidth": true },
+                { "data": "DepartmentOptionName", "title": "Programme", "name": "DepartmentOptionName", "autoWidth": true },
+                //{ "data": "StartSessionName", "title": "Start Session", "name": "StartSessionName", "autoWidth": true },
+                //{ "data": "EndSessionName", "title": "End Session", "name": "EndSessionName", "autoWidth": true },
+                {
+                    "render": function (data, type, full, meta) {
+                        return '<a class="btn btn-primary commentBtn" data-id="' + full.DefermentReabsorptionId + '">View Application</a>';
+                    }
+                },
+            ]
+        });
+    });</script>
+
+

@@ -1,0 +1,114 @@
+﻿@model SwiftKampusModel.DeptResultType
+
+<form id="myform" onsubmit="return false;">
+    @Html.AntiForgeryToken()
+    <div class="card">
+        <div class="card-head style-primary">
+
+
+        </div><!--end .card-head -->
+        <div class="card-body">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @if (Model != null && Model.DeptResultTypeId > 0)
+            {
+                @Html.HiddenFor(model => model.DeptResultTypeId)
+            }
+
+            <div class="form-group">
+                @Html.Label("School Programme Name")
+                @Html.DropDownList("SchoolProgrammeId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SchoolProgrammeId, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Department Name")
+                @Html.DropDownList("DepartmentId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Session Name")
+                @Html.DropDownList("SessionId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SessionId, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.Label("Result Template")
+                @Html.DropDownList("ResultTemplateId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ResultTemplateId, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.Label("Fail Mark")
+                @Html.EditorFor(model => model.FailMark, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FailMark, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.Label("Probation Mark")
+                @Html.EditorFor(model => model.ProbationMark, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ProbationMark, "", new { @class = "text-danger" })
+            </div>
+
+
+            <div class="form-group">
+                @Html.Label("Have Hundred Level Result Template", htmlAttributes: new { @class = "control-label col-md-5" })
+                <div class="col-md-7">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.HaveHundredLevelResult)
+                        @Html.ValidationMessageFor(model => model.ResultTemplateForHundred, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <br />
+            <br />
+            <br />
+            <div class="form-group">
+                @Html.Label("Hundred Level Template")
+                @Html.DropDownList("ResultTemplateForHundred", (SelectList)ViewBag.ResultTemplateForHundred, "", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ResultTemplateForHundred, "", new { @class = "text-danger" })
+            </div>
+            <div class="md-form">
+
+                @if (Model != null && Model.DeptResultTypeId > 0)
+                {
+                    <input id="btnsubmit" type="submit" value="Update" class="btn btn-primary btn-lg" />
+                }
+                else
+                {
+                    <input id="btnsubmit" type="submit" value="Save" class="btn btn-primary btn-lg" />
+                }
+                <a href="#" class="btn btn-danger btn-lg" data-dismiss="modal">Cancel</a>
+            </div>
+        </div><!--end .card-body -->
+
+    </div>
+</form>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+<script type="text/javascript">
+
+    $("#btnsubmit").click(function () {
+        var data = $("#myform").serialize();
+        $.ajax({
+            type: "POST",
+            url: "/DeptResultTypes/Save",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+                    window.oTable.ajax.reload(); //run my_fun() ondomready
+                    toastr["success"](data.message);
+                    $('#myform')[0].reset();
+                } else {
+                    toastr["error"](data.message);
+                    //$('#actionsList').modal("hide");
+
+                }
+            }
+        });
+    });
+</script>
+
+

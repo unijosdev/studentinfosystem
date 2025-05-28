@@ -1,0 +1,64 @@
+﻿@model IEnumerable<SwiftKampus.ViewModels.StudentUtmeUploadErrorVm>
+
+
+@{
+    ViewBag.Title = "Error";
+}
+
+<div class="row">
+    <div class="col-lg-12 text-center">
+        <h1><span class="text-xxxl text-light">Exception <i class="fa fa-exclamation-circle text-danger"></i></span></h1>
+        <h2 class="text-light">Oops! Something went wrong</h2>
+        <h1 class="text-danger"> </h1>
+        <h3>@ViewBag.ErrorInfo</h3>
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-warning">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>@ViewBag.ErrorMessage</strong>
+            </div>
+        }
+        @if (Model != null && Model.Count() > 0)
+        {
+            <div class="ibox-content">
+                <div class="table-responsive">
+                    <table id="Jdatatable" class="table table-striped table-bordered table-hover table-responsive">
+                        <thead>
+                            <tr>
+                                <td>Excel Row No</td>
+                                <td>Jamb Reg No</td>
+                                <td>Message</td>
+
+                            </tr>
+                        </thead>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Row</td>
+                                <td>@item.JambRegNo</td>
+                                <td>@item.Message</td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        }
+
+        @if (ViewBag.LineError != null)
+        {
+            <div class="alert alert-danger">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>@ViewBag.LineError</strong>
+            </div>
+        }
+
+        @if (ViewBag.Message != null)
+        {
+            <div class="alert alert-success">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>@ViewBag.Message</strong>
+            </div>
+        }
+    </div><!--end .col -->
+</div><!--end .row -->

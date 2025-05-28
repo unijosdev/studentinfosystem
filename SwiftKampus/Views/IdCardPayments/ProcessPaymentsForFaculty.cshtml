@@ -1,0 +1,101 @@
+﻿
+@{
+    ViewBag.Title = "Change Applicant School Programme";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+<div class="container-fluid">
+    <h2 style="margin-bottom:40px">Activate Students for ID Card Printing</h2>
+
+    <div class="row">
+
+        <form id="myform" method="post" enctype="multipart/form-data" onsubmit="return false;">
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label for="SchoolProgrammeId" style="font-size:16px">Faculty</label>
+                    @Html.DropDownList("facultyId", (SelectList)ViewBag.SchoolProgrammeId, "Select School Programme", new { @class = "form-control js-example-basic-single", required = "true" })
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label for="Session" style="font-size:16px">Session</label>
+                    @Html.DropDownList("Session", (SelectList)ViewBag.Session, "Session", new { @class = "form-control js-example-basic-single", required = "true" })
+                </div>
+
+
+                <div class="col-md-3"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <button class="btn btn bg-primary" style="width:60%" id="submit" type="submit">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
+@*For client side validation*@
+@Scripts.Render("~/bundles/jqueryval")
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
+
+<script type="text/javascript">
+    jQuery(function ($) {
+        $('.js-example-basic-single').select2({
+            placeholder: 'Select an option...',
+            allowClear: true
+        });
+    });
+
+    $(document).ready(function () {
+
+        $('#submit').click(function () {
+
+            var formData = {
+                email: $('#email').val(),
+                facultyId: $('#facultyId').val(),
+                sessionId: $('#Session').val()
+            };
+
+            var Mydata = JSON.stringify(formData);
+
+            $.ajax({
+                url: '/IdCardPayments/ProcessPaymentsForFaculty',
+                type: "POST",
+                contentType: "application/json",
+                data: Mydata,
+                success: function (data) {
+                    console.log("data", data);
+                    if (data.status) {
+                        swal({
+                            title: data.message,
+                            type: "success",
+                            //showCancelButton: true,
+                            //confirmButtonColor: "#ab973a",
+                            confirmButtonText: "Ok",
+                            closeOnConfirm: false,
+                            closeOnCancel: false
+                        });
+                        //toastr["success"](data.message)
+                    } else {
+                        swal({
+                            title: "Warning",
+                            text: data.message,
+                            type: "warning",
+                        });
+                        //toastr["success"](data.message);
+                    }
+
+                }
+            });
+
+        });
+    });
+
+</script>

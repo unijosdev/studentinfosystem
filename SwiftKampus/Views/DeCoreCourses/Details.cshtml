@@ -1,0 +1,50 @@
+﻿@model SwiftKampusModel.DeCoreCourse
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>DeCoreCourse</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Course.CourseCode)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Course.CourseCode)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Level.LevelName)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Level.LevelName)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Programme.ProgrammeCode)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Programme.ProgrammeCode)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.DeCoreCourseId }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

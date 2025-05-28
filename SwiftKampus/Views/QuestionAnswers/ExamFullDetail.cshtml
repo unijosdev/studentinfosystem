@@ -1,0 +1,92 @@
+﻿
+@model IEnumerable<SwiftKampusModel.CBTE.StudentQuestion>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Course
+        </th>
+        <th>
+            Question Number
+        </th>
+        <th>
+            Question
+        </th>
+        <th>
+            option1
+        </th>
+        <th>
+            Option2
+        </th>
+        <th>
+            Option3
+        </th>
+        <th>
+            Option4
+        </th>
+        <th>
+            Answer
+        </th>
+        <th>
+            Selected Answer
+        </th>
+        <th>
+            Remark
+        </th>
+        <th>
+            Answer
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+            </td>
+            <td>
+                @Html.Raw(item.QuestionNumber)
+            </td>
+            <td>
+                @Html.Raw(item.Question)
+            </td>
+            <td>
+                @Html.Raw(item.Option1)
+            </td>
+            <td>
+                @Html.Raw(item.Option2)
+            </td>
+            <td>
+                @Html.Raw(item.Option3)
+            </td>
+            <td>
+                @Html.Raw(item.Option4)
+            </td>
+            <td>
+                @Html.Raw(item.Answer)
+            </td>
+            <td>
+                @Html.Raw(item.SelectedAnswer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsCorrect)
+
+            </td>
+            <td>
+            </td>
+            <td>
+               
+            </td>
+        </tr>
+    }
+
+</table>

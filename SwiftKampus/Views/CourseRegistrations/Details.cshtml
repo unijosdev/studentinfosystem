@@ -1,0 +1,100 @@
+﻿@model SwiftKampusModel.CourseRegistration
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CourseRegistration</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Course.CourseCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Course.CourseCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Level.LevelName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Level.LevelName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Programme.ProgrammeCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Programme.ProgrammeCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Semester.SemesterName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Semester.SemesterName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Session.SessionName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Session.SessionName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StudentId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StudentId)
+        </dd>
+      
+    </dl>
+    <h4>Courses Registered</h4>
+    <table class="table">
+        <tr>
+            <th>
+                Programme
+            </th>
+            <th>
+                Course Name
+            </th>
+
+
+            <th></th>
+        </tr>
+        @foreach (var item in Model.Students.CourseRegistrations.Where(s => s.StudentId.Equals(Model.StudentId) &&
+                                s.SemesterId == ViewBag.SemesterId && s.SessionId == ViewBag.SessionId))
+        {
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Programme.ProgrammeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course.CourseName)
+                </td>
+
+                <td>
+                    @Html.ActionLink(linkText: "Edit", actionName: "Edit", controllerName: "CourseRegistrations", routeValues: new { id = item.CourseRegistrationId }, htmlAttributes: null) |
+               
+                    @Html.ActionLink(linkText: "Remove", actionName: "Delete", controllerName: "CourseRegistrations", routeValues: new { id = item.CourseRegistrationId }, htmlAttributes: null)
+                </td>
+            </tr>
+        }
+        </table>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CourseRegistrationId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

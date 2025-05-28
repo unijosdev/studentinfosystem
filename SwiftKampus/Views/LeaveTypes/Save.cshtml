@@ -1,0 +1,115 @@
+﻿@model SwiftKampusModel.Employee.Leave.LeaveType
+
+
+<form id="myform" onsubmit="return false;">
+    @Html.AntiForgeryToken()
+    <div class="card">
+        <div class="card-head style-primary">
+            <header>
+                @if (Model != null && Model.LeaveTypeId > 0)
+                {
+                    <div class="form-header  purple darken-4">
+                        <h3>
+                            <i class="fa fa-save"></i> Update Record
+                        </h3>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-header  purple darken-4">
+                        <h3><i class="fa fa-save"></i> Save</h3>
+                    </div>
+                }
+            </header>
+
+        </div><!--end .card-head -->
+        <div class="card-body">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @if (Model != null && Model.LeaveTypeId > 0)
+            {
+                @Html.HiddenFor(model => model.LeaveTypeId)
+            }
+
+
+            <div class="form-group">
+                @Html.Label("Leave Type Name")
+                @Html.EditorFor(model => model.LeaveTypeName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LeaveTypeName, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Maximum Leave Period")
+                @Html.EditorFor(model => model.MaximumLeaveCount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MaximumLeaveCount, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.LeaveTime)
+                @Html.EnumDropDownListFor(model => model.LeaveTime, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LeaveTime, "", new { @class = "text-danger" })
+            </div>
+            @*<div class="form-group">
+                <div class="col-md-10">
+                    @Html.LabelFor(model => model.EbanbleCarryForward, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.EbanbleCarryForward)
+                        @Html.ValidationMessageFor(model => model.EbanbleCarryForward, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+            </div>*@
+
+           <div class="form-group">
+                @Html.Label("Active")
+                @Html.EditorFor(model => model.IsActive)
+                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+            </div>
+
+           
+            <div class="md-form">
+
+                @if (Model != null && Model.LeaveTypeId > 0)
+                {
+                    <input id="btnsubmit" type="submit" value="Update" class="btn btn-primary btn-lg" />
+                }
+                else
+                {
+                    <input id="btnsubmit" type="submit" value="Save" class="btn btn-primary btn-lg" />
+                }
+                <a href="#" class="btn btn-danger btn-lg" data-dismiss="modal">Cancel</a>
+            </div>
+        </div><!--end .card-body -->
+
+    </div>
+</form>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+<script type="text/javascript">
+
+    $("#btnsubmit").click(function () {
+
+        var data = $("#myform").serialize();
+
+        $.ajax({
+            type: "POST",
+            url: "/LeaveTypes/Save",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+                    window.oTable.ajax.reload(); //run my_fun() ondomready
+                    toastr["success"](data.message);
+                    $('#myform')[0].reset();
+                } else {
+                    toastr["error"](data.message);
+                    //$('#actionsList').modal("hide");
+
+                }
+
+            }
+        });
+    });
+</script>

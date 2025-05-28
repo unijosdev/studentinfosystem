@@ -1,0 +1,191 @@
+﻿@model SwiftKampusModel.CourseForum.ForumReplyCommentVm
+
+@{
+    ViewBag.Title = "Question Replies";
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>Forum - @Model.ForumQuestion.Forum.Name <span class="pull-right"><a href="#" onclick="ReplyQuestion('@Model.ForumQuestion.ForumQuestionId')" class="btn btn-primary btn-sm">Reply Question</a></span></h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="ibox-content forum-post-container">
+                <div class="forum-post-info">
+                    <h4><span class="text-navy"><i class="fa fa-globe"></i> Question: </span> @Html.Raw(Model.ForumQuestion.Question) <span class="text-muted pull-right"></span></h4>
+                </div>
+
+                @if (Model.ForumQuestionRepy != null)
+                {
+                    foreach (var replies in Model.ForumQuestionRepy)
+                    {
+                        <div class="media">
+                            <a class="forum-avatar" href="#">
+                                <img src="@Url.Action("RenderAnyImage", "Students", new { userId = replies.UserId})" class="img-circle" alt="image">
+                                <div class="author-info">
+                                    <strong>Replied:</strong> @replies.ReplyDate.ToShortDateString()<br />
+                                    <strong>
+                                        <br />@*@Url.Action("DisplayAnyName", "Students", new { userId = replies.UserId })*@ <br />
+                                        UX/UI developer
+                                    </strong>
+                                </div>
+                            </a>
+                            <div class="media-body">
+                                <h4 class="media-heading">@Html.Raw(replies.Answer)</h4><span class="pull-right">
+                                    <a href="#" class="btn btn-primary btn-sm" onclick="SaveComment('@replies.ForumQuestionReplyId')">Comment</a>
+                                    @if (replies.UserId.Equals(@ViewBag.UserId))
+                                    {
+                                        <a href="#" class="btn btn-primary btn-sm" onclick="EditResponse('@replies.ForumQuestionReplyId')">Edit Response</a>
+
+                                    }
+
+                                </span>
+                                @*All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures*@
+                                <br /><br />
+
+
+                                @if (Model.ForumComment != null)
+                                {
+                                    foreach (var commment in Model.ForumComment.Where(x => x.ContentId.Equals(replies.ForumQuestionReplyId)))
+                                    {
+                                        <div class="media">
+                                            <a class="forum-avatar" href="#">
+                                                <img src="@Url.Action("RenderAnyImage", "Students", new { userId = commment.UserId})" class="img-circle" alt="image">
+                                                <div class="author-info">
+                                                    <strong>Comment:</strong> @commment.CommentDateTime.ToShortDateString()<br />
+                                                </div>
+                                            </a>
+
+                                            <div class="media-body">
+                                                @Html.Raw(commment.Body)
+                                                <br />
+                                                @if (commment.UserId.Equals(@ViewBag.UserId))
+                                                {
+                                                    <span class="pull-right"> <a href="#" class="btn-primary btn-sm" onclick="EditComment('@commment.ForumCommentId')">Edit Comment</a></span>
+                                                }
+
+                                            </div>
+                                        </div>
+
+                                    }
+                                }
+
+
+                            </div>
+
+                        </div>
+
+                    }
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade inmodal" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content animated flipInY">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">REPLY QUESTION</h4>
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+<!-- Modal2 -->
+<div class="modal fade inmodal" id="actionsList2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content animated flipInY">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">COMMENT ON REPLY</h4>
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody2">
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal2-->
+
+
+<script type="text/javascript">
+    function ReplyQuestion(questionId) {
+        var url = "/Forums/ReplyQuestion?id=" + questionId;
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+
+
+    };
+
+    function SaveComment(replyquestionId) {
+        var url = "/Forums/SaveComment?id=" + replyquestionId;
+        $('#myModalDivBody2').load(url,
+            function () {
+                $('#actionsList2').modal("show");
+            });
+
+
+    };
+
+    function EditComment(replyquestionId) {
+        var url = "/Forums/EditComment?id=" + replyquestionId;
+        $('#myModalDivBody2').load(url,
+            function () {
+                $('#actionsList2').modal("show");
+            });
+
+
+    };
+    function EditResponse(replyquestionId) {
+        var url = "/Forums/EditReplyQuestion?id=" + replyquestionId;
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+
+
+    };
+    function EditQuestion(questionId) {
+        var url = "/Forums/EditForumQuestion?id=" + questionId;
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+
+    };
+
+    function GetQuestion(forumQuestionId) {
+        var url = "/Forums/GetQuestionDetails?id=" + forumQuestionId;
+        // document.getElementById('topicContentDetail').scrollIntoView();
+        $('#topicContentDetail').load(url);
+        $('html, body').animate({ scrollTop: $('#topicContentDetail').offset().top }, 'slow');
+    };
+
+
+
+</script>

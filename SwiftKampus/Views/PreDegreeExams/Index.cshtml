@@ -1,0 +1,45 @@
+﻿@model IEnumerable<SwiftKampusModel.PreDegreeExam>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PreDegreeStudent.FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SubjectName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Score)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PreDegreeStudent.FullName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SubjectName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Score)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.PreDegreeExamId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.PreDegreeExamId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.PreDegreeExamId })
+        </td>
+    </tr>
+}
+
+</table>

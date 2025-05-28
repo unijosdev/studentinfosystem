@@ -1,0 +1,104 @@
+﻿@model SwiftKampus.Models.RegisterStaffVm
+@using SwiftKampus.Models
+@{
+    ViewBag.Title = "Staff Registration";
+    var schoolImage = @System.Configuration.ConfigurationManager.AppSettings["SchoolImage"];
+    Layout = "~/Views/Shared/_LayoutWebSite2.cshtml";
+}
+<section class="divider">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-push-1">
+                <div class="border-1px p-20 mb-0" style="border: 1px solid #cac9c9 !important;">
+
+                    <div class="row">
+                        <div class="col-md-5 border-right">
+                            <div class="col-md-12">
+                                <h4 class="text-center">
+                                    Please read the following Instructions.
+                                </h4>
+                                <ul class="list check">
+                                    <li>Be sure your details is correct before you proceed.</li>
+                                    <li>Type in your <span class="text-danger">Current and Active</span> Email Address.</li>
+                                    <li>Use a simple and easy to remember Password</li>
+                                    <li>The Grey text-fields cannot be edited.</li>
+                                    <p class="text-danger">@ViewBag.Message</p>
+                                    @Html.ValidationSummary("", new { @class = "text-danger" })
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-7">
+                            <div class="col-md-12">
+                                <h4 class="text-center">Confirm and Complete Details</h4>
+
+                                @using (Html.BeginForm("RegisterStaff", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <p class="text-danger">@ViewBag.Message</p>
+                                    @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.FirstName)
+                                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @readonly = true })
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.LastName)
+                                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @readonly = true })
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.StaffId)
+                                        @Html.TextBoxFor(m => m.StaffId, new { @class = "form-control", @readonly = true })
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Department)
+
+                                        @Html.TextBoxFor(m => m.Department, new { @class = "form-control", @readonly = true })
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Email)
+
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="password-wrapper">
+                                            @Html.LabelFor(m => m.Password)
+                                            @Html.PasswordFor(m => m.Password, new { @class = "form-control password" })
+                                            <button class="unmask" type="button" title="Mask/Unmask password to check content">Unmask</button>
+                                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                         </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="password-wrapper">
+                                            @Html.LabelFor(m => m.ConfirmPassword)
+
+                                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control password" })
+                                            <button class="unmask" type="button" title="Mask/Unmask password to check content">Unmask</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+
+                                        <input type="submit" class="btn btn-primary block col-md-12" value="Sign Up" />
+                                    </div>
+                                }
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

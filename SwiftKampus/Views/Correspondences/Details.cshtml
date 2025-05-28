@@ -1,0 +1,110 @@
+﻿@model SwiftKampus.ViewModels.CorrespondenceDetailVM
+@using System.Web.Configuration
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Correspondence</h4>
+    <hr />
+    @*<dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CorrespondenceType.CorrespondenceTypeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CorrespondenceType.CorrespondenceTypeName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Department.DeptCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Department.DeptCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Student.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Student.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CorrespondenceBody)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CorrespondenceBody)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CorrespondenceTypeId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CorrespondenceTypeId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CorrespondenceSubject)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CorrespondenceSubject)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CorrespondenceDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CorrespondenceDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Approved)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Approved)
+        </dd>
+
+    </dl>*@
+
+    <div class="col-md-12">
+        <div class="col-sm-4 pull-right">
+            @Model.StudentFullName
+            @Model.StudentMatNumber
+            @WebConfigurationManager.OpenWebConfiguration("~").AppSettings.Settings["SchoolName"]
+            @Model.Faculty - @Model.DeptCode
+        </div>
+        <p></p><br />
+        <div class="col-sm-4 pull-left">
+            @Model.CorrespondenceRecepient
+            @Model.RecepientDesignation<br /><p></p>
+
+            @Model.Subject
+        </div>
+        <div class="col-sm-9">
+            <p>
+                @Model.CorrespondenceBody
+            </p>
+        </div>
+        <div class="col-sm-3 pull-left">
+          Approved or Not Approved :  <p>@Model.Status </p>
+        </div>
+    </div>   
+</div>
+<p>
+
+
+
+
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,119 @@
+﻿@model SwiftKampus.Controllers.ApplicantNotificationVm
+
+@{
+    ViewBag.Title = "Notify Applicant";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+<!-- include summernote css/js -->
+<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Notify Applicants</h5>
+                    <div class="ibox-tools">
+
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-8">
+                            <div class="table-responsive">
+                                <form id="myform" onsubmit="return false;">
+                                    @Html.AntiForgeryToken()
+                                    <div class="card">
+                                        <div class="card-body">
+
+                                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                                            <div class="form-group">
+                                                @Html.Label("School")
+                                                @Html.DropDownList("SchoolProgrammeId", null, htmlAttributes: new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.SchoolProgrammeId, "", new { @class = "text-danger" })
+                                            </div>
+
+                                            <div class="form-group">
+                                                @Html.Label("Session Name")
+                                                @Html.DropDownList("SessionId", null, htmlAttributes: new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.SchoolProgrammeId, "", new { @class = "text-danger" })
+                                            </div>
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Subject)
+                                                @Html.EditorFor(model => model.Subject, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Body)
+                                                <div class="summernote">
+                                                    @Html.EditorFor(model => model.Body, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Body, "", new { @class = "text-danger" })
+                                                </div>
+                                                @*<textarea id="summernote" name="editordata"></textarea>*@
+                                            </div>
+                                            <br />
+                                            <div class="md-form">
+                                                <input id="btnsubmit" type="submit" value="Send Email" class="btn btn-primary " />
+                                                <input id="downloadList" type="button" value="Download Phone Numbers" class="btn btn-primary " />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#summernote').summernote();
+    });
+
+    $("#btnsubmit").click(function () {
+        var data = $("#myform").serialize();
+
+        $.ajax({
+            type: "POST",
+            url: "/Applicants/NotifyApplicant",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    toastr["success"](data.message);
+                    swal("Great!", data.message, "success");
+                    $('#myform')[0].reset();
+                } else {
+                    swal("Ooops!", data.message, "warning");
+                    toastr["error"](data.message);
+                }
+
+            }
+        });
+    });
+    $("#downloadList").click(function () {
+         var url = "/Applicants/DownloadNotifyApplicant?SchoolProgrammeId=" + $('#SchoolProgrammeId').val() + "&SessionId=" + $('#SessionId').val();
+        window.open(url, '_blank');       
+    });
+</script>
+

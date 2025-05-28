@@ -1,0 +1,148 @@
+﻿@model SwiftKampus.ViewModels.ConvocationVm.AcademicGownLeaseVM
+@using Vereyon.Web
+@{
+
+    //Layout = null;
+}
+<h3>Opt for Academic Gown</h3>
+
+@using (Html.BeginForm("", "", FormMethod.Post, new { enctype = "multipart/form-data", @id = "notificationForm" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="ibox-title">
+        <div class="form-horizontal col-lg-offset-0 ">
+            @Html.RenderFlashMessages()
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    <label>Select item opting for</label>
+                    @Html.DropDownList("Id", (SelectList)ViewBag.gownChargeId, "", new { @class = "form-control" })
+                </div>
+                @*</div>*@
+
+            <div class="form-group">
+                <div>
+                @Html.Label("Lease type")
+                </div>
+                <select name="LeaseType" id="LeaseType" class="form-control">
+                    <option value="null">select...</option>
+                    <option value="purcshase">Purchase</option>
+                    <option value="hire">Hire</option>
+                </select>
+              
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Gown Height(cm)")
+                <input type="number" name="GownHeight" id="GownHeight" class="form-control" />
+                @*@Html.ValidationMessageFor(model => m, "", new { @class = "text-danger" })*@
+            </div>
+            <div class="form-group">
+                <div>
+                    @Html.Label("School Programme")
+                </div>
+                <input type="text" name="SchoolProhrammeName" id="SchoolProhrammeName" value="@Model.SchoolProhrammeName" class="form-control" readonly />
+            </div>
+            @Html.HiddenFor(Model => Model.StudentId)
+            @Html.HiddenFor(Model => Model.SessionId)
+            @Html.HiddenFor(Model => Model.SchoolProgrammeId)
+
+
+            <div class="form-group">
+                <div class="col-12 pull-right">
+                    <button value="Submit" class="btn btn-success btn-outline-success makePay">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script src="~/AdminTemplate/js/jquery-3.1.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $(document).on('click', '.makePay', function (e) {
+            var data = $(this).attr("data"); // GET THE DATA IN ATTR
+
+            var formData = new FormData($('#notificationForm')[0]);
+            var sundryItemId = $('#Id').val();
+
+            $('form[id="notificationForm"]').validate({
+                rules: {
+                    Id: {
+                        required: true,
+                    },
+                    GownHeight: {
+                        required: true,
+                    },
+                    programme_code: {
+                        required: true,
+                    },
+                    lease_type: {
+                        required: true,
+                    },
+
+                },
+                messages: {
+                    Id: {
+                        minlength: 'This field is Required'
+                    },
+                    GownHeight: {
+                        minlength: 'This field is Required'
+                    },
+                    programme_code: {
+                        minlength: 'This field is Required'
+                    },
+                    lease_type: {
+                        minlength: 'This field is Required'
+                    },
+
+                },
+                submitHandler: function (form) {
+                    swal({
+                        title: "You are about to pay for " + $('#Id :selected').text(),
+                        text: "Please make sure to select the correct item as error may incur correction charge!",
+                        type: "warning",
+                        buttons: "true",
+                        dangerMode: "true",
+                        showCancelButton: true,
+                        confirmButtonColor: "#ab973a",
+                        confirmButtonText: "Yes,Proceed",
+                        cancelButtonText: "No, Edit!",
+                        closeOnConfirm: true,
+                        closeOnCancel: false
+                    },
+                        function (isConfirm) {
+                            if (isConfirm) {
+                                $('#actionsList').modal("toggle");
+                                console.log(formData);
+                                $.ajax({
+                                    type: "POST",
+                                    contentType: 'application/json',
+                                    contentType: false,
+                                    cache: false,
+                                    processData: false,
+                                    dataType: 'json',
+                                    url: "/ConvocationList/JASONCreateLeaseGown/",
+                                    data: formData,
+                                    success: function (data) {
+                                        console.log(data);
+                                        window.location.href = "/SundryAndOtherIncomeChargesPayment/MakePayment?sundryIncomeItemId=" + sundryItemId;
+                                        $("#updateModal").modal('toggle');
+                                    }
+                                });
+                            }
+                            else {
+                                //RejectStudent(studentId);
+                                swal("Ok", "Please edit your name as appriopraite", "info");
+
+                            }
+                        });
+
+                    
+                }
+            });
+        });
+    });
+</script>

@@ -1,0 +1,70 @@
+﻿@model IEnumerable<SwiftKampusModel.CBTE.ExamLog>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Course.CourseCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExamType.ExamName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Level.LevelName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Semester.SemesterName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sessions.SessionName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Score)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Course.CourseCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExamType.ExamName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Level.LevelName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Semester.SemesterName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sessions.SessionName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Score)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ExamLogId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ExamLogId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ExamLogId })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,166 @@
+﻿@model SwiftKampus.Models.RegisterUtmeViewModel
+@using SwiftKampus.Models
+@{
+    ViewBag.Title = "UTME Registration";
+    Layout = "~/Views/Shared/_LayoutWebSite2.cshtml";
+
+}
+<link href="~/Content/my_css/footer.css" rel="stylesheet" />
+
+
+<section class="divider">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-push-1">
+                <div class="border-1px p-20 mb-0" style="border: 1px solid #cac9c9 !important;">
+                    <div class="row">
+                        <a class="btn btn-primary btn-sm" href="@Url.Action("Login","Account")">Back to Login Page</a>
+
+                    </div>
+                    <div class="row">
+
+                        <div class="col-md-5 border-right">
+                            <div class="col-md-12">
+                                <hr />
+                                <h4 class="text-lg-center">
+                                    Please read the following Instructions.
+                                </h4>
+                                <ul class="list check">
+                                    <li>Be sure your details are correct before you proceed.</li>
+                                    <li>Type in your <span class="text-danger">Contact and Active</span> Email Address.</li>
+                                    <li>Type in your <span class="text-danger">Contact </span> Phone Number</li>
+                                    <li>Use an easy to remember Password</li>
+                                    <li>The Grey text-fields cannot be edited.</li>
+                                </ul>
+                                @Html.ValidationSummary("", new { @class = "text-danger" })
+                                <p class="text-danger">@ViewBag.Message</p><hr />
+                                
+                                @Html.ValidationSummary("", new { @class = "text-danger" })
+                                <p class="text-danger">@ViewBag.Message</p>
+
+                            </div>
+
+                        </div>
+                        <div class="col-md-7">
+                            <div class="ibox-content">
+
+                                <h4 class="text-center">UTME Application.</h4>
+
+
+                                @using (Html.BeginForm("RegisterUtmeApplicant", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.HiddenFor(model => model.SessionId)
+
+                                    <p class="text-danger">@ViewBag.Message</p>
+
+                                    @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                                    <div class="form-group">
+                                        @Html.Label("First Name", new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @readonly = true })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.Label("Last Name", new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @readonly = true })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.Label("Jamb Reg No", new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(m => m.JambRegNo, new { @class = "form-control", @readonly = true })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.Label("First Choice", new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(m => m.FirstChoice, new { @class = "form-control", @readonly = true })
+                                            @Html.ValidationMessageFor(model => model.FirstChoice, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.Label("Phone Number", new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger", @placeholder = "Enter Contact Number" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.Label("Email", new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger", @placeholder = "Enter Active Email", })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.Label("Password", new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-8">
+                                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger", @placeholder = "Enter easy-to-remember password" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.Label("Confirm Password", new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-8">
+                                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger", @placeholder = "Confirm password" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-offset-3 col-md-8">
+                                            <input type="submit" class="btn ink-reaction btn-raised btn-primary" value="Sign Up" />
+                                        </div>
+                                    </div>
+
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center text-lg-center" style="color:red">Important Notice</h4>
+            </div>
+            <div class="modal-body">
+                <ul class="">
+                    <li class=""><strong> 1. You cannot edit your screening form after submitting and logging out. </strong></li>
+                    <li class=""><strong> 2. Please use the right O'level results and confirm it before logging out. </strong></li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#myModal').modal('show');
+        });
+    </script>
+}

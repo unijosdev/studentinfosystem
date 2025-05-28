@@ -1,0 +1,17 @@
+﻿@model SwiftKampusModel.Staff
+
+<div class="mt-1 mb-1">
+    <img src="@Url.Action("RenderImage", new { staffId = Model.StaffId})" alt="" class="img-fluid rounded-circle contact-avatar mx-auto">
+</div>
+<h3 class="h3-responsive text-center">@Model.FullName</h3>
+<p class="text-center grey-text">Active Status (<i class="text-capitalize text-bold">@Model.IsActiveStaff</i>)</p>
+<ul class="striped">
+    <li><strong>State of Origin: </strong> @Model.StateOfOrigin</li>
+    <li><strong>Age: </strong> @Model.Age</li>
+    <li><strong>Employment Date: </strong> @Model.HireDate</li>
+    <li><strong>Resumption Date: </strong> @Model.ResumptionDate</li>
+    <li><strong>Phone Number:</strong> @Model.PhoneNumber</li>
+    <li><strong>Marital Status:</strong> @Model.MaritalStatus</li>
+</ul>
+
+@Html.ActionLink("Check Full Details", "Details", new { id = Model.StaffId }, new { @class = "btn btn-primary" })

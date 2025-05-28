@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "GetUtmeApplicant";
+    //Layout = "~/Views/Shared/_LayoutWebSite2.cshtml";
+}
+
+<h2>GetUtmeApplicant</h2>
+
+<div class="ibox-content">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h2>Get Applicant Screening Details</h2>
+
+                        <div class="ibox-tools">
+
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <h3 class="text-danger">@ViewBag.Message</h3>
+                    @using (Html.BeginForm("DoGetUtmeApplicant", "UtmeApplicants",  FormMethod.Post, new { @class = "form", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        
+
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <label for="Id">Jamb Registration Number</label>
+                                    <input id="JambRegNo" name="JambRegNo" class="form-control" type="text" placeholder="Jamb Registration Number" />
+
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <label for="Id"></label>
+                                    <button class="btn btn-primary btn-sm" type="submit">Get Information<span class="icon-more-icon"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

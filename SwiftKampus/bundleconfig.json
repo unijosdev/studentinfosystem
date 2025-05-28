@@ -1,0 +1,12 @@
+[
+  {
+    "outputFileName": "AdminTemplate/UsedCss/adminbundle.css",
+    "inputFiles": [
+      "AdminTemplate/UsedCss/animate.css",
+      "AdminTemplate/UsedCss/bootstrap.min.css",
+      "AdminTemplate/UsedCss/datatables.min.css",
+      "AdminTemplate/UsedCss/style.css",
+      "AdminTemplate/UsedCss/toastr.min.css"
+    ]
+  }
+]

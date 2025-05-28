@@ -1,0 +1,121 @@
+﻿
+@{
+    ViewBag.Title = "PrintReceipt";
+    Layout = "~/Views/Shared/_LayoutPrint.cshtml";
+}
+
+
+@model SwiftKampusModel.SupplementaryList
+
+
+<div class="transparentbox">
+    <div style="text-align: center;">
+        <img src="~/Content/Images/Ebonyi.png" />
+    </div>
+    <h4 class="text-center"> SUPPLEMENTARY FEE RECIEPT </h4>
+</div>
+<table style="width: 100%">
+    <tr>
+        <th>
+
+            @*<div class="col-md-3">
+                <img src="@Url.Action("RenderImage", "Students",new { studentId = Model.Student.StudentId})" width="100" height="100" />
+            </div>*@
+        </th> 
+        <th>
+            <div class="col-md-4">
+                 <table class="table table-banded no-margin table-responsive">
+                    <tbody>
+                    <tr><td>FULLNAME: <strong> @Model.FullName</strong></td></tr>
+                    <tr><td>JAMB REG: <strong> @Model.JambRegNo</strong></td></tr>
+                    <tr><td>SEX: <strong> @Model.Gender</strong></td></tr>
+                    <tr><td>SESSION: <strong> 2017/2018 </strong></td></tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </th>
+        <th>
+            <div class="col-md-4">
+                <table class="table table-banded no-margin table-responsive">
+                    <tbody>
+                        <tr><td>DEPARTMENT: <strong> @Model.CourseAbbreviation</strong></td></tr>
+                        <tr><td>LEVEL: <strong>NILL</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </th>
+    </tr>
+</table>
+<table style="width: 100%">
+    <tr>
+        <td>
+            PAYMENT DETAILS
+            <table style="width: 100%">
+                <tr><td>RRR:<i class="text-left">@Html.DisplayFor(modelItem => Model.ReferenceNo)</i></td></tr>
+
+                <tr><td>Payment Date:<i class="text-left">@Html.DisplayFor(modelItem => Model.PaymentDate)</i></td></tr>
+                <tr><td>Payment Status: @Html.DisplayFor(modelItem => Model.TransactionMessage)</td></tr>
+                <tr><td>Amount Paid: 5,000</td></tr>
+            </table>
+        </td>
+        <td>
+            <table style="width: 100%">
+                FEE BREAKDOWN
+                <tr>
+                    <th>
+                        Fee Name
+                    </th>
+
+                    <th>Amount</th>
+                    <th>
+                        Description
+                    </th>
+                </tr>
+
+               
+                    <tr>
+                        <td>
+                            Supplementary List
+                        </td>
+
+                        <td>
+                            5,000.00
+                        </td>
+                        <td>
+                           Supplementary List Processing Fee
+                        </td>
+
+                    </tr>
+                
+
+            </table>
+        </td>
+    </tr>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+	function Excel() {
+		var url = "/CourseRegistrations/PrintDetails?model=" +@ViewBag.Course ;
+		$('#myModalDivBody').load(url,
+			function () {
+				$('#actionsList').modal("show");
+			});
+	};
+	function AddNew() {
+		window.open('@Url.Action("Create", "Students")', '_self');
+	};
+</script>
+
+
+

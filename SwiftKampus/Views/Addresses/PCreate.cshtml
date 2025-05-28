@@ -1,0 +1,197 @@
+﻿@model SwiftKampusModel.Address
+@using SwiftKampusModel
+@using SwiftKampus.Models
+@using SwiftKampus.Controllers
+@{
+    ViewBag.Title = "Add Address";
+    Layout = null;
+    var Model = (ApplicantTypeVm)ViewBag.Model;
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-12">
+        <h2>
+            <i class="fa fa-plus"></i> Add Address(Parent or Guardian)
+        </h2>
+
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <br />
+        <br />
+
+        <form id="myaddressform" onsubmit="return false;">
+            <div class="card-body">
+
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AddressType, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-6">
+                            @Html.DropDownList("AddressType", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.AddressType, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-6">
+                            @Html.DropDownList("State", null, htmlAttributes: new { @class = "form-control", @id = "state2", @onchange = "getLgaList2()" })
+                            @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Local Government", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-6">
+                            @Html.DropDownList("Lga", null, htmlAttributes: new { @class = "form-control", @id = "lga2", })
+                            @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Town, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.Town, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Town, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Street, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.Street, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Street, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.HouseNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.HouseNo, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.HouseNo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-6">
+                            <input id="btnsubmitaddress" type="submit" value="SAVE AND CONTINUE" class="btn block btn-lg btn-primary col-md-12" />
+                        </div>
+                    </div>
+                </div>
+            </div><!--end .card-body -->
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <a id="btnAddressPrevious" href="#" class="btn btn-warning btn-lg btnPrevious" data-dismiss="modal">PREVIOUS</a>
+
+        @if (Model.ApplicantType.Equals(ProgrammeCategory.UnderGraduate.ToString()))
+        {
+            ViewBag.Status3 = "UG";
+            <a id="btnoAddressNext" href="#" class="btn btn-warning btn-lg btnNext" data-dismiss="modal">NEXT</a>
+        }
+        @if (Model.ApplicantType.Equals(ProgrammeCategory.Masters.ToString()) ||
+                Model.ApplicantType.Equals(ProgrammeCategory.MBA.ToString()) ||
+                Model.ApplicantType.Equals(ProgrammeCategory.Post_Graduate.ToString()) ||
+                Model.ApplicantType.Equals(ProgrammeCategory.Phd.ToString()))
+        {
+            ViewBag.Status3 = "MSC";
+            <a id="btnoAddressNextO" href="#" class="btn btn-warning btn-lg btnNext" data-dismiss="modal">NEXT</a>
+        }
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script>
+    $("#btnoAddressNext").click(function () {
+        $("#sponsors").click();
+    });
+    $("#btnoAddressNextO").click(function () {
+        $("#employment").click();
+    });
+    $("#btnAddressPrevious").click(function () {
+        $("#nextKin").click();
+    });
+
+    $("#btnsubmitaddress").click(function () {
+        var data = $("#myaddressform").serialize();
+        $.ajax({
+            type: "POST",
+            url: "/Addresses/PCreate",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    swal({
+                        title: "Good Job!!!",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#ab973a",
+                        confirmButtonText: "Proceed",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                        function (isConfirm) {
+                            if (isConfirm) {
+                                swal("Great", "You can proceed now", "success");
+                                goAdressNextRef();
+                            }
+                            toastr["success"](data.message);
+                        });
+                } else {
+                    swal({
+                        title: "Warning",
+                        text: data.message,
+                        type: "warning",
+                    });
+                    toastr["success"](data.message);
+                }
+
+            }
+        });
+    });
+
+    function goAdressNextRef() {
+          var check = '@ViewBag.Status3';
+          if (check === 'MSC') {
+              $("#employment").click();
+          }
+          else if (check === 'UG') {
+              $("#sponsors").click();
+          }
+
+    }
+
+    function getLgaList2() {
+        var stateId = $("#state2").val();
+        //alert(stateId);
+        $.ajax
+            ({
+                url: '/Students/GetLgaList?codeId=' + stateId,
+                type: 'GET',
+                datatype: 'application/json',
+                contentType: 'application/json',
+                success: function (result) {
+                    $("#lga2").html("");
+                    $.each($.parseJSON(result),
+                        function (i, city) {
+                            $("#lga2").append($('<option></option>').val(city).html(city));
+                        });
+
+                },
+                error: function () {
+                    alert("Whooaaa! Something went wrong..");
+                }
+            });
+    }
+</script>

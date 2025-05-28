@@ -1,0 +1,149 @@
+﻿@model SwiftKampus.ViewModels.ShoppingCart.CheckoutVm
+@{
+    ViewBag.Title = "Checkout";
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Convocation Gowns, Materials and Souvenirs</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index-2.html">Home</a>
+            </li>
+            <li>
+                <a>E-commerce</a>
+            </li>
+            <li class="active">
+                <strong>Shoping cart</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <span class="pull-right">(<strong>@Model.OrderDetails.Count()</strong>) items</span>
+                            <h5>Items in your cart</h5>
+                        </div>
+                        @foreach (var item in Model.OrderDetails)
+                        {
+                            <div class="ibox-content">
+
+                                <div class="table-responsive">
+                                    <table class="table shoping-cart-table">
+
+                                        <tbody>
+                                            <tr>
+                                                <td width="90">
+                                                    <div class="cart-product-imitation">
+                                                    </div>
+                                                </td>
+                                                <td class="desc">
+                                                    <h3>
+                                                        <a href="#" class="text-navy">
+                                                            @item.Product.ProductName
+                                                        </a>
+                                                    </h3>
+
+
+                                                    <div class="m-t-sm">
+                                                        |
+                                                        <a href="#" class="text-muted"><i class="fa fa-trash"></i> Remove item</a>
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    @item.Product.ProductPrice
+                                                </td>
+                                                <td width="65">
+                                                    <input type="text" class="form-control" placeholder="@item.Quantity">
+                                                </td>
+                                                <td>
+                                                    <h4>
+                                                        @item.Total
+                                                    </h4>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        }
+
+
+                        @*<div class="ibox-content">
+
+                                <button class="btn btn-primary pull-right"><i class="fa fa fa-shopping-cart"></i> Checkout</button>
+                                <button class="btn btn-white"><i class="fa fa-arrow-left"></i> Continue shopping</button>
+
+                            </div>*@
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <form id="myform" onsubmit="return false;">
+                                @Html.AntiForgeryToken()
+
+                                <div class="card">
+                                    <div class="card-head style-primary">
+                                        <header>
+                                            <div class="form-header  purple darken-4">
+                                                <h3><i class="fa fa-save"></i> Customer Detail</h3>
+                                            </div>
+                                        </header>
+
+                                    </div><!--end .card-head -->
+                                    <div class="card-body">
+
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Order.Customer.Fullname)
+                                            @Html.EditorFor(model => model.Order.Customer.Fullname, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Order.Customer.Email)
+                                            @Html.EditorFor(model => model.Order.Customer.Email, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Order.Customer.PhoneNumber)
+                                            @Html.EditorFor(model => model.Order.Customer.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                                        </div>
+
+
+                                        <div class="md-form">
+                                            <input id="btnsubmit" type="submit" value="Process Payment" class="btn btn-success" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+<script type="text/javascript">
+    $("#btnsubmit").click(function () {
+        window.location.href = "/Checkout/ProcessPayment?id=" + @Model.Order.OrderId;
+    });
+</script>

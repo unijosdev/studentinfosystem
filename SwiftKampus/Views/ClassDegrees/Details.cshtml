@@ -1,0 +1,58 @@
+﻿@model SwiftKampusModel.ClassDegree
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ClassDegree</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SchoolProgramme.ProgrammeType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SchoolProgramme.ProgrammeType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DegreeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DegreeName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MinimumValue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MinimumValue)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MaximumValue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaximumValue)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remark)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remark)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ClassDegreeId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,244 @@
+﻿@using SwiftKampus.Models
+
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="@SchoolSetUp.Keywords">
+    <meta name="description" content="@SchoolSetUp.Description">
+
+    <title>@SchoolSetUp.CurrentSchoolName | @ViewBag.Title</title>
+    <link rel="icon" type="image/png" href="~/Content/Images/@SchoolSetUp.SchoolLogo">
+
+    <!-- Stylesheet -->
+    <link href="/Content/UnijosUI/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/Content/UnijosUI/css/jquery-ui.min.css" rel="stylesheet" type="text/css">
+    <link href="/Content/UnijosUI/css/animate.css" rel="stylesheet" type="text/css">
+    <link href="/Content/UnijosUI/css/css-plugin-collections.css" rel="stylesheet" />
+    <!-- CSS | menuzord megamenu skins -->
+    <link href="/Content/UnijosUI/css/menuzord-megamenu.css" rel="stylesheet" />
+    <link id="menuzord-menu-skins" href="/Content/UnijosUI/css/menuzord-skins/menuzord-boxed.css" rel="stylesheet" />
+    <!-- CSS | Main style file -->
+    <link href="/Content/UnijosUI/css/style-main.css" rel="stylesheet" type="text/css">
+    <!-- CSS | Preloader Styles -->
+    <link href="/Content/UnijosUI/css/preloader.css" rel="stylesheet" type="text/css">
+    <!-- CSS | Custom Margin Padding Collection -->
+    <link href="/Content/UnijosUI/css/custom-bootstrap-margin-padding.css" rel="stylesheet" type="text/css">
+    <!-- CSS | Responsive media queries -->
+    <link href="/Content/UnijosUI/css/responsive.css" rel="stylesheet" type="text/css">
+    <!-- CSS | Style css. This is the file where you can place your own custom css code. Just uncomment it and use it. -->
+    <!-- <link href="css/style.css" rel="stylesheet" type="text/css"> -->
+    <!-- CSS | Theme Color -->
+    <link href="~/Content/my_css/theme-skin-color-set1.css" rel="stylesheet" />
+    <style>
+        .show-password {
+            width: 100%;
+            label
+
+        {
+            position: absolute;
+            left: -9999px;
+            text-indent: -9999px;
+        }
+
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password + .unmask {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            text-indent: -9999px;
+            width: 25px;
+            height: 25px;
+            background: #aaa;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+            -webkit-appearance: none;
+        }
+
+            .password + .unmask:before {
+                content: "";
+                position: absolute;
+                top: 4px;
+                left: 4px;
+                width: 17px;
+                height: 17px;
+                background: #e3e3e3;
+                z-index: 1;
+                border-radius: 50%;
+            }
+
+        .password[type="text"] + .unmask:after {
+            content: "";
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            width: 13px;
+            height: 13px;
+            background: #aaa;
+            z-index: 2;
+            border-radius: 50%;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .layer-overlay.overlay-theme-colored-7::before {
+            background-color: white !important;
+        }
+
+        body {
+            background-color: #f9f9f9;
+        }
+    </style>
+
+    <!-- external javascripts -->
+    <script src="~/Content/UnijosUi/js/jquery-2.2.4.min.js"></script>
+    <script src="~/Content/UnijosUi/js/jquery-ui.min.js"></script>
+    <script src="~/Content/UnijosUi/js/bootstrap.min.js"></script>
+    <!-- JS | jquery plugin collection for this theme -->
+    <script src="~/Content/UnijosUi/js/jquery-plugin-collection.js"></script>
+</head>
+
+<body class="">
+    <div id="wrapper" class="clearfix">
+        <!-- preloader -->
+        @*<div id="preloader">
+                <div id="spinner">
+                    <img alt="" src="~/Content/Images/5.gif">
+                </div>
+                <div id="disable-preloader" class="btn btn-default btn-sm">Disable Preloader</div>
+            </div>*@
+        <div class="main-content">
+
+            <!-- Section: inner-header -->
+            <section class="inner-header divider layer-overlay overlay-theme-colored-7" data-bg-img="../Content/Images/bg1.png">
+                <div class="container pt-15 pb-15">
+                    <!-- Section Content -->
+                    <div class="section-content">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h2 class="text-theme-colored2 font-36"><a href="@Url.Action("Index","Home")"><img alt="" src="~/Content/UnijosUI/images/logo-wide.png" style="width:300px;"></a></h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+
+            @RenderBody()
+        </div>
+
+        <footer id="footer" class="footer" data-bg-color="#202429">
+
+            <div class="footer-bottom" data-bg-color="#2B3037">
+                <div class="container pt-15 pb-15">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="font-14 sm-text-center m-0">Copyright &copy;@DateTime.Now.Year <span class="text-theme-colored2">University Of Jos</span>. All Rights Reserved</p>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <div class="widget no-border m-0">
+                                <ul class="list-inline sm-text-center mt-5 font-12">
+                                    <li>
+                                        <a href="@Url.Action("Faq","Faqs")">FAQ</a>
+                                    </li>
+                                    <li>|</li>
+                                    @*<li>
+                                            <a href="#">Help Desk</a>
+                                        </li>
+                                        <li>|</li>*@
+                                    <li>
+                                        <a href="@Url.Action("Support","Home")">Support</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Mainly scripts -->
+    <script src="~/Content/UnijosUi/js/custom.js"></script>
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+        (function () {
+            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/5c7906313341d22d9ce6c71a/default';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
+    <script>
+        // $(document).foundation();
+
+        /*
+        Switch actions
+        */
+        $('.unmask').on('click', function () {
+
+            if ($(this).prev('input').attr('type') == 'password')
+                changeType($(this).prev('input'), 'text');
+
+            else
+                changeType($(this).prev('input'), 'password');
+
+            return false;
+        });
+
+        function changeType(x, type) {
+            if (x.prop('type') == type)
+                return x; //That was easy.
+            try {
+                return x.prop('type', type); //Stupid IE security will not allow this
+            } catch (e) {
+                //Try re-creating the element (yep... this sucks)
+                //jQuery has no html() method for the element, so we have to put into a div first
+                var html = $("<div>").append(x.clone()).html();
+                var regex = /type=(\")?([^\"\s]+)(\")?/; //matches type=text or type="text"
+                //If no match, we add the type attribute to the end; otherwise, we replace
+                var tmp = $(html.match(regex) == null ?
+                    html.replace(">", ' type="' + type + '">') :
+                    html.replace(regex, 'type="' + type + '"'));
+                //Copy data from old element
+                tmp.data('type', x.data('type'));
+                var events = x.data('events');
+                var cb = function (events) {
+                    return function () {
+                        //Bind all prior events
+                        for (i in events) {
+                            var y = events[i];
+                            for (j in y)
+                                tmp.bind(i, y[j].handler);
+                        }
+                    }
+                }(events);
+                x.replaceWith(tmp);
+                setTimeout(cb, 10); //Wait a bit to call function
+                return tmp;
+            }
+        }
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

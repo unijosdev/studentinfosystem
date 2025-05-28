@@ -1,0 +1,179 @@
+﻿@using Microsoft.AspNet.Identity
+@model IEnumerable<SwiftKampusModel.SchoolMail.SchoolMailMessage>
+
+@{
+    ViewBag.Title = "ImportantMail";
+}
+<div class="mail-box-header">
+
+    <form method="get" action="http://webapplayers.com/inspinia_admin-v2.7.1/index.html" class="pull-right mail-search">
+        <div class="input-group">
+            <input type="text" class="form-control input-sm" name="search" placeholder="Search email">
+            <div class="input-group-btn">
+                <button type="submit" class="btn btn-sm btn-primary">
+                    Search
+                </button>
+            </div>
+        </div>
+    </form>
+    <h2>
+        Important (@ViewBag.ImportantMessages)
+    </h2>
+    <div class="mail-tools tooltip-demo m-t-md">
+        <div class="btn-group pull-right">
+            <button class="btn btn-white btn-sm"><i class="fa fa-arrow-left"></i></button>
+            <button class="btn btn-white btn-sm"><i class="fa fa-arrow-right"></i></button>
+        </div>
+        <button id="btnRefresh" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" title="Refresh inbox"><i class="fa fa-refresh"></i> Refresh</button>
+        <button id="btnMarkAsRead" btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="Mark as read"><i class="fa fa-eye"></i> </button>
+        <button id="btnMarkAsImportant" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="Mark as important"><i class="fa fa-exclamation"></i> </button>
+        <button id="btnTrash" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="Move to trash"><i class="fa fa-trash-o"></i> </button>
+    </div>
+</div>
+<div class="mail-box">
+
+    <table class="table table-hover table-mail">
+        <tbody>
+            @foreach (var message in Model.Where(x => x.HasRead.Equals(false)))
+            {
+                <tr class="unread">
+                    <td class="check-mail">
+                        <input id="@("anything" + message.SchoolMailMessageId)" onchange="LogId(@message.SchoolMailMessageId)" type="checkbox" class="i-checks" />
+                    </td>
+                    <td class="mail-ontact"><a href="#" onclick="DetailMail('@message.SchoolMailMessageId')">@message.RecieverFullName</a></td>
+                    <td class="mail-subject"><a href="#" onclick="DetailMail('@message.SchoolMailMessageId')">@message.MessageSubject.</a></td>
+                    @if (!string.IsNullOrEmpty(message.AttachmentLocation1))
+                    {
+                        <td class=""><i class="fa fa-paperclip"></i></td>
+                    }
+                    else
+                    {
+                        <td class=""></td>
+
+                    }
+                    @if (DateTime.Now.DayOfYear > message.MessageDataTime.DayOfYear)
+                    {
+                        <td class="text-right mail-date">@message.MessageDataTime.ToString("M")</td>
+                    }
+                    else
+                    {
+                        <td class="text-right mail-date">@message.MessageDataTime.ToString("t")</td>
+                    }
+                </tr>
+            }
+            @foreach (var message in Model.Where(x => x.HasRead.Equals(true)))
+            {
+                <tr class="read">
+                    <td class="check-mail">
+                        <input id="@("anything" + message.SchoolMailMessageId)" onchange="LogId(@message.SchoolMailMessageId)" type="checkbox" class="i-checks">
+                    </td>
+                    <td class="mail-ontact"><a href="#" onclick="DetailMail('@message.SchoolMailMessageId')">@message.RecieverFullName</a> <span class="label label-warning pull-right">Clients</span> </td>
+                    <td class="mail-subject"><a href="#" onclick="DetailMail('@message.SchoolMailMessageId')">@message.MessageSubject.</a></td>
+                    @if (!string.IsNullOrEmpty(message.AttachmentLocation1))
+                    {
+                        <td class=""><i class="fa fa-paperclip"></i></td>
+                    }
+                    else
+                    {
+                        <td class=""></td>
+
+                    }
+                    @if (DateTime.Now.DayOfYear > message.MessageDataTime.DayOfYear)
+                    {
+                        <td class="text-right mail-date">@message.MessageDataTime.ToString("M")</td>
+                    }
+                    else
+                    {
+                        <td class="text-right mail-date">@message.MessageDataTime.ToString("t")</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function () {
+        //$('#inbox').html('@ViewBag.ImportantMessages');
+
+    });
+    var list = [];
+    function DetailMail(schoolMailMessage) {
+        var url = "/Mailling/OtherDetailMail?schoolMailMessagesId=" + schoolMailMessage;
+        $('#mydetailBody').load(url);
+
+    }
+    function LogId(schoolMailMessage) {
+        if ($('#anything' + schoolMailMessage).is(":checked")) {
+            list.push(schoolMailMessage);
+        } else {
+            var index = list.indexOf(schoolMailMessage);
+                if (index > -1) {
+                    list.splice(index, 1);
+            }
+        }
+    }
+
+    $("#btnRefresh").click(function () {
+        var url = "/Mailling/InboxMail?userId=" + '@User.Identity.GetUserId()';
+        $('#mydetailBody').load(url);
+        });
+
+    $("#btnTrash").click(function () {
+        //window.alert(list);
+        $.ajax({
+            type: "POST",
+            contentType: 'application/json',
+            url: "/Mailling/TrasList",
+            data: JSON.stringify(list),
+            success: function (data) {
+                if (data.status) {
+                    toastr["success"](data.message);
+                    var url = "/Mailling/InboxMail?userId=" + '@User.Identity.GetUserId()';
+                    $('#mydetailBody').load(url);
+                } else {
+                    toastr["error"](data.message);
+                }
+
+            }
+        });
+    });
+    $("#btnMarkAsRead").click(function () {
+        window.alert(list);
+        $.ajax({
+            type: "POST",
+            contentType: 'application/json',
+            url: "/Mailling/MarkAsRead",
+            data: JSON.stringify(list),
+            success: function (data) {
+                if (data.status) {
+                    toastr["success"](data.message);
+                    var url = "/Mailling/InboxMail?userId=" + '@User.Identity.GetUserId()';
+                    $('#mydetailBody').load(url);
+                } else {
+                    toastr["error"](data.message);
+                }
+
+            }
+        });
+    });
+    $("#btnMarkAsImportant").click(function () {
+        window.alert(list);
+        $.ajax({
+            type: "POST",
+            contentType: 'application/json',
+            url: "/Mailling/MarkAsImportant",
+            data: JSON.stringify(list),
+            success: function (data) {
+                if (data.status) {
+                    toastr["success"](data.message);
+                    var url = "/Mailling/InboxMail?userId=" + '@User.Identity.GetUserId()';
+                    $('#mydetailBody').load(url);
+                } else {
+                    toastr["error"](data.message);
+                }
+
+            }
+        });
+    });
+</script>

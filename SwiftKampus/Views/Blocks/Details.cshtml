@@ -1,0 +1,42 @@
+﻿@model SwiftKampusModel.Accomodation.Block
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Block</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Hostel.HostelCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Hostel.HostelCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BlockName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BlockName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Capacity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Capacity)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.BlockId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

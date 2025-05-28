@@ -1,0 +1,43 @@
+﻿@model SwiftKampus.ViewModels.Result.DeptSanateFormatVm
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover table-responsive">
+        <thead>
+            <tr>
+                <th>S/N</th>
+                <th>MAT NO</th>
+                <th>Full Name</th>
+                <th>ME</th>
+                <th>MNSA</th>
+                <th>NSS</th>
+                @foreach (var courseCode in Model.CourseCode)
+                {
+                    <th>@courseCode</th>
+                    <th>GP</th>
+                }
+
+            </tr>
+        </thead>
+        @foreach (var ca in Model.DeptSanateFormatDetailVms)
+        {
+            <tr>
+                <td>@ca.Sn</td>
+                <td>@ca.MatricNo</td>
+                <td>@ca.FullName</td>
+                <td>@ca.ModeOfEntry</td>
+                <td>@ca.MNSA</td>
+                <td>@ca.NSS</td>
+                @foreach (var code in Model.CourseCode)
+                {
+                    foreach (var item in ca.ContinuousAssessments.Where(x => x.Course.CourseCode.Equals(code)))
+                    {
+                        <td>@item.Total</td>
+                        <td>@item.GradePoint</td>
+                    }
+                }
+            </tr>
+        }
+
+    </table>
+</div>
+

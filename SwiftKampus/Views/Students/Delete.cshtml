@@ -1,0 +1,163 @@
+﻿@model SwiftKampusModel.Student
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<div class="card">
+    <div class="card-head style-primary">
+        <header>
+            <h3>
+                <i class="fa fa-remove"></i> Delete Student Record
+            </h3>
+        </header>
+
+    </div><!--end .card-head -->
+    <div class="card-body">
+        <h3>Are you sure you want to delete this?</h3>
+        <div>
+
+            <div>
+                <h4>Student</h4>
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.EnrollmentDate)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.EnrollmentDate)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Active)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Active)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.IsGraduated)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.IsGraduated)
+                    </dd>
+
+                    @*<dt>
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Id)
+        </dd>*@
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.FirstName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.FirstName)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.MiddleName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.MiddleName)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.LastName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.LastName)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Email)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PhoneNumber)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.PhoneNumber)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.StateOfOrigin)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.StateOfOrigin)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Nationality)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Nationality)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.DateOfBirth)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.DateOfBirth)
+                    </dd>
+
+                
+                </dl>
+
+                <form id="myform" onsubmit="return false;">
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden" id="id" name="id" class="form-control" value="@Model.StudentId">
+                    <input id="btndelete" type="submit" value="Delete" class="btn btn-danger" /> |
+
+                    <a href="#" class="btn btn-info" data-dismiss="modal">Cancel</a>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+
+    $("#btndelete").click(function () {
+        alert();
+        var data = $("#myform").serialize();
+        //window.alert(data);
+        $.ajax({
+            type: "POST",
+            url: "/Students/Delete",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+                    window.oTable.ajax.reload(); //run my_fun() ondomready
+
+                    toastr["info"](data.message);
+                    $('#myform')[0].reset();
+                } else {
+                    //$('#actionsList').modal("hide");
+                    toastr["error"](data.message);
+                }
+
+            }
+        });
+    });
+</script>

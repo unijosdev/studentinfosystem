@@ -1,0 +1,98 @@
+﻿@model SwiftKampusModel.AddmissionApplicant.ChangeOfCoursePayment
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ChangeOfCoursePayment</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Session.SessionName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Session.SessionName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplicantEmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApplicantEmail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReferenceNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReferenceNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AmountPayed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AmountPayed)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExpectedAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExpectedAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentDateTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaymentDateTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsPayed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsPayed)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TransactionMessage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TransactionMessage)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ChangeOfCoursePaymentId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

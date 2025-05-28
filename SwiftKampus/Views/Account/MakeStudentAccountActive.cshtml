@@ -1,0 +1,40 @@
+﻿@{
+    ViewBag.Title = "Activate Student Account";
+}
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h2>Activate Student Account</h2>
+
+                    <div class="ibox-tools">
+
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <h3 class="text-danger">@ViewBag.Message</h3>
+
+                    @using (Html.BeginForm("MakeStudentAccountActive", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Get, new { @class = "", role = "form" }))
+                    {
+
+                        <br />
+                        <div class="form-group">
+
+                            <div class="col-md-7">
+                                <label for="Id">User Id / Email</label>
+                                <input id="Id" name="Id" class="form-control" type="text" required placeholder="Type your Jamb Reg / Form No / Email" />
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary btn-lg" type="submit">Update Record<span class="icon-more-icon"></span></button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

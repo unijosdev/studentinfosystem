@@ -1,0 +1,192 @@
+﻿@model IEnumerable<SwiftKampusModel.Programme>
+@using SwiftKampusModel
+@using SwiftKampus.Controllers
+
+
+@{
+    ViewBag.Title = "Index";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
+    ApplicantTypeVm ApplicantType = (ApplicantTypeVm)ViewBag.ApplicantType;
+
+}
+
+<input type="text" id="modeOfEntry" value="@ViewBag.ModeOfEntry" hidden>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        @*<div class="col-md-2"></div>*@
+        <div class="col-md-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h4>Upload Jamb Admission Letter</h4>
+                    <p class="text-danger">Maximum file size is 500kb</p>
+                    <div class="ibox-tools">
+                        <a onclick="addDocument()" class="btn btn-primary"><i class="fa fa-plus left"></i> ADD DOCUMENT</a>
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table style="width: 100%" id="J_datatable" class="table table-striped table-bordered table-hover table-responsive dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>File Name</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-12">
+
+        @if (@ViewBag.ModeOfEntry == "DE")
+        {
+            <a id="btnDeExamPrevious" href="#" class="btn btn-warning btn-lg btnPrevious" data-dismiss="modal">PREVIOUS</a>
+        }
+        else
+        {
+            <a id="btnSponsorsPrevious" href="#" class="btn btn-warning btn-lg btnPrevious" data-dismiss="modal">PREVIOUS</a>
+        }
+        <a id="btnUploadFinish" href="#" class="btn btn-warning btn-lg btnNext" data-dismiss="modal">FINISH</a>
+
+    </div>
+</div>
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade inmodal" id="documentList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content animated">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">RELEVANT DOCUMENTS OPTION</h4>
+                    @*<a class="btn btn-primary btn-sm">Create new action</a>*@
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="documentModalBody">
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+<script type="text/javascript">
+        $(document).ready(function () {
+
+            window.oTable = $("#J_datatable").DataTable({
+                "processing": true, // for show progress bar while loading
+
+                "ajax": {
+                    "url": "/RelevantDocuments/GetIndex",
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "FileName", "autoWidth": true },
+                    //{ "data": "FileAddress", "autoWidth": true },
+                    {
+                        "data": "RelevantDocumentId",
+                        "autoWidth": true,
+                        "render": function (data) {
+                            console.log("saved documents ", data);
+                            return '<a href="#" onclick="Edit(' + data + ')" >  <i class="fa fa-pencil" aria-hidden="true" >&nbsp;View</i></a>&nbsp;&nbsp;' +
+                                '<a href="#" class="text-danger" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" >&nbsp;Remove<i /></a>';
+                        }
+                    }
+                ]
+            });
+
+        });
+        function Edit(programmeId) {
+            var url = "/RelevantDocuments/Save?id=" + programmeId;
+            $('#documentModalBody').load(url,
+                function () {
+                    $('#documentList').modal("show");
+                });
+        };
+        function Delete(programmeId) {
+            var url = "/RelevantDocuments/Delete?id=" + programmeId;
+            $('#documentModalBody').load(url,
+                function () {
+                    $('#documentList').modal("show");
+                });
+        };
+        function addDocument() {
+            var url = "/RelevantDocuments/Save";
+
+            $('#documentModalBody').load(url,
+                function () {
+                    $('#documentList').modal("show");
+                });
+        };
+
+    // Only submit the form if the referee, academic qualifications and upload document tabs are filled properly
+    $("#btnUploadFinish").click(function () {
+        // Make sure at least one document is uploaded
+
+        $.ajax({
+            url: "/RelevantDocuments/GetIndex",
+            type: 'GET',
+            success: function (data) {
+                console.log("data is ", data.data.length);
+                if (data.data.length < 1) {
+                    swal({
+                    title: "Please upload your Jamb Admission Letter",
+                    type: "warning",
+                    confirmButtonText: "Ok",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                });
+                } else {
+                    window.open('@Url.Action("StudentFullDetail", "Students")', '_self');
+                }
+            }
+        });
+
+        @*if (info === "No data available in table") {
+            swal({
+                title: "Please upload your Jamb Admission Letter",
+                type: "warning",
+                confirmButtonText: "Ok",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            });
+        }
+        else {
+            window.open('@Url.Action("StudentFullDetail", "Students")', '_self');
+        }*@
+    });
+
+    $("#btnDeExamPrevious").click(function () {
+        $("#deexam").click();
+    });
+
+    $("#btnSponsorsPrevious").click(function () {
+        $("#sponsors").click();
+    });
+
+</script>

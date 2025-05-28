@@ -1,0 +1,403 @@
+﻿@model IEnumerable<SwiftKampusModel.Student>
+
+@{
+    ViewBag.Title = "Full-Time Student List";
+}
+
+<h2>@ViewBag.Gender</h2>
+<div class="container-fluid">
+    <!-- First row -->
+    <div class="row">
+        <!-- First column -->
+        <div class="col-md-9">
+            <div class="wrapper wrapper-content animated fadeInRight">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>List of Full-Time Student</h5>
+                                <div class="ibox-tools">
+                                    <a onclick="myFunction()" class="btn btn-primary"><i class="fa fa-file-excel-o"></i> EXCEL UPLOAD</a>
+                                    <a href="#" onclick="AddNew()" class="btn btn-primary"><i class="fa fa-user"></i>&nbsp;ADD STUDENT</a>
+                                    @if (ViewBag.Message != null)
+                                    {
+                                        <div class="alert alert-success">
+                                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                            <strong>@ViewBag.Message</strong>
+                                        </div>
+                                    }
+
+                                    <a class="collapse-link">
+                                        <i class="fa fa-chevron-up"></i>
+                                    </a>
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        <i class="fa fa-wrench"></i>
+                                    </a>
+                                </div>
+                                <div class="ibox-content">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label>School Programme</label>
+                                                    @Html.DropDownList("SchoolProgrammeId", (SelectList)ViewBag.SchoolProgrammeId, "", new { @class = "form-control js-example-basic-single" })
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label> Active Student</label>
+                                                    <select class="form-control dropdown js-example-basic-single" id="hasRegistered" name="hasRegistered">
+                                                        <option>Select an option...</option>
+                                                        <option>True</option>
+                                                        <option>False</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Faculty</label>
+                                                    @Html.DropDownList("FacultyId", (SelectList)ViewBag.FacultyId, "", new { @class = "form-control js-example-basic-single", @onchange = "getDeptList()" })
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <br />
+                                        <div class="row ">
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label>Department</label>
+                                                    @Html.DropDownList("DepartmentId", (SelectList)ViewBag.DepartmentId, "", new { @class = "form-control js-example-basic-single", @onchange = "getProgrammeList()" })
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label>Dept Option</label>
+                                                    @Html.DropDownList("ProgrammeId", (SelectList)ViewBag.ProgrammeId, "", new { @class = "form-control js-example-basic-single", @onchange = "getCourseList()" })
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label> Clearance</label>
+                                                    <select class="form-control dropdown js-example-basic-single" id="clearanceStage" name="clearanceStage">
+                                                        <option>Select an option...</option>
+                                                        <option>Department</option>
+                                                        <option>Academic</option>
+                                                        <option>Faculty</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    @Html.Label("State")
+                                                    @Html.DropDownList("StateOfOrigin", null, htmlAttributes: new { @class = "form-control", @onchange = "getLgaList()" })
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label>Admitted Session</label>
+                                                    @Html.DropDownList("SessionId", (SelectList)ViewBag.SessionId, "", new { @class = "form-control js-example-basic-single"})
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label>Level Name</label>
+                                                    @Html.DropDownList("LevelId", (SelectList)ViewBag.LevelId, "", new { @class = "form-control js-example-basic-single"})
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label> Gender</label>
+                                                    <select class="form-control dropdown js-example-basic-single" id="gender" name="gender">
+                                                        <option value="null">Select an option...</option>
+                                                        <option>Male</option>
+                                                        <option>Female</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-m-2">
+                                                <br />
+                                                <div class="form-group">
+                                                    <button type="submit" id="btn-search" class="btn btn-primary pull-right">Search</button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!--end .row -->
+                        </div>
+                    </div>
+
+
+                    <div class="ibox-content" style="display:none" id="showMe">
+                        <div class="table-responsive">
+                            <table id="Jdatatable" class="table table-striped table-bordered table-hover table-responsive dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th> Matric: No</th>
+                                        <th> Full Name</th>
+                                        <th> Gender</th>
+                                        <th> Level Name</th>
+                                        <th> Dept Option</th>
+                                        <th> State</th>
+                                        <th> Actions</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.First column -->
+        <!-- Second column -->
+        <div class="col-md-3">
+            <div class="ibox-content">
+                <div class="card contact-card with-padding">
+                    <div class="card-body" id="mydetailBody">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade inmodal" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content animated">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">STUDENT</h4>
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
+<script type="text/javascript">
+    jQuery(function ($) {
+        //$(".select-add-placeholder").prepend("<option value='' disabled selected>Select an option...</option>");
+        $('.js-example-basic-single').select2({
+          placeholder: 'Select an option...',
+          allowClear: true
+        });
+    });
+
+    $(document).ready(function () {
+       
+        $(document).on('click', '#btn-search', function () {
+            $('#btn-search').attr("disabled", "true");
+            if ($.fn.DataTable.isDataTable('#Jdatatable')) {
+                $('#Jdatatable').DataTable().destroy();
+            }
+            
+            $('#showMe').show();
+            window.oTable = $("#Jdatatable").DataTable({
+            "dom": 'Bfrtip',
+            "buttons": ['pageLength', 'copy', 'excel', 'pdf', 'print', 'colvis', {
+                extend: 'pdfHtml5'
+                , text: 'Complete PDF'
+                , orientation: 'landscape'
+                , pageSize: 'A4'
+                , footer: true
+                , download: 'open'
+                }],
+            "lengthMenu": [
+                [10, 25, 50, 100, 200, 500, 1000, 2000, 3000, 5000],
+                [10, 25, 50, 100, 200, 500, 1000, 2000, 3000, 5000]
+            ],
+            "processing": true, // for show progress bar while loading
+            'language': {
+                'loadingRecords': '&nbsp;',
+                'processing': '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading..n.</span>'
+            },
+            "serverSide": true, // if it is true the preocess is done on server side
+            "filter": true, // disables search box
+            "info": true,
+            "stateSave": true,
+                "orderMulti": false, // disable multiple column loading at once
+                "bDestroy": true,
+            "ajax": {
+                "url": "/Students/GetIndex",
+                "type": "POST",
+                "datatype": "json",
+                "data": function (d) {
+
+                    console.log(d);
+
+                    d.SchoolProgrammeId = $('#SchoolProgrammeId').val();
+                    d.hasRegistered = $('#hasRegistered').val();
+                    d.FacultyId = $('#FacultyId').val();
+                    d.DepartmentId = $('#DepartmentId').val();
+                    d.ProgrammeId = $('#ProgrammeId').val();
+                    d.ClearanceStage = $('#clearanceStage').val();
+                    d.SessionId = $('#SessionId').val();
+                    d.LevelId = $('#LevelId').val();
+                    d.gender = $('#gender').val();
+                    d.StateOfOrigin = $('#StateOfOrigin').val();
+                },
+                "complete": function () {
+                    $('#btn-search').removeAttr("disabled");
+                },
+                "error": function () { 
+                    $('#btn-search').removeAttr("disabled");
+                    $('#Jdatatable_processing').hide();
+                }
+            },
+            "columns": [
+                {   "data": "MatricNo", "autoWidth": true, "orderable": true },
+                {   "data": "FullName", "autoWidth": true, "orderable": true },
+                {   "data": "Gender", "autoWidth": true },
+                {   "data": "LevelName", "autoWidth": true },
+                {   "data": "ProgrammeName", "autoWidth": true },
+                {   "data": "StateOfOrigin", "autoWidth": true },
+                {
+                    "data": "StudentId",
+                    "autoWidth": true,
+                    "render": function (data) {
+                        return '<a href="#" onclick="Detail(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="View Details"><i class="fa fa-info-circle" aria-hidden="true">Details&nbsp;&nbsp;</i></a>' +
+                            '<a href="#" onclick="Edit(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="Edit Student"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</a>&nbsp;&nbsp;' +
+                            '<a href="#" onclick="ChangeLevel(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="Update Student"><i class="fa fa-info" aria-hidden="true"></i>Update</a>&nbsp;&nbsp;'; +
+                            '<a href="#" onclick="MakeSchoorlaship(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="Update Student"><i class="fa fa-info" aria-hidden="true"></i>Schoolarship</a>&nbsp;&nbsp;';
+                            //'<a href="#" onclick="Delete(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="Delete Student Record">&nbsp;&nbsp;<i class="fa fa-remove" aria-hidden="true" >Delete</i></a>';
+                    }
+                }
+            ]
+        });
+            //window.oTable.fnSort([[1, "asc"], [2, "desc"]]);
+        });
+
+    });
+
+    $(window).scroll(function(){
+        $("#mydetailBody").stop().animate({"marginTop": ($(window).scrollTop()) + "px", "marginLeft":($(window).scrollLeft()) + "px"}, "slow" );
+    });
+
+    $("#btn-search").click(function () {
+        window.oTable.ajax.reload();
+        $('#btn-search').attr("disabled", "true");
+    });
+
+    function Edit(studentId) {
+        var url = "/Students/Edit?id=" + studentId;
+        window.open(''+url+'', '_self');
+    };
+
+    function Detail(studentId) {
+        var url = "/Students/PartialDetails?id=" + studentId;
+        jQuery.noConflict();
+        $('#mydetailBody').load(url);
+
+    };
+
+    function Excel() {
+        $('#myModalDivBody').load(url,
+            function () {
+                jQuery.noConflict();
+                $('#actionsList').modal("show");
+            });
+    };
+
+    function myFunction() {
+        var url = "/Students/ExcelUpload";
+        $('#myModalDivBody').load(url,
+            function () {
+                jQuery.noConflict();
+                $('#actionsList').modal("show");
+            });
+    };
+    function Delete(studentId) {
+        var url = "/Students/Delete?id=" + studentId;
+        $('#myModalDivBody').load(url,
+            function () {
+                jQuery.noConflict();
+                $('#actionsList').modal("show");
+            });
+    };
+
+    function ChangeLevel(studentId) {
+        var url = "/Departments/UpgradeLevel?studentId=" + studentId;
+        $('#myModalDivBody').load(url,
+            function () {
+                jQuery.noConflict();
+                $('#actionsList').modal("show");
+            });
+    };
+
+    function AddNew() {
+        window.open('@Url.Action("Create", "Students")', '_self');
+    };
+
+    function getDeptList() {
+        var facultyId = $("#FacultyId").val();
+        //alert(stateId);
+        $.ajax
+            ({
+                url: '/Students/GetDeptList?codeId=' + facultyId,
+                type: 'GET',
+                datatype: 'application/json',
+                contentType: 'application/json',
+                success: function (result) {
+                    $("#DepartmentId").html("");
+                    $.each($.parseJSON(result),
+                        function (i, city) {
+                            //alert(result);
+                            $("#DepartmentId").append($('<option></option>').val(city.DepartmentId).html(city.DeptName));
+                        });
+
+                },
+                error: function () {
+                    $("#DepartmentId").html("");
+                    $("#ProgrammeId").html("");
+                }
+            });
+    }
+    function getProgrammeList() {
+        var deptId = $("#DepartmentId").val();
+        //alert(stateId);
+        $.ajax
+            ({
+                url: '/Students/GetProgrammeList?codeId=' + deptId,
+                type: 'GET',
+                datatype: 'application/json',
+                contentType: 'application/json',
+                //data: JSON.stringify({
+                //    codeId: +stateId
+                //}),
+                success: function (result) {
+                    $("#ProgrammeId").html("");
+                    $.each($.parseJSON(result),
+                        function (i, city) {
+                            //alert(result);
+                            $("#ProgrammeId").append($('<option></option>').val(city.ProgrammeId).html(city.ProgrammeName));
+                        });
+
+                },
+                error: function () {
+                    $("#ProgrammeId").html("");
+                }
+            });
+    }
+</script>

@@ -1,0 +1,136 @@
+﻿@using SwiftKampusModel
+@model SwiftKampusModel.AddmissionApplicant.ChangeOfCoursePayment
+@{
+    ViewBag.Title = "PrintReceipt";
+    Layout = "~/Views/Shared/_LayoutPrint.cshtml";
+}
+
+
+<div class="transparentbox">
+    <table style="width: 100%" class="border-2px">
+        <tr>
+            <td>
+                <img src="~/Content/Images/logo-wide2.png" width="300" height="100" />
+            </td>
+            <td class="text-right">
+                <img src="@Url.Action("RenderImage", "Students",new { studentId = Model.Student.StudentId})" width="100" height="100" />
+                <br />
+                @Model.Student.MatricNo
+            </td>
+        </tr>
+    </table>
+
+    <h4 class="text-center"> CHANGE OF COURSE FEE RECIEPT </h4>
+
+    <h4>Student Information</h4>
+    <table style="width: 100%">
+
+        <tr>
+
+            <th>
+                <div class="col-md-6">
+                    <table class="table table-banded no-margin table-responsive">
+                        <tbody>
+                            <tr>
+                                <td>FULLNAME: <strong> @Model.Student.FullName</strong></td>
+                                <td style="padding-left:15em;">DATE:<strong> @Model.PaymentDateTime.ToShortDateString()</strong></td>
+
+                            </tr>
+                            <tr>
+                                <td>FACULTY: <strong> @Model.Student.Programme.Department.Faculty.FacultyName</strong></td>
+                                <td rowspan="3" style="padding-left:15em;">
+                                    <img src="@Url.Action("BarcodeImage", "Home",new { barcodeText = Model.Student.MatricNo})" width="150" height="100" />
+
+                                </td>
+                            </tr>
+                            <tr><td>DEPARTMENT: <strong> @Model.Student.Programme.Department.DeptName</strong></td></tr>
+                            <tr><td>MATRIC NO: <strong> @Model.Student.MatricNo</strong></td></tr>
+                            <tr><td>SESSION: <strong> @Model.Session.SessionName</strong></td></tr>
+                            <tr><td>TRANSACTION NUMBER: <strong>@Model.ReferenceNo</strong></td></tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </th>
+            <th>
+                <div class="col-md-6">
+                    <table class="table table-banded no-margin table-responsive">
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </th>
+        </tr>
+    </table>
+    <table style="width: 100%">
+        <tr>
+            <td>
+                <table style="width: 100%">
+                    <tr>
+                        <th>
+                            S/N
+                        </th>
+                        <th>
+                            Fee Item
+                        </th>
+
+                        <th>Amount</th>
+
+                    </tr>
+                    @{
+                        var number = 1;
+                    }
+
+                    <tr>
+                        <td>
+                            @number
+                        </td>
+                        <td>
+                            Change of Course Fee
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.TotalAmount)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><strong>Total Amount</strong></td>
+
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+        <tr class="text-center">
+            <td>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <p>
+                    If you have any queries, please email us at billing@unijos.edu.ng.<br />
+                    Thank you very much for chosing UNIJOS and we hope to see you shine in the future.
+                </p>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+
+<script type="text/javascript">
+	function Excel() {
+		var url = "/CourseRegistrations/PrintDetails?model=" +@ViewBag.Course ;
+		$('#myModalDivBody').load(url,
+			function () {
+				$('#actionsList').modal("show");
+			});
+	};
+	function AddNew() {
+		window.open('@Url.Action("Create", "Students")', '_self');
+	};
+</script>
+
+
+

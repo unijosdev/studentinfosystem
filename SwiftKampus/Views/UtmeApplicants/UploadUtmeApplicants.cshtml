@@ -1,0 +1,40 @@
+﻿
+
+<a class="btn btn-primary" href="~/Excel Template/UtmeApplicantUpload.xlsx">Download Excel Template</a>
+
+<div class="card-body">
+    <h3>Instructions</h3>
+    <ul>
+        <li>Please click the button above to download the format required for the upload.</li>
+        <li>Please leave no cell empty in the excel template before you upload.</li>
+        <li>Please use correct Dept Option code for upload.</li>
+        <li>Please specify gender by using Male, Female, M for Male or F or Female.</li>
+        <li>If the upload is Direct Entry use True or 2. and for UTME use False or 1</li>
+        <li>You will be redirected to the list of Utme Applicant after successful upload.</li>
+    </ul>
+    <div>
+    </div>
+</div>
+
+@using (Html.BeginForm("UploadUtmeApplicants", "UtmeApplicants", FormMethod.Post, new { enctype = "multipart/form-data", id = "theform" }))
+{
+    @Html.Raw(ViewBag.Error)
+    <span>Excel File </span>
+    <input type="file" name="excelfile" />
+    <br />
+    <input id="btnsubmit" type="submit" value="Upload Utme Record" class="btn btn-primary" />
+}
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#theform').submit(function () {
+            $("input[type='submit']", this)
+                .val("Uploading Please Wait...")
+                .attr('disabled', 'disabled');
+            return true;
+        });
+    });
+</script>
+
+

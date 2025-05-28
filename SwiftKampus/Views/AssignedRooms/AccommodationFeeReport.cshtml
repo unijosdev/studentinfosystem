@@ -1,0 +1,149 @@
+﻿
+@{
+    ViewBag.Title = "Accommodation Fee Payment";
+}
+
+<div class="container-fluid">
+    <!-- First row -->
+    <div class="row">
+        <!-- First column -->
+        <div class="col-md-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <div class="card-head style-primary">
+                        <header>
+                            <h3>
+                                Query Parameters for Accommodation Fee Payment
+                            </h3>
+                        </header>
+
+                        <div class="ibox-content">
+                            <div class="card-body">
+                                <div class="row">
+                                    <form class="form-inline" id="formFilter" onsubmit="return false;">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="DepartmentId">Session Name</label>
+                                                    @Html.DropDownList("SessionId", null, htmlAttributes: new { @class = "form-control" })
+                                                </div>
+                                            </div>                                           
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label for="DepartmentId">Hostel Name</label>
+                                                    @Html.DropDownList("HostelId", (SelectList)ViewBag.HostelId, "", new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label for="DepartmentId">Block Name</label>
+                                                    @Html.DropDownList("BlockId", (SelectList)ViewBag.BlockId, "", new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <br />
+                                                <button type="submit" id="btn-search" class="btn btn-raised btn-default-light ink-reaction">Search/View</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div><!--end .row -->
+                                <!-- END INLINE FORM -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-md-12">
+
+                    </div><!--end .col -->
+                    <div class="col-lg-12">
+                        <div class="table-responsive">
+                            <table id="Jdatatable" class="table order-column hover">
+                                <thead>
+                                    <tr>
+                                        <th>Matric No</th>
+                                        <th>FullName</th>
+                                        <th>Gender</th>
+                                        <th>Reference No</th>
+                                        <th>Programme Name</th>
+                                        <th>Hostel</th>
+                                        <th>Block</th>
+                                        <th>Room</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div><!--end .table-responsive -->
+                    </div><!--end .col -->
+                </div><!--end .row -->
+                <!-- END DATATABLE 2 -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+        window.oTable = $("#Jdatatable").DataTable({
+            "processing": true, // for show progress bar while loading
+            //"serverSide": true, // if it is true the preocess is done on server side
+            //"filter": true, // disables search box
+            //"info": true,
+            //"stateSave": true,
+            //"orderMulti": false, // disable multiple column loading at once
+            "ajax": {
+                "url": "/AssignedRooms/GetAccommodationFeeReport",
+                "type": "POST",
+                "data": function (d) {
+                    return $('#formFilter').serialize();
+                },
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "MatricNo", "autoWidth": true },
+                { "data": "FullName", "autoWidth": true },
+                { "data": "Gender", "autoWidth": true },
+                { "data": "ReferenceNo", "autoWidth": true },
+                { "data": "ProgrammeName", "autoWidth": true },
+                { "data": "HostelName", "autoWidth": true },
+                { "data": "BlockName", "autoWidth": true },
+                { "data": "RoomName", "autoWidth": true },
+                { "data": "AmountPayed", "autoWidth": true },
+                { "data": "IsPayed", "autoWidth": true },
+
+            ]
+        });
+
+
+        $("#btn-search").click(function () {
+            // window.alert("sem:" + $('#SemesterId').val() + " sess:" + $('#SessionId').val());
+            window.oTable.ajax.reload();
+
+        });
+        $("#btn-dwn").click(function () {
+            var url = "/Students/DownloadGraduatePdfReport?SessionName=" + $('#SessionName').val() + "&DepartmentId=" + $('#DepartmentId').val() + "&Indegeneous=" + $('#Indegeneous').val();
+            window.open(url, '_blank');
+
+        });
+        $("#btn-excel").click(function () {
+
+            var url = "/Students/DownloadGraduateExcelReport?SessionName=" + $('#SessionName').val() + "&DepartmentId=" + $('#DepartmentId').val() + "&Indegeneous=" + $('#Indegeneous').val();
+            window.open(url, '_self');
+        });
+
+
+    });
+
+
+</script>
+
+

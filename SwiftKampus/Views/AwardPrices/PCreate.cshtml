@@ -1,0 +1,284 @@
+﻿@model SwiftKampus.ViewModels.StudentBioData.AwardVm
+
+@{
+    ViewBag.Title = "Award Price";
+    Layout = null;
+}
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+<form id="myform" onsubmit="return false;">
+
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>Add Award and Price</h2>
+        </div>
+        <div class="col-lg-2">
+            <br />
+            <span class="col-md-12" input-group-btn col-sm-2">
+                <button id="btnAwardAddMore" type="button" class="btn btn-primary"><i class="fa fa-plus">Add More</i></button>
+            </span>
+        </div>
+    </div>
+
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="com-md-12">
+                    <h4 class="text-center">Instruction</h4>
+                </div>
+            </div>
+            <div class="col-md-10">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="awardRepeatable">
+                            @if (Model.AwardPrices != null && Model.AwardPrices.Count() > 0)
+                            {
+                                for (int i = 0; i < Model.AwardPrices.Count(); i++)
+                                {
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.AwardPrices[i].AwardingBody)
+                                                    @Html.EditorFor(model => model.AwardPrices[i].AwardingBody, new { htmlAttributes = new { @class = "form-control awardingBodyC" } })
+                                                    @Html.ValidationMessageFor(model => model.AwardPrices[i].AwardingBody, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.AwardPrices[i].AcademicPrice)
+                                                    @Html.EditorFor(model => model.AwardPrices[i].AcademicPrice, new { htmlAttributes = new { @class = "form-control academicPriceC" } })
+                                                    @Html.ValidationMessageFor(model => model.AwardPrices[i].AcademicPrice, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.AwardPrices[i].Year)
+                                                    @Html.EditorFor(model => model.AwardPrices[i].Year, new { htmlAttributes = new { @class = "form-control yearC" } })
+                                                    @Html.ValidationMessageFor(model => model.AwardPrices[i].Year, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <span class="col-md-12" onclick="AremoveAward_button(this)" input-group-btn col-sm-2">
+                                            <button type="button" class="btn btn-primary"><i class="fa fa-minus"></i></button>
+                                        </span>
+                                    </div>
+                                }
+
+                            }
+                            else
+                            {
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.AwardPrice.AwardingBody)
+                                                @Html.EditorFor(model => model.AwardPrice.AwardingBody, new { htmlAttributes = new { @class = "form-control awardingBodyC" } })
+                                                @Html.ValidationMessageFor(model => model.AwardPrice.AwardingBody, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.AwardPrice.AcademicPrice)
+                                                @Html.EditorFor(model => model.AwardPrice.AcademicPrice, new { htmlAttributes = new { @class = "form-control academicPriceC" } })
+                                                @Html.ValidationMessageFor(model => model.AwardPrice.AcademicPrice, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.AwardPrice.Year)
+                                                @Html.EditorFor(model => model.AwardPrice.Year, new { htmlAttributes = new { @class = "form-control yearC" } })
+                                                @Html.ValidationMessageFor(model => model.AwardPrice.Year, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" id="btnAwardSave" value="SAVE AND CONTINUE" class="btn btn-primary btn-lg" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="row">
+    <div class="col-md-12">
+        <a id="btnAwardNPrevious" href="#" class="btn btn-warning btn-lg btnPrevious" data-dismiss="modal">PREVIOUS</a>
+        <a id="btnAwardNNext" href="#" class="btn btn-warning btn-lg btnNext" data-dismiss="modal">NEXT</a>
+
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script>
+    var count = 2;
+    $(document).ready(function () {
+        $('#btnAwardAddMore').click(function () {
+            if (count <= 5) {
+                var new_field = `<div class="row">
+                                <div class="col-md-4">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.AwardPrice.AwardingBody)
+                                            @Html.EditorFor(model => model.AwardPrice.AwardingBody, new { htmlAttributes = new { @class = "form-control awardingBodyC" } })
+                                            @Html.ValidationMessageFor(model => model.AwardPrice.AwardingBody, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.AwardPrice.AcademicPrice)
+                                            @Html.EditorFor(model => model.AwardPrice.AcademicPrice, new { htmlAttributes = new { @class = "form-control academicPriceC" } })
+                                            @Html.ValidationMessageFor(model => model.AwardPrice.AcademicPrice, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.AwardPrice.Year)
+                                            @Html.EditorFor(model => model.AwardPrice.Year, new { htmlAttributes = new { @class = "form-control yearC" } })
+                                            @Html.ValidationMessageFor(model => model.AwardPrice.Year, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                 <span class="col-md-12" onclick="AremoveAward_button(this)" input-group-btn col-sm-2">
+                                <button type="button" class="btn btn-primary"><i class="fa fa-minus"></i></button>
+                            </span>
+                            </div>`;
+                $('.awardRepeatable').append(new_field);
+                count++;
+            }
+            else
+            {
+                swal({
+                    title: "Warning",
+                    text: "Maximum number of fields exceeded!",
+                    type: "warning",
+                });
+            }
+        });
+
+        $('#btnAwardSave').click(function () {
+            var awardingBody = [];
+            var academicPrice = [];
+            var year = [];
+            var awardList = [];
+
+            //pulling the form data using the class and adding it to a list
+            $.each($('.awardingBodyC'), function () {
+                awardingBody.push($(this).val());
+                console.log($(this).val())
+            });
+
+            $.each($('.academicPriceC'), function () {
+                academicPrice.push($(this).val());
+                console.log($(this).val())
+
+            });
+
+            $.each($('.yearC'), function () {
+                year.push($(this).val());
+                console.log($(this).val())
+
+            });
+
+            //////validation
+            ////if (subjectid.length == 0 || subjectgrade.length == 0) {
+            ////    alert("Invalid selection!");
+            ////}
+            ////else {
+
+            ////}
+            //append to list for c# in controller
+            for (var i = 0; i < awardingBody.length; i++) {
+                var data = {
+                    "AwardingBody": awardingBody[i],
+                    "AcademicPrice": academicPrice[i],
+                    "Year": year[i]
+                };
+                awardList.push(data);
+            }
+
+            var MyAwardData = JSON.stringify(awardList);
+
+            $.ajax({
+                contentType: 'application/json',
+                type: "POST",
+                url: "/AwardPrices/PCreate",
+                data: MyAwardData,
+                success: function (data) {
+                    if (data.status) {
+                        swal({
+                            title: "Good Job!!!",
+                            text: "Did you want to proceed now?..",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#ab973a",
+                            confirmButtonText: "Yes, Add More!",
+                            cancelButtonText: "No, Please Proceed!",
+                            closeOnConfirm: false,
+                            closeOnCancel: false
+                        },
+                            function (isConfirm) {
+                                if (isConfirm) {
+                                    swal("Great!", "You can proceed now.", "success");
+                                    $("#relevantqualification").click();
+                                } else {
+                                   swal("Great", "You can click procced button to continue", "success");
+
+                                }
+                            });
+                        toastr["success"](data.message);
+                    } else {
+                        swal({
+                            title: "Warning",
+                            text: data.message,
+                            type: "warning",
+                        });
+                        toastr["success"](data.message);
+                    }
+
+                }
+            });
+        });
+
+    });
+
+    function AremoveAward_button(elem) {
+        $(elem).closest('div').remove();
+    }
+
+    $("#btnAwardNPrevious").click(function () {
+        $("#aqualification").click();
+    });
+
+    $("#btnAwardNNext").click(function () {
+        $("#relevantqualification").click();
+    });
+
+
+</script>

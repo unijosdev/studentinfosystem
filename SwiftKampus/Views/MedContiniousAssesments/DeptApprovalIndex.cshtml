@@ -1,0 +1,133 @@
+﻿
+@{
+    ViewBag.Title = "DeptApprovalIndex";
+}
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>List of Continuous Assessment </h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+
+                    </div>
+                    <div class="ibox-content">
+                        <article class="margin-bottom-xxl">
+                            <p class="lead">
+                                Please use the following parameters to perform Query
+                            </p>
+                        </article>
+                        <div class="card-body">
+                            <form class="form-inline" id="formFilter" onsubmit="return false;">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Session Name</label>
+                                            @Html.DropDownList("SessionId", (SelectList)ViewBag.SessionId, "", new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <label>Level Name</label>
+                                            @Html.DropDownList("LevelId", (SelectList)ViewBag.LevelId, "", new { @class = "form-control", @onchange = "getMedResultCategory()" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Category</label>
+                                            @Html.DropDownList("MedResultCategoryId", (SelectList)ViewBag.MedResultCategoryId, "", new { @class = "form-control", @onchange = "getMedResultCas()" })
+                                        </div>
+                                    </div>
+                                    @*<div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Course</label>
+                                            @Html.DropDownList("MedResultCaId", (SelectList)ViewBag.MedResultCaId, "", new { @class = "form-control" })
+                                        </div>
+                                    </div>*@
+                                    <div class="col-md-2">
+                                        <button type="submit" id="btn-search" class="btn btn-primary">Search/View</button>
+                                        <br />
+                                        <span><button type="submit" id="btn-download" class="btn btn-primary">Download</button></span>
+                                    </div>
+
+                                </div>
+
+                            </form>
+                        </div><!--end .row -->
+
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div id="loadSearch"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+    $("#btn-search").click(function () {
+        submitSearch();
+    });
+
+    function submitSearch() {
+        var medResultCategoryId = $('#MedResultCategoryId').val();
+        var sessionId = $('#SessionId').val();
+        var url = "/MedContiniousAssesments/GetDeptApproval?SessionId=" + sessionId + "&MedResultCategoryId=" + medResultCategoryId;
+        $('#loadSearch').load(url);
+
+    }
+
+    function getMedResultCategory() {
+        var levelId = $("#LevelId").val();
+        $.ajax
+            ({
+                url: '/MedContiniousAssesments/GetMedResultCategory?codeId=' + levelId,
+                type: 'GET',
+                datatype: 'application/json',
+                contentType: 'application/json',
+                success: function (result) {
+                    $("#MedResultCategoryId").html("");
+                    $.each($.parseJSON(result),
+                        function (i, city) {
+                            $("#MedResultCategoryId").append($('<option></option>').val(city.MedResultCategoryId).html(city.CategoryName));
+                        });
+
+                },
+                error: function () {
+                    alert("Whooaaa! Something went wrong..");
+                }
+            });
+    }
+
+    function getMedResultCas() {
+        var medResultCategoryId = $("#MedResultCategoryId").val();
+        $.ajax
+            ({
+                url: '/MedContiniousAssesments/GetMedResultCas?codeId=' + medResultCategoryId,
+                type: 'GET',
+                datatype: 'application/json',
+                contentType: 'application/json',
+                success: function (result) {
+                    $("#MedResultCaId").html("");
+                    $.each($.parseJSON(result),
+                        function (i, city) {
+                            $("#MedResultCaId").append($('<option></option>').val(city.MedResultCaId).html(city.ResultCaName));
+                        });
+
+                },
+                error: function () {
+                    alert("Whooaaa! Something went wrong..");
+                }
+            });
+    }
+</script>

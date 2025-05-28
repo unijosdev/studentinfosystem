@@ -1,0 +1,122 @@
+﻿@model SwiftKampus.ViewModels.SelectCaVm
+@{
+    ViewBag.Title = "Med Create Ca View";
+}
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Add / Update Result</h5>
+
+                    <div class="ibox-tools">
+
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <article class="margin-bottom-xxl">
+                        <p class="lead">
+                            Please use the following parameters to perform Search
+                        </p>
+                        <p class="lead text-danger">@ViewBag.Message</p>
+                    </article>
+                    <div class="card-body">
+                        <form action="" method="post" class="form-inline">
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        <label>Level Name</label>
+                                        @Html.DropDownList("LevelId", (SelectList)ViewBag.LevelId, "", new { @class = "form-control", @onchange = "getMedResultCategory()" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Dept Option</label>
+                                        @Html.DropDownList("MedResultCategoryId", (SelectList)ViewBag.MedResultCategoryId, "", new { @class = "form-control", @onchange = "getMedResultCas()" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Course</label>
+                                        @Html.DropDownList("MedResultCaId", (SelectList)ViewBag.MedResultCaId, "", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input type="submit" value="Add/Edit Result" class="btn btn-block btn-raised btn-primary" name="action:MedCreateCa" />
+                                        <span>
+                                            <input type="submit" value="Download Template" class="btn btn-block ink-reaction   btn-primary" name="action:MedDownloadCa" />
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+<script type="text/javascript">
+    
+
+    function getMedResultCategory() {
+        var levelId = $("#LevelId").val();
+        $.ajax
+            ({
+                url: '/MedContiniousAssesments/GetMedResultCategory?codeId=' + levelId,
+                type: 'GET',
+                datatype: 'application/json',
+                contentType: 'application/json',
+                success: function (result) {
+                    $("#MedResultCategoryId").html("");
+                    $.each($.parseJSON(result),
+                        function (i, city) {
+                            $("#MedResultCategoryId").append($('<option></option>').val(city.MedResultCategoryId).html(city.CategoryName));
+                        });
+
+                },
+                error: function () {
+                    alert("Whooaaa! Something went wrong..");
+                }
+            });
+    }
+
+    function getMedResultCas() {
+        var medResultCategoryId = $("#MedResultCategoryId").val();
+        $.ajax
+            ({
+                url: '/MedContiniousAssesments/GetMedResultCas?codeId=' + medResultCategoryId,
+                type: 'GET',
+                datatype: 'application/json',
+                contentType: 'application/json',
+                success: function (result) {
+                    $("#MedResultCaId").html("");
+                    $.each($.parseJSON(result),
+                        function (i, city) {
+                            $("#MedResultCaId").append($('<option></option>').val(city.MedResultCaId).html(city.ResultCaName));
+                        });
+
+                },
+                error: function () {
+                    alert("Whooaaa! Something went wrong..");
+                }
+            });
+    }
+</script>
+

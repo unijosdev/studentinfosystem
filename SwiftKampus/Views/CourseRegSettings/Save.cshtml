@@ -1,0 +1,119 @@
+﻿@model SwiftKampusModel.CourseRegSetting
+@{
+    ViewBag.Title = "Add/Edit Course Reg";
+}
+
+<form id="myform" onsubmit="return false;">
+
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>CourseRegSetting</h4>
+        @if (Model != null && Model.CourseRegSettingId > 0)
+        {
+            @Html.HiddenFor(model => model.CourseRegSettingId)
+        }
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.Label("School Programme")
+            @Html.DropDownList("SchoolProgrammeId", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.SchoolProgrammeId, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Session Name")
+            @Html.DropDownList("SessionId", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.SessionId, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Semester Name")
+            @Html.DropDownList("SemesterId", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.SemesterId, "", new { @class = "text-danger" })
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.Label("Activate Prerequisite", htmlAttributes: new { @class = "control-label col-md-8" })
+                    <div class="col-md-4">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.ActivatePrequisite)
+                            @Html.ValidationMessageFor(model => model.ActivatePrequisite, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.Label("Activate Registration", htmlAttributes: new { @class = "control-label col-md-8" })
+                    <div class="col-md-4">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.IsActive)
+                            @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                <div class="form-group">
+                    @Html.Label("Opening Date")
+                    @Html.EditorFor(model => model.OpeningDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.OpeningDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+            <div class="col-md-5">
+                <div class="form-group">
+                    @Html.Label("Closing Date")
+                    @Html.EditorFor(model => model.ClosingDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ClosingDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="md-form">
+
+            @if (Model != null && Model.CourseRegSettingId > 0)
+            {
+                <input id="btnsubmit" type="submit" value="Update" class="btn btn-success btn-lg" />
+            }
+            else
+            {
+                <input id="btnsubmit" type="submit" value="Save" class="btn btn-success btn-lg" />
+            }
+            <a href="#" class="btn btn-danger btn-lg" data-dismiss="modal">Cancel</a>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script type="text/javascript">
+    $("#btnsubmit").click(function () {
+
+        var data = $("#myform").serialize();
+
+        $.ajax({
+            type: "POST",
+            url: "/CourseRegSettings/Save",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+                    window.oTable.ajax.reload(); //run my_fun() ondomready
+                    toastr["success"](data.message);
+                    $('#myform')[0].reset();
+                } else {
+                    toastr["error"](data.message);
+                }
+
+            }
+        });
+    });
+</script>
+

@@ -1,0 +1,46 @@
+﻿@model IEnumerable<SwiftKampus.ViewModels.MisconductVm.MisconductViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<div class="ibox float-e-margins col-md-10 col-md-offset-1">
+    <div class="ibox-title">
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+        <span>
+            @Html.Raw(ViewBag.Message)
+        </span>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.MisconductId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MisconductName)
+                </th>
+                <th>Actions</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MisconductId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MisconductName)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.MisconductId }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.MisconductId }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.MisconductId })
+
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

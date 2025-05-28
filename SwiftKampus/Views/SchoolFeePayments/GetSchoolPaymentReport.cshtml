@@ -1,0 +1,52 @@
+﻿@model SwiftKampus.ViewModels.Fee_Management.SchoolPaymentFeeListVm
+
+@{
+    ViewBag.Title = "GetSchoolPaymentReport";
+}
+
+<h2>School Payment Report for @Model.TotalStudent Students and Overall Amount is @Model.OverallTotal</h2>
+
+<div class="ibox-content">
+    <table class="table table-hover no-margins">
+        <tr>
+            <th>
+                School Charge
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Amount
+            </th>
+            <th>Grant Total</th>
+        </tr>
+        @foreach (var item in Model.ReportFeeListVms.Where(x => x.Amount > 0))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FeeTypeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalAmount)
+                </td>
+
+            </tr>
+        }
+        <tr>
+            <td></td>
+            <td></td>
+            <td>@Model.ReportFeeListVms.Sum(s => s.Amount).ToString("c")</td>
+            <td>@Model.ReportFeeListVms.Sum(s => s.TotalAmount)</td>
+            <td></td>
+        </tr>
+
+
+    </table>
+</div>
+

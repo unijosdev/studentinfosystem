@@ -1,0 +1,58 @@
+﻿@model SwiftKampusModel.Accomodation.AssignedRoom
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>AssignedRoom</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Block.BlockName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Block.BlockName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Hostel.HostelCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Hostel.HostelCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Room.RoomName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Room.RoomName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Session.SessionName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Session.SessionName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Student.FirstName)
+        </dt>
+
+        <dd>
+            <a href="#" class="btn btn-info" role="button">Proceed To Payment</a>
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @*@Html.ActionLink("Edit", "Edit", new { id = Model.AssignedRoomId }) |*@
+    @Html.ActionLink("Back to List", "Index")
+</p>

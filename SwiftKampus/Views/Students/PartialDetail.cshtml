@@ -1,0 +1,49 @@
+﻿@model SwiftKampus.ViewModels.StudentPartialVm
+    @using SwiftKampusModel
+
+<div class="mt-1 mb-1">
+    <img src="@Url.Action("RenderImage", new { studentId = Model.Student.StudentId})" alt="" class="img-fluid rounded-circle contact-avatar mx-auto">
+</div>
+
+<h3 class="h3-responsive text-center">@Html.Raw(Model.Student.FullName)</h3>
+@if (Model.Student.Active)
+{
+    <p class="text-center grey-text">Active Student</p>
+}
+else
+{
+    <p class="text-center grey-text">In-active Student</p>
+}
+<ul class="striped">
+    <li><strong>State of Origin: </strong> @Model.Student.StateOfOrigin</li>
+    <li><strong>Age: </strong> @Model.Student.Age</li>
+    <li><strong>Email: </strong> @Model.Student.Email</li>
+    <li><strong>Phone Number:</strong> @Model.Student.PhoneNumber</li>
+    <li><strong>Student Status: </strong> @Model.Student.StudentStatus</li>
+
+</ul>
+<h4>O Level Results</h4>
+<div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover table-responsive dataTables-example">
+        <thead>
+            <tr>
+                <th>Result Type</th>
+                <th>Subject</th>
+                <th>Grade</th>
+                <th>Center</th>
+                <th>Year</th>
+            </tr>
+           
+            @foreach (var result in Model.ApplicantOLevelResults.OrderByDescending(x => x.ResultName))
+            {               
+                <tr>
+                    <td> @result.ResultName </td>
+                    <td> @result.Subject.CourseName </td>
+                    <td> @result.SubjectGrade </td>
+                    <td> @result.ExaminationCenter </td>
+                    <td> @result.Year </td>
+                </tr>
+            }
+        </thead>
+    </table>
+</div>

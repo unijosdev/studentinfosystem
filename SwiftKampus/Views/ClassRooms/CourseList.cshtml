@@ -1,0 +1,40 @@
+﻿@model IEnumerable<SwiftKampus.ViewModels.GoogleClassRoom.GCourse>
+
+@{
+    ViewBag.Title = "CourseList";
+}
+
+<h2>CourseList</h2>
+<h2>@ViewBag.FilePath</h2>
+@if (ViewBag.Status)
+{
+    <table class="table">
+        <tr>
+            <th>
+                Course Id
+            </th>
+            <th>
+                Course Name
+            </th>
+            <th>
+                OwernId
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CourseId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CourseName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OwnerId)
+                </td>
+            </tr>
+        }
+    </table>
+}

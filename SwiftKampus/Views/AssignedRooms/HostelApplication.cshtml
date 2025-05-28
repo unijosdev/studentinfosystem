@@ -1,0 +1,93 @@
+﻿@model SwiftKampus.ViewModels.HostelChoiceVm
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="container-fluid">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-6">
+            <h2>List of currently available Hostel(s) for this Session</h2>
+        </div>
+        <div class="col-lg-6"></div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                @if (@ViewBag.Message != null)
+                {
+                    <h3 class="text-danger">@ViewBag.Message</h3>
+                }
+                @if (@ViewBag.Error != null)
+                {
+                    <h3 class="text-danger">@ViewBag.Error</h3>
+                }
+                <div class="row">
+                    <div class="col-md-6 col-lg-5" style="line-height: 1.7;">
+                        <h4 class="text-center">Instruction(s)</h4>
+                        <br />
+                        <ul class="text-left">
+                            <li>You must have paid school charges for the current session</li>
+                            <li>Accommodation booking will only be available between 8 pm – 7 am daily</li>
+                            <li>Priority will be given to 100L and final year students</li>
+                        </ul>
+                        <ul class="text-left" style="list-style-type: decimal;">
+                            <li>Log into your student dashboard</li>
+                            <li>Click on the Accommodation icon, then Book Accommodation</li>
+                            <li>Select the hostel of your choice. Hostel room is automatically assigned</li>
+                            <li>
+                                Click on proceed to payment on the assigned page:<br />
+                                payment options: -
+                                <ul>
+                                    <li>bank branch <span class="text-danger">*(caution: do not use this channel)</span></li>
+                                    <li>card payment</li>
+                                    <li>internet banking</li>
+                                    <li class="text-danger">Make payments within 8 hrs of booking, else room will be revoked</li>
+                                </ul>
+                            </li>
+                            <li>Verify all payments with your faculty finance officer</li>
+                            <li>Go for clearance at the hostel, meet the hall officer/matron</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6 col-lg-7">
+                        <form id="hostelForm" method="post">
+                            <br /> <br />
+                            <br /> <br />
+                            @Html.AntiForgeryToken()
+                            <div class="form-horizontal">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.Label("Available Hostel", htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.DropDownList("AvailableHostel", null, htmlAttributes: new { @class = "form-control", id = "ddlAvailableHostel" })
+                                        @Html.ValidationMessageFor(model => model.AvailableHostel, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-offset-4 col-md-8">
+                                        <button type="submit" id="submitHostel" class="btn btn-lg btn-primary" onclick="hideSubmitButton()">SELECT HOSTEL</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+<script>
+    function hideSubmitButton() {
+        $('#submitHostel').hide();
+    }
+</script>

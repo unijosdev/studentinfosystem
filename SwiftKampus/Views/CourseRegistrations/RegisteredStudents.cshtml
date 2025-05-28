@@ -1,0 +1,288 @@
+﻿@*@model IEnumerable<SwiftKampusModel.CourseRegistration>*@
+
+@{
+    ViewBag.Title = "Registered Student";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>@ViewBag.Message</strong>
+    </div>
+}
+
+<!-- Modal -->
+<div class="modal fade inmodal" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content animated">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">REJECT COURSE REGISTRATION</h4>
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+
+<h2>@ViewBag.Gender</h2>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Course registration History</h5>
+                    <div class="ibox-tools">
+
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+
+                    </div>
+                    <div class="ibox-content">
+                        <article class="margin-bottom-xxl">
+                            <p class="lead">
+                                Please use the following parameters to perform Query
+                            </p>
+                        </article>
+                        <div class="card-body">
+                            <form class="form-inline" id="formFilter" onsubmit="return false;">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>School Programme</label>
+                                            @Html.DropDownList("SchoolProgrammeId", null, htmlAttributes: new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Approval Status</label>
+                                            <select class="form-control dropdown" id="status" name="status">
+                                                <option value="False">Pending</option>
+                                                <option value="True">Approved</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Semester Name</label>
+                                            @Html.DropDownList("SemesterId", null, htmlAttributes: new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Session Name</label>
+                                            @Html.DropDownList("SessionId", null, htmlAttributes: new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <br />
+                                        <button type="submit" id="btn-search" class="btn btn-primary">Search/View</button>
+                                    </div>
+                                </div>
+
+                            </form>
+                            <br />
+                            <br />
+                            <br />
+                            <div class="table-responsive">
+                                <table id="Jdatatable" class="table table-striped table-bordered table-hover table-responsive dataTables-example">
+                                    <thead>
+                                        <tr>
+                                            <th>Mat No</th>
+                                            <th>Student Name</th>
+                                            <th>Session</th>
+                                            <th>Semester</th>
+                                            <th>Dept Option</th>
+                                            <th>Level</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div><!--end .row -->
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">Course Registration</h4>
+                    @*<a class="btn btn-primary btn-sm">Create new action</a>*@
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        window.oTable = $("#Jdatatable").DataTable({
+            "processing": true, // for show progress bar while loading
+            //"serverSide": true, // if it is true the preocess is done on server side
+            //"filter": true, // disables search box
+            //"info": true,
+            //"stateSave": true,
+            "orderMulti": false, // disable multiple column loading at once
+            "ajax": {
+                "url": "/CourseRegistrations/GetRegisteredStudentSearch",
+                "type": "POST",
+                "data": function (d) {
+                    return $('#formFilter').serialize();
+                },
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "FullName", "autoWidth": true },
+                { "data": "MatricNo", "autoWidth": true },
+                { "data": "SessionName", "autoWidth": true },
+                { "data": "SemesterName", "autoWidth": true },
+                { "data": "ProgrammeName", "autoWidth": true },
+                { "data": "LevelName", "autoWidth": true },
+                { "data": "IsApproved", "autoWidth": true },
+                //{ "data": "PhoneNumber", "autoWidth": true },
+                {
+                    "data": "CourseRegistrationId",
+                    "autoWidth": true,
+                    "render": function (data) {
+                        return '<a href="#" onclick="Detail(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="View Details"><i class="fa fa-info-circle" aria-hidden="true">Details&nbsp;&nbsp;</i></a>' +
+                            '<a href="#" onclick="Approve(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="Approve Course registration"><i class="fa fa-pencil" aria-hidden="true"></i>Approve &nbsp;&nbsp;</a>' +
+                            '<a class="text-danger" href="#" onclick="DisApprove(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="DisApprove Course registration"><i class="fa fa-pencil" aria-hidden="true"></i>DisApprove</a>';
+                    }
+                }
+            ]
+        });
+    });
+
+     $("#btn-search").click(function () {
+        window.oTable.ajax.reload();
+    });
+    //$("#btn-search").click(function () {
+    //   // window.oTable.ajax.reload();
+    //    var SchoolProgrammeId = $('#SchoolProgrammeId').val();
+    //    var SemesterId = $('#SemesterId').val();
+    //    var SessionId = $('#SessionId').val();
+    //    var status = $('#status').val();
+    //    var url = "/CourseRegistrations/GetRegisteredStudentSearch?SchoolProgrammeId=" + SchoolProgrammeId + "&SessionId=" + SessionId + "&SemesterId=" + SemesterId + "&status=" + status;
+    //    $('#loadCourseReg').load(url);
+
+    //});
+    function Edit(courseRegistrationId) {
+        var url = "/CourseRegistrations/PrintDetails?id=" + courseRegistrationId;
+        window.open(url, '_blank');
+    };
+
+    function Detail(courseRegistrationId) {
+        var url = "/CourseRegistrations/PartialDetails?id=" + courseRegistrationId;
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+
+    };
+
+    function Approve(courseRegistrationId) {
+        //alert(courseRegistrationId);
+            swal({
+                title: "Are you sure?",
+                text: "You want to Approved these courses!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#ab973a",
+                confirmButtonText: "Yes, Approve it!",
+                cancelButtonText: "No, cancel plx!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+                function (isConfirm) {
+                    if (isConfirm) {
+                        ApproveNow(courseRegistrationId);
+                    } else {
+                        swal("Cancelled", "Please click approve again to approved course for the selected student :)", "error");
+                    }
+                });
+
+
+
+    };
+    function ApproveNow(courseRegistrationId) {
+        var url = "/CourseRegistrations/ConfirmApproval?id=" + courseRegistrationId;
+        $.ajax({
+            url: url, dataType: "json", success: function (data) {
+                swal("Approved!", data.Data, "success");
+                toastr["success"](data.Data);
+                window.oTable.ajax.reload();
+            }
+        });
+    };
+
+    function DisApprove(courseRegistrationId) {
+        var url = "/CourseRegistrations/RejectCourseReg?courseRegId=" + courseRegistrationId;
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+        swal("Oops", "Please type in reason why the course registration is rejected", "warning");
+    };
+
+    function DisApproveNow(courseRegistrationId) {
+        var url = "/CourseRegistrations/ConfirmDisApproval?id=" + courseRegistrationId;
+        $.ajax({
+            url: url, dataType: "json", success: function (data) {
+                swal("Approved!", data.Data, "success");
+                toastr["success"](data.Data);
+                window.oTable.ajax.reload();
+            }
+        });
+    };
+
+    function Excel() {
+        var url = "/CourseRegistrations/ExcelUpload";
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    function AddNew() {
+        window.open('@Url.Action("Create", "CourseRegistrations")', '_self');
+    };
+
+</script>

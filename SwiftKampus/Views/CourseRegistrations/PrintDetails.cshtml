@@ -1,0 +1,152 @@
+﻿@{
+    ViewBag.Title = "PrintDetails";
+    Layout = "~/Views/Shared/_LayoutPrint.cshtml";
+
+}
+
+
+@model IEnumerable<SwiftKampusModel.CourseRegistration>
+@using SwiftKampus.Models
+@{
+    var myModel = Model.FirstOrDefault();
+}
+<div class="image">
+
+    <div class="transparentbox">
+        <div style="text-align: center;">
+            <img src="~/Content/Images/@SchoolSetUp.SchoolLogo" />
+        </div>
+
+        <h4 class="text-center"> COURSE REGISTRATION FORM </h4>
+        <div>
+
+            <table class="table table-banded no-margin table-responsive">
+                <tbody>
+                    <tr>
+                        <td>FULLNAME: <strong> @myModel.Students.FullName</strong></td>
+                        <td>SEX <strong> @myModel.Students.Gender</strong></td>
+                        <td>LEVEL: <strong> @myModel.Level.LevelName</strong></td>
+                        <td rowspan="3"><img src="@Url.Action("RenderImage", "Students",new { studentId = myModel.StudentId})" width="100" height="100" /></td>
+
+                    </tr>
+                    <tr>
+                        <td>MATRIC NO: <strong> @myModel.Students.MatricNo</strong></td>
+                        <td>DEPARTMENT: <strong> @myModel.Department.DeptName</strong></td>
+                        @*<td><strong>ABSENT: </strong>@Model.AssignBehavior.NoOfAbsence</td>*@
+                        <td>DEPT OPTION:<strong> @myModel.Programme.ProgrammeName</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>LEVEL: </strong> @myModel.Level.LevelName</td>
+                        <td><strong>SESSION: </strong>@myModel.Session.SessionName</td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div><!--end .card-body -->
+
+        <table style="width:100%">
+            <tr>
+                <th>
+                    Course Code
+                </th>
+                <th>
+                    Course Name
+                </th>
+                <th>Semester Name</th>
+                <th>
+                    Course Type
+                </th>
+
+                <th>Credit</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Course.CourseCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Course.CourseName)
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.Course.Semester.SemesterName)</td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Course.CourseType)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Course.Credits)
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="bold"><h5><strong>Total</strong></h5> </td>
+                <td class="bold"><h5><strong>@Model.Sum(s => s.Course.Credits)</strong></h5></td>
+            </tr>
+
+        </table>
+        @{
+            ViewBag.Course = Model.Select(x => x.CourseRegistrationId).FirstOrDefault();
+        }
+    </div>
+    <br />
+
+    <br /><br />
+    <br />
+    <br />
+    <table style="width:100%">
+        <tr>
+            <td>
+                <table style="width:100%">
+                    <tbody>
+                        <tr>
+                            <td><strong>Student</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Signature : </strong>  </td>
+
+
+                        </tr>
+                        <tr>
+                            <td><strong>Date :</strong> @DateTime.Now.ToShortDateString() </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </td>
+            <td>
+                <table style="width:100%">
+                    <tbody>
+                        <tr>
+                            <td><strong>Level Cordinator </strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Signature : </strong>  </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Date :</strong> @DateTime.Now.ToShortDateString()
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </td>
+    </table>
+
+</div>
+<script type="text/javascript">
+    function Excel() {
+        var url = "/CourseRegistrations/PrintDetails?model=" +@ViewBag.Course ;
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    function AddNew() {
+        window.open('@Url.Action("Create", "Students")', '_self');
+    };
+</script>

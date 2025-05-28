@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Change Student Level";
+}
+
+
+<div class="row ibox-title">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <h2>Change Student Level</h2>
+        <h2 class="text-danger">@ViewBag.Message</h2>
+        @using (Html.BeginForm("ChangeStudentLevel", "Students", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Get, new { @class = "", role = "form" }))
+        {
+
+            <br />
+            <input id="studentId" name="studentId" class="form-control" type="text" required placeholder="Type the Matric/ Jamb/ Form Number" />
+            <br />
+
+            <label for="Level" style="font-size: 14px;font-weight: normal">Choose the right level</label>
+            @Html.DropDownList("Level", null, "Select Level", htmlAttributes: new { @class = "form-control", @required = "true" })
+            <br />
+
+            @*<input id="level" name="level" class="form-control" type="number" min="100" max="900" step="100" placeholder="Type the correct level" />
+            <br />*@
+
+            <button class="btn btn bg-primary" type="submit">Change Student Level<span class="icon-more-icon"></span></button>
+        }
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+

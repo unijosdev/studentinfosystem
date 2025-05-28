@@ -1,0 +1,118 @@
+﻿@model SwiftKampusModel.Accomodation.ReservedRoom
+
+
+<div class="card">
+    <div class="card-head style-primary">
+        <header>
+            @if (Model != null && Model.ReservedRoomId > 0)
+            {
+                <div class="form-header  purple darken-4">
+                    <h3>
+                        <i class="fa fa-save"></i> Remove Reserved Room
+                    </h3>
+                </div>
+            }
+            else
+            {
+                <div class="form-header  purple darken-4">
+                    <h3><i class="fa fa-save"></i> Save Reserved Room</h3>
+                </div>
+            }
+        </header>
+
+    </div><!--end .card-head -->
+    <div class="card-body">
+        <form id="myform" onsubmit="return false;">
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.Label("Block Name")
+                    @Html.DropDownList("BlockId", null, htmlAttributes: new { @class = "form-control", @onchange = "getRoomList()" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("Room Name")
+                    @Html.DropDownList("RoomId", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.RoomId, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Reason for Reserve")
+                    @Html.EditorFor(model => model.ReasonForReserve, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ReasonForReserve, "", new { @class = "text-danger" })
+                </div>
+
+                <br />
+                <div class="md-form">
+
+                    @if (Model != null && Model.ReservedRoomId > 0)
+                    {
+                        <input id="btnsubmit" type="submit" value="Remove Reserved" class="btn btn-success btn-lg" />
+                    }
+                    else
+                    {
+                        <input id="btnsubmit" type="submit" value="Reserved Room" class="btn btn-success btn-lg" />
+                    }
+                    <a href="#" class="btn btn-danger btn-lg" data-dismiss="modal">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div><!--end .card-body -->
+</div><!--end .card -->
+
+
+<script type="text/javascript">
+    $("#btnsubmit").click(function () {
+
+        var data = $("#myform").serialize();
+
+        $.ajax({
+            type: "POST",
+            url: "/Rooms/Reserve",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+
+                    window.oTable.ajax.reload(); //run my_fun() ondomready
+                    toastr["success"](data.message);
+                    $('#myform')[0].reset();
+                } else {
+                    //$('#actionsList').modal("hide");
+                    toastr["error"](data.message);
+                }
+
+            }
+        });
+    });
+
+    function getRoomList() {
+        var deptId = $("#BlockId").val();
+        //alert(stateId);
+        $.ajax
+            ({
+                url: '/Rooms/GetRoomList?codeId=' + deptId,
+                type: 'GET',
+                datatype: 'application/json',
+                contentType: 'application/json',
+                //data: JSON.stringify({
+                //    codeId: +stateId
+                //}),
+                success: function (result) {
+                    $("#RoomId").html("");
+                    $.each($.parseJSON(result),
+                        function (i, city) {
+                            //alert(result);
+                            $("#RoomId").append($('<option></option>').val(city.RoomId).html(city.RoomName));
+                        });
+
+                },
+                error: function () {
+                    $("#RoomId").html("");
+                }
+            });
+    }
+</script>
+

@@ -1,0 +1,182 @@
+﻿
+@{
+    ViewBag.Title = "PrintExamCard";
+    Layout = "~/Views/Shared/_LayoutPrint.cshtml";
+}
+
+@*@model SwiftKampusModel.Student*@
+@model SwiftKampus.ViewModels.PrintExamCardVm
+
+
+<div class="transparentbox">
+    <table style="width: 100%" class="border-2px">
+        <tr>
+            <td class="text-center" style="vertical-align: middle;">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <img src="@Url.Action("RenderImage", "Students",new { studentId = Model.Student.StudentId})" width="100" height="100" />
+                    <br />
+                </div>
+            </td>
+
+            <td class="text-center" style="vertical-align: middle;">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <img src="~/Content/Images/unijoslogo.png" width="100" height="100" />
+                </div>
+            </td>
+
+            <td rowspan="3" class="text-center" style="vertical-align: middle;">
+                <img src="@Url.Action("BarcodeImage", "Home",new { barcodeText = "Matric No: " + Model.Student.MatricNo + " " + "Security Code: " + @ViewBag.SecurityCode + " " + "RRR: " + Model.RRR})" width="150" height="100" />
+            </td>
+        </tr>
+    </table>
+
+    <br /><br /><br />
+    <h4 class="text-center"><strong> @ViewBag.CurrentSemester SEMESTER EXAM CARD </strong></h4>
+    <br />
+
+    <h4>Student Information</h4>
+    <table style="width: 100%" style="font-size: 10pt;">
+        <tr>
+            <th>
+                <div class="col-md-8">
+                    <table class="table 44">
+                        <tbody>
+                            <tr>
+                                <td>FULLNAME: <strong> @Model.Student.FullName</strong></td>
+                                <td style="padding-left:15em;">DATE:<strong> @DateTime.Now.ToShortDateString()</strong></td>
+
+                            </tr>
+                            <tr>
+                                <td>FACULTY: <strong> @Model.Student.Programme.Department.Faculty.FacultyName</strong></td>
+                                <td style="padding-left:15em;">SESSION: <strong> @ViewBag.CurrentSession</strong></td>
+                            </tr>
+                            <tr>
+                                <td>DEPARTMENT: <strong> @Model.Student.Programme.Department.DeptName</strong></td>
+                                <td style="padding-left:15em;">LEVEL: <strong>@Model.Student.Level.LevelName</strong></td>
+                            </tr>
+                            <tr>
+                                <td>MATRIC NO: <strong> @Model.Student.MatricNo</strong></td>
+                                <td style="padding-left:15em;">RRR: <strong>@Model.RRR</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </th>
+            <th>
+                <div class="col-md-4">
+                    <table class="table table-banded no-margin table-responsive">
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </th>
+        </tr>
+    </table>
+
+    <br />
+    <h4 class="text-center">@ViewBag.CurrentSemester SEMESTER COURSES</h4>
+    <br />
+
+    <!-- Display courses -->
+    <table style="width:100%">
+        <tr>
+            <th>
+                Course Code
+            </th>
+            <th>
+                Course Name
+            </th>
+            <th>Semester Name</th>
+        </tr>
+
+        @foreach (var item in Model.CourseRegistration)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course.CourseCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course.CourseName)
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.Course.Semester.SemesterName)</td>
+            </tr>
+        }
+    </table>
+
+    @*<table style="width: 100%">
+            <tr>
+                <td>
+                    <table style="width: 100%">
+                        SCHOOL FEE BREAKDOWN
+                        <tr>
+                            <th>
+                                S/N
+                            </th>
+                            <th>
+                                Fee Item
+                            </th>
+
+                            <th>Amount</th>
+
+                        </tr>
+                        @{
+                            var number = 1;
+                        }
+                        @foreach (var item in Model.FeeLists)
+                        {
+                            <tr>
+                                <td>
+                                    @number
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Amount)
+                                </td>
+
+
+                            </tr>
+                            {
+                                number = number + 1;
+                            }
+                        }
+                        <tr>
+                            <td></td>
+                            <td><strong>Total Amount</strong></td>
+                            <td><strong>@Model.FeeLists.Sum(s => s.Amount)</strong></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><strong>Amout Paid</strong></td>
+                            <td><strong>@Model.SchoolFeePayment.PaidFee</strong></td>
+                        </tr>
+
+                    </table>
+                </td>
+            </tr>
+            <tr class="text-center">
+                <td>
+                    <br />
+                    <br />
+                    <br />
+                </td>
+            </tr>
+        </table>*@
+</div>
+
+<script type="text/javascript">
+	@*function Excel() {
+		var url = "/CourseRegistrations/PrintDetails?model=" +@ViewBag.Course ;
+		$('#myModalDivBody').load(url,
+			function () {
+				$('#actionsList').modal("show");
+			});
+	};
+	function AddNew() {
+		window.open('@Url.Action("Create", "Students")', '_self');
+	};*@
+</script>
+
+
+

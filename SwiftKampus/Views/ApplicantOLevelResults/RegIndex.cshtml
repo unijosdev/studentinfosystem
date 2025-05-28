@@ -1,0 +1,309 @@
+﻿@using SwiftKampusModel
+@model IEnumerable<SwiftKampusModel.AddmissionApplicant.ApplicantOLevelResult>
+@*@model SwiftKampus.Controllers.ApplicantTypeVm*@
+
+@{
+    Layout = null;
+    ViewBag.Title = "O-Level Results";
+}
+
+
+<div class="container-fluid">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>List of O-Level Result</h5>
+
+                        <div class="ibox-tools">
+                            <div class="ibox-tools">
+                                @*@if (Model.ApplicantType.Equals(ProgrammeCategory.Masters.ToString()) ||
+                                    Model.ApplicantType.Equals(ProgrammeCategory.MBA.ToString()) ||
+                                    Model.ApplicantType.Equals(ProgrammeCategory.Post_Graduate.ToString()) ||
+                                    Model.ApplicantType.Equals(ProgrammeCategory.Phd.ToString()) ||
+                                    Model.ApplicantType.Equals(ProgrammeCategory.ICT.ToString()) ||
+                                    Model.ApplicantType.Equals(ProgrammeCategory.IJMB.ToString()))
+                                    {*@
+
+                                @if (ViewBag.ApplicantType == "Masters" ||
+                                ViewBag.ApplicantType == "MBA" ||
+                                ViewBag.ApplicantType == "Post_Graduate" ||
+                                ViewBag.ApplicantType == "Phd" ||
+                                ViewBag.ApplicantType == "ICT" ||
+                                ViewBag.ApplicantType == "IJMB")
+                                {
+                                    <a href="#" onclick="editolevel()" class="btn btn-primary"> <i class="fa fa-plus left"></i> edit o-level result</a>
+
+                                    <a class="collapse-link">
+                                        <i class="fa fa-chevron-up"></i>
+                                    </a>
+                                }
+                            </div>
+
+                        </div>
+
+                        <div class="ibox-content">
+                            <div class="row">
+                                @foreach (var item in ViewBag.ResultName)
+                                {
+                                    var newModel = Model.Where(x => x.ResultName.Equals(item)).FirstOrDefault();
+                                    <div class="col-md-6">
+                                        <dl class="dl-horizontal">
+                                            <dt>
+                                                Result Name
+                                            </dt>
+
+                                            <dd class="editable" name="resultName" data-id="@newModel.ApplicantOLevelResultId">@newModel.ResultName</dd>
+
+                                            <dt>
+                                                Examination Center
+                                            </dt>
+
+                                            <dd class="editable" placeholder="click here to edit" name="centerName" data-id="@newModel.ApplicantOLevelResultId">@newModel.ExaminationCenter</dd>
+
+                                            <dt>
+                                                Year
+                                            </dt>
+
+                                            <dd class="editable" placeholder="click here to edit" name="year" data-id="@newModel.ApplicantOLevelResultId">@newModel.Year</dd>
+
+                                            <dt>
+                                                Exam Number
+                                            </dt>
+
+                                            <dd class="editable" placeholder="click here to edit" name="examNumber" data-id="@newModel.ApplicantOLevelResultId">@newModel.ExamNumber</dd>
+
+                                        </dl>
+
+                                        <table class=" table table-responsive">
+                                            <tr>
+                                                <th>
+                                                    Subject Name
+                                                </th>
+
+                                                <th>
+                                                    Subject Grade
+                                                </th>
+                                            </tr>
+                                            @foreach (var modelItem in Model.Where(x => x.ResultName.Equals(item)))
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @modelItem.Subject.CourseName
+
+                                                    </td>
+                                                    <td>
+                                                        @modelItem.SubjectGrade
+                                                    </td>
+
+                                                </tr>
+                                            }
+                                            @for (var subCount = Model.Where(x => x.ResultName.Equals(item)).Count(); subCount < 9; subCount++)
+                                            {
+                                                <tr data-applicantolevelresultid="@newModel.ApplicantOLevelResultId">
+                                                    <td>
+                                                        @Html.DropDownList("SubjectId", (SelectList)ViewBag.StdSubjectId, "", new { @class = "form-control subjectId", disabled = "disabled" })
+                                                    </td>
+                                                    <td>
+                                                        @Html.DropDownList("SubjectGrade", (SelectList)ViewBag.SubjectGrade, "", new { @class = "form-control subjectGrade", disabled = "disabled" })
+                                                    </td>
+                                                    <td>
+                                                        <button class="edit-button">Edit</button>
+                                                        <button class="save-button" style="display: none;">Save</button>
+                                                        <button class="cancel-button" style="display: none;">Cancel</button>
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                        </table>
+
+                                    </div>
+                                }
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <a id="btnolevelPrevious" href="#" class="btn btn-warning btn-lg btnPrevious" data-dismiss="modal">PREVIOUS</a>
+            <a id="btnlevelNext2" href="#" class="btn btn-warning btn-lg btnNext" data-dismiss="modal">NEXT</a>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Edit button click event
+        $(".edit-button").click(function () {
+            var row = $(this).closest("tr");
+            row.find(".subjectId, .subjectGrade").removeAttr("disabled");
+            $(this).hide();
+            row.find(".save-button, .cancel-button").show();
+        });
+
+        // Save button click event
+        $(".save-button").click(function () {
+            var saveButton = $(this); // Store a reference to the clicked button
+            var row = $(this).closest("tr");
+            row.find(".editable").removeAttr("contenteditable").removeClass("editable-field");
+            $(this).hide();
+            row.find(".cancel-button").hide();
+            row.find(".edit-button").show();
+
+            var subjectId = row.find(".subjectId").val();
+            var subjectGrade = row.find(".subjectGrade").val();
+            var row = $(this).closest("tr");
+            var applicantOLevelResultId = row.data("applicantolevelresultid");
+
+            // Create the data object to send in the AJAX request
+            var rowData = {
+                ApplicantOLevelResultId: applicantOLevelResultId,
+                SubjectId: subjectId,
+                SubjectGrade: subjectGrade
+            };
+
+             // Disable the button
+            saveButton.prop('disabled', true);
+
+            // Perform an AJAX POST request to save the data
+            $.ajax({
+                type: "POST",
+                url: "/ApplicantOLevelResults/SaveRowData", // Replace with your actual controller and action
+                data: JSON.stringify(rowData),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    // Handle the success response here
+                    // You can update the UI or show a message to the user
+                    if (result.status) {
+                        alert(result.message);
+
+                    } else {
+                        alert(result.message);
+                    }
+                },
+                error: function (error) {
+                    // Handle any errors here
+                    console.error("Error saving data: " + error.responseText);
+
+                    // Re-enable the button in case of an error
+                    saveButton.prop('disabled', false);
+                }
+            });
+
+            // Disable the dropdowns again and show the Edit button
+            row.find(".subjectId, .subjectGrade").attr("disabled", "disabled");
+            row.find(".edit-button").show();
+        });
+
+        // Cancel button click event
+        $(".cancel-button").click(function () {
+            var row = $(this).closest("tr");
+            row.find(".editable").removeAttr("contenteditable").removeClass("editable-field");
+            row.find(".editable-field option:selected").removeAttr("selected");
+            row.find(".editable-field option").filter(function () {
+                return $(this).text() === row.find(".original-value").text();
+            }).attr("selected", "selected");
+            $(this).hide();
+            row.find(".save-button").hide();
+            row.find(".edit-button").show();
+        });
+    });
+
+    function editolevel() {
+
+        var url = "/ApplicantOLevelResults/Save?id=0&IsEdit=true";
+        $('#tab2').load(url);
+    }
+
+    //function editolevel() {
+    //    var url = "/ApplicantOLevelResults/Save?id=0&IsEdit=true";
+    //    $('#myModalDivBody').load(url,
+    //        function () {
+    //            $('#actionsList').modal("show");
+    //        });
+    //};
+
+    $("#btnlevelNext2").click(function () {
+        $("#nextKin").click();
+    });
+
+    $("#btnolevelPrevious").click(function () {
+        $("#biodata").click();
+    });
+
+    // Enable inline editing
+    $('.editable').on('click', function () {
+        var cell = $(this);
+        var id = cell.data('id');
+        var content = cell.text();
+        var input = $('<input type="text" class="form-control" value="' + content + '">');
+        var elementName = cell.attr("name");
+        //var element = ddElement.nane;
+        console.log(elementName);
+
+        cell.html(input);
+
+        input.focus();
+
+        input.blur(function () {
+            var newValue = input.val();
+            $.post('/ApplicantOLevelResults/Update', { id: id, content: newValue, elementName: elementName }, function (data) {
+                if (data.success) {
+                    cell.text(newValue);
+                    alert("Data saved successfully.")
+                } else {
+                    alert('Update failed.');
+                }
+            });
+        });
+    });
+</script>
+
+@*<script>
+        function editolevel() {
+            var url = "/ApplicantOLevelResults/Save?id=0&IsEdit=true";
+            $('#tab2').load(url);
+        }
+
+        $("#btnlevelNext2").click(function () {
+            $("#nextKin").click();
+        });
+
+        $("#btnolevelPrevious").click(function () {
+            $("#biodata").click();
+        });
+
+            // Enable inline editing
+                $('.editable').on('click', function () {
+                    var cell = $(this);
+                    var id = cell.data('id');
+                    var content = cell.text();
+                    var input = $('<input type="text" class="form-control" value="' + content + '">');
+                    var elementName = cell.attr("name");
+                    //var element = ddElement.nane;
+                    console.log(elementName);
+
+                    cell.html(input);
+
+                    input.focus();
+
+                    input.blur(function () {
+                        var newValue = input.val();
+                        $.post('/ApplicantOLevelResults/Update', { id: id, content: newValue, elementName: elementName }, function (data) {
+                            if (data.success) {
+                                cell.text(newValue);
+                            } else {
+                                alert('Update failed.');
+                            }
+                        });
+                    });
+                });
+    </script>*@

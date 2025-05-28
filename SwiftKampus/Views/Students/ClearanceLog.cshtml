@@ -1,0 +1,48 @@
+﻿@model IEnumerable<SwiftKampusModel.ClearanceLog>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+</head>
+<body>
+    <h2>Clearance Log</h2>
+
+    @if (ViewBag.Error != null)
+    {
+        <div style="color: red;">@ViewBag.Error</div>
+    }
+    else
+    {
+        <table id="clearanceLogTable" class="display">
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Clearance Type</th>
+                    <th>Officer</th>
+                    <th>Date/Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var log in Model)
+                {
+                    <tr>
+                        <td>@log.JambRegNo</td>
+                        <td>@log.ClearanceType</td>
+                        <td>@log.Officer</td>
+                        <td>@log.DateTime</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    <script>
+        $(document).ready(function () {
+            $('#clearanceLogTable').DataTable();
+        });
+    </script>
+</body>
+</html>

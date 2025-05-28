@@ -1,0 +1,536 @@
+﻿@model SwiftKampus.ViewModels.StudentEditViewModel
+@using SwiftKampus.Models
+
+@{
+    Layout = null;
+    ViewBag.Title = "Update Student";
+    var dateOfBirth = Model.DateOfBirth.ToString("yyyy-MM-dd");
+}
+<br />
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <form id="myStudentform" method="post" onsubmit="return false;">
+
+                @Html.HiddenFor(model => model.StudentId)
+                @Html.HiddenFor(model => model.MatricNo)
+                @Html.HiddenFor(model => model.JambRegNo)
+                @Html.HiddenFor(model => model.LevelId)
+                @Html.HiddenFor(model => model.EnrollmentDate)
+                @Html.HiddenFor(model => model.ProgrammeId)
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="container-fluid">
+                    <!-- Section: Edit Account -->
+                    <section class="section">
+                        <!-- First row -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <!--Card-->
+                                <div class="card">
+                                    <div class="card-head style-primary">
+                                        <header>
+                                            <h3>Student Profile</h3>
+                                        </header>
+
+                                    </div><!--end .card-head -->
+                                    <div class="card-body">
+
+
+                                        <div class="card-block">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            @Html.LabelFor(model => model.JambRegNo, new { htmlAttributes = new { @class = "control-label" } })
+                                                            @Html.EditorFor(model => model.JambRegNo, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @required = "true" } })
+                                                        </div>
+                                                        @Html.ValidationMessageFor(model => model.JambRegNo, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            @Html.LabelFor(model => model.LastName, new { htmlAttributes = new { @class = "control-label" } })
+                                                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                                        </div>
+                                                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger", @readonly = "readonly" })
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            @Html.LabelFor(model => model.FirstName, new { htmlAttributes = new { @class = "control-label" } })
+                                                            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                                        </div>
+                                                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            @Html.LabelFor(model => model.MiddleName, new { htmlAttributes = new { @class = "control-label" } })
+                                                            @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                                        </div>
+                                                        @Html.ValidationMessageFor(model => model.MiddleName, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            @Html.LabelFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "control-label" } })
+                                                            @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                                                        </div>
+                                                        @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            @Html.LabelFor(model => model.Gender, new { htmlAttributes = new { @class = "control-label" } })
+                                                            @Html.DropDownList("Gender", null, "", htmlAttributes: new { @class = "form-control" })
+                                                        </div>
+                                                        @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            @Html.LabelFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "control-label" } })
+                                                            @if (ViewBag.SchoolProgrammeCategory == "UnderGraduate")
+                                                            {
+                                                                @Html.TextBoxFor(model => model.DateOfBirth, "{0:d}", new { @class = "form-control", type = "date", @readonly = "readonly" })
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.TextBoxFor(model => model.DateOfBirth, "{0:d}", new { @class = "form-control", type = "date"})
+                                                            }
+                                                        </div>
+                                                        @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            @Html.LabelFor(model => model.Hobby, new { htmlAttributes = new { @class = "control-label" } })
+                                                            @Html.EditorFor(model => model.Hobby, new { htmlAttributes = new { @class = "form-control", id = "Hobby" } })
+                                                        </div>
+                                                        @Html.ValidationMessageFor(model => model.Hobby, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            @Html.LabelFor(model => model.StateOfOrigin, new { htmlAttributes = new { @class = "control-label" } })
+                                                            @*@Html.DropDownList("StateOfOrigin", (SelectList)ViewBag.StateOfOrigin, new { @class = "form-control", @onchange = "getLgaList()", id = "StateOfOrigin" })*@
+                                                            @Html.DropDownList("StateOfOrigin", null, "", htmlAttributes: new { @class = "form-control", @onchange = "getLgaList()", id = "StateOfOrigin" })
+                                                        </div>
+                                                        @Html.ValidationMessageFor(model => model.StateOfOrigin, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            @Html.LabelFor(model => model.Lga, new { htmlAttributes = new { @class = "control-label" } })
+                                                            @*@Html.DropDownList("Lga", (SelectList)ViewBag.Lga, "", new { @class = "form-control", id = "Lga" })*@
+                                                            @Html.DropDownList("Lga", null, "", htmlAttributes: new { @class = "form-control", id = "Lga" })
+                                                        </div>
+                                                        @*@Html.DropDownList("Lga", null, htmlAttributes: new { @class = "form-control" })*@
+                                                        @Html.ValidationMessageFor(model => model.TownOfBirth, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            @Html.LabelFor(model => model.Religion, new { htmlAttributes = new { @class = "control-label" } })
+                                                            @*@Html.DropDownList("Religion", (SelectList)ViewBag.Religion, "", new { @class = "form-control", id = "Religion", @placeholder = "Select Religion" })*@
+                                                            @Html.DropDownList("Religion", null, "", htmlAttributes: new { @class = "form-control", id = "Religion" })
+
+                                                        </div>
+                                                        @Html.ValidationMessageFor(model => model.Religion, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            @Html.LabelFor(model => model.MaritalStatus, new { htmlAttributes = new { @class = "control-label" } })
+                                                            @*@Html.DropDownList("MaritalStatus", (SelectList)ViewBag.MaritalStatus, "", new { @class = "form-control", id = "MaritalStatus", @placeholder = "Select Marital Status" })*@
+                                                            @Html.DropDownList("MaritalStatus", null, "", htmlAttributes: new { @class = "form-control", id = "MaritalStatus", required = "required" })
+                                                        </div>
+                                                        @Html.ValidationMessageFor(model => model.MaritalStatus, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            @Html.LabelFor(model => model.Nationality, new { htmlAttributes = new { @class = "control-label" } })
+                                                            @Html.EditorFor(model => model.Nationality, new { htmlAttributes = new { @class = "form-control", id = "Nationality", @placeholder = "Nationality" } })
+                                                        </div>
+                                                        @Html.ValidationMessageFor(model => model.Nationality, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            @Html.LabelFor(model => model.TownOfBirth, new { htmlAttributes = new { @class = "control-label" } })
+                                                            @Html.EditorFor(model => model.TownOfBirth, new { htmlAttributes = new { @class = "form-control", id = "TownOfBirth", @placeholder = "Town of Birth" } })
+                                                        </div>
+                                                        @Html.ValidationMessageFor(model => model.TownOfBirth, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        @Html.Label("Is Physically Challenge?", htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-8">
+                                                            <div class="checkbox">
+                                                                @Html.EditorFor(model => model.IsPhysicallyChallenged, new { htmlAttributes = new { @class = "form-control", onchange = "updateTotal(this)" } })<br><br>
+                                                                @Html.ValidationMessageFor(model => model.IsPhysicallyChallenged, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                           
+                                                </div>
+                                                <div id="pChallenge">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.PChallengedDetail)
+                                                            @Html.DropDownList("PChallengedDetail", (SelectList)ViewBag.PChallengedDetail, "", new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.PChallengedDetail, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <br />
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <input type="submit" id="btnStudentSubmit" value="Save Biodata" class="btn btn-primary btn-sm text-right">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <a id="btneditNext" href="#" class="btn btn-warning btn-sm btnNext text-left">NEXT</a>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <!-- Edit Form -->
+                                        </div>
+                                        <!--/.Card content-->
+                                    </div>
+                                </div>
+                                <!--/.Card-->
+                            </div>
+
+                        </div>
+                        <!-- /.First row -->
+                    </section>
+                    <!-- /.Section: Edit Account -->
+                </div>
+            </form>
+            <!--/Main layout-->
+
+        </div>
+    </div>
+</div>
+
+@*<div class="row">
+        <div class="col-md-12">
+            <a id="btneditNext" href="#" class="btn btn-warning btn-lg btnNext">NEXT</a>
+        </div>
+    </div>*@
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        $("#Lga").html("");
+        $("#Lga").append($('<option></option>').val('@Model.Lga').html('@Model.Lga'));
+        document.getElementById("DateOfBirth").valueAsDate = new Date('@dateOfBirth');
+        $('#pChallenge').hide();
+    });
+
+
+    function updateTotal(elem) {
+        if ($(elem).is(':checked')) {
+            $('#pChallenge').show();
+        } else {
+            $('#pChallenge').hide();
+        }
+    }
+
+
+   $("#myStudentform").submit(function (e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        $.ajax({
+            url: "/Students/StudentFormEdit",
+            type: 'POST',
+            data: formData,
+            success: function (data) {
+                if (data.status) {
+                    swal({
+                        title: "Bio-Data saved successfully",
+                        //text: "Do you  Proceed?..",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#ab973a",
+                        confirmButtonText: "Proceed!",
+                        //cancelButtonText: "No, See Result List!",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                        function (isConfirm) {
+                            if (isConfirm) {
+                                swal("Great!", "Proceed!!!.", "success");
+                                goNextStudent();
+                            } else {
+                                swal("Great", "You can click the next button to proceed", "success");
+                            }
+                        });
+                    toastr["success"](data.message);
+                } else {
+                    swal({
+                        title: "Warning",
+                        text: data.message,
+                        type: "warning",
+                    });
+                    toastr["warning"](data.message);
+                }
+
+
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    });
+
+    //$("#myStudentform").submit(function (e) {
+
+    //    //e.preventDefault();
+    //    //var formData = new FormData(this);
+    //    //var form = $('#myStudentform').serialize();
+    //    //console.log(form);
+
+    //    $.validator.setDefaults( {
+    //            submitHandler: function () {
+    //                //e.preventDefault();
+    //                //var formId = $('#myStudentform');
+    //                var formData = new FormData($('#myStudentform')[0]);
+    //                console.log(formData);
+    //    		    $.ajax({
+    //                    url: "/Students/Edit",
+    //                    type: 'POST',
+    //                    data: formData,
+    //                    //dataType: 'json',
+    //                    //processData: false,
+    //                    //contentType: 'application/x-www-form-urlencoded',
+    //                    success: function (data) {
+    //                        if (data.status) {
+    //                            swal({
+    //                                title: "Profile saved successfully",
+    //                                //text: "Do you  Proceed?..",
+    //                                type: "warning",
+    //                                showCancelButton: true,
+    //                                confirmButtonColor: "#ab973a",
+    //                                confirmButtonText: "Proceed!",
+    //                                //cancelButtonText: "No, See Result List!",
+    //                                closeOnConfirm: false,
+    //                                closeOnCancel: false
+    //                            },
+    //                                function (isConfirm) {
+    //                                    if (isConfirm) {
+    //                                        swal("Great!", "Proceed!!!.", "success");
+    //                                        //window.location.reload();
+    //                                        $('#biodataDiv').load(location.href + " #biodataDiv");
+    //                                        $("#passportsignature").click();
+    //                                    } else {
+    //                                        swal("Great", "You can click the next button to proceed", "success");
+    //                                    }
+    //                                });
+    //                            toastr["success"](data.message);
+    //                        } else {
+    //                            swal({
+    //                                title: "Warning",
+    //                                text: data.message,
+    //                                type: "warning",
+    //                            });
+    //                            toastr["success"](data.message);
+    //                        }
+    //                    },
+    //                    cache: false,
+    //                    contentType: false,
+    //                    processData: false
+    //                });
+    //    	    }
+    //        });
+
+    //    $( "#myStudentform" ).validate({
+    //    	rules: {
+    //    		PhoneNumber: "required",
+    //    		Gender: "required",
+    //    		DateOfBirth: "required",
+    //    		Hobby: {
+    //    			required: true,
+    //    			minlength: 3
+    //    		},
+    //    		StateOfOrigin: {
+    //    			required: true,
+    //    			minlength: 1
+    //    		},
+    //    		Lga: {
+    //    			required: true,
+    //    			minlength: 1
+    //                    },
+    //            Religion: {
+    //    			required: true,
+    //    			minlength: 1
+    //                    },
+    //            MaritalStatus: {
+    //    			required: true,
+    //    			minlength: 1
+    //                    },
+    //            Nationality: {
+    //    			required: true,
+    //    			minlength: 1
+    //                    },
+    //            TownOfBirth: {
+    //    			required: true,
+    //    			minlength: 1
+    //    		}
+    //    	},
+    //    	messages: {
+    //    		PhoneNumber: "Please enter your Phone Number",
+    //    		Gender: "Please enter your Gender",
+    //    		DateOfBirth: "Please enter your Date of Birth",
+    //    		Hobby: {
+    //    			required: "Please enter your Hobby",
+    //    			minlength: "Your Hobby must consist of at least 3 characters"
+    //    		},
+    //    		StateOfOrigin: {
+    //    			required: "Please provide your State of Origin",
+    //    			minlength: "One State must be selected"
+    //    		},
+    //    		Lga: {
+    //    			required: "Please provide your LGA",
+    //    			minlength: "One LGA must be selected"
+    //                    },
+    //            Reglion: {
+    //    			required: "Please provide your LGA",
+    //    			minlength: "One LGA must be selected"
+    //                    },
+    //            MaritalStatus: {
+    //    			required: "Please provide your LGA",
+    //    			minlength: "One LGA must be selected"
+    //                    },
+    //            Nationality: {
+    //    			required: "Please provide your LGA",
+    //    			minlength: "You must select your country"
+    //    		},
+    //    		TownOfBirth: "Please enter a valid Town Where you where born"
+    //    	},
+    //    	errorElement: "em",
+    //    	errorPlacement: function ( error, element ) {
+    //    		// Add the `help-block` class to the error element
+    //    		error.addClass( "help-block" );
+
+    //    		// Add `has-feedback` class to the parent div.form-group
+    //    		// in order to add icons to inputs
+    //    		element.parents( ".col-sm-12" ).addClass( "has-feedback" );
+
+    //    		if ( element.prop( "type" ) === "checkbox" ) {
+    //    			error.insertAfter( element.parent( "label" ) );
+    //    		} else {
+    //    			error.insertAfter( element );
+    //    		}
+
+    //    		// Add the span element, if doesn't exists, and apply the icon classes to it.
+    //    		if ( !element.next( "span" )[ 0 ] ) {
+    //    			$( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
+    //    		}
+    //    	},
+    //    	success: function ( label, element ) {
+    //    		// Add the span element, if doesn't exists, and apply the icon classes to it.
+    //    		if ( !$( element ).next( "span" )[ 0 ] ) {
+    //    			$( "<span class='glyphicon glyphicon-ok form-control-feedback'></span>" ).insertAfter( $( element ) );
+    //    		}
+    //    	},
+    //    	highlight: function ( element, errorClass, validClass ) {
+    //    		$( element ).parents( ".col-sm-12" ).addClass( "has-error" ).removeClass( "has-success" );
+    //    		$( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
+    //    	},
+    //    	unhighlight: function ( element, errorClass, validClass ) {
+    //    		$( element ).parents( ".col-sm-12" ).addClass( "has-success" ).removeClass( "has-error" );
+    //    		$( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
+    //    	}
+    //    });
+
+    //});
+
+
+    function getLgaList() {
+        var stateId = $("#StateOfOrigin").val();
+        //alert(stateId);
+        $.ajax
+            ({
+                url: '/Students/GetLgaList?codeId=' + stateId,
+                type: 'GET',
+                datatype: 'application/json',
+                contentType: 'application/json',
+                //data: JSON.stringify({
+                //    codeId: +stateId
+                //}),
+                success: function (result) {
+                    $("#Lga").html("");
+                    $.each($.parseJSON(result),
+                        function (i, city) {
+                            $("#Lga").append($('<option></option>').val(city).html(city));
+                        });
+
+                },
+                error: function () {
+                    alert("Whooaaa! Something went wrong..");
+                }
+            });
+    }
+    function goNextStudent() {
+        $("#passportsignature").click();
+    }
+    $("#btneditNext").click(function () {
+        $("#passportsignature").click();
+    });
+</script>
+
+

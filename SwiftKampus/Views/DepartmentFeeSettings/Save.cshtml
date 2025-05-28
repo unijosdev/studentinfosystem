@@ -1,0 +1,111 @@
+﻿@model SwiftKampusModel.Payment.DepartmentFeeSetting
+
+<form id="myform" onsubmit="return false;">
+    @Html.AntiForgeryToken()
+    <div class="card">
+        <div class="card-head style-primary">
+          
+        </div><!--end .card-head -->
+        <div class="card-body">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @if (Model != null && Model.DepartmentFeeSettingId > 0)
+            {
+                @Html.HiddenFor(model => model.DepartmentFeeSettingId)
+            }
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DepartmentFeeTypeId)
+                @Html.DropDownList("DepartmentFeeTypeId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DepartmentFeeTypeId, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("model.FinedAmount")
+                @Html.EditorFor(model => model.FinedAmount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FinedAmount, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Start Date")
+                @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("End Date")
+                @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Semester")
+                @Html.DropDownList("SemesterId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SemesterId, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Session")
+                @Html.DropDownList("SessionId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SessionId, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Is Active", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.IsActive)
+                        @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <br/>
+            <div class="md-form">
+
+                @if (Model != null && Model.DepartmentFeeSettingId > 0)
+                {
+                    <input id="btnsubmit" type="submit" value="Update" class="btn btn-primary btn-lg" />
+                }
+                else
+                {
+                    <input id="btnsubmit" type="submit" value="Save" class="btn btn-primary btn-lg" />
+                }
+                <a href="#" class="btn btn-danger btn-lg" data-dismiss="modal">Cancel</a>
+            </div>
+        </div><!--end .card-body -->
+    </div><!--end .card -->
+
+</form>
+@*@section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }*@
+
+
+<script type="text/javascript">
+
+    $("#btnsubmit").click(function () {
+
+        var data = $("#myform").serialize();
+
+        $.ajax({
+            type: "POST",
+            url: "/DepartmentFeeSettings/Save",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+                    window.oTable.ajax.reload(); //run my_fun() ondomready
+                    toastr["success"](data.message);
+                    $('#myform')[0].reset();
+                } else {
+                    toastr["error"](data.message);
+                    $('#actionsList').modal("hide");
+
+                }
+
+            }
+        });
+    });
+</script>
+

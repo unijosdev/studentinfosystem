@@ -1,0 +1,305 @@
+﻿@model IEnumerable<SwiftKampusModel.Student>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>getAllRejected</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MiddleName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Religion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaritalStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TownOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lga)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StateOfOrigin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nationality)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CountryOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Age)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SessionId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MatricNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JambRegNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrimaryEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImeiNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hobby)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EnrollmentDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProgrammeId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SchoolProgrammeId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Active)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsPhysicallyChallenged)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PChallengedDetail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BloodGroup)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsGraduated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsSchoolarshipStudent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsDownloaded)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsRemedialStudent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsStaff)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NationalityStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Indegine)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsClearedDepartment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsClearedAcademics)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsClearedFaculty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsClearedAll)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModeOfEntry)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsDelete)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LevelId)
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MiddleName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Religion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaritalStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TownOfBirth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lga)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StateOfOrigin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nationality)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CountryOfBirth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfBirth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Age)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SessionId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MatricNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JambRegNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrimaryEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImeiNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hobby)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EnrollmentDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProgrammeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SchoolProgrammeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Active)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsPhysicallyChallenged)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PChallengedDetail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BloodGroup)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsGraduated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsSchoolarshipStudent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDownloaded)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsRemedialStudent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsStaff)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NationalityStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Indegine)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsClearedDepartment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsClearedAcademics)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsClearedFaculty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsClearedAll)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModeOfEntry)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDelete)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LevelId)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.StudentId }) |
+                @Html.ActionLink("Details", "Details", new { id=item.StudentId }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.StudentId })
+            </td>
+        </tr>
+    }
+    
+    </table>
+</body>
+</html>

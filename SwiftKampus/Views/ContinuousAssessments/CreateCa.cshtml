@@ -1,0 +1,145 @@
+﻿
+@model List<SwiftKampus.ViewModels.ContinuousAssessmentVm>
+@{
+    ViewBag.Title = "CreateCa";
+}
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Add / Update Result</h5>
+
+                    <div class="ibox-tools">
+
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+
+                    </div>
+                    <div class="ibox-content">
+                        <h3 class="text-center">
+                            <strong>
+                                Result for <br />  @Model[0].Course.CourseCode - @Model[0].Course.CourseName <br /> @Model[0].Programme.ProgrammeName Department at
+                                @Model[0].Level.LevelName level <br /> @Model[0].Semester.SemesterName semester of @Model[0].Session.SessionName
+                            </strong>
+                        </h3>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="card-body">
+                        @using (Html.BeginForm("SaveCa", "ContinuousAssessments", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <table class=" table table-responsive table-condensed table-striped">
+                                <tr>
+                                    <th>
+                                        <strong>Matric No</strong>
+                                    </th>
+                                    <th>
+                                        <strong>Student Name</strong>
+                                    </th>
+                                    <th>
+                                        <strong>Ca Score (40)</strong>
+                                    </th>
+                                    <th>
+                                        <strong>Exam Score (60)</strong>
+                                    </th>
+                                    <th>
+                                        <strong>Is Absent For Exam</strong>
+                                    </th>
+
+                                    <th></th>
+                                </tr>
+                                @for (var i = 0; i < Model.Count; i++)
+                                {
+
+                                    @Html.HiddenFor(model => model[i].ContinuousAssessmentId)
+                                    @Html.HiddenFor(model => model[i].CourseId)
+                                    @Html.HiddenFor(model => model[i].LevelId)
+                                    @Html.HiddenFor(model => model[i].SemesterId)
+                                    @Html.HiddenFor(model => model[i].SessionId)
+
+                                    @Html.HiddenFor(model => model[i].StudentId)
+                                    @Html.HiddenFor(model => model[i].ProgrammeId)
+                                    @Html.HiddenFor(model => model[i].StaffName)
+
+                                    @Html.TextBoxFor(model => model[i].ContinuousAssessmentId, new { style = "display:none" })
+                                    @Html.TextBoxFor(model => model[i].CourseId, new { style = "display:none" })
+                                    @Html.TextBoxFor(model => model[i].LevelId, new { style = "display:none" })
+                                    @Html.TextBoxFor(model => model[i].SemesterId, new { style = "display:none" })
+                                    @Html.TextBoxFor(model => model[i].SessionId, new { style = "display:none" })
+                                    @Html.TextBoxFor(model => model[i].ProgrammeId, new { style = "display:none" })
+                                    @Html.TextBoxFor(model => model[i].StudentId, new { style = "display:none" })
+                                    @Html.TextBoxFor(model => model[i].StaffName, new { style = "display:none" })
+
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(model => model[i].Student.MatricNo)
+                                        </td>
+                                        <td>
+                                            @Html.EditorFor(model => model[i].Student.FullName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                                            @Html.ValidationMessageFor(model => model[i].Student.FullName, "", new { @class = "text-danger" })
+                                        </td>
+                                        <td>
+                                            @Html.EditorFor(model => model[i].CaScore, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model[i].CaScore, "", new { @class = "text-danger" })
+                                        </td>
+                                       
+                                        <td>
+                                            <div id="@i">
+                                                @Html.EditorFor(model => model[i].ExamScore, new { htmlAttributes = new { @class = "form-control", @id= "input" + i + "" } })
+                                                @Html.ValidationMessageFor(model => model[i].ExamScore, "", new { @class = "text-danger" })
+                                            </div>                                           
+                                        </td>
+                                        <td>
+                                            @Html.EditorFor(model => model[i].IsAbsentForExam, new { htmlAttributes = new { @class = "form-control", @onchange = "onchangeAbsent(this," + i + ")" } })
+                                            @*@Html.EditorFor(model => model[i].IsAbsentForExam, new { htmlAttributes = new { @class = "form-control", @onchange = "onchangeAbsent()" } })*@
+                                            @Html.ValidationMessageFor(model => model[i].IsAbsentForExam, "", new { @class = "text-danger" })
+                                        </td>
+
+                                    </tr>
+
+                                }
+
+                            </table>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-3 text-center col-md-6">
+                                    <input type="submit" value="ADD/UPDATE CA" class="btn btn-primary block col-md-12" />
+                                </div>
+                            </div>
+                        }
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+<script type="text/javascript">
+
+    function onchangeAbsent(elem, creditLoad) {      
+        if ($(elem).is(':checked')) {
+            $('#' + creditLoad).hide();
+            $('#input' + creditLoad).val(0);
+        } else {
+            $('#' + creditLoad).show();
+        }
+       
+    }
+   
+</script>

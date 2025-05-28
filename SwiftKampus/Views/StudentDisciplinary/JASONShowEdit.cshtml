@@ -1,0 +1,110 @@
+﻿@model SwiftKampus.ViewModels.MisconductVm.EditDefaulterViewModel
+
+@{
+    Layout = null;
+}
+<h4>Edit misconduct for @Model.FullName</h4>
+<div class="form-horizontal col-md-offset-0 ">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        <div class="col-md-12">
+            @Html.LabelFor(model => model.MisconductId)
+            @Html.DropDownListFor(model => model.MisconductId, new SelectList(Model.Misconducts, "MisconductId", "MisconductName", Model.MisconductId), Model.MisconductName, new { @class = "form-control" })
+
+        </div>
+
+    </div>
+    <div class="form-group">
+        <div class="col-md-12">
+            @Html.Label("Semester Name")
+            @Html.DropDownListFor(model => model.SemesterId, new SelectList(Model.Semesters, "SemesterId", "SemesterName"), "Select Semester", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.SemesterId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-12">
+            @Html.Label("Session Name")
+            @Html.DropDownListFor(model => model.SessionId, new SelectList(Model.Sessions, "SessionId", "SessionName"), "Select Session", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.SessionId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div  class=“form-group”>
+        <input type="checkbox" name="hasEvidence" value="" id="hasEvidence" /> Add Evidence
+    </div>
+    @Html.HiddenFor(Model => Model.StudentId, new { @id = "StudentId" })
+    @Html.HiddenFor(Model => Model.DefaulterId, new { @id = "DefaulterId" })
+
+    <div class="form-group" id="evidence">
+        <div class="col-md-10">
+            <span class="form-group">Select Evidence Image</span>
+            <input type="file" name="EvidenceFile" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-auto col-md-12 pull-left">
+            @*<input type="submit" value="Save" class="btn btn-outline-primary" />*@
+            <button class="btn btn-outline-danger pull-right" type="button" name="removeEvidence" id="removeEvidence">Remove File</button>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-auto col-md-10 pull-left">
+            @Html.ActionLink("Back", "FindStudent", new { MatricNumber = Model.MatriculationNumber })
+        </div>
+    </div>
+    </div>
+
+    @*<script src="~/AdminTemplate/js/jquery-3.1.1.min.js"></script>*@
+
+    <script>
+        $(document).ready(function () {
+            $('#evidence').hide();
+
+            $('#hasEvidence').change(function () {
+                if (this.checked) {
+                    $('#evidence').toggle('show');
+                } else {
+                    $('#evidence').toggle('hide');
+                }
+            });
+
+            $(document).on('click', '#removeEvidence', function () {
+
+                var defaulterId = $('#DefaulterId').val();
+                var studentId = $('#StudentId').val();
+                var forData = {
+                    studentId,
+                    defaulterId,
+                    //"__RequestVerificationToken":
+                    //    $("input[name=__RequestVerificationToken]").val()
+                };
+                alert(defaulterId);
+                $.ajax({
+                    cache: false,
+                    url: "/StudentDisciplinary/JSONEditRemoveEvidenceFile/",
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(forData),
+                    success: function (value) {
+                        if (value.valueOf() == "success") {
+                            swal({
+                                title: "Success!",
+                                text: "Evidence File ",
+                                text: "Evidence File deleted sucessfully!",
+                                type: "success",
+                            });
+                        } else if (value.valueOf() == "null") {
+                            swal({
+                                title: "Oops!",
+                                text: "No Uploaded file!",
+                                type: "info",
+                            });
+                        }
+                    }
+                });
+            });
+
+        });
+    </script>

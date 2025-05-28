@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "Make Payment";
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Change of Course Fee Payment</h2>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="ibox-content">
+
+                    <br />
+                    <h4 class="text-center BigBold-Title">Instruction(s)</h4>
+                    <ul>
+                        <li>
+                            ONLY candidates who have been duly offered Provisional Admission by the University of Jos but DO NOT possess registration
+                            requirements for the Course they
+                            were offered and have been rejected by their respective Departments may apply and pay for Change of Course.
+                        </li>
+                        <li>
+                            ANY candidate who possesses the registration requirements for the course offered but proceeds to apply and pay for
+                            change of course may have his application turned down
+                        </li>
+                        <li><strong>Payment for Change of Course is non-refundable under any circumstances</strong></li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="ibox-content">
+                    <h2 class="text-danger text-center"> @ViewBag.Message</h2>
+                    @using (Html.BeginForm("CreateWaiverPayment", "ChangeOfCoursePayments", FormMethod.Get))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="form-horizontal">
+                            <hr />
+                            <h5 class="text-center"><strong>Read the intructions before you proceed</strong></h5>
+                            <h5 class="text-center"><strong>Payment for Change of Course is non-refundable under any circumstances</strong></h5>
+                            <br />
+                            <br />
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                @Html.Label("Select Payment", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("ChangeOfCourseType", null, htmlAttributes: new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="SELECT PAYMENT" class="btn btn-primary btn-lg" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

@@ -1,0 +1,61 @@
+﻿@model IEnumerable<SwiftKampusModel.Accomodation.AccommodationFeePayment>
+
+<table class="table">
+    <tr>
+        <th>
+            Matric No
+        </th>
+        <th>
+           Session Name
+        </th>
+       
+        <th>
+            Block Name
+        </th>
+        <th>
+            Room Name
+        </th>
+        <th>
+            Bed Space
+        </th>
+        <th>
+            Amount Payed
+        </th>
+        <th>
+            Payment Date
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Student.MatricNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Session.SessionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AssignedRoom.Block.BlockName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AssignedRoom.Room.RoomName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AssignedRoom.BedSpace)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AmountPayed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaymentDateTime)
+            </td>
+            @*<td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.AssignedRoomId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.AssignedRoomId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.AssignedRoomId })
+        </td>*@
+        </tr>
+    }
+
+</table>

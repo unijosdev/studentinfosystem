@@ -1,0 +1,50 @@
+﻿@model SwiftKampusModel.AddmissionApplicant.AwardPrice
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>AwardPrice</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplicantId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApplicantId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AwardingBody)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AwardingBody)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AcademicPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AcademicPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Year)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Year)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.AwardPriceId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

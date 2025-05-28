@@ -1,0 +1,26 @@
+﻿@model SwiftKampusModel.Library.BookCategory
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>BookCategory</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BookCategoryName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BookCategoryName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.BookCategoryId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

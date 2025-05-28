@@ -1,0 +1,146 @@
+﻿
+@model IEnumerable<SwiftKampusModel.Course>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link type="text/css" rel="stylesheet" href="~/Content/calculate.css" />
+<div class="alert alert-info alert-dismissable">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <p class="p-alert"></p>
+</div>
+<form>
+    <div id="container">
+        <div class="container">
+            <div class="col-lg-5 pad-fix">
+                <input type="number" placeholder="Credit Load" class="course" />
+            </div>
+            <div class="col-lg-5 pad-fix">
+                <input type="number" Placeholder="Score" class="score" />
+            </div>
+            <div class="col-sm-2 pad-fix">
+                <button id="btnadd" type="button" class="btn btn-primary">+</button>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <input type="button" value="Calculate" id="btnSubmit" class="btn btn-primary">
+    </div>
+</form>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var max = 10;
+        var wrapper = $("#container");
+        var btnadd = $("#btnadd");
+
+        var x = 1;
+        //add input box
+        $(btnadd).click(function (e) {
+            e.preventDefault();
+            if (x < max) {
+                x++;
+                $(wrapper).append('<div id="append-div"><div class="container"><div class="col-lg-5 pad-fix">\n' +
+                    '    <input type="number" placeholder="Credit Load" class="course" />\n' +
+                    '</div>\n' +
+                    '    <div class="col-lg-5 pad-fix">\n' +
+                    '        <input type="number" Placeholder="Score" class="score" />\n' +
+                    '    </div>\n' +
+                    '<div class="col-sm-2 pad-fix">\n' +
+                    '<button type="button" class="btn btn-danger delete">-</button >\n' +
+                    '</div></div>');
+            }
+            else {
+                alert('You Reached the limits');
+            }
+        });
+
+        //delete input box
+        $(wrapper).on("click", ".delete", function (e) {
+            e.preventDefault();
+            $('#append-div').remove(); x--;
+        });
+
+        //The Array Codes starts from here...
+        $('#btnSubmit').click(function () {
+
+            var course = [];
+            var score = [];
+            var list = [];
+
+            //pulling the form data using the class and adding it to a list
+            $.each($('.course'), function () {
+                course.push($(this).val());
+            });
+
+            $.each($('.score'), function () {
+                score.push($(this).val());
+            });
+
+            //validation
+            if (course.length === 0 || score.length === 0) {
+                alert("Invalid selection!");
+            }
+            else {
+                //append to list for c# calculation in controller
+                for (var i = 0; i < course.length; i++) {
+                    var data = {
+                        "unit": parseInt(course[i]),
+                        "score": score[i]
+                    };
+                    list.push(data);
+                }
+                console.log(list);
+                $.ajax({
+                    type: "POST",
+                    contentType: 'application/json',
+                    url: "/Results/ProcessResult",
+                    data: JSON.stringify(list),
+                    success: function (data) {
+                        if (data) {
+                            $('.p-alert').html("Your Cummulative Grade Point Average is " + data);
+                            $('.alert').show();
+                            toastr["success"]("Your Cummulative Grade Point Average is " + data);
+                        } else {
+                            console.log("An error ocurred!");
+                        }
+
+                    }
+                });
+            }
+            return false;
+        });
+
+        $('.alert').hide();
+    });
+
+    function convertGrade(grade) {
+        var coursescore;
+        grade = parseInt(grade);
+        switch (true) {
+            case (grade >= 70 && grade <= 100):
+                coursescore = 5;
+                break;
+            case (grade >= 60 && grade <= 69):
+                coursescore = 4;
+                break;
+            case (grade >= 50 && grade <= 59):
+                coursescore = 3;
+                break;
+            case (grade >= 45 && grade <= 49):
+                coursescore = 2;
+                break;
+            case (grade >= 40 && grade <= 44):
+                coursescore = 1;
+                break;
+            case (grade >= 0 && grade <= 39):
+                coursescore = 0;
+                break;
+            default:
+                coursescore = 0;
+        }
+        return coursescore;
+    }
+</script>
+

@@ -1,0 +1,220 @@
+
+@model SwiftKampusModel.Student
+
+@{
+    Layout = "~/Views/Shared/_LayoutIdCard.cshtml";
+}
+<html>
+<head>
+    <title></title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .wrapper{
+            transform: rotate(90deg);
+            /*transform-origin: bottom left;*/
+        }
+
+        html, body {
+            padding: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        html {
+            background-color: #EEF1F8;
+        }
+
+        #avatar {
+            border-radius: 10px;
+        }
+
+        #surname {
+            font-weight: bolder;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            margin-right: 20px;
+        }
+
+        .card {
+            width: 300px;
+            height: 500px;
+            background-color: white;
+            display: inline-block;
+            position: relative;
+            text-align: center;
+            /*align-items: center;*/
+            border-radius: 10px;
+            box-shadow: 2px 3px 7px -1px rgba(0,0,0,0.75);
+        }
+
+            .card .top-section {
+                height: 40%;
+                padding-top: 20px;
+            }
+
+        .top-section .logo {
+            display: flex;
+            align-items: center;
+            vertical-align: middle;
+            padding: 0px 20px;
+        }
+
+        .logo span {
+            margin: 0px 5px;
+            /*margin: 0px 5px 0px 20px;*/
+        }
+
+        .card .bottom-section {
+            height: 60%;
+            color: white;
+            width: inherit;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            background-color: #1E90FF;
+        }
+
+        .card .avatar {
+            padding: 0;
+            margin: 0;
+            height: auto;
+            position: absolute;
+            background-color: white;
+            top: 116px;
+            left: 50%;
+            border-radius: 18px;
+            transform: translateX(-50%);
+            border: 8px solid #fff;
+        }
+
+        .bottom-section .student-name {
+            padding-top: 70px;
+        }
+
+        .bottom-section .student-info {
+            padding: 15px 20px 15px 20px;
+            font-size: 15px;
+        }
+
+        .bottom-section .barcode {
+            width: inherit;
+            height: 40px;
+            margin-bottom: 10px;
+        }
+
+        .button {
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background-color: #1E90FF;
+            padding: 5px 16px 5px 16px;
+            border-radius: 20px;
+        }
+
+        .idcard-number span {
+            top: 50%;
+            right: 0;
+            margin-right: -20px;
+            text-align: right;
+            position: absolute;
+            transform: rotate(-90deg);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <div class="container">
+            <div class="card">
+                <div class="top-section">
+
+                    <div class="logo">
+                        <div><span><img src="@Url.Action("RenderImage", "Students",new { studentId = Model.StudentId})" width="60" height="50" /></span></div>
+                        <div>
+                            <span style="font-size: 16px"><strong>UNIVERSITY OF JOS</strong><br></span>
+                            <span style="font-size: 12px"><strong>P.M.B.2048 JOS-NIGERIA</strong></span>
+                        </div>
+                    </div>
+
+                    <div style="margin: 10px">
+                        <span class="button" s>STUDENT</span>
+                    </div>
+                </div>
+
+                <div class="avatar">
+                    <img src="new.jpg" height="120" width="100" id="avatar">
+                </div>
+
+                <div class="bottom-section">
+
+                    <div class="student-name">
+                        <span id="surname">@Model.LastName</span>,<br />
+                        <span id="other-names">@Model.FirstName  @Model.MiddleName </span>
+                    </div>
+
+                    <div class="student-info">
+                        <table width="300" border="0">
+                            <tr>
+                                <td width="100"><div align="right"><strong>MATRIC NO: </strong></div></td>
+                                <td width="200"><div align="left">@Model.MatricNo</div></td>
+                            </tr>
+                            <tr>
+                                <td><div align="right"><strong>DEPT: </strong></div></td>
+                                <td><div align="left">@Model.Programme.ProgrammeName</div></td>
+                            </tr>
+                            <tr>
+                                <td><div align="right"><strong>EXPIRY: </strong></div></td>
+                                <td><div align="left"></div></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="barcode">
+                        <img src="@Url.Action("BarcodeImage", "Home",new { barcodeText = $"{Model.MatricNo} {Model.FullName} {Model.Programme.ProgrammeName}"})" alt="barcode" width="200" height="50px" />
+
+                    </div>
+
+                    <div>
+                        <strong>U N D E R G R A D U A T E</strong>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="container">
+            <div class="card">
+                <div style="margin: 35px 20px;">
+                    <strong>In the event of loss, report to the security</strong>
+                </div>
+                <div style="margin: 20px 20px;">
+                    <strong>Emergency Contact: <br><span id="security-number">(Cheif Security Number)</span></strong>
+                </div>
+                <div>
+                    <img src="uj.jpg" height="200" width="250" style="opacity: 0.2; filter: alpha(opacity=60); /* For IE8 and earlier */">
+                </div>
+                <div class="idcard-number">
+                    <span>85612345698</span>
+                </div>
+                <div>
+                    <img src="signature.png" height="50" width="80">
+                    <br>
+                    Chief Security Officer's Signature
+                </div>
+                <div style="margin-top: 20px">
+                    <span class="button"><strong>Blood Group: <span id="blood-group">A+</span></strong></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+
+</body>

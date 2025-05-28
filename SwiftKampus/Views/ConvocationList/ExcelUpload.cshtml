@@ -1,0 +1,43 @@
+﻿
+    <div >
+            <a class="btn btn-primary" href="~/Excel Template/Student Template.xlsx"> Download Excel Template</a>   
+    </div>
+
+        <div class="card-body">
+            <h3>Instructions</h3>
+            <ul>
+                <li>Please the button above to download the format required for the upload.</li>
+                <li>Please leave no cell empty in the excel template before you upload.</li>
+                <li>Please use a valid Date for student's date of birth.</li>
+                <li>Please use a valid Date for student's admission date.</li>
+                <li>You will be redirect to the list of students after successful upload.</li>
+            </ul>
+            <br />
+            <br />
+            @using (Html.BeginForm("UploadStudentTransfer", "ConvocationList", FormMethod.Post, new { enctype = "multipart/form-data", id = "theform" }))
+            {
+                @Html.Raw(ViewBag.Error)
+                <span>Excel File </span> <input type="file" name="excelfile" />
+                <br />
+                <input id="btnsubmit" type="submit" value="Upload Student Record" class="btn btn-lg btn-primary" />
+            }
+
+            <div>
+            </div>
+        </div>
+
+
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#theform').submit(function () {
+            $("input[type='submit']", this)
+                .val("Uploading Please Wait...")
+                .attr('disabled', 'disabled');
+            return true;
+        });
+    });
+</script>
+
+

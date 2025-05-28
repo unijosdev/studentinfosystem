@@ -1,0 +1,17 @@
+﻿@model IEnumerable<SwiftKampusModel.AddmissionApplicant.Applicant>
+@{
+    ViewBag.Title = "UnderGraduateIndex";
+}
+
+<h2>UnderGraduateIndex</h2>
+@using (Html.BeginForm("UnderGraduateIndex", "Applicants", FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.Label("School Programme", htmlAttributes: new {@class = "control-label col-md-2"})
+        <div class="col-md-10">
+            @Html.DropDownList("SchoolProgrammeId", null, htmlAttributes: new {@class = "form-control"})
+
+        </div>
+    </div>
+}
+

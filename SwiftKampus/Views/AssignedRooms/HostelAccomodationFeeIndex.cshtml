@@ -1,0 +1,84 @@
+﻿@model IEnumerable<SwiftKampusModel.Accomodation.StudentAccommodationFeePayment>
+
+@{
+    ViewBag.Title = "Hostel ApplicationPayment History";
+}
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Payment History</h5>
+                    <div class="ibox-tools">
+
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <table class="table table-responsive">
+                        <tr>
+                            <th>
+                                Matric No
+                            </th>
+                            <th>Full Name</th>
+                            <th>
+                                Session Name
+                            </th>
+
+                            <th>Amount  </th>
+
+                            <th>
+                                Date
+                            </th>
+
+                            <th>Payment Status </th>
+                            <th></th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Student.MatricNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Student.FullName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Session.SessionName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AmountPayed)
+                                </td>
+                                <td>
+                                    @item.PaymentDateTime.ToString("dd MMMM yyyy")
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IsPayed)
+                                </td>
+
+                                <td>
+                                    @*@Html.ActionLink("Print Receipt", "PrintReceipt", new { id = item.SchoolFeePaymentId })*@
+                                    <a class="btn btn-sm btn-success" target="_blank" href="@Url.Action("PrintAccomodationFeeReceipt","AssignedRooms", new{ id = item.StudentAssignedRoomId})">Print Receipt</a>
+                                    @*<a href="#">Print Receipt</a>*@
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,102 @@
+﻿@using SwiftKampusModel
+@model Student
+
+@{
+    Layout = "~/Views/Shared/_LayoutWebSite2.cshtml";
+
+    ViewBag.Title = "Admission Confirmation";
+}
+
+<link href="~/Content/my_css/footer.css" rel="stylesheet" />
+
+<section class="divider">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-push-1">
+                <div class="border-1px p-20 mb-0" style="border: 1px solid #cac9c9 !important;">
+                    <div class="row">
+                        <div class="col-md-4 border-right">
+                            <div class="col-md-12">
+                                <img src="https://portal.unijos.edu.ng/Content/UnijosUI/images/logo-wide.png" alt='unijos logo' data-default="placeholder" data-max-width="500" width='216' height='42' />
+                                <h5>
+                                    Undergraduate Admission Process
+                                </h5>
+                                <h5>Please read the Instructions carefully</h5>
+                                <hr />
+                                <a class="btn btn-primary"  href="~/Excel Template/Notice of Release of 2018-19 Admission.pdf">Download Registration Guide</a>
+                                <hr />
+                                <a class="btn btn-primary" href="@Url.Action("Login","Account")">Login now</a>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+
+                            <div class="contentEditable" style='font-size:32px;color:#555555;font-weight:normal;'>
+                                <h3 class="text-center">Notification of Offer of Provisional Admission </h3>
+
+                            </div>
+
+                            <div class="contentEditable" style='font-size:13px;color:#000000;line-height:19px;'>
+                                <p style="text-align:left"> Dear @Model.FullName, </p>
+                                <p style="text-align:left"> Jamb Reg Number @Model.JambRegNo</p>
+                                <br />
+                                <p style="text-align:justify">
+                                    I am pleased to inform you that the University of Jos has offered you provisional admission to undertake an
+                                    undergraduate programme in @Model.Programme.ProgrammeName the @Model.Session.SessionName Academic Session.
+                                </p>
+                                <p class="text-danger">If you are yet to upload your O Level results (SSCE/NECO/NABTEB) on the JAMB website, you are strongly advised to do so 
+                                immediately or stand the risk of losing this admission.</p>
+                                <br />
+                                <p style="text-align:justify">
+                                    You are to pay a non-refundable pre-registration fee of twenty-five thousand
+                                    (N25,000.00) only on or before March 31, 2019. Payment of the non-refundable
+                                    pre-registration fee after March 31, 2019, will attract an additional late payment charge of ten-thousand naira (N10,000.00) only.
+                                </p>
+                                <br />
+                                <p style="text-align:justify">
+                                    For further instruction on the payment of the pre-registration fee and other registration  detail
+                                    kindly follow the steps below:
+                                </p>
+
+                                <ul style="text-align:left">
+                                    <li>visit <a href="https://www.unijos.edu.ng/" target="_blank">www.unijos.edu.ng</a></li>
+                                    <li>Click on <strong>Portal</strong></li>
+                                    <li>Select <strong>Students' Portal</strong></li>
+                                    <li>Click on the <strong><a href="@Url.Action("Login","Account")">Login</a></strong> link</li>
+                                    <li>Type your JAMB Registration No or email in the username box</li>
+                                    <li>Type in the password (you used during POST UTME screening registration)</li>
+                                    <li>Click <strong>Get Started</strong> to login to your personalized dashboard</li>
+                                    <li>Click on <strong>Fee Management</strong> menu on the left side of the dash</li>
+                                    <li>Select <strong>Pay School Charges</strong> </li>
+                                    <li>Click on <strong>Select Payment</strong>  and follow the prompt to complete payment</li>
+                                </ul>
+                                <br />
+                                <p style="text-align:left"> <strong>Note:</strong> You will be notified via SMS and or email on when to continue with registration</p>
+                                <br />
+                                <p style="text-align:left">
+                                    For further inquiry, please contact us via email at <strong>support@unijos.edu.ng</strong>  or chat us online at the
+                                    login portal or call on <strong>0905-877-7773 or 0803-355-1034 or 0703-654-9259 or 0803-058-0255.</strong>
+                                </p>
+                                <br />
+                                <p style="text-align:left">The University of Jos felicitates with you and wishes you success in your academic pursuit.</p>
+                                <br />
+                                <p style="text-align:left">
+                                    <strong>
+                                        Signed <br />
+                                        Registrar
+                                    </strong>
+
+                                </p>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+

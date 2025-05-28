@@ -1,0 +1,147 @@
+﻿@model SwiftKampusModel.ContinuousAssessment
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ContinuousAssessment</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Course.CourseCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Course.CourseCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Programme.ProgrammeCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Programme.ProgrammeCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Semester.SemesterName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Semester.SemesterName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sessions.SessionName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sessions.SessionName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StudentId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StudentId)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.FirstTest)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstTest)
+        </dd>*@
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.Attendance)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Attendance)
+        </dd>*@
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.SecondTest)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SecondTest)
+        </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CaScore)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CaScore)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExamScore)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExamScore)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StaffName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StaffName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Total)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Total)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Grading)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Grading)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remark)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remark)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GradePoint)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GradePoint)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QualityPoint)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QualityPoint)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ContinuousAssessmentId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

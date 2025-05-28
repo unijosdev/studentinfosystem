@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "RemoveTransaction";
+}
+
+<div class="row ibox-title">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+
+        <h2>Remove Transaction</h2>
+        <h3 class="text-danger" style="font-weight:500;">@ViewBag.Message</h3>
+
+        @using (Html.BeginForm("RemoveTransaction", "SchoolFeePayments", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Get, new { @class = "", role = "form" }))
+        {
+
+            <br />
+            <input id="studentId" name="studentId" class="form-control" type="text" required placeholder="Type your Jamb Reg No/Form No/ Matric No" />
+
+            <br />
+            <div class="form-group">
+                @Html.Label("Select Payment Category", htmlAttributes: new { @class = "control-label", @style = "font-size:16px" })
+                <div>
+                    @Html.DropDownList("FeeCategory", null, htmlAttributes: new { @class = "form-control", onchange = "extraDetails()" })
+                </div>
+            </div>
+
+            <div class="form-group extraDetails">
+                @Html.DropDownList("SessionId", null, "Select Payment Session", htmlAttributes: new { @class = "form-control" })
+                <br />
+            </div>
+
+            <button class="btn btn bg-primary" type="submit">Remove Transaction<span class="icon-more-icon"></span></button>
+
+            @*<input id="studentId" name="studentId" class="form-control" type="text" required placeholder="Type your Jamb Reg No" />
+
+
+                <button class="btn" type="submit">Remove Transaction<span class="icon-more-icon"></span></button>*@
+
+        }
+    </div>
+</div>

@@ -1,0 +1,271 @@
+@model IEnumerable<SwiftKampus.ViewModels.AllActiveStudentsVM>
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>GetAllActiveStudents</title>
+</head>
+<body>
+    <div>
+        <div>
+            <div class="ibox-content">
+                <div class="table-responsive">
+                    <table id="Jdatatable" class="table table-striped table-bordered table-hover table-responsive dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>SN</th>
+                                <th>Matric</th>
+                                <th>Jamb No</th>
+                                <th>Session</th>
+                                <th>Mode Of Entry</th>
+                                <th>Fullname</th>
+                                <th>Gender</th>
+                                <th>Date of birth</th>
+                                <th>Phone Number</th>
+                                <th>Secondary Email</th>
+                                <th>Marital Status</th>
+                                <th>Nationality</th>
+                                <th>State</th>
+                                <th>LGA</th>
+                                <th>Level</th>
+                                <th>Programme</th>
+                                <th>Department</th>
+                                <th>Faculty</th>
+                                <th>School</th>
+                                <th>Alevel</th>
+                                <th>Alevel_School</th>
+                                <th>School_Charge</th>
+                                <th>Grade</th>
+                                <th>Status</th>
+                                <th>Physical Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{var sn = 0; }
+                            @if (Model.Count() != 0)
+                            {
+                                foreach (var student in Model)
+                                {
+                                    sn += 1;
+                                    <tr>
+                                        <td> @sn </td>
+                                        @if (@student.MatricNO != null)
+                                        {
+                                            <td> @Html.DisplayName(student.MatricNO)</td>
+                                        }
+                                        else
+                                        {
+                                            <td> Nil </td>
+                                        }
+                                        @if (@student.JambNo != null)
+                                        {
+                                            <td> @Html.DisplayName(student.JambNo)</td>
+                                        }
+                                        else
+                                        {
+                                            <td> Nil </td>
+                                        }
+                                        @if (@student.ModeOfEntry != null)
+                                        {
+                                            <td> @Html.DisplayName(student.ModeOfEntry)</td>
+                                        }
+                                        else
+                                        {
+                                            <td> Nil </td>
+                                        }
+                                        @if (@student.Session != null)
+                                        {
+                                            <td> @Html.DisplayName(student.Session)</td>
+                                        }
+                                        else
+                                        {
+                                            <td> Nil </td>
+                                        }
+                                        @*<td> @Html.DisplayName(student.ModeOfEntry)</td>*@
+                                        <td> @student.Firstname @student.Lastname @student.Middlename</td>
+                                        @*<td> @Html.DisplayName(student.Firstname) @Html.DisplayName(student.Lastname) @if(student.Middlename  != null ){ ? @Html.DisplayName(student.Middlename) : Nil</td>*@
+                                        @*<td> @Html.DisplayName(student.Gender)</td>*@
+                                        @if (@student.Gender != null)
+                                        {
+                                            <td> @Html.DisplayName(student.Gender)</td>
+                                        }
+                                        else
+                                        {
+                                            <td> Nil </td>
+                                        }
+                                        @if (@student.DateOfBirth != null)
+                                        {
+                                            <td> @Html.DisplayName(student.DateOfBirth.ToString())</td>
+                                        }
+                                        else
+                                        {
+                                            <td> Nil </td>
+                                        }
+                                        @*<td> @Html.DisplayName(student.PhoneNumber)</td>*@
+                                        @if (@student.PhoneNumber != null)
+                                        {
+                                            <td> @Html.DisplayName(student.PhoneNumber)</td>
+                                        }
+                                        else
+                                        {
+                                            <td> Nil </td>
+                                        }
+                                        @*<td> @student.SecondaryEmail</td>*@
+                                        @if (@student.SecondaryEmail != null)
+                                        {
+                                            <td> @student.SecondaryEmail</td>
+                                        }
+                                        else
+                                        {
+                                            <td> Nil </td>
+                                        }
+                                        @*<td> @Html.DisplayName(student.MaritalStatus)</td>*@
+                                        @if (@student.MaritalStatus != null)
+                                        {
+                                            <td> @Html.DisplayName(student.MaritalStatus)</td>
+                                        }
+                                        else
+                                        {
+                                            <td> Nil </td>
+                                        }
+                                        @*<td> @Html.DisplayName(student.Nationality)</td>*@
+                                        @if (@student.Nationality != null)
+                                        {
+                                            <td> @Html.DisplayName(student.Nationality)</td>
+                                        }
+                                        else
+                                        {
+                                            <td> Nil </td>
+                                        }
+                                        @*<td> @Html.DisplayName(student.State)</td>*@
+                                        @if (@student.State != null)
+                                        {
+                                            <td> @Html.DisplayName(student.State)</td>
+                                        }
+                                        else
+                                        {
+                                            <td> Nil </td>
+                                        }
+                                        @*<td> @Html.DisplayName(student.LocalGovernment)</td>*@
+                                        @if (@student.LocalGovernment != null)
+                                        {
+                                            <td> @Html.DisplayName(student.LocalGovernment)</td>
+                                        }
+                                        else
+                                        {
+                                            <td> Nil </td>
+                                        }
+                                        @*<td> @Html.DisplayName(student.LevelName)</td>*@
+                                        @if (@student.LevelName != null)
+                                        {
+                                            <td> @Html.DisplayName(student.LevelName)</td>
+                                        }
+                                        else
+                                        {
+                                            <td> Nil </td>
+                                        }
+                                        @*<td> @Html.DisplayName(student.DeptOptionNAme)</td>*@
+                                        @if (@student.DeptOptionNAme != null)
+                                        {
+                                            <td> @Html.DisplayName(student.DeptOptionNAme)</td>
+                                        }
+                                        else
+                                        {
+                                            <td> Nil </td>
+                                        }
+                                        @*<td> @Html.DisplayName(student.DeptName)</td>*@
+                                        @if (@student.DeptName != null)
+                                        {
+                                            <td> @Html.DisplayName(student.DeptName)</td>
+                                        }
+                                        else
+                                        {
+                                            <td> Nil </td>
+                                        }
+                                        @*<td> @Html.DisplayName(student.FacultyName)</td>*@
+                                        @if (@student.FacultyName != null)
+                                        {
+                                            <td> @Html.DisplayName(student.FacultyName)</td>
+                                        }
+                                        else
+                                        {
+                                            <td> Nil </td>
+                                        }
+                                        @*<td> @Html.DisplayName(student.StudentStatus)</td>*@
+                                        @if (@student.StudentStatus != null)
+                                        {
+                                            <td> @Html.DisplayName(student.StudentStatus)</td>
+                                        }
+                                        @if (@student.SchoolCode != null)
+                                        {
+                                            <td> @Html.DisplayName(student.SchoolCode)</td>
+                                        }
+                                        else
+                                        {
+                                            <td> Nil </td>
+                                        }
+                                        @if (@student.directEntryExam != null)
+                                        {
+
+                                            if (@student.directEntryExam.CertificateType != null)
+                                            {
+                                                <td> @Html.DisplayName(@student.directEntryExam.CertificateType)</td>
+                                            }
+                                            else
+                                            {
+                                                <td> Nil </td>
+                                            }
+                                            if (@student.directEntryExam.NameOfInstitution != null)
+                                            {
+                                                <td> @Html.DisplayName(student.directEntryExam.NameOfInstitution)</td>
+                                            }
+                                            else
+                                            {
+                                                <td> Nil </td>
+                                            }
+                                            if (@student.directEntryExam.OverallGrade != null)
+                                            {
+                                                <td> @Html.DisplayName(student.directEntryExam.OverallGrade ?? "")</td>
+                                            }
+                                            else
+                                            {
+                                                <td> Nil </td>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <td> Nil </td>
+                                        }
+                                        @if (@student.SchoolFeeCharge != null)
+                                        {
+                                            <td> @student.SchoolFeeCharge</td>
+                                        }
+                                        else
+                                        {
+                                            <td> Nil </td>
+                                        }
+                                        @*<td> @Html.DisplayName(student.PhysicalStatus)</td>*@
+                                        @if (@student.PhysicalStatus != null)
+                                        {
+                                            <td> @Html.DisplayName(student.PhysicalStatus)</td>
+                                        }
+                                        else
+                                        {
+                                            <td> Nil </td>
+                                        }
+                                        <td> @Html.DisplayName(student.DateUploaded.ToString()) </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

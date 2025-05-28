@@ -1,0 +1,87 @@
+﻿@model SwiftKampusModel.AddmissionApplicant.UnderGraduateRuleVm
+
+@{
+    ViewBag.Title = "Create";
+}
+<script src="~/Scripts/chosen.jquery.js"></script>
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>UnderGraduateRule</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.SchoolProgrammeId, "SchoolProgrammeId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("SchoolProgrammeId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SchoolProgrammeId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProgrammeId, "ProgrammeId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("ProgrammeId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ProgrammeId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SubjectId, "SubjectId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.DropDownList("SubjectId", null, htmlAttributes: new { @class = "form-control" })*@
+                @Html.DropDownList("SubjectId", null, htmlAttributes: new { @class = "form-control chosen-select", @multiple = "true" })
+                @Html.ValidationMessageFor(model => model.SubjectId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SubjectGrade, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SubjectGrade, new { htmlAttributes = new { @class = "form-control", @placeholder="A1,B2" } })
+                @*@Html.DropDownList("SubjectGrade", null, htmlAttributes: new { @class = "form-control chosen-select", @multiple = "true" })*@
+                @Html.ValidationMessageFor(model => model.SubjectGrade, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsRequired, htmlAttributes: new {@class = "control-label col-md-2"})
+            @Html.EditorFor(model => model.IsRequired, new {htmlAttributes = new {@class = "form-control", @placeholder = "R,N"}})
+            @Html.ValidationMessageFor(model => model.IsRequired, "", new {@class = "text-danger"})
+        </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.NoOfRequiredSubject, htmlAttributes: new {@class = "control-label col-md-2"})
+            @Html.EditorFor(model => model.NoOfRequiredSubject, new {htmlAttributes = new {@class = "form-control"}})
+            @Html.ValidationMessageFor(model => model.NoOfRequiredSubject, "", new {@class = "text-danger"})
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script type="text/javascript">
+    //window.alert(5 + 6);
+    $('.chosen-select').chosen();
+    $(function () {
+        $('.listbox').multiselect({
+            includeSelectAllOption: true
+        });
+    });
+</script>

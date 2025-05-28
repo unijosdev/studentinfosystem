@@ -1,0 +1,212 @@
+﻿@using SwiftKampus.Models
+@using SwiftKampusModel
+
+<!DOCTYPE html>
+<html lang="en" class="full-height">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>@SchoolSetUp.CurrentSchoolName</title>
+    <link rel="icon" type="image/png" href="~/Content/Images/@SchoolSetUp.SchoolLogo">
+
+    <!-- Meta OG -->
+    <meta name="keywords" content="@SchoolSetUp.Keywords">
+    <meta name="description" content="@SchoolSetUp.Description">
+    <!-- /Meta OG -->
+    <!-- Twitter Card -->
+    <!-- Stylesheet -->
+    <link href="~/Content/UnijosUI/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/UnijosUI/css/jquery-ui.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/UnijosUI/css/animate.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/UnijosUI/css/css-plugin-collections.css" rel="stylesheet" />
+    <!-- CSS | menuzord megamenu skins -->
+    <link href="~/Content/UnijosUI/css/menuzord-megamenu.css" rel="stylesheet" />
+    <link id="menuzord-menu-skins" href="~/Content/UnijosUI/css/menuzord-skins/menuzord-boxed.css" rel="stylesheet" />
+    <!-- CSS | Main style file -->
+    <link href="~/Content/UnijosUI/css/style-main.css" rel="stylesheet" type="text/css">
+    <!-- CSS | Preloader Styles -->
+    <link href="~/Content/UnijosUI/css/preloader.css" rel="stylesheet" type="text/css">
+    <!-- CSS | Custom Margin Padding Collection -->
+    <link href="~/Content/UnijosUI/css/custom-bootstrap-margin-padding.css" rel="stylesheet" type="text/css">
+    <!-- CSS | Responsive media queries -->
+    <link href="~/Content/UnijosUI/css/responsive.css" rel="stylesheet" type="text/css">
+    <!-- CSS | Style css. This is the file where you can place your own custom css code. Just uncomment it and use it. -->
+    <!-- <link href="css/style.css" rel="stylesheet" type="text/css"> -->
+    <!-- Revolution Slider 5.x CSS settings -->
+    <link href="~/Content/UnijosUI/js/revolution-slider/css/settings.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/UnijosUI/js/revolution-slider/css/layers.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/UnijosUI/js/revolution-slider/css/navigation.css" rel="stylesheet" type="text/css" />
+
+    <!-- CSS | Theme Color -->
+    <link href="~/Content/UnijosUI/css/colors/theme-skin-color-set7.css" rel="stylesheet" type="text/css">
+
+    <!-- external javascripts -->
+    <script src="~/Content/UnijosUI/js/jquery-2.2.4.min.js"></script>
+    <script src="~/Content/UnijosUI/js/jquery-ui.min.js"></script>
+    <script src="~/Content/UnijosUI/js/bootstrap.min.js"></script>
+    <!-- JS | jquery plugin collection for this theme -->
+    <script src="~/Content/UnijosUI/js/jquery-plugin-collection.js"></script>
+
+    <!-- Revolution Slider 5.x SCRIPTS -->
+    <script src="~/Content/UnijosUI/js/revolution-slider/js/jquery.themepunch.tools.min.js"></script>
+    <script src="~/Content/UnijosUI/js/revolution-slider/js/jquery.themepunch.revolution.min.js"></script>
+
+</head>
+
+<body class="has-side-panel side-panel-right fullwidth-page">
+
+    <div id="wrapper" class="clearfix">
+        <!-- preloader -->
+        @*<div id="preloader">
+                <div id="spinner">
+                    <img alt="" src="images/preloaders/5.gif">
+                </div>
+                <div id="disable-preloader" class="btn btn-default btn-sm">Disable Preloader</div>
+            </div>*@
+
+        <!-- Header -->
+        <header id="header" class="header">
+            <div class="header-top bg-theme-colored border-top-theme-colored2-2px sm-text-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="widget">
+                                <ul class="styled-icons icon-sm icon-white">
+                                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                    @*<li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-linkedin"></i></a></li>*@
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+
+                            <div class="widget">
+                                <ul class="list-inline text-right flip sm-text-center">
+                                    @*<li>
+                                        <a class="text-white" href="#">Help Desk</a>
+                                    </li>
+                                    <li class="text-white">|</li>*@
+                                    <li>
+                                        <a class="text-white" href="@Url.Action("Support","Home")">Support</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="header-nav">
+                <div class="header-nav-wrapper navbar-scrolltofixed bg-white">
+                    <div class="container">
+                        <nav id="menuzord-right" class="menuzord default theme-colored">
+                            <a class="menuzord-brand pull-left flip mt-20 mt-sm-10 mb-sm-20 pt-5" href="@Url.Action("Index","Home")"><img src="~/Content/UnijosUI/images/logo-wide.png" alt=""></a>
+                            <ul class="menuzord-menu">
+                                <li><a href="@Url.Action("SignUp","Account")">SIGN UP</a></li>
+                                <li><a href="@Url.Action("Login","Account")">LOGIN </a></li>
+                                <li><a href="@Url.Action("CheckAdmission","Account")">CHECK ADMISSION </a></li>
+                                <li>
+                                    <a href="#">FORMS APPLICATION</a>
+                                    <ul class="dropdown">
+                                        <li><a href="@Url.Action("CheckUtmeAdmission","UtmeApplicants")">2023 & 2024 UTME/DE SCREENING</a></li>
+                                        @foreach (var item in ViewBag.Programme)
+                                        {
+                                            <li><a href="@Url.Action("AddmissionRegistration","Account", new { programme = item.ProgrammeCategory})">@item.FancyName</a></li>
+                                        }
+                                    </ul>
+                                </li>
+
+
+
+                                <li><a href="@Url.Action("Index","MarketPlace")">PAY SUNDRIES</a></li>
+                                <li><a href="@Url.Action("Faq","Faqs")">FAQs</a> </li>
+
+
+                                @*<li><a href="http://unijos.edu.ng/" target="_blank">WEBSITE HOMEPAGE</a> </li>*@
+
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        @RenderBody()
+
+        <!-- Footer -->
+        <footer id="footer" class="footer" data-bg-color="#20232E">
+            <div class="footer-bottom" data-bg-color="#1B1D26">
+                <div class="container pt-10 pb-10">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="font-14 sm-text-center m-0">Copyright &copy;2018 <span class="text-theme-colored2">University of Jos</span>. All Rights Reserved</p>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <div class="widget no-border m-0">
+                                <ul class="list-inline sm-text-center mt-5 font-12">
+                                    @*<li>
+                                        <a href="#">Help Desk</a>
+                                    </li>*@
+
+                                    <li>
+                                        <a href="@Url.Action("Support","Home")">Support</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <a class="scrollToTop" href="#"><i class="fa fa-angle-up"></i></a>
+    </div>
+    <div id="google_translate_element"></div>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({ pageLanguage: 'en', includedLanguages: 'es,fr', layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <!--Start of Tawk.to Script-->
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+        (function () {
+            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/5c7906313341d22d9ce6c71a/default';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
+    <!--End of Tawk.to Script-->
+    <!-- Footer Scripts -->
+    <!-- JS | Chart-->
+    <script src="~/Content/UnijosUI/js/chart.js"></script>
+    <!-- JS | Custom script for all pages -->
+    <script src="~/Content/UnijosUI/js/custom.js"></script>
+
+    <!-- SLIDER REVOLUTION 5.0 EXTENSIONS
+          (Load Extensions only on Local File Systems !
+           The following part can be removed on Server for On Demand Loading) -->
+    <script src="~/Content/UnijosUI/js/revolution-slider/js/extensions/revolution.extension.actions.min.js"></script>
+    <script src="~/Content/UnijosUI/js/revolution-slider/js/extensions/revolution.extension.carousel.min.js"></script>
+    <script src="~/Content/UnijosUI/js/revolution-slider/js/extensions/revolution.extension.kenburn.min.js"></script>
+    <script src="~/Content/UnijosUI/js/revolution-slider/js/extensions/revolution.extension.layeranimation.min.js"></script>
+    <script src="~/Content/UnijosUI/js/revolution-slider/js/extensions/revolution.extension.migration.min.js"></script>
+    <script src="~/Content/UnijosUI/js/revolution-slider/js/extensions/revolution.extension.navigation.min.js"></script>
+    <script src="~/Content/UnijosUI/js/revolution-slider/js/extensions/revolution.extension.parallax.min.js"></script>
+    <script src="~/Content/UnijosUI/js/revolution-slider/js/extensions/revolution.extension.slideanims.min.js"></script>
+    <script src="~/Content/UnijosUI/js/revolution-slider/js/extensions/revolution.extension.video.min.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+
+</html>

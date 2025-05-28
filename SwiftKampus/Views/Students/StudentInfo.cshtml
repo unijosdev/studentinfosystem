@@ -1,0 +1,141 @@
+﻿@model IEnumerable<SwiftKampusModel.Student>
+
+@{
+    ViewBag.Title = "Student Info";
+
+}
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>@ViewBag.Message</strong>
+    </div>
+}
+
+<h2>@ViewBag.Gender</h2>
+
+
+<div class="container-fluid">
+    <!-- First row -->
+    <div class="row">
+        <!-- First column -->
+        <div class="col-md-8">
+
+            <div class="row">
+                <div class="card">
+                    <div class="card-head style-primary">
+                        <header>
+                            Student Details
+                        </header>
+
+                    </div><!--end .card-head -->
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="Jdatatable" class="table table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th>Matric No</th>
+                                        <th> Full Name</th>
+                                        <th> Gender</th>
+                                        <th> Dept Option</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div><!--end .card-body -->
+            </div>
+
+        </div>
+
+        <!-- /.First column -->
+        <!-- Second column -->
+        <div class="col-md-4 mb-1">
+            <div class="card contact-card with-padding">
+                <div class="card-body" id="mydetailBody">
+                </div>
+            </div>
+        </div>
+        <!-- /.Second column -->
+    </div>
+    <!-- /.First row -->
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">STUDENT</h4>
+                    @*<a class="btn btn-primary btn-sm">Create new action</a>*@
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+
+<script src="~/Scripts/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        // var gender = "@ViewBag.Gender";
+        window.oTable = $("#Jdatatable").DataTable({
+            "processing": true, // for show progress bar while loading
+            "serverSide": true, // if it is true the preocess is done on server side
+            "filter": true, // disables search box
+            "info": true,
+
+            "stateSave": true,
+            "orderMulti": false, // disable multiple column loading at once
+            "ajax": {
+                //"url": "/Students/GetIndex?gender=" + "@ViewBag.Gender",
+                "url": "/Students/GetIndex",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "MatricNo", "autoWidth": true, "orderable": true },
+                { "data": "FullName", "autoWidth": true, "orderable": true },
+                { "data": "Gender", "autoWidth": true },
+                { "data": "ProgrammeName", "autoWidth": true },
+                {
+                    "data": "StudentId",
+                    "autoWidth": true,
+                    "render": function(data) {
+                        return '<a href="#" onclick="Detail(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="View Details"><i class="fa fa-info-circle" aria-hidden="true">Details&nbsp;&nbsp;</i></a>';
+                    }
+                }
+              
+            ]
+        });
+        window.oTable.fnSort([[1, "asc"], [2, "desc"]]);
+
+    });
+    $(window).scroll(function(){
+        $("#mydetailBody").stop().animate({"marginTop": ($(window).scrollTop()) + "px", "marginLeft":($(window).scrollLeft()) + "px"}, "slow" );
+    });
+   
+    function Detail(studentId) {
+        //window.alert(subjecId);
+        var url = "/Students/PartialDetails?id=" + studentId;
+        $('#mydetailBody').load(url);
+
+    };
+
+   
+   
+</script>

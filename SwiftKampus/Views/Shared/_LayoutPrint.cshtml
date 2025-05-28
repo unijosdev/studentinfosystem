@@ -1,0 +1,53 @@
+﻿@using SwiftKampus.Models
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>@SchoolSetUp.CurrentSchoolName</title>
+    
+    <meta name="keywords" content="@SchoolSetUp.Keywords">
+    <meta name="description" content="@SchoolSetUp.Description">
+    <link rel="icon" type="image/png" href="~/Content/Images/@SchoolSetUp.SchoolLogo">
+
+    <!-- /Twitter Card -->
+    @Scripts.Render("~/bundles/modernizr")
+    <!-- Font Awesome -->
+    <link href="~/Content/font-awesome.min.css"  media="screen" rel="stylesheet" />
+
+    <!-- Material Design Bootstrap -->
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+
+    <link href="~/Content/Site.css" rel="stylesheet" />
+
+</head>
+<body style="background-image: url(../Content/Images/@SchoolSetUp.SchoolBackgroundImage);background-repeat: no-repeat;background-attachment: fixed; background-position: center; " >
+@*<body >*@
+
+
+
+@RenderBody()
+    <!-- SCRIPTS -->
+    <!-- JQuery -->
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+  
+    <!-- Bootstrap core JavaScript -->
+    <script src="~/Content/Md/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script src="~/Content/Md/js/mdb.min.js"></script>
+
+ 
+    <script type="text/javascript">
+    // Tooltips Initialization
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip('show');
+    })
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+
+</html>

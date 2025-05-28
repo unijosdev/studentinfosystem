@@ -1,0 +1,20 @@
+﻿
+@model IEnumerable<SwiftKampusModel.Classroom.Quiz.StudentTopicQuiz>
+@{
+    ViewBag.Title = "ShowNumbers";
+}
+
+@foreach (var item in Model)
+{
+    if (item.SelectedAnswer == null)
+    {
+        @Html.ActionLink(item.QuestionNumber.ToString(), "Exam", new { questionNo = item.QuestionNumber, courseId = item.TopicId, studentid = item.StudentId})
+    @*<a href="" class="btn-success"> @item.QuestionNumber</a>*@
+    }
+    else if(item.SelectedAnswer != null)
+    {
+        @Html.ActionLink(item.QuestionNumber.ToString(), "Exam", new { questionNo = item.QuestionNumber, courseId = item.TopicId, studentid = item.StudentId})
+    @*<button class="btn-danger"> @item.QuestionNumber</button>*@
+    }
+
+}

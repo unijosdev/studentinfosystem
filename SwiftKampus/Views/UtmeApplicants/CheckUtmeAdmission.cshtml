@@ -1,0 +1,109 @@
+﻿
+@{
+    ViewBag.Title = "CheckUtmeAdmission";
+}
+@using SwiftKampus.Models
+@{
+    ViewBag.Title = "SignUp";
+    //Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    Layout = "~/Views/Shared/_LayoutWebSite2.cshtml";
+}
+<link href="~/Content/my_css/footer.css" rel="stylesheet" />
+
+<section class="divider">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-push-2">
+                <div class="border-1px p-20 mb-0" style="border: 1px solid #cac9c9 !important;">
+
+                    <div class="row">
+
+                        <div class="col-md-6 border-right">
+                            <div class="col-md-12">
+
+                                <h>Instruction(s)</h>
+                                <h3>
+                                    We are now UP and Running!
+                                </h3>
+                                <h5 style="color:red;">
+                                    <strong></strong>
+                                </h5>
+
+                                <hr />
+                                <a href="@Url.Action("Login","Account")">Back to Login Page</a>
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <div class="col-md-12">
+                                <p class="text-danger">@ViewBag.Message</p>
+                                @if (ViewBag.Status == "true")
+                                {
+                                    using (Html.BeginForm("CheckUtmeAdmission", "UtmeApplicants", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <div class="field-wrap">
+                                            <label>
+                                                JAMB NO<span class="req">*</span>
+                                            </label>
+                                            @Html.TextBox("JambRegNo", "", new { @class = "form-control", @placeholder = "Enter JAMB Number here", @required = true })
+                                        </div>
+
+                                        <div class="field-wrap">
+                                        </div>
+                                        <br />
+
+                                        <input type="submit" class="btn btn-primary btn-raised" value="Get Started" />
+                                        <br>
+                                        <br>
+                                        <a href="@Url.Action("Login","Account")">Back to Login Page</a>
+                                    }
+                                }
+                                else
+                                {
+                                    <h3>Utme Screening is now closed</h3>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- Modal -->
+@*<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 id="modalLabel" class="modal-title text-center" style="color: #e74c3c;">🔔 Important Notice</h4>
+            </div>
+            <div class="modal-body text-center m-3" style="margin-top: 30px;">
+                <p style="font-size: 18px; font-weight: bold;">2024 UTME Screening is yet to start</p>
+                <p style="font-size: 16px;">Please check back later for updates.</p>
+            </div>
+            <div class="modal-footer" style="border-top: none; display: flex; justify-content: center;">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    @*<script type="text/javascript">
+        $(document).ready(function () {
+            $('#myModal').modal('show');
+        });
+    </script>*@
+}
+

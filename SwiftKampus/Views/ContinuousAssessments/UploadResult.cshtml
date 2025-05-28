@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "Upload Result";
+}
+
+    <div class="card">
+        <div class="card-head style-primary">
+            <header>
+                <h3>
+                    UPLOAD RUESULT
+                </h3>
+            </header>
+
+        </div><!--end .card-head -->
+        @if (ViewBag.Message != null)
+        {
+            <div class="alert alert-success">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>@ViewBag.Message</strong>
+            </div>
+        }
+        <div class="card-body">
+
+
+            @using (Html.BeginForm("UploadResult", "ContinuousAssessments", FormMethod.Post, new { enctype = "multipart/form-data", id = "theform" }))
+            {
+                @Html.Raw(ViewBag.Error)
+                <span>Excel File </span> <input type="file" name="excelfile" />
+                <br />
+                <input id="btnsubmit" type="submit" value="Import" class="btn btn-lg btn-primary" />
+            }
+
+            <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+            <script type="text/javascript">
+            $(function () {
+                $('#theform').submit(function () {
+                    $("input[type='submit']", this)
+                        .val("Uploading Please Wait...")
+                        .attr('disabled', 'disabled');
+                    return true;
+                });
+            });
+            </script>
+
+        </div>
+    </div>

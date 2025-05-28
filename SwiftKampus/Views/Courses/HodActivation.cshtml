@@ -1,0 +1,298 @@
+﻿@model IEnumerable<SwiftKampusModel.Course>
+
+@{
+    ViewBag.Title = "HOD Activation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>List of Courses</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+
+                    </div>
+                    <div class="ibox-content">
+                        <article class="margin-bottom-xxl">
+                            <p class="lead">
+                                Please use the following parameters to perform Query
+                            </p>
+                        </article>
+                        <div class="card-body">
+                            <form class="form-inline" id="formFilter" onsubmit="return false;">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label>Department Option</label>
+                                            @Html.DropDownList("ProgrammeId", null, htmlAttributes: new { @class = "form-control" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="LevelId">Level</label>
+                                                @Html.DropDownList("LevelId", (SelectList)ViewBag.LevelId, "", new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <label>Semester</label>
+                                            @Html.DropDownList("SemesterId", (SelectList)ViewBag.SemesterId, "", new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>School Programme</label>
+                                                @Html.DropDownList("SchoolProgrammeId", (SelectList)ViewBag.SchoolProgrammeId, "", new { @class = "form-control" })
+                                            </div>
+                                        </div>                                       
+                                    </div>
+                                    <div class="col-md-1">
+                                        <br />
+                                        <button type="submit" id="btn-search" class="btn btn-primary">Search/View</button>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div><!--end .row -->
+
+                    </div>
+                </div>
+                <div class="ibox-content">
+
+                    <div class="table-responsive">
+                        <table id="Jdatatable" class="table table-striped table-bordered table-hover table-responsive dataTables-example">
+                            <thead>
+                                <tr>
+                                    <th>Course Code</th>
+                                    <th>Course Name</th>
+                                    <th>Course Type</th>
+                                    <th>Course Credit</th>
+                                    <th>Level</th>
+                                    <th>Dept Option</th>
+                                    <th>Semester</th>
+                                    <th>Activation</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                        </table>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var error = "@ViewBag.Error";
+        var message = "@ViewBag.Message";
+        var success = "@ViewBag.Success";
+        if (error || message) {
+            toastr["error"](error);
+            toastr["error"](message);
+        }
+        if (success) {
+            toastr["success"](success);
+        }
+
+        window.oTable = $("#Jdatatable").DataTable({
+            "processing": true, // for show progress bar while loading
+            "serverSide": true, // if it is true the preocess is done on server side
+            "filter": true, // disables search box
+            "info": true,
+
+            "stateSave": true,
+            "orderMulti": false, // disable multiple column loading at once
+            "ajax": {
+                "url": "/Courses/GetIndex",
+                "type": "POST",
+                "datatype": "json",
+                "data": function (d) {
+                    d.LevelId = $('#LevelId').val();
+                    d.SchoolProgrammeId = $('#SchoolProgrammeId').val();
+                    d.SemesterId = $('#SemesterId').val();
+                    d.ProgrammeId = $('#ProgrammeId').val();
+                }
+
+            },
+            "columns": [
+                { "data": "CourseCode", "autoWidth": true },
+                { "data": "CourseName", "autoWidth": true },
+                { "data": "CourseType", "autoWidth": true },
+                { "data": "Credits", "autoWidth": true },
+                { "data": "LevelName", "autoWidth": true },
+                { "data": "ProgrammeName", "autoWidth": true },
+                { "data": "SemesterName", "autoWidth": true },
+                { "data": "DeActivatedCourse", "autoWidth": true },
+                {
+                    "data": "CourseId",
+                    "autoWidth": true,
+                    "render": function (data) {
+                        return '<a href="#" onclick="ReActivate(' + data + ')" >  <i class="fa fa-pencil" aria-hidden="true" >&nbsp;Re-Activate</i></a>' +
+                        '<a href="#" onclick="Edit(' + data + ')" class="text-danger" ><i class="fa fa-pencil" aria-hidden="true" >&nbsp;De-Activate</i></a>';
+                    }
+                }
+            ],
+            responsive: true,
+            dom: '<"html5buttons"B>lTfgitp',
+            buttons: [
+                { extend: 'copy' },
+                { extend: 'csv' },
+                { extend: 'excel', title: 'CourseList' },
+                { extend: 'pdf', title: 'CourseList' },
+
+                {
+                    extend: 'print',
+                    customize: function (win) {
+                        $(win.document.body).addClass('white-bg');
+                        $(win.document.body).css('font-size', '10px');
+
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+                    }
+                }
+            ]
+        });
+
+    });
+
+    $("#btn-search").click(function () {
+        // window.alert("sem:" + $('#SemesterId').val() + " sess:" + $('#SessionId').val());
+        window.oTable.ajax.reload();
+
+    });
+    function Edit(courseId) {
+        swal({
+            title: "De-Activate Course",
+            text: "Are you sure you want really De-Activate this course?..",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#ab973a",
+            confirmButtonText: "Yes, De-Activate Now!",
+            cancelButtonText: "No, Pls Cancel!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+            function (isConfirm) {
+                if (isConfirm) {
+                    var AllData = {
+                        "id": courseId,
+                    };
+                    var Mydata = JSON.stringify(AllData);
+
+                    $.ajax({
+                        contentType: 'application/json',
+                        type: "POST",
+                        url: "/Courses/ReActivateCourses?id=" + courseId,
+                        data: Mydata,
+                        success: function (data) {
+                            if (data.status) {
+                                swal({
+                                    title: "Great",
+                                    text: data.message,
+                                    type: "success",
+                                });
+                                window.oTable.ajax.reload(); //run my_fun() ondomready
+                                toastr["success"](data.message);
+                            } else {
+                                swal({
+                                    title: "Warning",
+                                    text: data.message,
+                                    type: "warning",
+                                });
+                                toastr["error"](data.message);
+                            }
+
+                        }
+                    });
+                    //swal("Great!", "Student has been cleared Successfully.", "success");
+                } else {
+
+                    swal({
+                        title: "Warning",
+                        text: "Operation has been cancelled succesfully!",
+                        type: "warning",
+                    });
+                }
+            }
+        );
+    };
+    function ReActivate(courseId) {    
+        swal({
+            title: "Re-Activate Course",
+            text: "Are you sure you want really Re-Activate this course?..",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#ab973a",
+            confirmButtonText: "Yes, Re-Activate Now!",
+            cancelButtonText: "No, Pls Cancel!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+            function (isConfirm) {
+                if (isConfirm) {
+                    var AllData = {
+                        "id": courseId,
+                    };
+                    var Mydata = JSON.stringify(AllData);
+
+                    $.ajax({
+                        contentType: 'application/json',
+                        type: "POST",
+                        url: "/Courses/DeActivateCourses?id=" + courseId,
+                        data: Mydata,
+                        success: function (data) {
+                            if (data.status) {
+                                swal({
+                                    title: "Great",
+                                    text: data.message,
+                                    type: "success",
+                                });
+                                window.oTable.ajax.reload(); //run my_fun() ondomready
+                                toastr["success"](data.message);
+                            } else {
+                                swal({
+                                    title: "Warning",
+                                    text: data.message,
+                                    type: "warning",
+                                });
+                                toastr["error"](data.message);
+                            }
+
+                        }
+                    });
+                    //swal("Great!", "Student has been cleared Successfully.", "success");
+                } else {
+
+                    swal({
+                        title: "Warning",
+                        text: "Operation has been cancelled succesfully!",
+                        type: "warning",
+                    });
+                }
+            }
+        );
+    };
+
+</script>

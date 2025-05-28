@@ -1,0 +1,50 @@
+﻿@model SwiftKampusModel.AddmissionApplicant.SchoolProgramme
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>SchoolProgramme</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ProgrammeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProgrammeName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProgrammeType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProgrammeType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProgrammeCategory)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProgrammeCategory)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ActiveSale)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActiveSale)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.SchoolProgrammeId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

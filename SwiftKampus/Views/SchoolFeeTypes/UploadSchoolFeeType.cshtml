@@ -1,0 +1,60 @@
+﻿@using SwiftKampus.Models
+@if (SchoolSetUp.IsDeptSchoolFee.Equals(true))
+{
+    <a class="btn btn-primary" href="~/Excel Template/SchoolFeeUpload.xlsx"> Download Excel Template</a>
+}
+else
+{
+    <a class="btn btn-primary" href="~/Excel Template/SchoolFeeUpload2.xlsx"> Download Excel Template</a>
+}
+
+<div class="card-body">
+    <h3>Instructions</h3>
+    <ul>
+        <li>Please the button above to download the format required for the upload.</li>
+        <li>Please leave no cell empty in the excel template before you upload.</li>
+        <li>Fee Category type format is <b>"School-Charges"</b> and <b>"Acceptance"</b>.</li>
+        <li>Student Type format is a <b>Fresher</b> and <b>Returning</b> </li>
+        <li>Indigene Type format supported is <b>Yes</b>, <b>No</b>, <b>True</b>, <b>False</b></li>
+        <li>You will be redirect to the list of school fee type after successful upload.</li>
+    </ul>
+    <div>
+    </div>
+</div>
+<div class="card">
+    @if (SchoolSetUp.IsDeptSchoolFee.Equals(true))
+    {
+        using (Html.BeginForm("UploadSchoolFeeType", "SchoolFeeTypes", FormMethod.Post, new { enctype = "multipart/form-data", id = "excelform" }))
+        {
+            @Html.Raw(ViewBag.Error)
+            <span>Excel File </span> <input type="file" name="excelfile" />
+            <br />
+            <input id="btnsubmitExcel" type="submit" value="Upload" class="btn btn-primary" />
+        }
+    }
+    else
+    {
+        using (Html.BeginForm("UploadSchoolFeeTypeFaculty", "SchoolFeeTypes", FormMethod.Post, new { enctype = "multipart/form-data", id = "excelform" }))
+        {
+            @Html.Raw(ViewBag.Error)
+            <span>Excel File </span> <input type="file" name="excelfile" />
+            <br />
+            <input id="btnsubmitExcel" type="submit" value="Upload" class="btn btn-primary" />
+        }
+    }
+
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#excelform').submit(function () {
+            $("input[type='submit']", this)
+                .val("Uploading Please Wait...")
+                .attr('disabled', 'disabled');
+            return true;
+        });
+    });
+</script>
+
+
+

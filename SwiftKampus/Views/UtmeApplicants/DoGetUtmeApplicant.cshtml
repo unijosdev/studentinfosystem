@@ -1,0 +1,179 @@
+﻿@model SwiftKampus.ViewModels.UtmeApplicantDetailVm
+
+@{
+    ViewBag.Title = "Applicant Details";
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-8">
+        <h2>Screening Summary</h2>
+    </div>
+    <div class="col-lg-4">
+        <div class="title-action">
+            <a href="@Url.Action("PrintDetails","UtmeApplicants")" target="_blank" class="btn btn-primary"><i class="fa fa-print"></i> Print Form </a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="ibox-content p-xl">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h2>University of Jos:</h2>
+                        <table class="table table-bordered table-responsive">
+                            <tr>
+                                <td><img src="@Url.Action("RenderImage", new { userId = Model.UtmeApplicant.Email})" alt="" class="img-fluid rounded-circle contact-avatar mx-auto"></td>
+
+                                <td colspan="3"><h2>POST UTME SCREENING SLIP</h2></td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.UtmeApplicant.JambRegNo)</td>
+                                <td>@Html.DisplayFor(model => model.UtmeApplicant.JambRegNo)</td>
+                                <td>@Html.DisplayNameFor(model => model.UtmeApplicant.Surname)</td>
+                                <td>@Html.DisplayFor(model => model.UtmeApplicant.Surname)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.UtmeApplicant.FirstName)</td>
+                                <td>@Html.DisplayFor(model => model.UtmeApplicant.FirstName)</td>
+                                <td>@Html.DisplayNameFor(model => model.UtmeApplicant.MiddleName)</td>
+                                <td>@Html.DisplayFor(model => model.UtmeApplicant.MiddleName)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.UtmeApplicant.StateOfOrigin)</td>
+                                <td>@Html.DisplayFor(model => model.UtmeApplicant.StateOfOrigin)</td>
+                                <td>@Html.DisplayNameFor(model => model.UtmeApplicant.LocalGovtArea)</td>
+                                <td>@Html.DisplayFor(model => model.UtmeApplicant.LocalGovtArea)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.UtmeApplicant.Gender)</td>
+                                <td>@Html.DisplayFor(model => model.UtmeApplicant.Gender)</td>
+                                <td>@Html.DisplayNameFor(model => model.UtmeApplicant.PhoneNumber)</td>
+                                <td>@Html.DisplayFor(model => model.UtmeApplicant.PhoneNumber)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.UtmeApplicant.Email)</td>
+                                <td>@Html.DisplayFor(model => model.UtmeApplicant.Email)</td>
+                                <td>@Html.DisplayNameFor(model => model.UtmeApplicant.Age)</td>
+                                <td>@Html.DisplayFor(model => model.UtmeApplicant.Age)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.UtmeApplicant.Programme.ProgrammeName)</td>
+                                <td>@Html.DisplayFor(model => model.UtmeApplicant.Programme.ProgrammeName)</td>
+                                <td>Jambd Score</td>
+                                <td>@Html.DisplayFor(model => model.UtmeApplicant.ResultGrade)</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    @*<div class="col-sm-6 text-right">
+
+                        <img src="@Url.Action("RenderImage", new { userId = Model.UtmeApplicant.Email})" alt="" class="img-fluid rounded-circle contact-avatar mx-auto">
+
+                    </div>*@
+                </div>
+
+                <div class="table-responsive m-t">
+                    <h3>O-Level Results</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Subject Name</th>
+                                <th>Subject Grade</th>
+                                <th>Awarding body</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.ApplicantOlevelResult.Count() == 0)
+                            {
+                                <tr>
+                                    <a href="@Url.Action("Create","ApplicantOLevelResults")" class="btn btn-primary btn-lg">Add O Level Result</a>
+                                </tr>
+                            }
+                            @foreach (var item in Model.ApplicantOlevelResult)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Subject.CourseName)
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SubjectGrade)
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ResultName)
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+
+                @if (Model.UtmeApplicant.IsDirectEntry.Equals(true))
+                {
+                    <div class="table-responsive m-t">
+                        <h3>Academic Qualification</h3>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name of Institution</th>
+                                    <th>Qualification Name</th>
+                                    <th>Discipline</th>
+                                    <th>Grade</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Qualification == null)
+                                {
+                                    <tr>
+                                        <td>
+                                            <a href="@Url.Action("Create","Qualifications")" class="btn btn-primary btn-lg">Add Academic Qualification</a>
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model.Qualification.NameOfInstitution)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model.Qualification.QualificationName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model.Qualification.Discipline)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model.Qualification.Grade)
+                                        </td>
+
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                }
+
+                @*<div class="sm-text-left">
+                    @if (Model.UtmeApplicant.IsDirectEntry.Equals(true))
+                    {
+                        <a id="btnolevelPrevious" href="@Url.Action("Create", "Qualifications")" class="btn btn-warning btn-lg btnPrevious" data-dismiss="modal">PREVIOUS</a>
+                    }
+                    else
+                    {
+                        <a id="btnolevelPrevious" href="@Url.Action("Create", "ApplicantOLevelResults")" class="btn btn-warning btn-lg btnPrevious" data-dismiss="modal">PREVIOUS</a>
+                    }
+                </div>*@
+                <div class="text-right">
+                    <a href="@Url.Action("PrintDetails","UtmeApplicants")" target="_blank" class="btn btn-primary"><i class="fa fa-print"></i> Print Form </a>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

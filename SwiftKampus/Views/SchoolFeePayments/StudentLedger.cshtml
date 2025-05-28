@@ -1,0 +1,155 @@
+﻿@model IEnumerable<SwiftKampusModel.Payment.SchoolFeePayment>
+@{
+    var myModel = Model.FirstOrDefault();
+}
+
+
+<div class="transparentbox">
+    <table style="width: 100%" class="border-2px">
+        <tr>
+            <td>
+                <img src="~/Content/Images/logo-wide2.png" width="300" height="100" />
+            </td>
+            <td class="text-right">
+                <img src="@Url.Action("RenderImage", "Students",new { studentId = myModel.StudentId})" width="100" height="100" />
+                <br />
+                @myModel.Students.MatricNo
+            </td>
+        </tr>
+    </table>
+
+    <h4 class="text-center"> STUDENT LEDGER</h4>
+
+
+    <h4>Student Information</h4>
+    <table style="width: 100%">
+        <tr>
+            <th>
+                <div class="col-md-12">
+                    <table class="table table-banded no-margin table-responsive">
+                        <tbody>
+                            <tr>
+                                <td>FULLNAME: <strong> @myModel.Students.FullName</strong></td>
+                                <td style="padding-left:15em;">DATE:<strong> @myModel.Date.ToShortDateString()</strong></td>
+
+                            </tr>
+                            <tr>
+                                <td>FACULTY: <strong> @myModel.Students.Programme.Department.Faculty.FacultyName</strong></td>
+                                <td style="padding-left:15em;">DEPARTMENT: <strong> @myModel.Students.Programme.Department.DeptName</strong></td>
+                            </tr>
+                            <tr>
+                                <td>MATRIC NO: <strong> @myModel.Students.MatricNo</strong></td>
+                                <td style="padding-left:15em;">SESSION: <strong> @myModel.Session.SessionName</strong></td>
+                            </tr>
+                            <tr><td>LEVEL: <strong>@myModel.Students.Level.LevelName</strong></td></tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </th>
+        </tr>
+    </table>
+    <table style="width: 100%">
+        <tr>
+            <td>
+                <table style="width: 100%">
+                    SCHOOL CHARGES BREAKDOWN
+                    <tr>
+                        <th>S/N</th>
+                        <th>Date</th>
+                        <th>Details</th>
+                        <th>Reference No</th>
+                        <th>Deposits</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                        <th>Balance</th>
+
+                    </tr>
+                    @{
+                        var number = 1;
+                    }
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>@number </td>
+                        <td>@Html.DisplayFor(modelItem => item.Session.SessionName)</td>
+
+                        @if (item.FeeCategory.Equals("Acceptance"))
+                        {
+                            <td>
+                                Pre Registration Charges
+                            </td>
+                        }
+                        else
+                        {
+                            <td> @item.FeeCategory </td>
+
+                        }
+                        <td>@Html.DisplayFor(modelItem => item.ReferenceNo)</td>
+                        @if (item.Status.Equals(false))
+                        {
+                        <td>#@Html.DisplayFor(modelItem => item.PaidFee)</td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+
+                        @if (item.Status.Equals(true))
+                        {
+                            <td>#@Html.DisplayFor(modelItem => item.TotalAmount)</td>
+                            <td>#@Html.DisplayFor(modelItem => item.TotalAmount)</td>
+                        }
+                        else
+                        {
+                            <td>#@Html.DisplayFor(modelItem => item.TotalAmount)</td>
+                            <td></td>
+                        }
+                        <td>#@Html.DisplayFor(modelItem => item.RemainingBalance)</td>
+                        <td></td>
+
+
+
+                    </tr>
+                        {
+                            number = number + 1;
+                        }
+                    }
+
+
+                </table>
+            </td>
+        </tr>
+        <tr class="text-center">
+            <td>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <p>
+                    If you have any queries, please email us at billing@unijos.edu.ng.<br />
+                    Thank you very much for chosing UNIJOS and we hope to see you shine in the future.
+                </p>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+
+<script type="text/javascript">
+	function Excel() {
+		var url = "/CourseRegistrations/PrintDetails?model=" +@ViewBag.Course ;
+		$('#myModalDivBody').load(url,
+			function () {
+				$('#actionsList').modal("show");
+			});
+	};
+	function AddNew() {
+		window.open('@Url.Action("Create", "Students")', '_self');
+	};
+</script>
+
+
+

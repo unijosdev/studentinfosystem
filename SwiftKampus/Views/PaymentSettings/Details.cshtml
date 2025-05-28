@@ -1,0 +1,66 @@
+﻿@model SwiftKampusModel.Payment.PaymentSetting
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PaymentSetting</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Session.SessionName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Session.SessionName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AcceptPartPayment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AcceptPartPayment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ConsiderIndigine)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ConsiderIndigine)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ConsiderNationality)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ConsiderNationality)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstPaymentPercentage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstPaymentPercentage)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SchoolFeeType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SchoolFeeType)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PaymentSettingId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,124 @@
+﻿@model IEnumerable<SwiftKampusModel.Result>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="card">
+    <div class="card-head style-primary">
+        <header>
+            <h3>
+               RESULT 
+            </h3>
+        </header>
+
+    </div><!--end .card-head -->
+    <div class="card-body">
+        <a onclick="myFunction()" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#actionsList"><i class="fa fa-plus left"></i> CREATE RESULT</a>
+        <table id="Jdatatable" class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>Student Id</th>
+                <th>Programme Name</th>
+                <th>Semester Name</th>
+                <th>Session Name</th>
+                <th>Course Unit</th>
+                <th>Grade Point</th>
+                <th>T Q Point</th>
+                <th>GPA</th>
+                <th>CGPA</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+        </table>
+        <!-- Modal -->
+        <div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="flex-center">
+                            <h4 class="modal-title">DEPARTMENT OPTION</h4>
+                            @*<a class="btn btn-primary btn-sm">Create new action</a>*@
+                        </div>
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body" id="myModalDivBody">
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+        <!-- /.Modal-->
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        window.oTable = $("#Jdatatable").DataTable({
+            "processing": true, // for show progress bar while loading
+            "serverSide": true, // if it is true the preocess is done on server side
+            "filter": true, // disables search box
+            "info": true,
+            "stateSave": true,
+            "orderMulti": false, // disable multiple column loading at once
+            "ajax": {
+                //"url": "/Students/GetIndex?gender=" + "@ViewBag.Gender",
+                "url": "/Results/GetIndex",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "StudentId", "autoWidth": true },
+                { "data": "ProgrammeName", "autoWidth": true },
+                { "data": "SemesterName", "autoWidth": true },
+                { "data": "SessionName", "autoWidth": true },
+                { "data": "TotalCourseUnit", "autoWidth": true },
+                { "data": "TotalGradePoint", "autoWidth": true },
+                { "data": "TotalQualityPoint", "autoWidth": true },
+                { "data": "Gpa", "autoWidth": true },
+                { "data": "Cgpa", "autoWidth": true },
+                {
+                    "data": "ResultId",
+                    "autoWidth": true,
+                    "render": function(data) {
+                        return '<a href="#" onclick="Detail(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="View Details"><i class="fa fa-info-circle" aria-hidden="true">Details&nbsp;&nbsp;</i></a>' +
+                            '<a href="#" onclick="Edit(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="Edit Student"><i class="fa fa-pencil" aria-hidden="true" ><i />Edit</a>';
+                    }
+                }
+                //{ "data": "EmailID", "autoWidth": true },
+                //{ "data": "Phone", "autoWidth": true },
+            ]
+        });
+
+    });
+    function Edit(programmeId) {
+        var url = "/Programmes/Save?id=" + programmeId;
+        //$('#actionsList').modal("show");
+        //window.alert(url);
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    function Delete(programmeId) {
+        var url = "/Programmes/Delete?id=" + programmeId;
+        //$('#actionsList').modal("show");
+        //window.alert(url);
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    function myFunction() {
+        window.open('@Url.Action("Create", "Results")', '_self');
+    };
+</script>

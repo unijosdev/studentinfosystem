@@ -1,0 +1,353 @@
+﻿
+@{
+    ViewBag.Title = "UTME Screnning";
+}
+
+<div class="container-fluid">
+    <!-- First row -->
+    <div class="row">
+        <!-- First column -->      
+            <div class="wrapper wrapper-content animated fadeInRight">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>List of Screened Applicants</h5>
+                                <div class="ibox-tools">
+                                   
+                                    @if (ViewBag.Message != null)
+                                    {
+                                        <div class="alert alert-success">
+                                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                            <strong>@ViewBag.Message</strong>
+                                        </div>
+                                    }
+
+                                    <a class="collapse-link">
+                                        <i class="fa fa-chevron-up"></i>
+                                    </a>
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        <i class="fa fa-wrench"></i>
+                                    </a>
+                                </div>
+                                <div class="ibox-content">
+                                    <article class="margin-bottom-xxl">
+                                        <p class="lead">
+                                            Please use the following parameters to perform Query
+                                        </p>
+                                    </article>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>Session Name</label>
+                                                    @Html.DropDownList("SessionId", null, htmlAttributes: new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>Direct Entry</label>
+                                                    <select class="form-control dropdown" id="isDirectEntry" name="isDirectEntry">
+                                                        <option>false</option>
+                                                        <option>true</option>
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Faculty</label>
+                                                    @Html.DropDownList("FacultyId", (SelectList)ViewBag.FacultyId, "", new { @class = "form-control", @onchange = "getDeptList()" })
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label>Department</label>
+                                                    @Html.DropDownList("DepartmentId", (SelectList)ViewBag.DepartmentId, "", new { @class = "form-control", @onchange = "getProgrammeList()" })
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label>Course</label>
+                                                    @Html.DropDownList("ProgrammeId", (SelectList)ViewBag.ProgrammeId, "", new { @class = "form-control" })
+                                                </div>
+                                            </div>
+
+                                            @*<div class="col-sm-2">
+                                                <div class="form-group">
+                                                    <label>State</label>
+                                                    @Html.DropDownList("StateOfOrigin", (SelectList)ViewBag.StateOfOrigin, "", new { @class = "form-control" })
+                                                </div>
+                                            </div>*@
+
+                                            <div class="col-md-2">
+                                                <br />
+                                                <button type="submit" id="btn-search" class="btn btn-primary">Search/View</button>
+
+                                            </div> <div class="col-md-2">
+                                                <br />
+                                                <button type="submit" id="btn-download" class="btn btn-primary ink-reaction">Download UTME</button>
+
+                                            </div> <div class="col-md-2">
+                                                <br />
+                                                <button type="submit" id="btn-downloadDe" class="btn btn-primary ink-reaction">Download DE</button>
+                                            </div>
+                                        </div>
+                                    </div><!--end .row -->
+
+                                </div>
+                            </div>
+
+
+                            <div class="ibox-content">
+                                <div class="table-responsive">
+                                    <table id="Jdatatable" class="table table-striped table-bordered table-hover table-responsive dataTables-example">
+                                        <thead>
+                                            <tr>
+                                                <th>Jamb No</th>
+                                                <th> Full Name</th>
+                                                <th> Faculty Name</th>
+                                                <th> Course</th>
+                                                <th> State </th>
+                                                <th> LGA</th>
+                                                <th> Jamb Score</th>
+                                                <th> Subject One</th>
+                                                <th> Grade One</th>
+                                                <th> Subject Two</th>
+                                                <th> Grade Two</th>
+                                                <th> Subject Three</th>
+                                                <th> Grade Three</th>
+                                                <th> Subject Four</th>
+                                                <th> Grade Four</th>
+                                                <th> Subject Five</th>
+                                                <th> Grade</th>
+                                                <th> Jamb %</th>
+                                                <th> Olevel %</th>
+                                                <th> Cummulative</th>
+                                                <th> Jamb Subject One</th>
+                                                <th> Score</th>
+                                                <th> Jamb Subject Two</th>
+                                                <th> Score</th>
+                                                <th> Jamb Subject Three</th>
+                                                <th> Score</th>
+                                                <th> Jamb Subject Four</th>
+                                                <th> Score</th>
+                                                @*<th>Actions</th>*@
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>        
+   
+    <!-- /.First row -->
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade inmodal" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content animated">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">UTME APPLICANTS</h4>
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        window.oTable = $("#Jdatatable").DataTable({
+            "processing": true, // for show progress bar while loading
+            "serverSide": true, // if it is true the preocess is done on server side
+            "filter": true, // disables search box
+            "info": true,
+
+            "stateSave": true,
+            "orderMulti": false, // disable multiple column loading at once
+            "ajax": {
+                "url": "/UtmeApplicants/GetUtmeScreningIndex" ,
+                "type": "POST",
+                "datatype": "json",
+                "data": function (d) {
+                    d.FacultyId = $('#FacultyId').val();
+                    d.ProgrammeId = $('#ProgrammeId').val();
+                    d.DepartmentId = $('#DepartmentId').val();
+                    //d.StateOfOrigin = $('#StateOfOrigin').val();
+                    d.SessionId = $('#SessionId').val();
+                    d.isDirectEntry = $('#isDirectEntry').val();
+                }
+
+            },
+            "columns": [
+                { "data": "JambRegNo", "autoWidth": true, "orderable": true },
+                { "data": "FullName", "autoWidth": true, "orderable": true },
+                { "data": "FacultyName", "autoWidth": true, "orderable": true },
+                { "data": "ProgrammeName", "autoWidth": true },
+                { "data": "StateOfOrigin", "autoWidth": true },
+                { "data": "LocalGovtArea", "autoWidth": true },
+                { "data": "JambScore", "autoWidth": true },
+                { "data": "SubjectOne", "autoWidth": true },
+                { "data": "GradeOne", "autoWidth": true },
+                { "data": "SubjectTwo", "autoWidth": true },
+                { "data": "GradeTwo", "autoWidth": true },
+                { "data": "SubjectThree", "autoWidth": true },
+                { "data": "GradeThree", "autoWidth": true },
+                { "data": "SubjectFour", "autoWidth": true },
+                { "data": "GradeFour", "autoWidth": true },
+                { "data": "SubjectFive", "autoWidth": true },
+                { "data": "GradeFive", "autoWidth": true },
+                { "data": "JambPercentage", "autoWidth": true },
+                { "data": "OLevelCummulative", "autoWidth": true },
+                { "data": "Cummulative", "autoWidth": true },
+                { "data": "JambSubjectOne", "autoWidth": true },
+                { "data": "JambSubjectScoreOne", "autoWidth": true },
+                { "data": "JambSubjectTwo", "autoWidth": true },
+                { "data": "JambSubjectScoreTwo", "autoWidth": true },
+                { "data": "JambSubjectThree", "autoWidth": true },
+                { "data": "JambSubjectScoreThree", "autoWidth": true },
+                { "data": "JambSubjectFour", "autoWidth": true },
+                { "data": "JambSubjectScoreFour", "autoWidth": true },
+                
+                //{
+                //    "data": "JambRegNo",
+                //    "autoWidth": true,
+                //    "render": function(data) {
+                //        return '<a href="#" onclick="Detail(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="View Details"><i class="fa fa-info-circle" aria-hidden="true">&nbsp;Details&nbsp;&nbsp;</i></a>' +
+                //            '<a href="#" onclick="Edit(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="Edit Student"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;Edit</a>';
+                //            //'<a href="#" onclick="Delete(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="Delete Student Record">&nbsp;&nbsp;<i class="fa fa-remove" aria-hidden="true" ></i>Delete</a>';
+                //    }
+                //}
+            ],
+            dom: '<"html5buttons"B>lTfgitp',
+            lengthMenu: [
+                [10, 25, 50, 100, 200, 500, 1000, 2000, 2500],
+                [10, 25, 50, 100, 200, 500, 1000, 2000, 2500]
+            ],
+            buttons: [
+                { extend: 'copy'},
+                {extend: 'csv'},
+                {extend: 'excel', title: 'Screening List'},
+                { extend: 'pdf', title: 'Screening List'},
+
+                {
+					extend: 'collection',
+					text: 'Table control',
+					buttons: [						
+						{
+							collectionTitle: 'Visibility control',
+							extend: 'colvis'
+						}
+					]
+				},
+                {extend: 'print',
+                    customize: function (win){
+                        $(win.document.body).addClass('white-bg');
+                        $(win.document.body).css('font-size', '10px');
+
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+                    }
+                }
+            ]
+        });
+        window.oTable.fnSort([[1, "asc"], [2, "desc"]]);
+
+    });
+
+    $(window).scroll(function(){
+        $("#mydetailBody").stop().animate({"marginTop": ($(window).scrollTop()) + "px", "marginLeft":($(window).scrollLeft()) + "px"}, "slow" );
+    });
+
+    $("#btn-search").click(function () {
+        window.oTable.ajax.reload();
+    });
+
+    $("#btn-download").click(function () {
+        var url = "/UtmeApplicants/DownloadReport?SessionId=" + $('#SessionId').val() + "&ProgrammeId=" + $('#ProgrammeId').val() + "&isDirectEntry=" + $('#isDirectEntry').val();
+        window.open(url, '_blank');
+    });
+
+    $("#btn-downloadDe").click(function () {
+        var url = "/UtmeApplicants/DownloadDeReport?SessionId=" + $('#SessionId').val() + "&ProgrammeId=" + $('#ProgrammeId').val();
+        window.open(url, '_blank');
+
+    });
+
+
+    function myFunction() {
+        var url = "/UtmeApplicants/UploadUtmeApplicants";
+        $('#myModalDivBody').load(url,
+            function () {
+               jQuery.noConflict();
+                $('#actionsList').modal("show");
+            });
+    };
+
+      function getDeptList() {
+        var facultyId = $("#FacultyId").val();
+        $.ajax
+            ({
+                url: '/Students/GetDeptList?codeId=' + facultyId,
+                type: 'GET',
+                datatype: 'application/json',
+                contentType: 'application/json',
+                success: function (result) {
+                    $("#DepartmentId").html("");
+                    $.each($.parseJSON(result),
+                        function (i, city) {
+                            $("#DepartmentId").append($('<option></option>').val(city.DepartmentId).html(city.DeptName));
+                        });
+
+                },
+                error: function () {
+                    $("#DepartmentId").html("");
+                    $("#ProgrammeId").html("");
+                }
+            });
+    }
+    function getProgrammeList() {
+        var deptId = $("#DepartmentId").val();
+        $.ajax
+            ({
+                url: '/Students/GetProgrammeList?codeId=' + deptId,
+                type: 'GET',
+                datatype: 'application/json',
+                contentType: 'application/json',
+                success: function (result) {
+                    $("#ProgrammeId").html("");
+                    $.each($.parseJSON(result),
+                        function (i, city) {
+                            //alert(result);
+                            $("#ProgrammeId").append($('<option></option>').val(city.ProgrammeId).html(city.ProgrammeName));
+                        });
+                },
+                error: function () {
+                    $("#ProgrammeId").html("");
+                }
+            });
+    }
+
+    function AddNew() {
+        window.open('@Url.Action("Create", "UtmeApplicants")', '_self');
+    };
+</script>

@@ -1,0 +1,50 @@
+﻿@model SwiftKampusModel.AddmissionApplicant.ThesisProposal
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ThesisProposal</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SpecialInterest)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SpecialInterest)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProposedTopic)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProposedTopic)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Proposal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Proposal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Attachment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Attachment)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ThesisProposalId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

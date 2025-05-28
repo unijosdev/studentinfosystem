@@ -1,0 +1,218 @@
+﻿@model SwiftKampus.ViewModels.MisconductVm.ShowStudentDetailViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div class="col-lg-12">
+    <div class="col-lg-7">
+        <h2>Student Details</h2>
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Student Disciplinary Status</h5>
+                </div>
+                <div class="ibox-content">
+
+                    <div>
+                        <div>
+                            <table>
+                                <tr>
+                                    <td width="70%">
+                                        <dl class="dl-horizontal">
+                                            <dt>
+                                                @Html.DisplayNameFor(model => model.MatriculationNumber)
+                                            </dt>
+
+                                            <dd>
+                                                @Html.DisplayFor(model => model.MatriculationNumber)
+                                            </dd>
+
+                                            <dt>
+                                                @Html.DisplayNameFor(model => model.FullName)
+                                            </dt>
+
+                                            <dd>
+                                                @Html.DisplayFor(model => model.FullName)
+                                            </dd>
+                                            <dt>
+                                                @Html.DisplayNameFor(model => model.FacultyName)
+                                            </dt>
+
+                                            <dd>
+                                                @Html.DisplayFor(model => model.FacultyName)
+                                            </dd>
+
+                                            <dt>
+                                                @Html.DisplayNameFor(model => model.DepartmentName)
+                                            </dt>
+
+                                            <dd>
+                                                @Html.DisplayFor(model => model.DepartmentName)
+                                            </dd>
+
+                                            <dt>
+                                                @Html.DisplayNameFor(model => model.DepartmentOptionName)
+                                            </dt>
+
+                                            <dd>
+                                                @Html.DisplayFor(model => model.DepartmentOptionName)
+                                            </dd>
+
+                                            <dt>
+                                                @Html.DisplayNameFor(model => model.LevelName)
+                                            </dt>
+
+                                            <dd>
+                                                @Html.DisplayFor(model => model.LevelName)
+                                            </dd>
+
+                                            <dt>
+                                                @Html.DisplayNameFor(model => model.StudentDisciplinaryStatus.DisciplineName)
+                                            </dt>
+
+                                            <dd>
+                                                <font color="red">@Html.DisplayFor(model => model.StudentDisciplinaryStatus.DisciplineName)</font>
+                                            </dd>
+
+                                        </dl>
+                                    </td>
+                                    <td width="10%"></td>
+                                    <td width="15%">
+                                        <img src="/Content/Passport/images.png" alt="Alternate Text" width="100" height="150" style="padding-bottom:15px;" /> @*Put student passport here!*@
+                                    </td>
+                                </tr>
+                            </table>
+                            @{
+                                var sn = 1;
+                            }
+                            <div class="table-responsive">
+                                <table id="example" class="table table-striped table-bordered table-hover dataTables-example">
+                                    <thead>
+                                        <tr>
+                                            <th>S/N</th>
+                                            <th>@Html.DisplayName("Misconduct")</th>
+                                            <th>@Html.DisplayName("Date of Misdemeanor")</th>
+                                            <th>@Html.DisplayName("Status")</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td> @sn </td>
+                                            <td> @Html.DisplayName(Model.MisconductName)</td>
+                                            <td> @Html.DisplayName(Model.IncidentDate.ToString())</td>
+                                            @if (Model.Status == false)
+                                            {
+                                                <td> @Html.DisplayName("Case Pending")</td>
+
+                                            }
+                                            else
+                                            {
+                                                <td> @Html.DisplayName("Case treated")</td>
+                                            }
+                                        </tr>
+                                </table>
+                            </div>
+                            <hr />
+                            <div id="showForm">
+                                @using (Html.BeginForm("Create", "StudentDisciplin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                <div class="form-horizontal col-md-offset-2 ">
+                                    @Html.Raw(ViewBag.Message)
+
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            @Html.DisplayName("Disciplinary Action to be taken")
+                                            @Html.EnumDropDownListFor(Model => Model.Punishment, new { @class = "form-control", @id = "punishmentId" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" id="price" >
+                                        <div class="col-md-10">
+                                            @Html.DisplayName("Price of Vadalised Property")
+                                            @Html.EditorFor(Model => Model.PriceOfVadalisedProperty, new { @class = "form-control", @id = "price" })
+                                        </div>
+                                    </div>
+
+                                    @Html.HiddenFor(Model => Model.StudentId)
+                                    @Html.HiddenFor(Model => Model.DefaulterMisconductViewModel.DefaulterId)
+                                    @Html.HiddenFor(Model => Model.DefaulterId)
+
+                                    <div class="form-group">
+                                        <div class="col-md-auto col-md-10 pull-left">
+                                            <input class="btn btn-primary" type="submit" value="Save" id="saveBtn" />
+                                        </div>
+                                    </div>
+                                </div>
+                                }
+                            </div>
+                        </div>
+                        <p>
+                            @Html.ActionLink("Back", "Index", new { MatricNumber = Model.MatriculationNumber })
+                            <input type='button' class="btn-success pull-right" id='hideshow' value='Take Disciplinary Action'>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <h2>Evidence</h2>
+        <div style="position:relative; width:100%; height:700px; padding-bottom:56.25%;">
+            @if (Model.EvidenceAdress == null)
+            {
+                <img src="#" alt="No Evidence" />
+            }
+            else
+            {
+                <iframe id="evidence" runat="server" style="width:100%; height:100%" src="~/Content/Evidence/@Model.EvidenceAdress"></iframe>
+
+            }
+        </div>
+
+    </div>
+</div>
+<script src="~/AdminTemplate/js/jquery-3.1.1.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#showForm').toggle('hide');
+        $('#price').toggle('hide');
+        $('#hideshow').on('click', function (event) {
+            $('#showForm').toggle('show');
+            $('#saveBtn').prop('disabled', true);
+        });
+    });
+
+    var eventCourse = $('#punishmentId');
+    $(eventCourse).change(function () {
+
+        if (!(eventCourse.val() == 0)) {
+            $('#saveBtn').prop('disabled', false);
+        } else {
+            $('#saveBtn').prop('disabled', true);
+        }
+        if (eventCourse.val() == 5) {
+            $('#price').toggle('show');
+            $('#price').attr('required', true);
+        } else {
+            $('#price').hide();
+        }
+        if (eventCourse.val() == 0) {
+            $('#saveBtn').prop('disabled', false);
+        }
+    });
+
+    //$('#saveBtn').on('click', function () {
+    //    //if (eventCourse.val())
+    //    console.log(eventCourse.val();
+    //});
+
+   
+</script>

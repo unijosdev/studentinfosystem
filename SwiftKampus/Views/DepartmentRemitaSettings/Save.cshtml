@@ -1,0 +1,92 @@
+﻿@model SwiftKampusModel.Payment.DepartmentRemitaSetting
+
+@{
+    ViewBag.Title = "Department Remita Settings";
+}
+
+
+<form id="myform" onsubmit="return false;">
+    @Html.AntiForgeryToken()
+
+
+    <div class="card-body">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @if (Model != null && Model.DepartmentRemitaSettingId > 0)
+        {
+            @Html.HiddenFor(model => model.DepartmentRemitaSettingId)
+        }
+
+        <div class="form-group">
+            @Html.Label("Department Name")
+            @Html.DropDownList("DepartmentId", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Service Type Id")
+            @Html.EditorFor(model => model.ServiceType, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ServiceType, "", new { @class = "text-danger" })
+
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Merchant Id")
+            @Html.EditorFor(model => model.MerchantId, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.MerchantId, "", new { @class = "text-danger" })
+
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Api Key")
+            @Html.EditorFor(model => model.ApiKey, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ApiKey, "", new { @class = "text-danger" })
+
+        </div>
+
+        <div class="md-form">
+
+            @if (Model != null && Model.DepartmentRemitaSettingId > 0)
+            {
+                <input id="btnsubmit" type="submit" value="Update" class="btn btn-primary btn-lg" />
+            }
+            else
+            {
+                <input id="btnsubmit" type="submit" value="Save" class="btn btn-primary btn-lg" />
+            }
+            <a href="#" class="btn btn-danger btn-lg" data-dismiss="modal">Cancel</a>
+        </div>
+    </div><!--end .card-body -->
+
+
+</form>
+
+
+<script type="text/javascript">
+
+    $("#btnsubmit").click(function () {
+
+        var data = $("#myform").serialize();
+
+        $.ajax({
+            type: "POST",
+            url: "/DepartmentRemitaSettings/Save",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+                    window.oTable.ajax.reload(); //run my_fun() ondomready
+                    toastr["success"](data.message);
+                    $('#myform')[0].reset();
+                } else {
+                    toastr["error"](data.message);
+                    $('#actionsList').modal("hide");
+
+                }
+
+            }
+        });
+    });
+</script>
+

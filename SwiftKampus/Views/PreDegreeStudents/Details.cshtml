@@ -1,0 +1,139 @@
+﻿@model SwiftKampusModel.PreDegreeStudent
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PreDegreeStudent</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.RegNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RegNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Department)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Department)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gender)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JambRegNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JambRegNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LGA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LGA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.State)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.State)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CourseInView)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CourseInView)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JambScore)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JambScore)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Passport)
+        </dt>
+
+    </dl>
+</div>
+<table class="table table-responsive">
+<tr>
+    <th>
+       Subject
+    </th>
+    <th>
+        Score
+    </th>
+
+    <th></th>
+</tr>
+    @{
+        double total = 0;
+    }
+@foreach (var item in Model.PreDegreeExams)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SubjectName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Score)
+        </td>
+       
+    </tr>
+    total += item.Score;
+
+}
+    <tr>
+        <td class="text-bold">Total </td>
+        <td class="text-bold">@total</td>
+    </tr>
+</table>

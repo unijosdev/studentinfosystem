@@ -1,0 +1,70 @@
+﻿@model IEnumerable<SwiftKampusModel.Student>
+
+@{
+    ViewBag.Title = "Download Graduated Pdf Report";
+    Layout = "~/Views/Shared/_LayoutLanding.cshtml";
+}
+
+<div class="transparentbox">
+    <div style="text-align: center;">
+        <img src="~/Content/Images/uniben_bana.bmp" />
+    </div>
+
+    <h4 class="text-center"> GRADUATED STUDENT REPORT FOR @ViewBag.SessionName </h4>
+    <table class="table table-responsive">
+        <tr>
+            <th>Matric No</th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Programme.Department.DeptName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Programme.ProgrammeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Level.LevelName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+          
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MatricNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Programme.Department.DeptName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Programme.ProgrammeName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Level.LevelName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+              
+            </tr>
+        }
+
+    </table>
+</div>

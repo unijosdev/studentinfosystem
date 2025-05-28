@@ -1,0 +1,101 @@
+﻿@using SwiftKampusModel
+@model SwiftKampus.Controllers.ApplicantTypeVm
+@{
+    ViewBag.Title = "ProcessForm";
+}
+
+<h2>Application Form Process</h2>
+
+<div class="tabbable tabs-right">
+    <ul class="nav nav-tabs">
+
+
+
+        <li><a id="biodata" class="active" href="#tab1" data-toggle="tab">Personal Details</a></li>
+        <li><a id="olevel" href="#tab2" data-toggle="tab" style="pointer-events: none">O-LEVEL RESULT</a></li>
+        <li><a id="nextKin" href="#tab3" data-toggle="tab" style="pointer-events: none">NEXT OF KIN</a></li>
+
+        @if (!Model.ApplicantType.Equals(ProgrammeCategory.ICT.ToString()))
+        {
+            <li><a id="employment" href="#tab4" data-toggle="tab" style="pointer-events: none">EMPLOYMENT HISTORY</a></li>
+        }
+
+        @if (Model.ApplicantType.Equals(ProgrammeCategory.IJMB.ToString()))
+        {
+            <li><a id="subjectcombination" href="#tab5" data-toggle="tab" style="pointer-events: none">SUBJECT COMBINATION</a></li>
+        }
+
+        @if (Model.ApplicantType.Equals(ProgrammeCategory.Masters.ToString()) ||
+            Model.ApplicantType.Equals(ProgrammeCategory.MBA.ToString()) ||
+            Model.ApplicantType.Equals(ProgrammeCategory.Post_Graduate.ToString()))
+        {
+            <li><a id="referee" href="#tab6" data-toggle="tab" style="pointer-events: none">REFEREE</a></li>
+            <li><a id="aqualification" href="#tab15" data-toggle="tab" style="pointer-events: none">ACADEMIC QUALIFICATIONS</a></li>
+        }
+
+        @if (Model.ApplicantType.Equals(ProgrammeCategory.Phd.ToString()))
+        {
+            <li><a id="referee" href="#tab6" data-toggle="tab" style="pointer-events: none">REFEREE</a></li>
+            <li><a id="aqualification" href="#tab15" data-toggle="tab" style="pointer-events: none">ACADEMIC QUALIFICATIONS</a></li>
+            <li><a id="thesis" href="#tab7" data-toggle="tab" style="pointer-events: none">THESIS</a></li>
+            <li><a id="publication" href="#tab8" data-toggle="tab" style="pointer-events: none">PUBLICATONS</a></li>
+        }
+        <li><a id="uploaddocument" href="#tab9" data-toggle="tab">UPLOAD DOCUMENT</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab1">
+            @{
+                Html.RenderAction("Edit_2", "Applicants");
+            }
+        </div>
+        <div class="tab-pane" id="tab2">
+            @{
+                Html.RenderAction("Save", "ApplicantOLevelResults", new { id = 0 });
+            }
+        </div>
+
+        <div class="tab-pane" id="tab3">
+            @{
+                Html.RenderAction("PCreate", "NextOfKins");
+            }
+        </div>
+        <div class="tab-pane" id="tab4">
+            @{
+                Html.RenderAction("PCreate", "EmploymentDetails");
+            }
+        </div>
+        <div class="tab-pane" id="tab5">
+            @{
+                Html.RenderAction("ApplicantSubjectCombo", "Applicants");
+            }
+        </div>
+        <div class="tab-pane" id="tab6">
+            @{
+                Html.RenderAction("PCreate", "Referees");
+            }
+        </div>
+        <div class="tab-pane" id="tab7">
+            @{
+                Html.RenderAction("PCreate", "ThesisProposals");
+            }
+        </div>
+        <div class="tab-pane" id="tab8">
+            @{
+                Html.RenderAction("PCreate", "Publications");
+            }
+        </div>
+        <div class="tab-pane" id="tab9">
+            @{
+                Html.RenderAction("AIndex", "RelevantDocuments");
+            }
+        </div>
+        <div class="tab-pane" id="tab15">
+            @{
+                Html.RenderAction("Create", "AttendedSchools");
+                //Html.RenderAction("PCreate", "AttendedSchools");
+            }
+        </div>
+    </div>
+</div>
+

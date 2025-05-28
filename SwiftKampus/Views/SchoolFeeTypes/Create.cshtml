@@ -1,0 +1,163 @@
+﻿@model SwiftKampus.ViewModels.SchoolFeeTypeVm
+    @{ 
+        Layout = "~/Views/Shared/_Layout.cshtml";
+
+    }
+
+<script src="~/AdminTemplate/js/plugins/chosen/chosen.jquery.js"></script>
+<link href="~/AdminTemplate/css/plugins/chosen/bootstrap-chosen.css" rel="stylesheet" />
+
+<form id="myform" onsubmit="return false;">
+    @Html.AntiForgeryToken()
+    <div class="card">
+        <div class="card-head style-primary">
+
+
+        </div><!--end .card-head -->
+        <div class="card-body">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @if (Model != null && Model.SchoolFeeTypeId > 0)
+            {
+                @Html.HiddenFor(model => model.SchoolFeeTypeId)
+            }
+
+
+            <div class="form-group">
+                @Html.Label("Fee Category")
+                @Html.EnumDropDownListFor(model => model.FeeCategory, null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FeeCategory, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Fee Name")
+                @Html.EditorFor(model => model.FeeName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FeeName, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Student Type")
+                @Html.DropDownList("StudentType", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.StudentType, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.Label("Level", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.DropDownList("LevelId", null, htmlAttributes: new { @class = "form-control chosen-select", @multiple = "true" })
+                @Html.ValidationMessageFor(model => model.StudentType, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.Label("Select Payment")
+                @Html.DropDownList("FacultyOrDept", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FeeCategory, "", new { @class = "text-danger" })
+            </div>
+
+            <div id="FacultyType">
+                <div class="form-group">
+                    @Html.Label("Faculty", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.DropDownList("FacultyId", null, htmlAttributes: new { @class = "form-control chosen-select", @multiple = "true" })
+                    @Html.ValidationMessageFor(model => model.FacultyId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div id="DeptType">
+                <div class="form-group">
+                    @Html.Label("Department", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.DropDownList("DepartmentId", null, htmlAttributes: new { @class = "form-control chosen-select", @multiple = "true" })
+                    @Html.ValidationMessageFor(model => model.FacultyId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Amount)
+                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.Label("Amount In Words")
+                @Html.EditorFor(model => model.AmountInWords, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AmountInWords, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.Label("Description")
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.Label("Indigene")
+                @Html.EditorFor(model => model.Indegine)
+                @Html.ValidationMessageFor(model => model.Indegine, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="md-form">
+
+                @if (Model != null && Model.SchoolFeeTypeId > 0)
+                {
+                    <input id="btnsubmit" type="submit" value="Update" class="btn btn-primary btn-lg" />
+                }
+                else
+                {
+                    <input id="btnsubmit" type="submit" value="Save" class="btn btn-primary btn-lg" />
+                }
+                <a href="#" class="btn btn-danger btn-lg" data-dismiss="modal">Cancel</a>
+            </div>
+        </div><!--end .card-body -->
+    </div><!--end .card -->
+
+</form>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+
+<script type="text/javascript">
+    document.getElementById('FacultyType').style.display = "none";
+    document.getElementById('DeptType').style.display = "none";
+
+    $(document).ready(function () {
+        $('.chosen-select').chosen();
+
+        $('#FacultyOrDept').change(function () {
+
+            var selectedValue = $('#FacultyOrDept').val();
+            // window.alert(selectedValue);
+
+            if (selectedValue === 'Faculty') {
+                document.getElementById('FacultyType').style.display = "block";
+            } else {
+                document.getElementById('FacultyType').style.display = "none";
+            }
+
+            if (selectedValue === 'Department') {
+                document.getElementById('DeptType').style.display = "block";
+            } else {
+                document.getElementById('DeptType').style.display = "none";
+            }
+        });
+    });
+
+
+
+    $("#btnsubmit").click(function () {
+
+        var data = $("#myform").serialize();
+
+        $.ajax({
+            type: "POST",
+            url: "/SchoolFeeTypes/Save",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+                    window.oTable.ajax.reload(); //run my_fun() ondomready
+                    toastr["success"](data.message);
+                    $('#myform')[0].reset();
+                } else {
+                    toastr["error"](data.message);
+                    $('#actionsList').modal("hide");
+
+                }
+
+            }
+        });
+    });
+</script>

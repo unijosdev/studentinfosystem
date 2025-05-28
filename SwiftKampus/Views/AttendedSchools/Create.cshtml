@@ -1,0 +1,395 @@
+﻿@model SwiftKampusModel.AddmissionApplicant.AttendedSchool
+@using SwiftKampus.Extensions
+
+@{
+    ViewBag.Title = "School History";
+    Layout = null;
+}
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+
+<form id="myform" class="form-horizontal" onsubmit="return false;">
+    <div class="ibox float-e-margins">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="wrapper border-bottom white-bg page-heading">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h2>Add School History</h2>
+                        </div>
+                        <div class="col-md-9">
+
+                            <h2 class="pull-right">
+                                <span>
+                                    <a href="@Url.Action("Index","AttendedSchools")" class="btn btn-primary"> LIST OF SCHOOL ATTENDED</a>
+                                </span>
+                                <span>
+                                    <button id="btnAttendedSchoolAddMore" type="button" class="btn btn-primary"><i class="fa fa-plus"></i> Add</button>
+                                </span>
+                            </h2>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="wrapper wrapper-content animated fadeInRight">
+                    <div class="row">
+                        <div class="ibox-content">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="atendedSchoolrepeatable">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.SchoolName)
+                                                @Html.EditorFor(model => model.SchoolName, new { htmlAttributes = new { @class = "form-control schoolName" } })
+                                                @Html.ValidationMessageFor(model => model.SchoolName, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.CourseOfStudy)
+                                                @Html.EditorFor(model => model.CourseOfStudy, new { htmlAttributes = new { @class = "form-control courseOfStudy" } })
+                                                @Html.ValidationMessageFor(model => model.CourseOfStudy, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.ClassOfDegree)
+                                                @Html.EditorFor(model => model.ClassOfDegree, new { htmlAttributes = new { @class = "form-control classOfDegree" } })
+                                                @Html.ValidationMessageFor(model => model.ClassOfDegree, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Degree)
+                                                @Html.EditorFor(model => model.Degree, new { htmlAttributes = new { @class = "form-control degree" } })
+                                                @Html.ValidationMessageFor(model => model.Degree, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.ResultGrade)
+                                                @Html.EditorFor(model => model.ResultGrade, new { htmlAttributes = new { @class = "form-control resultGrade" } })
+                                                @Html.ValidationMessageFor(model => model.ResultGrade, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.FromDate)
+                                                @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @class = "form-control AfromDate" } })
+                                                @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.ToDate)
+                                                @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { @class = "form-control AtoDate" } })
+                                                @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    @*<span class="col-md-12" input-group-btn col-sm-2">
+                                            <button id="btnAttendedSchoolAddMore" type="button" class="btn btn-primary"><i class="fa fa-plus"></i></button>
+                                        </span>*@
+
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <div class="col-md-6">
+
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="submit" id="btnAttendedSchoolSave" value="Save and Continue" class="btn btn-primary btn-sm pull-right" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <input id="schoolProgrammeName" hidden value="@ViewBag.schoolProgrammeName" />
+            <div class="col-md-6 pull-right">
+                <span class="pull-right" id="spanCreateAttendedSchools" hidden>
+                    <a id="btnAcademicNext" href="#" class="btn btn-warning btn-lg btnNext" data-dismiss="modal">NEXT</a>
+                </span>
+            </div>
+            <div class="col-md-6">
+                <a id="btnAcademicQualPrevious" href="#" class="btn btn-warning btn-lg btnPrevious" data-dismiss="modal" hidden>PREVIOUS</a>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+@*load transcript view here*@
+<div id="transcriptContainer2"></div>
+
+@*<button class="btn btn-danger" id="thisButton">click me</button>*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script>
+       var count = 1;
+    $(document).ready(function () {
+
+        $('#btnAttendedSchoolAddMore').click(function () {
+            if (count <= 3) {
+                var new_field = `<div class="row">
+                                  <div class="hr-line-dashed"></div>
+                                <div class="col-md-4">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.SchoolName)
+                                            @Html.EditorFor(model => model.SchoolName, new { htmlAttributes = new { @class = "form-control schoolName" } })
+                                            @Html.ValidationMessageFor(model => model.SchoolName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.CourseOfStudy)
+                                            @Html.EditorFor(model => model.CourseOfStudy, new { htmlAttributes = new { @class = "form-control courseOfStudy" } })
+                                            @Html.ValidationMessageFor(model => model.CourseOfStudy, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.ClassOfDegree)
+                                            @Html.EditorFor(model => model.ClassOfDegree, new { htmlAttributes = new { @class = "form-control classOfDegree" } })
+                                            @Html.ValidationMessageFor(model => model.ClassOfDegree, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Degree)
+                                            @Html.EditorFor(model => model.Degree, new { htmlAttributes = new { @class = "form-control degree" } })
+                                            @Html.ValidationMessageFor(model => model.Degree, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.ResultGrade)
+                                            @Html.EditorFor(model => model.ResultGrade, new { htmlAttributes = new { @class = "form-control resultGrade" } })
+                                            @Html.ValidationMessageFor(model => model.ResultGrade, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.FromDate)
+                                            @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @class = "form-control fromDate" } })
+                                            @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.ToDate)
+                                            @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { @class = "form-control toDate" } })
+                                            @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                            <span class="col-md-12" onclick="remove_button(this)" input-group-btn col-sm-2">
+                                <button type="button" class="btn btn-primary"><i class="fa fa-minus"></i></button>
+                            </span>
+
+                        </div>
+
+                        </div>`;
+                $('.atendedSchoolrepeatable').append(new_field);
+                count++;
+            }
+            else
+            {
+                swal({
+                    title: "Warning",
+                    text: "Maximum number of fields exceeded!",
+                    type: "warning",
+                });            }
+        });
+
+        $('#btnAttendedSchoolSave').click(function () {
+            var schoolName = [];
+            var courseOfStudy = [];
+            var classOfDegree = [];
+            var grade = [];
+            var degree = [];
+            var fromDate = [];
+            var toDate = [];
+            var emplymentDetailList = [];
+
+            //pulling the form data using the class and adding it to a list
+            $.each($('.schoolName'), function () {
+                schoolName.push($(this).val());
+            });
+
+            $.each($('.courseOfStudy'), function () {
+                courseOfStudy.push($(this).val());
+            });
+            $.each($('.classOfDegree'), function () {
+                classOfDegree.push($(this).val());
+            });
+            $.each($('.resultGrade'), function () {
+                grade.push($(this).val());
+            });
+
+            $.each($('.AfromDate'), function () {
+                fromDate.push($(this).val());
+            });
+
+            $.each($('.AtoDate'), function () {
+                toDate.push($(this).val());
+            });
+
+            $.each($('.degree'), function () {
+                degree.push($(this).val());
+            });
+
+            //////validation
+            ////if (subjectid.length == 0 || subjectgrade.length == 0) {
+            ////    alert("Invalid selection!");
+            ////}
+            ////else {
+
+            ////}
+            //append to list for c# in controller
+            for (var i = 0; i < schoolName.length; i++) {
+                var data = {
+                    "SchoolName": schoolName[i],
+                    "CourseOfStudy": courseOfStudy[i],
+                    "ClassOfDegree": classOfDegree[i],
+                    "ResultGrade": grade[i],
+                    "Degree": degree[i],
+                    "FromDate": fromDate[i],
+                    "ToDate": toDate[i]
+                };
+                emplymentDetailList.push(data);
+            }
+
+            var Mydata = JSON.stringify(emplymentDetailList);
+            //alert(Mydata);
+
+
+            $.ajax({
+                contentType: 'application/json',
+                type: "POST",
+                url: "/AttendedSchools/PCreate",
+                data: Mydata,
+                success: function (data) {
+                    if (data.status) {
+                        swal({
+                            title: "Schools are added successfully",
+                            //text: "Did you want to add More Qualifications?..",
+                            type: "success",
+                            //showCancelButton: true,
+                            confirmButtonColor: "#ab973a",
+                            confirmButtonText: "Proceed",
+                            //cancelButtonText: "No, See Result List!",
+                            closeOnConfirm: true,
+                            closeOnCancel: false
+                        },
+                            function (isConfirm) {
+                                if (isConfirm) {
+                                    fetch('/AttendedSchools/RegIndex')
+                                        .then(data => {
+                                            return data.text()
+                                        })
+                                        .then(data => {
+                                            document.getElementById("transcriptContainer2").innerHTML = data;
+                                        })
+
+                                    $('#spanCreateAttendedSchools').removeAttr("hidden");
+
+                                    swal("Great!", "You can now proceed.", "success");
+                                }
+                                //} else {
+                                //     var url = "/AttendedSchools/RegIndex";
+                                //       $('#tab15').load(url);
+                                //    //var url = "/RelevantDocuments/AIndex";
+                                //    //   $('#tab9').load(url);
+                                //    swal("Great", "You can now see your Qualification list", "success");
+                                //}
+                            });
+                        toastr["success"](data.message);
+                    } else {
+                        swal({
+                            title: "Warning",
+                            text: data.message,
+                            type: "warning",
+                        });
+                        toastr["success"](data.message);
+                    }
+
+                }
+            });
+        });
+
+    });
+
+    function remove_button(elem) {
+        if (count > 1) {
+            $(elem).closest('div').remove();
+            count--;
+        }
+    }
+
+    function goNext() {
+        var schoolProgrammeName = $("#schoolProgrammeName").val();
+        console.log(schoolProgrammeName);
+        if (schoolProgrammeName != "Phd") {
+            $("#uploaddocument").click();
+        }
+        else {
+            $("#thesis").click();
+        }
+    }
+
+    $("#btnAcademicQualPrevious").click(function () {
+        $("#referee").click();
+    });
+
+    $("#btnAcademicNext").click(function () {
+        goNext();
+    });
+
+    //$(document).on('click', '#thisButton', function () {
+    //    var url = "/AttendedSchools/RegIndex";
+    //    $('#tab15').load(url);
+    //});
+
+</script>

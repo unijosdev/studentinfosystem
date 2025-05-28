@@ -1,0 +1,114 @@
+﻿@model IEnumerable<SwiftKampusModel.Faq>
+
+@{
+    ViewBag.Title = "Faq";
+    Layout = "~/Views/Shared/_LayoutFaq.cshtml";
+}
+
+<style>
+    /* body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f8f8;
+        margin: 0;
+        padding: 0;
+    }*/
+
+    .faq-container {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 20px;
+        background-color: #ffffff;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    .faq-item {
+        border-bottom: 1px solid #e0e0e0;
+        padding: 15px 0;
+        cursor: pointer;
+        position: relative;
+    }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+    .question {
+        font-size: 18px;
+        font-weight: bold;
+        display: inline-block;
+    }
+
+    .answer {
+        margin-top: 5px;
+        display: none;
+    }
+
+    .drop-icon {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        width: 28px;
+        height: 28px;
+        transform: translateY(-50%);
+        transition: transform 0.3s ease;
+    }
+
+    .open {
+        transform: translateY(-50%) rotate(180deg);
+    }
+
+    .faq {
+        color: #313131;
+        margin-top: 50px;
+    }
+</style>
+
+<section id="features" class="container services">
+    <h2 class="text-center faq">Frequently Asked Questions</h2>
+    <div class="faq-container">
+        @foreach (var item in Model)
+        {
+            <div class="faq-item">
+                <div class="question">@item.Question</div>
+                <div class="answer">@item.Answer</div>
+                @*<div class="drop-icon">&#9660;</div>*@
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="drop-icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                </svg>
+            </div>
+        }
+    </div>
+</section>
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        const faqItems = document.querySelectorAll(".faq-item");
+
+        faqItems.forEach((item) => {
+            const answer = item.querySelector(".answer");
+            const dropIcon = item.querySelector(".drop-icon");
+
+            item.addEventListener("click", () => {
+                faqItems.forEach((otherItem) => {
+                    const otherAnswer = otherItem.querySelector(".answer");
+                    const otherDropIcon = otherItem.querySelector(".drop-icon");
+
+                    if (otherItem !== item) {
+                        otherAnswer.style.display = "none";
+                        otherDropIcon.classList.remove("open");
+                    }
+                });
+
+                answer.style.display = answer.style.display === "none" ? "block" : "none";
+                dropIcon.classList.toggle("open");
+            });
+
+            // Hide the answers initially
+            answer.style.display = "none";
+        });
+    });
+</script>
+

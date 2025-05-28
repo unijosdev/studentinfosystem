@@ -1,0 +1,408 @@
+﻿@model SwiftKampus.ViewModels.StudentBioData.EmploymentDetailVm
+
+@using SwiftKampusModel
+@using SwiftKampus.Controllers
+
+
+@{
+    ViewBag.Title = "Add Employment Details";
+    Layout = null;
+    ApplicantTypeVm ApplicantType = (ApplicantTypeVm)ViewBag.ApplicantType;
+
+}
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+<div class="ibox float-e-margins">
+    <input value="@ViewBag.isStudent" hidden id="isStudent"/>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+
+            <form id="myform" onsubmit="return false;">
+                <div class="col-md-12">
+                    <div class="row wrapper border-bottom white-bg page-heading">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h2>Add Employment Details</h2>
+                                @*<input type="hidden" name="programmeType" value="@ApplicantType.ApplicantType" />*@
+                            </div>
+                            <div class="col-md-6">
+                                <h2>
+                                    <button id="btnEmpAddMore" type="button" class="btn btn-primary"><i class="fa fa-plus"></i> Add More</button>
+                                    @*<span onclick="removeEmp_button(this)" input-group-btn col-sm-2">
+                                            <button type="button" class="btn btn-primary"><i class="fa fa-minus"></i> Remove</button>
+                                        </span>*@
+                                </h2>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-content form-horizontal">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="empRepeatable">
+                                    @if (Model.EmploymentDetails != null && Model.EmploymentDetails.Count() > 0)
+                                    {
+                                        for (int i = 0; i < Model.EmploymentDetails.Count(); i++)
+                                        {
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.EmploymentDetails[i].EmployeeName)
+                                                            @Html.EditorFor(model => model.EmploymentDetails[i].EmployeeName, new { htmlAttributes = new { @class = "form-control employeeName" } })
+                                                            @*@Html.ValidationMessageFor(model => model.EmploymentDetails[i].EmployeeName, "", new { @class = "text-danger" })*@
+                                                            <span class="employeeNameValidate" style="color:red"></span>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.EmploymentDetails[i].Address)
+                                                            @Html.EditorFor(model => model.EmploymentDetails[i].Address, new { htmlAttributes = new { @class = "form-control address" } })
+                                                            @*@Html.ValidationMessageFor(model => model.EmploymentDetails[i].Address, "", new { @class = "text-danger" })*@
+                                                            <span class="employeeNameValidate" style="color:red"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-md-6">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.EmploymentDetails[i].FromDate)
+                                                            @Html.EditorFor(model => model.EmploymentDetails[i].FromDate, new { htmlAttributes = new { @class = "form-control fromDate", type = "text", placeholder = "dd/mm/yyyy" } })
+                                                            @Html.ValidationMessageFor(model => model.EmploymentDetails[i].FromDate, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.EmploymentDetails[i].ToDate)
+                                                            @Html.EditorFor(model => model.EmploymentDetails[i].ToDate, new { htmlAttributes = new { @class = "form-control toDate", type = "text", placeholder = "dd/mm/yyyy" } })
+                                                            @Html.ValidationMessageFor(model => model.EmploymentDetails[i].ToDate, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <span onclick="removeEmp_button(this)" input-group-btn col-sm-2">
+                                                    <button type="button" class="btn btn-primary"><i class="fa fa-minus"></i></button>
+                                                </span>
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.EmploymentDetail.EmployeeName)
+                                                        @Html.EditorFor(model => model.EmploymentDetail.EmployeeName, new { htmlAttributes = new { @class = "form-control employeeName" } })
+                                                        @*@Html.ValidationMessageFor(model => model.EmploymentDetail.EmployeeName, "", new { @class = "text-danger" })*@
+                                                        <span class="employeeNameValidate" style="color:red"></span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.EmploymentDetail.Address)
+                                                        @Html.EditorFor(model => model.EmploymentDetail.Address, new { htmlAttributes = new { @class = "form-control address" } })
+                                                        @*@Html.ValidationMessageFor(model => model.EmploymentDetail.Address, "", new { @class = "text-danger" })*@
+                                                        <span class="employeeNameValidate" style="color:red"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-6">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.EmploymentDetail.FromDate)
+                                                        @Html.EditorFor(model => model.EmploymentDetail.FromDate, new { htmlAttributes = new { @class = "form-control fromDate", type = "text", placeholder = "dd/mm/yyyy" } })
+                                                        @Html.ValidationMessageFor(model => model.EmploymentDetail.FromDate, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.EmploymentDetail.ToDate)
+                                                        @Html.EditorFor(model => model.EmploymentDetail.ToDate, new { htmlAttributes = new { @class = "form-control toDate", type = "text", placeholder = "dd/mm/yyyy" } })
+                                                        @Html.ValidationMessageFor(model => model.EmploymentDetail.ToDate, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                                <br />
+                                <br />
+                                <div class="form-group">
+                                    <div class="col-md-6">
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="submit" id="btnSaveEmp" value="SAVE AND CONTINUE" class="btn btn-primary btn-sm pull-right" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-12">
+                        <a id="btnemploymentPrevious" href="#" class="btn btn-warning btn-lg btnPrevious" data-dismiss="modal">PREVIOUS</a>
+                    </div>
+
+
+                    @*Get the program type of the applicant*@
+                    <div class="col-md-12">
+                        @*<a id="btnemploymentPrevious" href="#" class="btn btn-warning btn-lg btnPrevious" data-dismiss="modal">PREVIOUS</a>*@
+
+                        @if (ApplicantType.ApplicantType.Equals(ProgrammeCategory.Masters.ToString()) ||
+                                    ApplicantType.ApplicantType.Equals(ProgrammeCategory.MBA.ToString()) ||
+                                    ApplicantType.ApplicantType.Equals(ProgrammeCategory.Post_Graduate.ToString()) ||
+                                    ApplicantType.ApplicantType.Equals(ProgrammeCategory.Phd.ToString()))
+                        {
+                            ViewBag.Status = "PG";
+                            @*<a id="btnemploymentNext" href="#" class="btn btn-warning btn-lg btnNext" data-dismiss="modal">NEXT</a>*@
+                        }
+
+                        @if (ApplicantType.ApplicantType.Equals(ProgrammeCategory.IJMB.ToString()))
+                        {
+                            ViewBag.Status = "IJMB";
+                            @*<a id="btnemploymentNext2" href="#" class="btn btn-warning btn-lg btnNext" data-dismiss="modal">NEXT</a>*@
+
+                        }
+                        @if (ApplicantType.ApplicantType.Equals(ProgrammeCategory.Remedial_Science.ToString()) ||
+                            ApplicantType.ApplicantType.Equals(ProgrammeCategory.Preliminary_French.ToString()) ||
+                            ApplicantType.ApplicantType.Equals(ProgrammeCategory.Institute_Of_Education.ToString()) ||
+                            ApplicantType.ApplicantType.Equals(ProgrammeCategory.Diploma.ToString()))
+                        {
+                            ViewBag.Status = "PRE";
+                            @*<a id="btnemploymentNext3" href="#" class="btn btn-warning btn-lg btnNext" data-dismiss="modal">NEXT</a>*@
+                        }
+
+                        @if (ApplicantType.ApplicantType.Equals(ProgrammeCategory.UnderGraduate.ToString()) &&
+                            ApplicantType.TimeType.Equals(ProgrammeType.Part_Time.ToString()))
+                        {
+                            @*<a id="btnemploymentNext4" href="#" class="btn btn-warning btn-lg btnNext" data-dismiss="modal">NEXT</a>*@
+                        }
+                    </div>
+                </div>
+
+            </form>
+
+
+        </div>
+    </div>
+
+</div>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script>
+    var count = 2;
+    //$(document).ready(function () {
+    $(function () {
+        $('#btnEmpAddMore').click(function () {
+            if (count <= 5) {
+                var new_field = `<div class="row"> <div class="hr-line-dashed"></div>
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.EmploymentDetail.EmployeeName)
+                                            @Html.EditorFor(model => model.EmploymentDetail.EmployeeName, new { htmlAttributes = new { @class = "form-control employeeName" } })
+                                            @*@Html.ValidationMessageFor(model => model.EmploymentDetail.EmployeeName, "", new { @class = "text-danger" })*@
+                                            <span class="employeeNameValidate" style="color:red"></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.EmploymentDetail.Address)
+                                            @Html.EditorFor(model => model.EmploymentDetail.Address, new { htmlAttributes = new { @class = "form-control address" } })
+                                            @*@Html.ValidationMessageFor(model => model.EmploymentDetail.Address, "", new { @class = "text-danger" })*@
+                                            <span class="employeeNameValidate" style="color:red"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.EmploymentDetail.FromDate)
+                                            @Html.EditorFor(model => model.EmploymentDetail.FromDate, new { htmlAttributes = new { @class = "form-control fromDate", type = "text", placeholder = "dd/mm/yyyy" } })
+                                            @Html.ValidationMessageFor(model => model.EmploymentDetail.FromDate, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.EmploymentDetail.ToDate)
+                                            @Html.EditorFor(model => model.EmploymentDetail.ToDate, new { htmlAttributes = new { @class = "form-control toDate", type = "text", placeholder = "dd/mm/yyyy" } })
+                                            @Html.ValidationMessageFor(model => model.EmploymentDetail.ToDate, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <span onclick="removeEmp_button(this)" input-group-btn col-sm-2">
+                                        <button type="button" class="btn btn-primary"><i class="fa fa-minus"></i></button>
+                                    </span>
+                            </div>
+
+                        </div>`;
+                $('.empRepeatable').append(new_field);
+                count++;
+            }
+            else
+            {
+                swal({
+                    title: "Warning",
+                    text: "Maximum number of fields exceeded!",
+                    type: "warning",
+                });
+
+            }
+        });
+
+        $('#btnSaveEmp').click(function () {
+            var employeeName = [];
+            var address = [];
+            var fromDate = [];
+            var toDate = [];
+            var emplymentDetailList = [];
+
+            // Validate the data entered in the form
+            var employee_Name = $('.employeeName').val();
+            if (employee_Name == "") {
+                $('.employeeNameValidate').html("This field cannot be left blank. Put 'Nil' if you don't have the required info. And select any random date");
+            }
+
+            //pulling the form data using the class and adding it to a list
+            $.each($('.employeeName'), function () {
+                employeeName.push($(this).val());
+            });
+
+            $.each($('.address'), function () {
+                address.push($(this).val());
+            });
+
+            $.each($('.fromDate'), function () {
+                fromDate.push($(this).val());
+            });
+
+            $.each($('.toDate'), function () {
+                toDate.push($(this).val());
+            });
+
+
+            for (var i = 0; i < employeeName.length; i++) {
+                var data = {
+                    "EmployeeName": employeeName[i],
+                    "Address": address[i],
+                    "FromDate": fromDate[i],
+                    "ToDate": toDate[i]
+                };
+                emplymentDetailList.push(data);
+            }
+
+            var Mydata = JSON.stringify(emplymentDetailList);
+
+            $.ajax({
+                contentType: 'application/json',
+                type: "POST",
+                url: "/EmploymentDetails/PCreate",
+                data: Mydata,
+                success: function (data) {
+                    if (data.status) {
+                        swal({
+                            title: "Good Job!!!",
+                            text: "Employment details saved successfully",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#ab973a",
+                            confirmButtonText: "Proceed",
+                            cancelButtonText: "Cancel",
+                            closeOnConfirm: false,
+                            closeOnCancel: false
+                        },
+                        function (isConfirm) {
+                            if (isConfirm) {
+                                swal("Great", "You can proceed now", "success");
+                                goNextEmp();
+                            } else {
+                                swal("Great", "You can click procceed button to continue", "success");
+                            }
+                        });
+                        toastr["success"](data.message);
+                    } else {
+                        swal({
+                            title: "Warning",
+                            text: data.message,
+                            type: "warning",
+                        });
+                        toastr["success"](data.message);
+                    }
+
+                }
+            });
+        });
+
+    });
+
+    function removeEmp_button(elem) {
+        $(elem).closest('div').remove();
+    }
+
+
+    $("#btnemploymentNext").click(function () {
+        $("#aqualification").click();
+    });
+
+    $("#btnemploymentNext2").click(function () {
+        $("#subjectcombination").click();
+    });
+    $("#btnemploymentNext3").click(function () {
+        $("#uploaddocument").click();
+    });
+    $("#btnemploymentNext4").click(function () {
+        $("#uploaddocument").click();
+    });
+
+    $("#btnemploymentPrevious").click(function () {
+        $("#nextKin").click();
+    });
+
+    function goNextEmp() {
+        var check = '@ViewBag.Status';
+        var isStudent = $('#isStudent').val();
+
+        if (check === 'PG' && isStudent != 'Student') {
+            $("#referee").click();
+        }
+        else if (check === 'PG' && isStudent === 'Student') {
+            $("#aqualification").click();
+        }
+        else if (check === 'IJMB') {
+            $("#subjectcombination").click();
+        }
+        else if (check === 'PRE') {
+            $("#uploaddocument").click();
+        }
+    }
+
+</script>
+
+

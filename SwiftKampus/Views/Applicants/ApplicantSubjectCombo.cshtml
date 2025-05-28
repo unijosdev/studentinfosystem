@@ -1,0 +1,125 @@
+﻿@model IEnumerable<SwiftKampusModel.Programme>
+@using SwiftKampusModel
+@using SwiftKampus.Controllers
+
+
+@{
+    ViewBag.Title = "Index";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
+    ApplicantTypeVm ApplicantType = (ApplicantTypeVm)ViewBag.ApplicantType;
+
+}
+<style>
+    .select-wrapper select {
+        width: 100%; /* Adjust width as needed */
+    }
+</style>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        @*<div class="col-md-2"></div>*@
+        <div class="col-md-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h4>Subject Combination</h4>
+                    
+                </div>
+
+                <div class="col-md-12">
+                    <div class="row ibox-content">
+                        <form id="myform" method="post"  onsubmit="return false;">
+                            @Html.AntiForgeryToken()
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group select-wrapper">
+                                        @Html.Label("Subject Combination", htmlAttributes: new { @class = "control-label" })
+                                        <div>
+                                            @Html.DropDownList("sujectCombo", null, htmlAttributes: new { @class = "form-control js-example-basic-single form-control", @style = "width:350px" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <!-- Content for the left side (if any) -->
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <a  href="#" class="btn btn-success btn-sm btnNext"  onclick="saveSubjectCombination()">SAVE</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+<br />
+
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+
+
+<script type="text/javascript">
+        jQuery(function ($) {
+            $('.js-example-basic-single').select2();
+        });
+
+    function saveSubjectCombination() {
+        var subjectCombo = $('#sujectCombo').val();
+        console.log(subjectCombo);
+
+        $.ajax({
+            url: '/Applicants/SaveSubjectCombination',
+            type: 'POST',
+            data: {
+                _RequestVerificationToken: $('input[name="_RequestVerificationToken"]').val(),
+                subjectCombo: subjectCombo
+            },
+            success: function (response) {
+                if (response.status) {
+                    swal({
+                    title: "Success",
+                    type: "success",
+                    confirmButtonText: "Ok",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                    },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            swal("Great!", "To Proceed Click the Ok Button to Continue!!!.", "success");
+                            goNextDocUpload();
+                        } else {
+                            swal("Great", "You can click the next button to proceed", "success");
+                        }
+                    });
+                    
+                } else {
+                    alert('Error: ' + response.message);
+                }
+            },
+            error: function () {
+                alert('An error occurred while saving the subject combination.');
+            }
+        });
+    }
+
+
+        function goNextDocUpload() {
+            $("#uploaddocument").click();
+        }
+
+        //$("#btnrefereePrevious").click(function () {
+        //    $("#thesis").click();
+        //});
+
+</script>

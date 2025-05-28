@@ -1,0 +1,133 @@
+﻿@model IEnumerable<SwiftKampusModel.Employee.Leave.LeaveType>
+
+@{
+    ViewBag.Title = "Leave Type";
+}
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>List of Leave Type</h5>
+                    <div class="ibox-tools">
+                        <a onclick="myFunction()" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#actionsList"><i class="fa fa-plus left"></i> ADD LEAVE TYPE</a>
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="table-responsive">
+                        <div class="card-body">
+                            <table id="Jdatatable" class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Leave Type Name</th>
+                                        <th>Leave Length</th>
+                                        <th>Period</th>
+                                        <th>Is Active</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+                    <!-- Modal -->
+                    <div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <!--Content-->
+                            <div class="modal-content">
+                                <!--Header-->
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <div class="flex-center">
+                                        <h4 class="modal-title">LEAVE TYPE</h4>
+                                        @*<a class="btn btn-primary btn-sm">Create new action</a>*@
+                                    </div>
+                                </div>
+                                <!--Body-->
+                                <div class="modal-body" id="myModalDivBody">
+                                </div>
+                            </div>
+                            <!--/.Content-->
+                        </div>
+                    </div>
+                    <!-- /.Modal-->
+
+                    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+                    <script type="text/javascript">
+    $(document).ready(function () {
+        if ("@ViewBag.Message") {
+            toastr["success"]("@ViewBag.Message");
+        }
+        window.oTable = $("#Jdatatable").DataTable({
+            "processing": true, // for show progress bar while loading
+
+            "ajax": {
+                "url": "/LeaveTypes/GetIndex",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "LeaveTypeName", "autoWidth": true },
+                { "data": "MaximumLeaveCount", "autoWidth": true },
+                { "data": "LeaveTime", "autoWidth": true },
+                { "data": "IsActive", "autoWidth": true },
+
+                {
+                    "data": "LeaveTypeId",
+                    "autoWidth": true,
+                    "render": function (data) {
+                        return '<a href="#" data-toggle="modal" data-target="#actionsList" onclick="Edit(' + data + ')" >  <i class="fa fa-pencil" aria-hidden="true" >&nbsp;Edit</i></a>&nbsp;&nbsp;' +
+                            '<a href="#" class="text-danger" data-toggle="modal" data-target="#actionsList"  onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" >&nbsp;Remove<i /></a>';
+                    }
+                }
+
+                //{ "data": "EmailID", "autoWidth": true },
+                //{ "data": "Phone", "autoWidth": true },
+            ]
+        });
+
+    });
+
+
+    function Edit(leaveTypeId) {
+        var url = "/LeaveTypes/Save?id=0" + leaveTypeId;
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    function Delete(leaveTypeId) {
+        var url = "/LeaveTypes/Delete?id=" + leaveTypeId;
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    function myFunction() {
+        var url = "/LeaveTypes/Save?id=0";
+
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+
+
+
+
+                    </script>

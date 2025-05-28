@@ -1,0 +1,43 @@
+﻿@model Unijos.Web.ViewModels.CreateDefaulterViewModel
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>Add a misconduct for @Model.FullName</h4>
+
+@using (Html.BeginForm("Create", "StudentDisciplinary", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal col-md-offset-2 ">
+    @Html.Raw(ViewBag.Message)
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.LabelFor(model => model.MisconductId)
+            @Html.DropDownListFor(model => model.MisconductId, new SelectList(Model.Misconducts, "MisconductId", "MisconductName"), "Select Misconduct", new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.MisconductId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    @Html.HiddenFor(Model => Model.StudentId)
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <span class="form-group">Select Evidence Image</span>
+            <input type="file" name="EvidenceFile" class="form-control" />
+            @*@Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })*@
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-auto col-md-10 pull-left">
+            @Html.ActionLink("Back", "FindStudent", new { MatricNumber = Model.MatriculationNumber }) |
+            <input type="submit" value="Save" class="btn btn-outline-primary" />
+        </div>
+    </div>
+</div>
+}

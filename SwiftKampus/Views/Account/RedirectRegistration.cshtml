@@ -1,0 +1,34 @@
+﻿@using SwiftKampus.Models
+
+@{
+    ViewBag.Title = "Send Email";
+    Layout = "~/Views/Shared/_LayoutWebSite2.cshtml";
+
+}
+<link href="~/Content/my_css/footer.css" rel="stylesheet" />
+
+<section class="divider">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-push-3">
+                <div class="border-1px p-20 mb-0" style="border: 1px solid #cac9c9 !important;">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="text-center">Email Sent Successfully</h4>
+                            <h5>
+                                <b>You have Registered Successfully, </b>
+                                <br />
+                                Kindly Click on the Activation link sent to your Email to complete the registration
+                            </h5>
+                            @*<p>
+                                Please @Html.ActionLink("click here to log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+                            </p>*@
+                        </div>                      
+                            
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

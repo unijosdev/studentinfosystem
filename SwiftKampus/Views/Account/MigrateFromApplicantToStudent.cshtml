@@ -1,0 +1,149 @@
+﻿
+@{
+    ViewBag.Title = "MigrateFromApplicantToStudent";
+}
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h2>Migrate From Applicant To Student</h2>
+            <br />
+            <br />
+            <form id="myform" onsubmit="return false;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.Label("School Programme")
+                            @Html.DropDownList("SchoolProgrammeId", (SelectList)ViewBag.SchoolProgrammeId, "", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.Label("Faculty Name")
+                            @Html.DropDownList("FacultyId", (SelectList)ViewBag.FacultyId, "", new { @class = "form-control", @onchange = "getDeptList()" })
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label>Department</label>
+                            @Html.DropDownList("DepartmentId", (SelectList)ViewBag.DepartmentId, "", new { @class = "form-control js-example-basic-single", @onchange = "getProgrammeList()" })
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label>Dept Option</label>
+                            @Html.DropDownList("ProgrammeId", (SelectList)ViewBag.ProgrammeId, "", new { @class = "form-control js-example-basic-single", @onchange = "getCourseList()" })
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label>Admitted Session</label>
+                            @Html.DropDownList("SessionId", (SelectList)ViewBag.SessionId, "", new { @class = "form-control js-example-basic-single", @onchange = "getProgrammeList()" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="md-form">
+                            <br />
+                            <input id="btnsubmit" type="submit" value="Migrate Student" class="btn btn-success btn-lg" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#myform').submit(function () {
+            $("input[type='submit']", this)
+                .val("Uploading Please Wait...")
+                .attr('disabled', 'disabled');
+            return true;
+        });
+    });
+    $("#btnsubmit").click(function () {
+        var data = $("#myform").serialize();
+        $.ajax({
+            type: "POST",
+            url: "/Account/MigrateFromApplicantToStudent",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    toastr["success"](data.message);
+                    swal({
+                        title: "ADMISSION",
+                        text: data.message,
+                        type: "warning",
+                    });
+                } else {
+                    swal({
+                        title: "ADMISSION",
+                        text: data.message,
+                        type: "error",
+                    });
+                    $("#btnsubmit").val("Migrate Students");
+                    $("#btnsubmit").attr("disabled", "false");
+                    toastr["error"](data.message);
+                }
+                
+
+            }
+        });
+    });
+    function getDeptList() {
+        var facultyId = $("#FacultyId").val();
+        //alert(facultyId);
+        $.ajax
+            ({
+                url: '/Students/GetDeptList?codeId=' + facultyId,
+                type: 'GET',
+                datatype: 'application/json',
+                contentType: 'application/json',
+                success: function (result) {
+                    $("#DepartmentId").html("");
+                    $.each($.parseJSON(result),
+                        function (i, city) {
+                            //alert(result);
+                            $("#DepartmentId").append($('<option></option>').val(city.DepartmentId).html(city.DeptName));
+                        });
+
+                },
+                error: function () {
+                    $("#DepartmentId").html("");
+                    $("#ProgrammeId").html("");
+                }
+            });
+    }
+    function getProgrammeList() {
+        var deptId = $("#DepartmentId").val();
+        //alert(stateId);
+        $.ajax
+            ({
+                url: '/Students/GetProgrammeList?codeId=' + deptId,
+                type: 'GET',
+                datatype: 'application/json',
+                contentType: 'application/json',
+                //data: JSON.stringify({
+                //    codeId: +stateId
+                //}),
+                success: function (result) {
+                    $("#ProgrammeId").html("");
+                    $.each($.parseJSON(result),
+                        function (i, city) {
+                            //alert(result);
+                            $("#ProgrammeId").append($('<option></option>').val(city.ProgrammeId).html(city.ProgrammeName));
+                        });
+
+                },
+                error: function () {
+                    $("#ProgrammeId").html("");
+                }
+            });
+    }
+</script>

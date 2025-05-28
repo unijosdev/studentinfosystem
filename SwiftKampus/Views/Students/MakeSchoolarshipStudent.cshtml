@@ -1,0 +1,73 @@
+﻿@model SwiftKampusModel.Student
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+
+<form id="myform" onsubmit="return false;">
+    <div class="card">
+        <div class="card-head style-primary">
+            <header>
+                <h4>Name: @Model.FullName</h4>
+                <h4>Matric No: @Model.MatricNo</h4>
+                <h4>Date Of Birth: @Model.DateOfBirth</h4>
+            </header>
+
+
+        </div><!--end .card-head -->
+        <div class="card-body">
+            <h3>@ViewBag.Message</h3>
+
+            @Html.HiddenFor(x => x.StudentId)
+
+            @*<div class="form-group">
+                @Html.Label("Make Schoolarship Student")
+                <input type="checkbox" name="IsSchoolarshipStudent" value="@Model.IsSchoolarshipStudent"><br><br>
+            </div>*@
+            <div class="form-group">
+                <label> Active Student</label>
+                <select class="form-control dropdown" id="Schoolarship" name="Schoolarship">
+                    <option></option>
+                    <option>True</option>
+                    <option>False</option>
+                </select>
+            </div>
+
+
+            <div class="md-form">
+                <input id="btnsubmit" type="submit" value="Update Student" class="btn btn-success" />
+
+                <a href="#" class="btn btn-danger btn-lg" data-dismiss="modal">Cancel</a>
+            </div>
+        </div><!--end .card-body -->
+    </div><!--end .card -->
+</form>
+
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script type="text/javascript">
+    $("#btnsubmit").click(function () {
+        var data = $("#myform").serialize();
+        $.ajax({
+            type: "POST",
+            url: "/Students/MakeSchoolarshipStudent",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    window.oTable.ajax.reload(); //run my_fun() ondomready
+                    toastr["success"](data.message);
+                    swal("success", data.message, "success");
+                    $('#actionsList').modal("hide");
+                } else {
+                    swal("warning", data.message, "Warning");
+                    toastr["error"](data.message);
+                }
+
+            }
+        });
+    });
+</script>
+
+
+
+
+

@@ -1,0 +1,83 @@
+﻿@model IEnumerable<SwiftKampusModel.Result>
+
+@{
+    ViewBag.Title = "Student Result";
+}
+
+
+<table class="table table-responsive">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Student.FullName)
+        </th>
+        <th>
+            Programme
+        </th>
+        <th>
+           Semester
+        </th>
+        <th>
+            Session
+        </th>
+        <th>
+            Level
+        </th>
+        <th>
+           Total Unit
+        </th>
+        <th>
+            Total GradePoint
+        </th>
+        <th>
+            Total QualityPoint
+        </th>
+        <th>
+            GPA
+        </th>
+        <th>
+            CGPA
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Student.FullName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Programme.ProgrammeName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Semester.SemesterName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sessions.SessionName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LevelName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalCourseUnit)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalGradePoint)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalQualityPoint)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Gpa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cgpa)
+        </td>
+        @*<td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ResultId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ResultId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ResultId })
+        </td>*@
+    </tr>
+}
+
+</table>

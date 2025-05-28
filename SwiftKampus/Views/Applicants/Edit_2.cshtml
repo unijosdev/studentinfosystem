@@ -1,0 +1,439 @@
+﻿@model SwiftKampus.ViewModels.ApplicantVm
+@using SwiftKampus.Extensions
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = null;
+    var dateOfBirth = Model.DateOfBirth.ToString("dd/MM/yyyy");
+
+}
+
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+@*
+    <style>
+        .image-area {
+            border: 2px dashed rgba(255, 255, 255, 0.7);
+            padding: 1rem;
+            position: relative;
+        }
+
+            .image-area::before {
+                content: 'Uploaded image result';
+                color: #fff;
+                font-weight: bold;
+                text-transform: uppercase;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 0.8rem;
+                z-index: 1;
+            }
+
+            .image-area img {
+                z-index: 2;
+                position: relative;
+            }
+    </style>*@
+
+<div class="ibox float-e-margins">
+    <div class="col-md-12">
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-md-10">
+                <h2>Personal Details</h2>
+            </div>
+        </div>
+    </div>
+    <br /><br /><br /><br />
+    <div class="col-md-12">
+        @*<div class="wrapper wrapper-content animated fadeInRight">
+        *@
+
+        <div class="row ibox-content form-horizontal">
+            <div class="col-md-12">
+                <form id="myform" method="post" enctype="multipart/form-data" onsubmit="return false;">
+                    @Html.AntiForgeryToken()
+
+                    @*@Html.HiddenFor(model => model.ApplicantId)*@
+                    @Html.HiddenFor(model => model.SchoolProgrammeId, new { id = "schoolProgrammeId" })
+                    @*@Html.HiddenFor(model => model.ApplicantEmail)*@
+                    @Html.HiddenFor(model => model.SessionId)
+                    @Html.HiddenFor(model => model.ApplicatPassport)
+
+                    <!-- BEGIN DEFAULT FORM ITEMS -->
+                    <div class="card-body ">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="text-center">
+                                    @*<img id="output" alt="Passport" src="@Url.Action(" RenderImage", new { studentId=Model.ApplicantEmail})" class="image-area contact-avatar my-2 mx-auto" width="255" height="255" />*@
+                                    <img id="output" alt="Passport" src="@Url.Action("RenderImage", new { studentId=Model.ApplicantEmail })" class="img-thumbnail" style="width: 140px; height: 160px;" />
+
+                                    <p class="text-muted">
+                                        <small>Passport will be changed automatically</small>
+                                    </p>
+
+                                    <input class="uploaded_passport" id="File" type="file" name="File" onchange="loadFile(event)" style="display: none">
+                                    <label for="File" class="btn btn-primary">Click to Upload Passport</label>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+
+                            </div>
+                            <div class="col-md-4">
+
+                            </div>
+
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group col-md-12">
+                                            @Html.Label("Form Number")
+                                            @Html.TextBoxFor(m => m.ApplicantId, new { @class = "form-control", @readonly = "readonly" })
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group col-md-12 floating-label">
+                                            @Html.Label("Email")
+                                            @Html.TextBoxFor(m => m.ApplicantEmail, new { @class = "form-control", @readonly = "readonly" })
+
+
+                                        </div>
+                                    </div>
+                                </div><!--end .row -->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group col-md-12">
+                                            @Html.Label("Surname")
+                                            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @readonly = "readonly" })
+                                            @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group col-md-12 floating-label">
+                                            @Html.LabelFor(m => m.FirstName)
+                                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @readonly = "readonly" })
+                                            @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+                                </div><!--end .row -->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group col-md-12 floating-label">
+                                            @Html.Label("Other Names")
+                                            @Html.TextBoxFor(m => m.MiddleName, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.MiddleName, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group col-md-12 floating-label">
+                                            @Html.Label("Phone Number")
+                                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div><!--end .col -->
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group col-md-12 floating-label">
+                                            @Html.Label("Gender")
+                                            @Html.DropDownList("Gender", null, htmlAttributes: new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.Gender, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group col-md-12 floating-label">
+                                            @Html.Label("Date Of Birth")
+                                            @Html.TextBoxFor(model => model.DateOfBirth, "{0:d}", new { @class = "form-control", @placeholder = "dd/mm/yyyy" })
+                                            @Html.ValidationMessageFor(m => m.DateOfBirth, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div><!--end .col -->
+                                </div><!--end .row -->
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group col-md-12 floating-label">
+                                            @Html.Label("State Of Origin")
+                                            @Html.DropDownList("StateOfOrigin", null, htmlAttributes: new { @class = "form-control js-example-basic-single form-control", @onchange = "getLgaList()" })
+                                            @Html.ValidationMessageFor(m => m.StateOfOrigin, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group col-md-12 floating-label">
+                                            @Html.Label("Local Govt Area")
+                                            @Html.DropDownList("TownOfBirth", null, htmlAttributes: new { @class = "form-control js-example-basic-single form-control" })
+                                            @Html.ValidationMessageFor(m => m.TownOfBirth, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div><!--end .col -->
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group col-md-12 floating-label">
+                                            @Html.Label("Country")
+                                            @*@Html.TextBoxFor(m => m.Country, new { @class = "form-control" })*@
+                                            @Html.DropDownList("Country", null, htmlAttributes: new { @class = "form-control js-example-basic-single" })
+                                            @Html.ValidationMessageFor(m => m.Country, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group col-md-12 floating-label">
+                                            @Html.Label("Preferred Deparment", htmlAttributes: new { @style = "color: red;" })
+                                            @Html.DropDownList("DepartmentId", null, "Select a department", new { @class = "form-control js-example-basic-single", @onchange = "getAvailableCourses()" })
+                                            @Html.ValidationMessageFor(m => m.DepartmentId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group col-md-12 floating-label">
+                                            @Html.Label("Preferred Course", htmlAttributes: new { @style = "color: red;" })
+                                            @Html.DropDownList("AvailableCourseId", null, "Select a course", new { @class = "form-control js-example-basic-single" })
+                                            @Html.ValidationMessageFor(m => m.AvailableCourseId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group col-md-12">
+                                            @Html.Label("Residential Address")
+                                            @Html.EditorFor(m => m.Address, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div><!--end .row -->
+                        </div><!--end .row -->
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="form-group col-md-12">
+                                            @Html.Label("Health Status")
+                                            @Html.EnumDropDownListFor(model => model.HealthStatus, htmlAttributes: new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.HealthStatus, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-12 floating-label">
+                                            @Html.Label("Please Specify If There Is Any Health Issue")
+                                            @Html.TextBoxFor(m => m.HealthCondition, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.HealthCondition, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div><!--end .col -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="card-actionbar">
+                                    <div class="card-actionbar-row ">
+                                        <input id="btnapplicant" type="submit" value="SAVE AND CONTINUE" class="btn block btn-success btn-sm pull-right" />
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="col-md-6">
+                                    <a id="btnolevelPrevious" href="#" class="btn btn-warning btn-lg btnPrevious" data-dismiss="modal">PREVIOUS</a>
+                                    <a id="btneditNext" href="#" class="btn btn-primary btn-sm btnNext">NEXT</a>
+                                </div>*@
+
+                        </div>
+
+                    </div>
+
+                </form>
+            </div><!--end .card -->
+
+        </div><!--end .row -->
+
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script>
+
+        // Set the default value of the selectList dynamically
+        const selectState = document.getElementById('StateOfOrigin');
+        const selectGender = document.getElementById('Gender');
+        selectState.value = '@Model.StateOfOrigin';
+        selectGender.value = '@Model.Gender';
+
+        $(document).ready(function () {
+            $("#TownOfBirth").html("");
+            $("#TownOfBirth").append($('<option></option>').val('@Model.TownOfBirth').html('@Model.TownOfBirth'));
+            document.getElementById("DateOfBirth").valueAsDate = new Date('@dateOfBirth');
+            $('#pChallenge').hide();
+        });
+
+        jQuery(function ($) {
+            $('.js-example-basic-single').select2();
+        });
+        var loadFile = function (event) {
+            var fileUpload = document.getElementById("File");
+            if (typeof (fileUpload.files) !== "undefined") {
+                var size = parseFloat(fileUpload.files[0].size / 1024).toFixed(2);
+                if (size > 20) {
+                    toastr["error"]("The image is bigger than the specified size of (25kb)");
+                    var output = document.getElementById('output');
+                    output.src = "#";
+                } else {
+                    var output2 = document.getElementById('output');
+                    output2.src = URL.createObjectURL(event.target.files[0]);
+                }
+            } else {
+                alert("This browser does not support HTML5.");
+            }
+
+        };
+        var loadFile2 = function (event) {
+            var fileUpload = document.getElementById("BannerFile");
+            if (typeof (fileUpload.files) !== "undefined") {
+                var size = parseFloat(fileUpload.files[0].size / 1024).toFixed(2);
+                if (size > 30) {
+                    toastr["error"]("The image is bigger than the specified size of (25kb)");
+                    var output2 = document.getElementById('output2');
+                    output2.src = "#";
+                } else {
+                    var output3 = document.getElementById('output2');
+                    output3.src = URL.createObjectURL(event.target.files[0]);
+                }
+            } else {
+                alert("This browser does not support HTML5.");
+            }
+        };
+
+        function getLgaList() {
+            var stateId = $("#StateOfOrigin").val();
+            $.ajax
+                ({
+                    url: '/Students/GetLgaList?codeId=' + stateId,
+                    type: 'GET',
+                    datatype: 'application/json',
+                    contentType: 'application/json',
+                    success: function (result) {
+                        $("#TownOfBirth").html("");
+                        $.each($.parseJSON(result),
+                            function (i, city) {
+                                $("#TownOfBirth").append($('<option></option>').val(city).html(city));
+                            });
+
+                    },
+                    error: function () {
+                        alert("Whooaaa! Something went wrong..");
+                    }
+                });
+        }
+
+        $("#btneditNext").click(function () {
+            $("#olevel").click();
+        });
+
+
+        $("#myform").submit(function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+
+            $.ajax({
+                url: "/Applicants/Edit_2",
+                type: 'POST',
+                data: formData,
+                success: function (data) {
+                    if (data.status) {
+                        swal({
+                            title: "Personal Details saved successfully",
+                            //text: "Do you  Proceed?..",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#ab973a",
+                            confirmButtonText: "Proceed!",
+                            //cancelButtonText: "No, See Result List!",
+                            closeOnConfirm: false,
+                            closeOnCancel: false
+                        },
+                            function (isConfirm) {
+                                if (isConfirm) {
+                                    swal("Great!", "To Proceed Click the Ok Button to Continue!!!.", "success");
+                                    goNextOLevel();
+                                } else {
+                                    swal("Great", "You can click the next button to proceed", "success");
+                                }
+                            });
+                        toastr["success"](data.message);
+                    } else {
+                        swal({
+                            title: "Warning",
+                            text: data.message,
+                            type: "warning",
+                        });
+                        toastr["warning"](data.message);
+                    }
+
+
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        });
+
+        function goNextOLevel() {
+            $("#olevel").click();
+        }
+
+    function getAvailableCourses() {
+        var deptId = $("#DepartmentId").val();
+        var schoolProgrammeId = $("#schoolProgrammeId").val();
+
+        $.ajax({
+            url: '/Applicants/GetAvailableCourses',
+            type: 'GET',
+            data: { deptId: deptId, schoolProgrammeId: schoolProgrammeId },
+            datatype: 'json',
+            success: function (data) {
+                var $availableCourse = $("#AvailableCourseId");
+                $availableCourse.empty(); // Clear existing options
+                $availableCourse.append('<option value="">Select a course</option>');
+
+                $.each(data, function (index, course) {
+                    $availableCourse.append($('<option></option>').val(course.AvailableCourseId).html(course.ProgrammeName));
+                });
+            },
+            error: function () {
+                alert("Failed to fetch courses");
+            }
+        });
+    }
+
+</script>

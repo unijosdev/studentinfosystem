@@ -1,0 +1,90 @@
+﻿@model SwiftKampusModel.Payment.DepartmentRemitaSetting
+
+@{
+    ViewBag.Title = "Delete Dept Remita Settings";
+}
+
+
+<div class="card">
+    <div class="card-head style-primary">
+        <header>
+            <h3>
+                <i class="fa fa-remove"></i> Delete Record
+            </h3>
+        </header>
+
+    </div><!--end .card-head -->
+    <div class="card-body">
+        <h3>Are you sure you want to delete this?</h3>
+        <div>
+
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Department.DeptName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Department.DeptName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ApiKey)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ApiKey)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.MerchantId)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.MerchantId)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.ServiceType)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ServiceType)
+                </dd>
+            </dl>
+
+            <form id="myform" onsubmit="return false;">
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" id="id" name="id" class="form-control" value="@Model.DepartmentRemitaSettingId">
+                <input data-target="#actionsList" id="btndelete" type="submit" value="Delete" class="btn btn-danger" /> |
+
+                <a href="#" class="btn btn-info" data-dismiss="modal">Cancel</a>
+            </form>
+        </div>
+    </div><!--end .card-body -->
+</div><!--end .card -->
+
+
+<script type="text/javascript">
+
+    $("#btndelete").click(function () {
+
+        var data = $("#myform").serialize();
+        //window.alert(data);
+        $.ajax({
+            type: "POST",
+            url: "/DepartmentRemitaSettings/Delete",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+                    window.oTable.ajax.reload(); //run my_fun() ondomready
+                    toastr["info"](data.message);
+                    $('#myform')[0].reset();
+                } else {
+                    //$('#actionsList').modal("hide");
+                    toastr["error"](data.message);
+                }
+
+            }
+        });
+    });
+</script>

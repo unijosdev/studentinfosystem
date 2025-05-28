@@ -1,0 +1,51 @@
+﻿@model IEnumerable<SwiftKampusModel.AddmissionApplicant.ThesisProposal>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SpecialInterest)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProposedTopic)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Proposal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Attachment)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SpecialInterest)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProposedTopic)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Proposal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Attachment)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ThesisProposalId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ThesisProposalId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ThesisProposalId })
+        </td>
+    </tr>
+}
+
+</table>

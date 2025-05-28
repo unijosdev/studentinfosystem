@@ -1,0 +1,128 @@
+﻿
+@{
+    ViewBag.Title = "JSONReqestDetailsStudentStatus";
+    Layout = null;
+}
+
+@model SwiftKampus.ViewModels.MisconductVm.StudentDetailViewModel
+
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.MatriculationNumber)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.MatriculationNumber)
+        <input type="hidden" id="StudentId" name="StudentId" value=" @Html.DisplayFor(model => model.StudentId)" />
+
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.FullName)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.FullName)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.PhoneNumber)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.PhoneNumber)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.FacultyName)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.FacultyName)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.DepartmentName)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.DepartmentName)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.DepartmentOptionName)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.DepartmentOptionName)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.LevelName)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.LevelName)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.StudentDisciplinaryStatus.DisciplineName)
+    </dt>
+    @if (!(Model.StudentDisciplinaryStatus.DisciplineName == null))
+    {
+        <dd>
+            <font color="red">@Html.DisplayFor(model => model.StudentDisciplinaryStatus.DisciplineName)</font>
+        </dd>
+    }
+    else
+    {
+        <dd>
+            <font color="green">@Html.DisplayName("Active")</font>
+        </dd>
+    }
+
+
+</dl>
+
+<div class="table-responsive">
+    <table id="example" class="table table-striped table-bordered table-hover dataTables-example">
+        <thead>
+            <tr>
+                <th>S/N</th>
+                <th>@Html.DisplayName("Misconduct")</th>
+                <th>@Html.DisplayName("Inccident Date")</th>
+                <th>@Html.DisplayName("Status")</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var sn = 1;
+            }
+            @*@foreach (var misconduct in Model.DefaulterMisconductSingleViewModel)
+            {*@
+                sn += 1;
+                <tr>
+                    <td> @sn </td>
+                    <td> @Html.DisplayName(Model.DefaulterMisconductSingleViewModel.MisconductName)</td>
+                    <td> @Html.DisplayName(Model.DefaulterMisconductSingleViewModel.IncidentDate.ToString())</td>
+                    @if (Model.DefaulterMisconductSingleViewModel.Status == false)
+                    {
+                        <td> @Html.DisplayName("Case Pending")</td>
+
+                    }
+                    else
+                    {
+                        <td> @Html.DisplayName("Case treated")</td>
+                    }
+                @*</tr>
+            }*@
+        </tbody>
+        @*<tfoot>
+                <tr>
+                    <th>S/N</th>
+                    <th>@Html.DisplayName("Misconduct")</th>
+                </tr>
+            </tfoot>*@
+    </table>
+</div>
+

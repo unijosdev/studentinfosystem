@@ -1,0 +1,90 @@
+﻿@model SwiftKampusModel.SupplementaryList
+
+@{
+    ViewBag.Title = "SignUp";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+
+    var schoolImage = @System.Configuration.ConfigurationManager.AppSettings["SchoolImage"];
+}
+
+<div class="head-block">
+    <h1>PAYMENT INFORMATION</h1>
+</div>
+<div class="cnt-block">
+    <div>
+        @if (Model != null)
+        {
+            <ul>
+                <li>Jamb Reg No: @Model.JambRegNo</li>
+                <li>FullName: @Model.LastName @Model.FirstName</li>
+                <li>State of Origin: @Model.StateOfOrigin</li>
+                <li>Course: @Model.CourseAbbreviation</li>
+                <li>Jamb Score: @Model.JambScore</li>
+                <li>Age: @Model.Age</li>
+                <li>Transaction Status: "@Model.TransactionMessage"</li>
+            </ul>
+            <h5 class="text-success">
+                Congratulations, your payment is Successful <br />
+            </h5>
+            <a href="@Url.Action("PrintReceipt", "SupplementaryLists", new {id = @Model.JambRegNo})">Print Receipt</a>
+            if (Model.IsActive.Equals(true))
+            {
+                <a class="btn" href="@Url.Action("Login", "Account", new {id = @Model.JambRegNo})">Login Now</a>
+            }
+            else
+            {
+                <a class="btn" href="@Url.Action("AddmissionRegistration", "Account", new {id = @Model.JambRegNo})">Proceed To SignUp</a>
+            }
+        }
+        else
+        {
+            <h4 class="text-danger">Sorry, we have issue receiving your payment</h4>
+        }
+    </div>
+</div>
+
+
+
+@*<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-lg-5 login-form mx-auto float-none">
+
+            <div class="card">
+                <div class="card-block">
+
+                    <div class="form-header">
+                            <a href="@Url.Action("Index","Home")"><img class="img-responsive" src="~/Content/Images/@schoolImage" /></a> 
+                     
+                    </div>
+                    @if (Model != null)
+                    {
+                        <ul>
+                            <li>Jamb Reg No: @Model.JambRegNo</li>
+                            <li>FullName: @Model.FullName</li>
+                            <li>State of Origin: @Model.StateOfOrigin</li>
+                            <li>Course: @Model.CourseAbbreviation</li>
+                            <li>Jamb Score: @Model.JambScore</li>
+                            <li>Age: @Model.Age</li>
+                            <li>Transaction Status: "@Model.TransactionMessage"</li>
+                        </ul>
+                        <h5 class="text-success">
+                            Congratulations, your payment is Successful <br />
+                        </h5>
+                        <a href="@Url.Action("PrintReceipt", "SupplementaryLists", new {id = @Model.JambRegNo})">Print Receipt</a>
+                    }
+                    else
+                    {
+                        <h4 class="text-danger">Sorry, we have issue receiving your payment</h4>
+                    }
+                    
+                </div>
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+</div>*@

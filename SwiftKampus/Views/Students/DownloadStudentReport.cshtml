@@ -1,0 +1,83 @@
+﻿@model SwiftKampusModel.Student
+
+@{
+    ViewBag.Title = "Download Student Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Download Student Report</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <article class="margin-bottom-xxl">
+                        <p class="lead">
+                            Please use the following parameters to perform Query
+                        </p>
+                    </article>
+                    <div class="card-body">
+                        <div class="row" style="margin-left:20px">
+                            @using (Html.BeginForm("DownloadStudentReport", "Students", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                            {
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label for="SchoolProgrammeId" style="font-size:16px">School Programme</label>
+                                        @Html.DropDownList("SchoolProgrammeId", (SelectList)ViewBag.SchoolProgrammeId, "Select School Programme", new { @class = "form-control js-example-basic-single", required = "true" })
+                                    </div>
+
+                                    <div class="form-group col-md-3" style="margin-left:20px">
+                                        <label for="Session" style="font-size:16px">Session</label>
+                                        @Html.DropDownList("SessionId", (SelectList)ViewBag.SessionId, "", new { @class = "form-control js-example-basic-single", required = "true" })
+                                    </div>
+
+                                    <div class="col-md-3"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <button class="btn btn bg-primary" style="width:60%" id="submit" type="submit">Download Report</button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                    </div><!--end .row -->
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
+
+<script type="text/javascript">
+
+    jQuery(function ($) {
+        $('.js-example-basic-single').select2({
+            placeholder: 'Select an option...',
+            allowClear: true
+        });
+    });
+
+</script>
+

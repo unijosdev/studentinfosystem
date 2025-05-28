@@ -1,0 +1,271 @@
+﻿
+@{
+    ViewBag.Title = "Applicants";
+}
+
+<div class="container-fluid">
+    <!-- First row -->
+    <div class="row">
+        <!-- First column -->
+        <div class="col-md-12">
+
+            <div class="wrapper wrapper-content animated fadeInRight">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>List of  Applicants</h5>
+                                <div class="ibox-tools">
+                                    <a onclick="myFunction()" class="btn btn-primary"><i class="fa fa-file-excel-o"></i> EXCEL UPLOAD</a>
+                                    <a onclick="AddNew()" class="btn btn-primary"><i class="fa fa-user"></i>&nbsp;ADD APPLICANT</a>
+                                    @if (ViewBag.Message != null)
+                                    {
+                                        <div class="alert alert-success">
+                                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                            <strong>@ViewBag.Message</strong>
+                                        </div>
+                                    }
+
+                                    <a class="collapse-link">
+                                        <i class="fa fa-chevron-up"></i>
+                                    </a>
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        <i class="fa fa-wrench"></i>
+                                    </a>
+                                </div>
+                                <div class="ibox-content">
+                                    <article class="margin-bottom-xxl">
+                                        <p class="lead">
+                                            Please use the following parameters to perform Query
+                                        </p>
+                                    </article>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>School Programme</label>
+                                                    @Html.DropDownList("SchoolProgrammeId", (SelectList)ViewBag.SchoolProgrammeId, "", new { @class = "form-control js-example-basic-single", @style = "width:460px;" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                @*<div class="form-group">
+                                                        <label>Session Name</label>
+                                                        @Html.DropDownList("SessionId", (SelectList)ViewBag.SessionId, new { @class = "form-control" })
+                                                    </div>*@
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    @Html.Label("Department Option")
+                                                    @Html.DropDownList("ProgrammeId", (SelectList)ViewBag.ProgrammeId, new { @class = "form-control js-example-basic-single", @style = "width:460px;" })
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>Session Name</label>
+                                                    @Html.DropDownList("SessionId", (SelectList)ViewBag.SessionId, new { @class = "form-control js-example-basic-single", @style = "width:260px;" })
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label> Has Payed</label>
+                                                    <select class="form-control dropdown js-example-basic-single" id="hasRegistered" name="hasRegistered">
+                                                        <option value="">--Please Select--</option>
+                                                        <option value="true">true</option>
+                                                        <option value="false">false</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <br />
+                                                <div class="form-group">
+                                                    <button type="submit" id="btn-search" class="btn btn-primary">Search/View</button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div><!--end .row -->
+
+                                </div>
+                            </div>
+
+                            <div class="ibox-content">
+                                <div class="table-responsive">
+                                    <table id="Jdatatable" class="table table-bordered table-responsive">
+                                        <thead>
+                                            <tr>
+                                                <th> Form Id</th>
+                                                <th> School Programme</th>
+                                                <th> Programme Name</th>
+                                                <th> Full Name</th>
+                                                <th> Email</th>
+                                                <th> Phone</th>
+                                                <th> State of Origin</th>
+                                                <th> Gender</th>
+                                                <th> Institution Attended</th>
+                                                <th> Course Of Study</th>
+                                                <th> Degree</th>
+                                                <th> Class of Degree</th>
+                                                <th> CGPA</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.First row -->
+</div>
+
+<!-- Modal -->
+<div class="modal fade inmodal" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content animated">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">UTME APPLICANTS</h4>
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
+<script type="text/javascript">
+    jQuery(function ($) {
+        //$(".select-add-placeholder").prepend("<option value='' disabled selected>Select an option...</option>");
+        $('.js-example-basic-single').select2({
+            placeholder: 'Select an option...',
+            allowClear: true
+        });
+    });
+    $(document).ready(function () {
+        window.oTable = $("#Jdatatable").DataTable({
+            "processing": true, // for show progress bar while loading
+            "serverSide": true, // if it is true the preocess is done on server side
+            "filter": true, // disables search box
+            "info": true,
+
+            "stateSave": true,
+            "orderMulti": false, // disable multiple column loading at once
+            "ajax": {
+                "url": "/Applicants/GetIndex",
+                "type": "POST",
+                "datatype": "json",
+                "data": function (d) {
+                    d.SchoolProgrammeId = $('#SchoolProgrammeId').val();
+                    d.SessionId = $('#SessionId').val();
+                    d.hasRegistered = $('#hasRegistered').val();
+                    d.ProgrammeId = $('#ProgrammeId').val();
+                }
+
+            },
+            "columns": [
+                { "data": "ApplicantId", "autoWidth": true },
+                { "data": "SchoolProgrammeName", "autoWidth": true },
+                { "data": "ProgrammeName", "autoWidth": true },
+                { "data": "FullName", "autoWidth": true },
+                { "data": "Email", "autoWidth": true },
+                { "data": "PhoneNumber", "autoWidth": true },
+                { "data": "StateOfOrigin", "autoWidth": true },
+                { "data": "Gender", "autoWidth": true },
+                { "data": "InstittionAttended", "autoWidth": true },
+                { "data": "CourseOfStudy", "autoWidth": true },
+                { "data": "Degree", "autoWidth": true },
+                { "data": "ClassOfDegree", "autoWidth": true },
+                { "data": "CGPA", "autoWidth": true },
+                {
+                    "data": "Email",
+                    "autoWidth": true,
+                    "render": function (data) {
+                        return '<a href="#" onclick="Detail(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="View Details"><i class="fa fa-info-circle" aria-hidden="true">&nbsp;Details&nbsp;&nbsp;</i></a>' +
+                            '<a href="#" onclick="Edit(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="Edit Student"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;Edit</a>';
+                        //'<a href="#" onclick="Delete(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="Delete Student Record">&nbsp;&nbsp;<i class="fa fa-remove" aria-hidden="true" ></i>Delete</a>';
+                    }
+                }
+            ],
+            dom: '<"html5buttons"B>lTfgitp',
+            lengthMenu: [
+                [10, 25, 50, 100, 200, 500, 1000, 2000],
+                [10, 25, 50, 100, 200, 500, 1000, 2000]
+            ],
+            buttons: [
+                { extend: 'copy' },
+                { extend: 'csv' },
+                { extend: 'excel', title: 'FacultyList' },
+                { extend: 'pdf', title: 'FacultyList' },
+                {
+                    extend: 'collection',
+                    text: 'Table control',
+                    buttons: [
+                        {
+                            collectionTitle: 'Visibility control',
+                            extend: 'colvis'
+                        }
+                    ]
+                },
+
+                {
+                    extend: 'print',
+                    customize: function (win) {
+                        $(win.document.body).addClass('white-bg');
+                        $(win.document.body).css('font-size', '10px');
+
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+                    }
+                }
+            ]
+        });
+        window.oTable.fnSort([[1, "asc"], [2, "desc"]]);
+
+    });
+
+
+    $("#btn-search").click(function () {
+        window.oTable.ajax.reload();
+
+    });
+
+
+    function myFunction() {
+        var url = "/UtmeApplicants/UploadUtmeApplicants";
+        $('#myModalDivBody').load(url,
+            function () {
+                jQuery.noConflict();
+                $('#actionsList').modal("show");
+            });
+    };
+
+    function Detail(applicantId) {
+        var url = "/Applicants/ApproveDetails?id=" + applicantId
+        window.open(url, '_blank');
+    };
+
+    function Edit(applicantId) {
+        var url = "/Applicants/ApproveDetails?id=" + applicantId
+        window.open(url, '_blank');
+    };
+</script>

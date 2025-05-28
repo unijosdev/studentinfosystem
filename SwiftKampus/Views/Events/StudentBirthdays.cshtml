@@ -1,0 +1,160 @@
+﻿@model IEnumerable<SwiftKampusModel.Student>
+
+@{
+    ViewBag.Title = "Student Birthdays";
+}
+<link href="~/AdminTemplate/css/plugins/summernote/summernote.css" rel="stylesheet">
+<link href="~/AdminTemplate/css/plugins/summernote/summernote-bs3.css" rel="stylesheet">
+<div class="row">
+    @if (Model == null)
+    {
+        <h2 class="text-danger">Sorry, No Birthday Event Today</h2>
+    }
+    @*@foreach (var item in Model)
+        {
+            <div class="col-lg-3 col-sm-6">
+                    <div class="card">
+                        <div class="card-head card-head-xs style-primary">
+                            <header>@item.FullName</header>
+
+                        </div>
+                        <div class="card-body">
+                            Department: @item.Programme.ProgrammeName
+                            <blockquote>
+                                <small>
+                                    <img src="@Url.Action("RenderImage", "Students", new { studentId = @item.StudentId})" width="100" height="100" />
+                                </small>
+                            </blockquote>
+                            <a href="#" class="btn btn-primary">Profile</a><span>&nbsp;<a href="#" class="btn btn-primary">Message</a></span>
+                        </div>
+                    </div>
+                </div>
+        }*@
+
+
+</div><!--end .row -->
+
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-8">
+        <h2> Student Birthday</h2>
+
+    </div>
+</div>
+<div class="wrapper wrapper-content">
+    <div class="row animated fadeInDown">
+        @foreach (var item in Model)
+        {
+            <div class="col-lg-3">
+                <div class="widget-head-color-box navy-bg p-lg text-center">
+                    <div class="m-b-md">
+                        <h2 class="font-bold no-margins">
+                            @item.FullName
+                        </h2>
+                        <small>Student</small>
+                    </div>
+                    <img src="@Url.Action("RenderAnyImage", "Students", new { userId = item.StudentId})" class="img-circle circle-border m-b-md img-responsive" alt="profile">
+                    <div>
+                        @DateTime.Now.ToLongDateString();
+                    </div>
+                </div>
+                <div class="widget-text-box">
+                    <h4 class="media-heading">@item.FullName</h4>
+                    <p>Wish @item.FullName a happy birthday</p>
+                    <div>
+                        <a onclick="SendBirthdayMessage('@item.StudentId')" class="btn btn-sm btn-primary" href="#modal-form" data-toggle="modal"><i class="fa fa-pencil"></i> Message</a>
+                    </div>
+                </div>
+            </div>
+
+
+        }
+    </div>
+
+
+    <div id="modal-form" class="modal fade" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 b-r">
+                            <h3 class="m-t-none m-b">Send Birthday Message</h3>
+
+                            <form role="form" method="get" id="myform" onsubmit="return false;">
+                                <input name="RecieverId" id="RecieverId" type="text" style="display:none;" />
+
+                                <input name="MessageSubject" id="MessageSubject" type="text" style="display:none;" />
+                                <div class="form-group">
+                                    <textarea id="MessageBody" name="MessageBody" class="form-control summernote">Happy Birthday to you</textarea>
+                                </div>
+                                <div>
+                                    <button onclick="SendMessage()" type="button" class="btn btn-lg btn-primary">Send</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Admintemplate/js/plugins/summernote/summernote.min.js"></script>
+<script src="~/AdminTemplate/js/jquery-3.1.1.min.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        $('.summernote').summernote();
+    });
+
+    function SendBirthdayMessage(recieverId) {
+        $("#RecieverId").val(recieverId);
+        $("#MessageSubject").val("Happy Birthday!!!");
+    }
+    function SendMessage() {
+        var data = $("#myform").serialize();
+        $.ajax({
+            type: "POST",
+            url: "/Mailling/SendMessage",
+            data: data,
+            dataType: 'json',
+            success: function (data) {
+                if (data.status) {
+                    toastr["success"](data.message);
+                    $('#modal-form').modal('toggle');
+                    $('#myform')[0].reset();
+                } else {
+                    toastr["error"](data.message);
+
+                }
+
+            }
+        });
+
+    };
+
+    function SaveAsDraft() {
+
+        var data = $("#myform").serialize();
+        //window.alert($("#MessageBody").val());
+        $.ajax({
+            type: "POST",
+            url: "/Mailling/SaveDraft",
+            data: data,
+            dataType: 'json',
+            success: function (data) {
+                if (data.status) {
+                    toastr["success"](data.message);
+                    $('#myform')[0].reset();
+                } else {
+                    toastr["error"](data.message);
+
+                }
+
+            }
+        });
+
+    };
+</script>

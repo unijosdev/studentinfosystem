@@ -1,0 +1,72 @@
+﻿@model SwiftKampus.ViewModels.ConfirmRrr
+
+@{
+    ViewBag.Title = "Get Payment Status";
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Get Payment Status</h2>
+
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+
+
+@using (Html.BeginForm("GetPaymentStatus", "RemitaServices", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="container-fluid">
+        <!-- Section: Edit Account -->
+        <section class="section">
+            <!-- First row -->
+            <div class="row">
+                <!-- Second column -->
+                <div class="col-lg-8">
+                    <!--Card-->
+                    <div class="card">
+                       
+
+                        </div><!--end .card-head -->
+                        <div class="card-body">
+
+                            <h3 class="text-danger">@ViewBag.Message</h3>
+                            <div class="card-block">
+
+
+                                <!--First column-->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.Label("Remita Retrieval Reference (RRR)")
+                                        @Html.EditorFor(model => model.rrr, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.rrr, "", new { @class = "text-danger" })
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        @Html.Label("Fee Category")
+                                        @Html.EnumDropDownListFor(model => model.ServiceType, null, htmlAttributes: new { @class = "form-control" })
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="submit" id="btnsubmit" value="Get Status" class="btn btn-lg btn-primary">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!--/.Card content-->
+                    </div>
+                </div>
+                <!--/.Card-->
+           
+            <!-- /.Second column -->
+            <!-- /.First row -->
+        </section>
+        <!-- /.Section: Edit Account -->
+    </div>
+}
+
+

@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewBag.Title = "Update Utme Applicant";
+}
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h2>Update Applicant Record</h2>
+                    <p>Please use this search to update applicant record when applicant encounter errors on login to the system.</p>
+
+                    <div class="ibox-tools">
+
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <h3 class="text-danger">@ViewBag.Message</h3>
+                    @using (Html.BeginForm("UpdateApplicantRecord", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Get, new { @class = "form", role = "form" }))
+                    {
+                        <div class="form-group">
+                            <div class="col-md-7">
+                                <label for="Id">Jamb RegNo</label>
+                                <input id="Id" name="id" class="form-control" type="text" placeholder="Jamb RegNo" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-7">
+                                <label for="Email">Email</label>
+                                <input id="Email" name="Email" class="form-control" type="text" placeholder="Email" />
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <button class="btn btn-primary btn-lg" type="submit">Update Record<span class="icon-more-icon"></span></button>
+                        </div>
+                    }
+
+                    <br />
+                    <br />
+                    <br />
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

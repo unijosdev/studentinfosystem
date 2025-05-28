@@ -1,0 +1,80 @@
+﻿@model SwiftKampus.ViewModels.MisconductVm.CreateDefaulterViewModel
+@using Vereyon.Web
+@{
+
+    //Layout = null;
+}
+
+<h3>Create Misconduct</h3>
+@using (Html.BeginForm("Create", "StudentDisciplinary", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="ibox float-e-margins col-md-10 col-md-offset-1">
+        <div class="ibox-title">
+            <div class="form-horizontal col-lg-offset-0 ">
+                @Html.RenderFlashMessages()
+                <h3>Add a misconduct for  @Model.FullName</h3>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.MisconductId)
+                        @Html.DropDownListFor(model => model.MisconductId, new SelectList(Model.Misconducts, "MisconductId", "MisconductName"), "Select Misconduct", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.MisconductId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.Label("Semester Name")
+                        @Html.DropDownListFor(model => model.SemesterId, new SelectList(Model.Semesters, "SemesterId", "SemesterName"), "Select Semester", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.SemesterId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.Label("Session Name")
+                        @Html.DropDownListFor(model => model.SessionId, new SelectList(Model.Sessions, "SessionId", "SessionName"), "Select Session", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.SessionId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                @Html.HiddenFor(Model => Model.StudentId)
+                @Html.HiddenFor(Model => Model.MatriculationNumber)
+
+                <div  class=“form-group”>
+                    <input type="checkbox" name="hasEvidence" value="" id="hasEvidence" /> Add Evidence
+                </div>
+
+                <div class="form-group" id="evidence">
+                    <div class="col-md-12">
+                        <span class="form-group">Select Evidence Image</span>
+                        <input type="file" name="EvidenceFile" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-auto col-md-10 pull-left">
+                        @Html.ActionLink("Back", "FindStudent", new { MatricNumber = Model.MatriculationNumber }) |
+                        <input type="submit" value="Save" class="btn btn-outline-primary" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script src="~/AdminTemplate/js/jquery-3.1.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#evidence').hide();
+
+        $('#hasEvidence').change(function () {
+            if (this.checked)
+            {
+                $('#evidence').toggle('show');
+            } else {
+                $('#evidence').toggle('hide');
+            }
+        });
+    });
+</script>

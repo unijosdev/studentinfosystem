@@ -1,0 +1,302 @@
+﻿@model IEnumerable<SwiftKampus.ViewModels.ShoppingCart.ProductCartVm>
+
+@{
+    ViewBag.Title = "Convocation Souvenir";
+}
+
+<div class="wrapper wrapper-content animated fadeInRight" id="myView">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h2>Sundry and Other Income Charges/University's Market Place</h2>
+            <a class="btn btn-success btn-sm pull-right" href="@Url.Action("Index","Home")">Home</a>
+                <br />
+                <br />
+                <form id="Myform" onsubmit="return false;">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.Label("Payment Category")
+                                @Html.DropDownList("categoryId", (SelectList)ViewBag.ProductCategoryId, "", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        @*<div class="col-md-6">
+                        <div class="form-group">
+                            @Html.Label("Faculty Name")
+                            @Html.DropDownList("FacultyId", (SelectList)ViewBag.FacultyId, "", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.Label("Level Name")
+                            @Html.DropDownList("LevelId", (SelectList)ViewBag.LevelId, "", new { @class = "form-control" })
+                        </div>
+                    </div>*@
+                        <div class="col-md-6">
+                            <div class="md-form">
+                                <br />
+                                <input id="btnsubmit" type="submit" value="Get Record" class="btn btn-success btn-lg" />
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+        </div>
+
+    </div>
+
+@*<div class="wrapper wrapper-content animated fadeInRight ecommerce">
+
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>Convocation Gowns, Materials and Souvenirs</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="#">Home</a>
+                </li>
+                <li>
+                    <a>Market Place</a>
+                </li>
+                <li class="active">
+                    <strong>Convocation Souvenir</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-2">
+
+        </div>
+    </div>*@
+    <br />
+    <div class="row">
+        <div class="col-md-8">
+            <div class="ibox">
+                <div class="ibox-content table-responsive">
+
+                    <table id="Jdatatable" class="footable table table-stripped toggle-arrow-tiny" data-page-size="15">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th data-toggle="true">Product Name</th>
+                                <th>Price</th>
+                                <th>Qty</th>
+                                @*<th>Status</th>*@
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        @*<tbody>
+                            @{
+                                var sn = 0;
+                            }
+                            @foreach (var item in Model)
+                            {
+                                sn += 1;
+                                <tr>
+                                    <td> @sn </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ProductName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Price)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.availableQty)
+                                    </td>
+                                    @if (item.availableQty != 0)
+                                    {
+                                        <td>
+                                            <a class="btn-sm btn-success" data-toggle="modal" data-target="#actionsList" onclick="AddToCart(@item.ProductId)">Add To Cart</a>
+                                            <a class="btn-sm btn-success product" id="product" data-target="#" data-id="@item.ProductId">Add To Cart</a>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>Not Available</td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6">
+                                    <ul class="pagination pull-right"></ul>
+                                </td>
+                            </tr>
+                        </tfoot>*@
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <div id="partialCart" class="col-md-4">
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade inmodal" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content animated">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">Cart</h4>
+                    @*<a class="btn btn-primary btn-sm">Create new action</a>*@
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+<!-- /.Modal-->
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var url = "/MarketPlace/CartSummary";
+        $('#partialCart').load(url);
+    });
+    $(document).ready(function () {
+
+        window.oTable = $("#Jdatatable").DataTable({
+            "processing": true, // for show progress bar while loading
+
+            "ajax": {
+                "url": "/MarketPlace/GetIndex",
+                "type": "POST",
+                "datatype": "json",
+                "data": function (d) {
+                    d.categoryId = $('#categoryId').val();
+                }
+            },
+            "columns": [
+                { "data": "ProductId", "autoWidth": true },
+                { "data": "ProductName", "autoWidth": true },
+                { "data": "Price", "autoWidth": true },
+                { "data": "availableQty", "autoWidth": true },
+                //{ "data": "Visible", "autoWidth": true },
+                {
+                    "data": "ProductId",
+                    "autoWidth": true,
+                    "render": function (data) {
+                        return '<a href="#" onclick="AddToCart(' + data + ')" >  <i class="fa fa-plus" aria-hidden="true">&nbsp;Add to Cart</i></a>&nbsp;&nbsp;' 
+                            //'<a href="#" class="text-danger" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" >&nbsp;Remove<i /></a>';
+                    }
+                }
+            ],
+            responsive: true,
+            dom: '<"html5buttons"B>lTfgitp',
+            buttons: [
+                { extend: 'copy' },
+                { extend: 'csv' },
+                { extend: 'excel', title: 'FacultyList' },
+                { extend: 'pdf', title: 'FacultyList' },
+
+                {
+                    extend: 'print',
+                    customize: function (win) {
+                        $(win.document.body).addClass('white-bg');
+                        $(win.document.body).css('font-size', '10px');
+
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+                    }
+                }
+            ]
+        });
+
+    });
+    //$(function () {
+
+
+    //    $('.product').click(function () {
+    //        var productId = $(this).data('id');
+    //        var url = "/MarketPlace/ProductDetail?id=" + productId;
+    //        $('#myModalDivBody').load(url,
+    //            function () {
+    //                $('#actionsList').modal("show");
+    //            });
+    //    });
+
+    //    $('#cart').click(function () {
+    //        var url = "/ShoppingCart/Index";
+    //        $('#myModalDivBody').load(url,
+    //            function () {
+    //                $('#actionsList').modal("show");
+    //            });
+    //    });
+
+    //    $('#checkout').click(function () {
+    //        var url = "/Checkout/AddressAndPayment";
+    //        $('#myModalDivBody').load(url,
+    //            function () {
+    //                $('#actionsList').modal("show");
+    //            });
+    //    });
+
+    //    // Document.ready -> link up remove event handler
+    //    $(".RemoveLink").click(function () {
+    //        // Get the id from the link
+    //        var recordToDelete = $(this).attr("data-id");
+    //        if (recordToDelete != '') {
+    //            // Perform the ajax post
+    //            $.post("/ShoppingCart/RemoveFromCart", { "id": recordToDelete },
+    //                function (data) {
+    //                    // Successful requests get here
+    //                    // Update the page elements
+    //                    if (data.ItemCount == 0) {
+    //                        $('#row-' + data.DeleteId).fadeOut('slow');
+    //                    } else {
+    //                        $('#item-count-' + data.DeleteId).text(data.ItemCount);
+    //                    }
+    //                    $('#cart-total').text(data.CartTotal);
+    //                    $('#update-message').text(data.Message);
+    //                    $('#cart-status').text('Cart (' + data.CartCount + ')');
+    //                });
+    //        }
+    //    });
+    //});
+
+    function AddToCart(productId) {
+        var url = "/MarketPlace/ProductDetail?id=" + productId;
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    //$("#btnsubmit").click(function () {
+    //    var data = $("#myform").serialize();
+    //    console.log(data);
+    //    $.ajax({
+    //        type: "GET",
+    //        url: "/MarketPlace/GetIndex?" + data,
+    //        //data: data,
+    //        success: function (data) {
+    //            if (data != null) {
+    //                window.oTable.ajax.reload();
+    //            } else {
+    //                swal({
+    //                    title: "Oops!",
+    //                    text: "No Record found!",
+    //                    type: "error",
+    //                });
+    //                toastr["error"](data.message);
+    //            }
+
+    //        }
+    //    });
+    //});
+    $("#btnsubmit").click(function () {
+        window.oTable.ajax.reload();
+
+    });
+
+</script>

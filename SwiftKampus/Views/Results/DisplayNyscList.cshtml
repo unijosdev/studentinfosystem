@@ -1,0 +1,49 @@
+﻿@model IEnumerable<SwiftKampus.ViewModels.Result.NyscListVm>
+
+@if (ViewBag.Message != null || !string.IsNullOrEmpty(ViewBag.Message))
+{
+    <p class="text-danger">@ViewBag.Message</p>
+}
+
+<table class=" table table-responsive">
+    <tr>
+        <th class="bold">S/N</th>
+        <th class="bold">Matric No</th>
+        <th class="bold">Surname</th>
+        <th class="bold">Other Names</th>
+        <th class="bold">Date of Birth</th>
+        <th class="bold">JAMB NO</th>
+        <th class="bold">State of Origin</th>
+        <th class="bold">Course</th>
+        <th class="bold">Class of Degree</th>
+        <th class="bold">Sex</th>
+        <th class="bold">Marital Status</th>
+        <th class="bold">Qualifications</th>
+        <th class="bold">Service Year</th>
+        <th class="bold">Programme Mode</th>
+        <th class="bold">Phone No</th>
+        <th class="bold">Year of Result</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Sn</td>
+            <td>@item.MatricNo</td>
+            <td>@item.Surname</td>
+            <td>@item.OtherName</td>
+            <td>@item.DateOfBirth.ToString("dd/MM/yyyy")</td>
+            <td>@item.JambRegNo</td>
+            <td>@item.StateOfOrigin</td>
+            <td>@item.Course</td>
+            <td>@item.ClassOfDegree</td>
+            <td>@item.Gender</td>
+            <td>@item.MaritalStatus</td>
+            <td>@item.Qualification</td>
+            <td>@item.ServiceYear</td>
+            <td>@item.ProgrammeMode</td>
+            <td>@item.PhoneNumber</td>
+            <td>@item.YearOfResult</td>
+        </tr>
+    }
+</table>

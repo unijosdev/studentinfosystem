@@ -1,0 +1,124 @@
+﻿@model IEnumerable<SwiftKampusModel.MarketPlace.Order>
+
+@{
+    Layout = null;
+}
+
+<div class="col-lg-12">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="ibox">
+                <div class="ibox-content">
+
+                    <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15">
+                        <thead>
+                            <tr>
+
+                                <th>Order ID</th>
+                                <th>Customer Name</th>
+                                <th>Amount</th>
+                                <th>Date added</th>
+                                <th>Status</th>
+                                <th class="text-right">Action</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.OrderId
+                                    </td>
+                                    <td>
+                                        @item.Customer.Fullname
+                                    </td>
+                                    <td>
+                                        @item.Total
+                                    </td>
+                                    <td>
+                                        @item.OrderDate
+                                    </td>
+                                    <td>
+                                        @if (item.Transactions.Count() > 0 && item.Transactions.Select(s => s.HasMadePayment).FirstOrDefault().Equals(true))
+                                        {
+                                            <span class="label label-success">Successful</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="label label-primary">Pending</span>
+                                        }
+                                    </td>
+                                    <td class="text-right">
+                                        <div class="btn-group">
+                                            <a href="@Url.Action("CheckOutView","Checkout", new { id = item.OrderId})" target="_blank" class="btn-white btn btn-xs">Retry</a>
+                                            @*<button class="btn-white btn btn-xs">Retry</button>*@
+                                            @*<button class="btn-white btn btn-xs">Edit</button>*@
+                                            <button class="btn-white btn btn-xs" onclick="deleteOrder(@item.OrderId)">Delete</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                        @*<tfoot>
+                                <tr>
+                                    <td colspan="7">
+                                        <ul class="pagination pull-right"></ul>
+                                    </td>
+                                </tr>
+                            </tfoot>*@
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <form id="myform" onsubmit="return false;">
+                        @Html.AntiForgeryToken()
+
+                        <div class="card">
+                            <div class="card-head style-primary">
+                                <header>
+                                    <div class="form-header  purple darken-4">
+                                        <h3><i class="fa fa-save"></i> PICK-UP POINTS</h3>
+                                    </div>
+                                </header>
+
+                            </div><!--end .card-head -->
+                            <div class="card-body">
+                                <p>
+                                    <b><u>Gown and Convocation Materials</u></b><br />
+                                <p>To collect your convocation gown and materials, kindly go back to the university url: convocation.unijos.edu.ng or click <a href="http://convocation.unijos.edu.ng/checkPaymentList">here</a> <br />Fill your payment details using the menu "Payment Varification"</p>
+                                <p>
+                                    <b><u>Gown and Convocation Materials</u></b><br />
+                                    <b>Location:</b> Senate Affairs and Admission Unit, Admin Building Naraguta Campus, Permanent Site.<br />
+                                    <b>Contact Person:</b> Mrs Sarah Binfa <br />
+                                    <b>Phone Number:</b> 07037474658
+                                </p>
+                                <p>
+                                    <b><u>Sourvenirs</u></b><br />
+                                    <b>Location:</b> Directorate of AlumniRelations, Room 124, Admin Building Naraguta Campus, Permanent Site.<br />
+                                    <b>Contact Person:</b> Mrs Pat Datong <br />
+                                    <b>Phone Number:</b> 08036221268
+                                </p>
+
+
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+<script type="text/javascript">
+
+</script>

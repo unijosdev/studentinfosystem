@@ -1,0 +1,55 @@
+﻿@model SwiftKampus.Controllers.ApplicantPaymentViewModel
+
+@{
+    ViewBag.Title = "SearchRRR";
+}
+
+<h2>SearchRRR</h2>
+<div>
+    <form method="get" action="@Url.Action("searchRRR","applicantpayments")" class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-3">
+                @Html.TextBox("rrr", null, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-3"><button class="btn btn-primary">Search</button></div>
+        </div>
+    </form>
+</div>
+
+<div>
+    <h4>ApplicantPaymentViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.RRR)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RRR)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AmountPaid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AmountPaid)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,118 @@
+﻿@model SwiftKampus.ViewModels.ApplicantVm
+
+@{
+    ViewBag.Title = "Edit_3";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit_3</h2>
+
+@using (Html.BeginForm("Edit_2", "Applicants", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    @*@Html.HiddenFor(model => model.ApplicantId)*@
+    @Html.HiddenFor(model => model.SchoolProgrammeId)
+    @*@Html.HiddenFor(model => model.ApplicantEmail)*@
+    @Html.HiddenFor(model => model.SessionId)
+    @Html.HiddenFor(model => model.ApplicatPassport)
+
+    <!-- BEGIN DEFAULT FORM ITEMS -->
+    <div class="card-body ">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group col-md-12">
+                            @Html.Label("Form Number")
+                            @Html.TextBoxFor(m => m.ApplicantId, new { @class = "form-control" })
+
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group col-md-12 floating-label">
+                            @Html.Label("Email")
+                            @Html.TextBoxFor(m => m.ApplicantEmail, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div><!--end .row -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group col-md-12">
+                            @Html.Label("Surname")
+                            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group col-md-12 floating-label">
+                            @Html.LabelFor(m => m.FirstName)
+                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+                </div><!--end .row -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group col-md-12 floating-label">
+                            @Html.Label("Other Names")
+                            @Html.TextBoxFor(m => m.MiddleName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.MiddleName, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group col-md-12 floating-label">
+                            @Html.Label("Phone Number")
+                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+                        </div>
+                    </div><!--end .col -->
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group col-md-12">
+                            @Html.Label("Residential Address")
+                            @Html.EditorFor(m => m.Address, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+            </div><!--end .row -->
+        </div><!--end .row -->
+        <hr />
+
+        <div class="row">
+            <div class="col-md-6">
+
+            </div>
+
+            <div class="col-md-6">
+                <div class="card-actionbar">
+                    <div class="card-actionbar-row ">
+                        <input type="submit" value="UPDATE PROFILE" class="btn block btn-success btn-sm pull-right" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <a id="btnolevelPrevious" href="#" class="btn btn-warning btn-lg btnPrevious" data-dismiss="modal">PREVIOUS</a>
+                <a id="btneditNext" href="#" class="btn btn-primary btn-sm btnNext">NEXT</a>
+            </div>
+
+
+        </div>
+
+    </div>
+
+}
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+

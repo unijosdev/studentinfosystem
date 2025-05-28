@@ -1,0 +1,134 @@
+﻿@model IEnumerable<SwiftKampusModel.Payment.ChangeOfCourseFee>
+
+@{
+    ViewBag.Title = "Change Of Course Fee";
+}
+
+
+<div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">CHANGE OF COURSE FEE</h4>
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+
+<div class="container-fluid">
+
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>List of Change of Course Fees</h5>
+
+                        <div class="ibox-tools">
+                            <a href="#" onclick="myFunction()" class="btn btn-primary btn-lg"><i class="fa fa-plus left"></i> ADD CHANGE OF COURSE FEE </a>
+
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                        </div>
+                    </div>
+
+
+                    <div class="ibox-content">
+                        <div class="table-responsive">
+                            <table id="Jdatatable" class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>School Programme</th>
+                                        <th>Session Name</th>
+                                        <th>Application Fee</th>
+                                        <th>Amount in Words</th>                                       
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        window.oTable = $("#Jdatatable").DataTable({
+            "processing": true, // for show progress bar while loading
+
+            "ajax": {
+                "url": "/ChangeOfCourseFees/GetIndex",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "ChangeOfCourseType", "autoWidth": true },
+                { "data": "FullName", "autoWidth": true },
+                { "data": "SessionName", "autoWidth": true },
+                { "data": "ApplicationFee", "autoWidth": true },
+                { "data": "AmountInWords", "autoWidth": true },               
+                {
+                    "data": "ChangeOfCourseFeeId",
+                    "autoWidth": true,
+                    "render": function (data) {
+                        return '<a href="#" onclick="Edit(' + data + ')" >  <i class="fa fa-pencil" aria-hidden="true" >&nbsp;Edit</i></a>&nbsp;&nbsp;' +
+                            '<a href="#" class="text-danger" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" >&nbsp;Remove<i /></a>';
+                    }
+                }
+
+                //{ "data": "EmailID", "autoWidth": true },
+                //{ "data": "Phone", "autoWidth": true },
+            ]
+        });
+
+    });
+    function Edit(changeOfCourseFeeId) {
+        var url = "/ChangeOfCourseFees/Save?id=" + changeOfCourseFeeId;
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal('show');
+            });
+    };
+    function Delete(changeOfCourseFeeId) {
+        var url = "/ChangeOfCourseFees/Delete?id=" + changeOfCourseFeeId;
+      
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    function myFunction() {
+        var url = "/ChangeOfCourseFees/Save?id=0";
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+</script>

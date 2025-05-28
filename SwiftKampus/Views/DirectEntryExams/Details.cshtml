@@ -1,0 +1,66 @@
+﻿@model SwiftKampusModel.AddmissionApplicant.DirectEntryExam
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>DirectEntryExam</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CertificateType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CertificateType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NameOfInstitution)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NameOfInstitution)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExamNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExamNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OverallGrade)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OverallGrade)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExamDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExamDate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.DirectEntryExamId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

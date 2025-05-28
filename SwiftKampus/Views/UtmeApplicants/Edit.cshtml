@@ -1,0 +1,288 @@
+﻿@using Microsoft.AspNet.Identity
+@model SwiftKampusModel.AddmissionApplicant.UtmeApplicant
+
+
+@using SwiftKampus.Models
+
+@{
+    var dateTime = Convert.ToDateTime(Model.DateOfBirth).ToString("dd MMM yyyy");
+    ViewBag.Title = "Upload Passport";
+}
+
+<div class="wrapper wrapper-content">
+    <div class="row animated fadeInRight">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Personal Details</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li>
+                                <a href="#">Config option 1</a>
+                            </li>
+                            <li>
+                                <a href="#">Config option 2</a>
+                            </li>
+                        </ul>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td><strong>@Html.DisplayNameFor(model => model.JambRegNo)</strong></td>
+                                    <td class="text-left">@Html.DisplayFor(model => model.JambRegNo)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Full Name</strong></td>
+                                    <td class="text-left">@Html.DisplayFor(model => model.FullName)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>@Html.DisplayNameFor(model => model.StateOfOrigin)</strong></td>
+                                    <td class="text-left">@Html.DisplayFor(model => model.StateOfOrigin)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>@Html.DisplayNameFor(model => model.LocalGovtArea)</strong></td>
+                                    <td class="text-left">@Html.DisplayFor(model => model.LocalGovtArea)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>@Html.DisplayNameFor(model => model.Gender)</strong></td>
+                                    <td class="text-left">@Html.DisplayFor(model => model.Gender)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>@Html.DisplayNameFor(model => model.PhoneNumber)</strong></td>
+                                    <td class="text-left">@Html.DisplayFor(model => model.PhoneNumber)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>@Html.DisplayNameFor(model => model.Email)</strong></td>
+                                    <td class="text-left">@Html.DisplayFor(model => model.Email)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Date Of Birth</strong></td>
+                                    <td class="text-left">@dateTime</td>
+                                </tr>
+
+                            </table>
+                        </div>
+                        <div class="col-md-5">
+
+                        </div>
+
+                        <img src="@Url.Action("RenderImage", new { userId = Model.Email})" alt="" class="img-fluid rounded-circle contact-avatar mx-auto">
+
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="col-md-12">
+                    <a id="btnolevelPrevious" href="@Url.Action("ApplicantDashboard","Home")" class="btn btn-warning btn-lg btnPrevious" data-dismiss="modal">PREVIOUS</a>
+                    <a id="btnolevelNext" href="@Url.Action("Create","ApplicantOLevelResults")" class="btn btn-warning btn-lg btnNext" data-dismiss="modal">NEXT</a>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-md-2"></div>
+
+        @*<div class="col-md-5">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h3 class="font-bold m-b-xs">
+                        Instructions
+                    </h3>
+                    <ul class="list check">
+                        <li>You are expected to upload <i class="italic text-danger"><strong>JPEG/PNG</strong></i></li>
+                        <li>You can only upload passport with maximum size of <i class="italic text-danger"><strong>25kb</strong></i></li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="ibox-content no-padding border-left-right">
+                        @using (Html.BeginForm("Edit", "UtmeApplicants", FormMethod.Post, new { enctype = "multipart/form-data", id = "myform" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(model => model.JambRegNo)
+
+
+                            <div class="form-horizontal">
+
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.JambRegNo)
+                                @Html.HiddenFor(model => model.Email)
+
+                                <div class="card">
+                                    <div class="card-head style-primary">
+
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-block text-center">
+
+                                            <img id="output" alt="Passport" class="rounded-circle contact-avatar my-2 mx-auto" />
+
+                                            <p class="text-muted">
+                                                <small>photo will be changed automatically</small>
+                                            </p>
+
+                                            <input id="File" type="file" accept="image/*" name="File" onchange="loadFile(event)" style="display: none">
+                                            <label for="File" class="btn btn-primary">Click to upload passport</label>
+
+                                            @if (Request.IsAuthenticated && User.IsInRole(RoleName.Admin))
+                                            {
+
+                                                <div class="form-group">
+                                                    <div class="col-md-10">
+                                                        @Html.Label("Jamb No")
+                                                        @Html.EditorFor(model => model.JambRegNo, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.JambRegNo, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-md-10">
+                                                        @Html.LabelFor(model => model.Surname)
+                                                        @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-md-10">
+                                                        @Html.LabelFor(model => model.FirstName)
+                                                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-md-10">
+                                                        @Html.Label("Other Name")
+                                                        @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.MiddleName, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-md-10">
+                                                        @Html.Label("State of Origin")
+                                                        @Html.DropDownList("StateOfOrigin", null, htmlAttributes: new { @class = "form-control", @onchange = "getLgaList()" })
+                                                        @Html.ValidationMessageFor(model => model.StateOfOrigin, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-md-10">
+                                                        @Html.Label("Local Government Area")
+                                                        @Html.DropDownList("LocalGovtArea", null, htmlAttributes: new { @class = "form-control" })
+                                                        @Html.ValidationMessageFor(model => model.LocalGovtArea, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-md-10">
+                                                        @Html.LabelFor(model => model.Gender)
+                                                        @Html.DropDownList("Gender", null, htmlAttributes: new { @class = "form-control" })
+                                                        @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <input type="submit" value="Save Passport & Continue" class="btn btn-primary btn-lg btn-block" />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>*@
+
+    </div>
+
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script>
+    var loadFile = function (event) {
+        var fileUpload = document.getElementById("File");
+        if (typeof (fileUpload.files) != "undefined") {
+            var size = parseFloat(fileUpload.files[0].size / 1024).toFixed(2);
+            if (size > 20) {
+                toastr["error"]("The image is bigger than the specified size of (25kb)");
+                var output = document.getElementById('output');
+                output.src = "#";
+            } else {
+                var output = document.getElementById('output');
+                output.src = URL.createObjectURL(event.target.files[0]);
+            }
+        } else {
+            alert("This browser does not support HTML5.");
+        }
+
+    };
+    var loadFile2 = function (event) {
+        var fileUpload = document.getElementById("BannerFile");
+        if (typeof (fileUpload.files) != "undefined") {
+            var size = parseFloat(fileUpload.files[0].size / 1024).toFixed(2);
+            if (size > 30) {
+                toastr["error"]("The image is bigger than the specified size of (25kb)");
+                var output2 = document.getElementById('output2');
+                output2.src = "#";
+            } else {
+                var output2 = document.getElementById('output2');
+                output2.src = URL.createObjectURL(event.target.files[0]);
+            }
+        } else {
+            alert("This browser does not support HTML5.");
+        }
+    };
+
+    function getLgaList() {
+        var stateId = $("#StateOfOrigin").val();
+        //alert(stateId);
+        $.ajax
+            ({
+                url: '/Students/GetLgaList?codeId=' + stateId,
+                type: 'GET',
+                datatype: 'application/json',
+                contentType: 'application/json',
+                //data: JSON.stringify({
+                //    codeId: +stateId
+                //}),
+                success: function (result) {
+                    $("#Lga").html("");
+                    $.each($.parseJSON(result),
+                        function (i, city) {
+                            $("#Lga").append($('<option></option>').val(city).html(city));
+                        });
+
+                },
+                error: function () {
+                    alert("Whooaaa! Something went wrong..");
+                }
+            });
+    }
+</script>

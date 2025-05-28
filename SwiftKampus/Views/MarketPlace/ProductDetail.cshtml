@@ -1,0 +1,73 @@
+﻿@model SwiftKampus.ViewModels.ShoppingCart.ProductCartVm
+@{
+    ViewBag.Title = "Prodcut - " + Model.ProductName;
+    Layout = null;
+}
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+<h2>@Model.ProductName</h2>
+<div class="card">
+    <div class="card-head style-primary">
+    </div><!--end .card-head -->
+    <div class="card-body">
+        <form id="myform" onsubmit="return false;">
+            @Html.AntiForgeryToken()
+            <p>
+                <img alt="@Model.ProductName" src="" />
+            </p>
+            <div>
+                <em>Price:</em>
+                <span>&#8358;</span>@String.Format("{0:F}", Model.Price)
+
+                <div>
+                    <div>Quantity</div>
+                    <input type="number" id="CustomerOrderedCount" name="CustomerOrderedCount" class="form-control" value="1" />
+                </div>
+                <p class="button">
+                </p>
+
+                <input id="btn-submit" type="submit" value="Add to Cart" class="btn btn-success" />
+                <a href="#" class="btn btn-danger " data-dismiss="modal">Cancel</a>
+            </div>
+            @Html.HiddenFor(Model => Model.ProductId)
+            @Html.HiddenFor(Model => Model.ProductName)
+            @Html.HiddenFor(Model => Model.availableQty)
+        </form>
+    </div>
+</div>
+
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+
+<script type="text/javascript">
+    $("#btn-submit").click(function () {
+        //$('#actionsList').modal("hide");
+
+        //var availableQty = parseInt($('#availableQty').val());
+        //var customerOrderQty = parseInt($('#CustomerOrderedCount').val());
+
+        //if (customerOrderQty > availableQty) {
+        //    swal("Oops", "Quantity not available; we have only " + availableQty + " quantity", "warning");
+        //} else {
+
+        var data = $("#myform").serialize();
+        $.ajax({
+            type: "POST",
+            url: "/MarketPlace/AddToCart",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    var cartUrl = "/MarketPlace/CartSummary";                   
+                    $('#partialCart').load(cartUrl);
+                    $('#actionsList').modal("hide");
+                    swal("Good", data.message, "success");
+                } else {
+                    $('#actionsList').modal("hide");
+                    swal("Oops", data.message, "warning");
+                }
+
+            }
+        });
+    });
+</script>
+
+

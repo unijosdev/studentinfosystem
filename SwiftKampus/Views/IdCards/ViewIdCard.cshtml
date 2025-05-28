@@ -1,0 +1,229 @@
+﻿@model SwiftKampusModel.Student
+@{ 
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        @@media print {
+            body {
+                margin-top: 0px;
+                margin-bottom: 0px;
+                margin-left: 0px;
+                margin-right: 0px;
+            }
+
+            .idCardbgfront {
+                background-image: url(../Content/Images/front.jpg);
+                background-repeat: no-repeat;
+                background-position: center center;
+            }
+
+            .idCardbgback {
+                background-image: url(../Content/Images/back.jpg);
+                background-repeat: no-repeat;
+                background-position: center center;
+            }
+
+            .idText {
+                font-family: Verdana, Arial, Helvetica, sans-serif;
+                color: #000000;
+                font-size: 8px;
+            }
+
+            .idTextBold {
+                font-family: Verdana, Arial, Helvetica, sans-serif;
+                font-weight: bold;
+                color: #000000;
+                font-size: 8px;
+            }
+
+            .idTextHead {
+                font-family: Verdana, Arial, Helvetica, sans-serif;
+                font-weight: bold;
+                color: #000000;
+                font-size: 10px;
+            }
+
+            .idTextExtHead {
+                font-family: Verdana, Arial, Helvetica, sans-serif;
+                font-weight: bold;
+                color: #000000;
+                font-size: 12px;
+            }
+
+            .idtextm {
+                font-family: Verdana, Arial, Helvetica, sans-serif;
+                font-size: 8px;
+            }
+        }
+
+
+        body {
+            margin-top: 0px;
+            margin-bottom: 0px;
+            margin-left: 0px;
+            margin-right: 0px;
+        }
+
+        .idCardbgfront {
+            background-image: url(../Content/Images/front.jpg);      
+
+        background-repeat: no-repeat;
+        background-position: center center;
+        }
+
+        .idCardbgback {
+            background-image: url(../Content/Images/back.jpg);
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
+
+        .idText {
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            color: #000000;
+            font-size: 8px;
+        }
+
+        .idTextBold {
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            color: #000000;
+            font-size: 8px;
+        }
+
+        .idTextHead {
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            color: #000000;
+            font-size: 10px;
+        }
+
+        .idTextExtHead {
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            color: #000000;
+            font-size: 12px;
+        }
+
+        .idtextm {
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            font-size: 8px;
+        }
+    </style>
+</head>
+@{ 
+    var url = "";
+    if (Model.SchoolProgramme.SchoolProgrammeCode.Equals("UG"))
+    {
+        url = "../Content/Images/undergraduate.jpg";
+    }
+    else if (Model.SchoolProgramme.SchoolProgrammeCode.Equals("DP") || Model.SchoolProgramme.SchoolProgrammeCode.Equals("MP")|| Model.SchoolProgramme.SchoolProgrammeCode.Equals("DS"))
+    {
+        url = "../Content/Images/Postgraduate.jpg";
+    }
+    else if (Model.SchoolProgramme.SchoolProgrammeCode.Equals("PT"))
+    {
+        url = "../Content/Images/Part-Time.jpg";
+    }
+    else
+    {
+        url = "../Content/Images/Predegree.jpg";
+    }
+}
+<body>
+        <table style="background-image: url(@url); background-repeat: no-repeat; background-position: center center;" width='324' height='198' border='0'>
+            <tr>
+                <td rowspan="5">
+                    <br>
+                    <table>
+                        <tr CLASS='idText'>
+                            <td align="right">Name:</td>
+                        </tr>
+                        <tr CLASS='idText'>
+                            <td align="right">Matric No:</td>
+                        </tr>
+                        <tr CLASS='idText'>
+                            <td align="right">Program:</td>
+                        </tr>
+                        <tr CLASS='idText'>
+                            <td align="right">Expiry:</td>
+                        </tr>
+                        <tr CLASS='idText'>
+                            <td align="right">BG:</td>
+                        </tr>
+                    </table>
+                </td>
+                <td rowspan="5">
+                    <br>
+                    <table>
+                        <tr CLASS='idText'>
+
+                            <td class="idTextBold">@Model.FullName</td>
+                        </tr>
+                        <tr CLASS='idText'>
+
+                            <td class="idTextBold">@Model.MatricNo</td>
+                        </tr>
+                        <tr CLASS='idText'>
+
+                            <td class="idTextBold">@Model.Programme.ProgrammeName</td>
+                        </tr>
+                        <tr CLASS='idText'>
+
+                            <td class="idTextBold">
+                                @ViewBag.ExpiryDate
+                            </td>
+                        </tr>
+                        <tr CLASS='idText'>
+
+                            <td class="idTextBold">@Model.BloodGroup</td>
+                        </tr>
+                    </table>
+                </td>
+                <td rowspan="5">
+                    <br>
+                    <table>
+                        <tr>
+                            <td>
+                                <img src="@Url.Action("RenderImage", "Students",new { studentId = Model.StudentId})" width="75" height="85">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="@Url.Action("RenderSignature", "Students",new { studentId = Model.StudentId})" height='24' width='75'>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+
+        </table>
+        <table class='' width='324px' height='170px' border='0'>
+            <tr>
+                <td class='idText' valign='top' align='center' width='324px'>
+                    In the event of loss, Please report must be made immediately to the Security Office.
+                    Fee will be charged for replacement.
+                    <p class="idTextBold">AVOID CULTISM</p>
+                    <img src="~/Content/cso.png" height='24px' width='65px'>
+                    <p align='center'>Chief Security Officer</p>
+                </td>
+            </tr>
+            <tr>
+                <td valign='bottom' align='center' width='324px' height="50px">
+                    <img src="@Url.Action("BarcodeImage", "Home",new { barcodeText = $"{Model.MatricNo} {Model.FullName} {Model.Programme.ProgrammeName}"})" alt="barcode" width="180" height="50px" />
+                </td>
+            </tr>
+        </table>
+</body>
+</html>
+
+
+
+
+
+
+
+

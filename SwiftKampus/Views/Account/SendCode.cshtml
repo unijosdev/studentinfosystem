@@ -1,0 +1,65 @@
+﻿@model SwiftKampus.Models.SendCodeViewModel
+@using SwiftKampus.Models
+@{
+    ViewBag.Title = "Send";
+    Layout = "~/Views/Shared/_LayoutWebSite2.cshtml";
+
+}
+<link href="~/Content/my_css/footer.css" rel="stylesheet" />
+
+
+<section class="divider">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-push-2">
+                <div class="border-1px p-20 mb-0" style="border: 1px solid #cac9c9 !important;">
+
+                    <div class="row">
+
+                        <div class="col-md-6 border-right">
+                            <div class="col-md-12">
+                                <h2 class="logo-name"><a href="@Url.Action("Index", "Home")"><img src="~/Content/Images/@SchoolSetUp.SchoolBanner" class="img-responsive" /></a></h2>
+                                <br />
+                                <a class="btn btn-primary btn-sm" href="@Url.Action("Login","Account")">Back to Login Page</a>
+                                <br />
+                                <h4>Two step Authentication.</h4>
+                                <ul class="list check">
+                                    <li>Please select the authentication provider of your choice</li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <div class="col-md-12">
+
+                                    @using (Html.BeginForm("SendCode", "Account", new { ReturnUrl = Model.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.Hidden("rememberMe", @Model.RememberMe)
+                                        <h4>Send verification code</h4>
+                                        <hr />
+                                        <div class="form-group">
+                                            @Html.Label(" Select Two-Factor Auth Provider:")
+                                            @Html.DropDownListFor(model => model.SelectedProvider, Model.Providers, new { @class = "form-control" })
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-12 text-right">
+                                                <input type="submit" value="Submit" class="btn btn-primary block full-width m-b" />
+                                            </div>
+                                        </div>
+                                    }
+
+                                    @section Scripts {
+                                        @Scripts.Render("~/bundles/jqueryval")
+                                    }
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

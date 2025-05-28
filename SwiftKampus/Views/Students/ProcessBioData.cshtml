@@ -1,0 +1,204 @@
+﻿@using SwiftKampusModel
+@using SwiftKampus.Models
+@model SwiftKampus.Controllers.ApplicantTypeVm
+@{
+    ViewBag.Title = "Process BioData";
+}
+
+    <style>
+        .ianactive{
+            pointer-events: none;
+            cursor : default;
+        }
+    </style>
+<div class="ibox-content">
+    <h2 class="text-center">Process Bio-Data (@Model.ApplicantType)</h2>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="row col-md-8">
+            <h4 class="text-center">
+                I hereby declare that all the information I supplied in this bio-data is, to the best of my knowledge and belief, accurate in every detail
+                misrepresentation may result in the denial or cancellation of admission.
+            </h4>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    <br />
+    <br />
+
+    <div class="tabbable tabs-right">
+        <ul class="nav nav-tabs">
+            <li><a id="biodata" class="active" href="#tab1" data-toggle="tab">BIO - DATA</a></li>
+            <li><a id="passportsignature" class="" href="#tab21" data-toggle="tab">PASSPORT</a></li>
+            <li><a id="olevel" href="#tab2" class="" data-toggle="tab">O-LEVEL RESULT</a></li>
+            <li><a id="nextKin" href="#tab3" class="" data-toggle="tab">NEXT OF KIN</a></li>
+            <li><a id="address" href="#tab11" class="" data-toggle="tab">ADDRESS</a></li>
+
+
+            @if (Model.ApplicantType.Equals(ProgrammeCategory.UnderGraduate.ToString()) ||
+                Model.ApplicantType.Equals(ProgrammeCategory.Institute_Of_Education.ToString()) ||
+                //Model.ApplicantType.Equals(ProgrammeCategory.Preliminary_French.ToString()) || +
+                Model.ApplicantType.Equals(ProgrammeCategory.Remedial_Science.ToString()))
+            {
+                <li><a id="sponsors" href="#tab14" data-toggle="tab">SPONSORS</a></li>
+            }
+            @if (ViewBag.ModeOfEntry == "DE" || Model.ApplicantType.Equals(ProgrammeCategory.Institute_Of_Education.ToString()))
+            {
+                <li><a id="deexam" href="#tab15" data-toggle="tab">DIRECT ENTRY</a></li>
+            }
+
+            <!-- display jamb admission letter tab for only Undergraduate biodata -->
+            @if (Model.ApplicantType.Equals(ProgrammeCategory.UnderGraduate.ToString()))
+            {
+                <li><a id="admissionLetter" href="#tab16" data-toggle="tab">JAMB ADMISSION LETTER UPLOAD</a></li>
+            }
+
+            @if (Model.ApplicantType.Equals(ProgrammeCategory.IJMB.ToString()))
+            {
+                <li><a id="employment" href="#tab4" data-toggle="tab">EMPLOYMENT HISTORY</a></li>
+                <li><a id="subjectcombination" href="#tab5" data-toggle="tab">SUBJECT COMBINATION</a></li>
+                <li><a id="uploaddocument" href="#tab9" data-toggle="tab">UPLOAD DOCUMENT</a></li>
+
+            }
+
+            @if (Model.ApplicantType.Equals(ProgrammeCategory.Masters.ToString()) ||
+                Model.ApplicantType.Equals(ProgrammeCategory.MBA.ToString()) ||
+                Model.ApplicantType.Equals(ProgrammeCategory.Post_Graduate.ToString()))
+            {
+                <li><a id="employment" href="#tab4" data-toggle="tab">EMPLOYMENT HISTORY</a></li>
+                <li><a id="aqualification" href="#tab5" data-toggle="tab">ACADEMIC QUALIFICATIONS</a></li>
+                <li><a id="awardprices" href="#tab10" data-toggle="tab">AWARD PRIZES</a></li>
+                <li><a id="relevantqualification" href="#tab13" data-toggle="tab">RELEVANT QUALIFICATION</a></li>
+                <li><a id="publications" href="#tab12" data-toggle="tab">ACADEMIC PUBLICATIONS</a></li>
+                <li><a id="referee" href="#tab6" data-toggle="tab">REFEREE</a></li>
+                <li><a id="uploaddocument" href="#tab9" data-toggle="tab">UPLOAD DOCUMENT</a></li>
+
+            }
+
+            @if (Model.ApplicantType.Equals(ProgrammeCategory.Phd.ToString()))
+            {
+                <li><a id="employment" href="#tab4" data-toggle="tab">EMPLOYMENT HISTORY</a></li>
+                <li><a id="aqualification" href="#tab5" data-toggle="tab">ACADEMIC QUALIFICATIONS</a></li>
+                <li><a id="awardprices" href="#tab10" data-toggle="tab">AWARD PRIZES</a></li>
+                <li><a id="relevantqualification" href="#tab13" data-toggle="tab">RELEVANT QUALIFICATION</a></li>
+                <li><a id="publications" href="#tab12" data-toggle="tab">ACADEMIC PUBLICATIONS</a></li>
+                <li><a id="referee" href="#tab6" data-toggle="tab">REFEREE</a></li>
+                <li><a id="thesis" href="#tab7" data-toggle="tab">THESIS</a></li>
+                <li><a id="uploaddocument" href="#tab9" data-toggle="tab">UPLOAD DOCUMENT</a></li>
+            }
+
+        </ul>
+
+
+
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab1">
+                @if (User.IsInRole(RoleName.Student))
+                {
+                    {
+                        Html.RenderAction("StudentEdit", "Students");
+                    }
+                }
+
+            </div>
+            <div class="tab-pane" id="tab2">
+                @{
+                    Html.RenderAction("Save", "ApplicantOLevelResults");
+                }
+            </div>
+
+            <div class="tab-pane" id="tab3">
+                @{
+                    Html.RenderAction("PCreate", "NextOfKins");
+                }
+            </div>
+
+            @if (Model.ApplicantType.Equals(ProgrammeCategory.Masters.ToString()) ||
+            Model.ApplicantType.Equals(ProgrammeCategory.MBA.ToString()) ||
+            Model.ApplicantType.Equals(ProgrammeCategory.Post_Graduate.ToString()) ||
+            Model.ApplicantType.Equals(ProgrammeCategory.Phd.ToString()))
+            {
+                <div class="tab-pane" id="tab6">
+                    @{
+                        Html.RenderAction("PCreate", "Referees");
+                    }
+                </div>
+            }
+
+            <div class="tab-pane" id="tab4">
+                @{
+                    Html.RenderAction("PCreate", "EmploymentDetails");
+                }
+            </div>
+            <div class="tab-pane" id="tab5">
+                @{
+                    Html.RenderAction("PCreate", "AttendedSchools");
+                }
+            </div>
+
+            <div class="tab-pane" id="tab7">
+                @{
+                    Html.RenderAction("PCreate", "ThesisProposals");
+                }
+            </div>
+
+            <div class="tab-pane" id="tab9">
+                @{
+                    Html.RenderAction("Index", "RelevantDocuments");
+                }
+            </div>
+            <div class="tab-pane" id="tab11">
+                @{
+                    Html.RenderAction("PCreate", "Addresses");
+                }
+            </div>
+            <div class="tab-pane" id="tab10">
+                @{
+                    Html.RenderAction("PCreate", "AwardPrices");
+                }
+            </div>
+            <div class="tab-pane" id="tab12">
+                @{
+                    Html.RenderAction("PCreate", "Publications");
+                }
+            </div>
+            <div class="tab-pane" id="tab13">
+                @{
+                    Html.RenderAction("PCreate", "Qualifications");
+                }
+            </div>
+            @if (Model.ApplicantType.Equals(ProgrammeCategory.UnderGraduate.ToString()) ||
+                Model.ApplicantType.Equals(ProgrammeCategory.Institute_Of_Education.ToString()) ||
+                //Model.ApplicantType.Equals(ProgrammeCategory.Preliminary_French.ToString()) ||
+                Model.ApplicantType.Equals(ProgrammeCategory.Remedial_Science.ToString()))
+            {
+                <div class="tab-pane" id="tab14">
+                    @{
+                        Html.RenderAction("UGCreate", "Referees");
+                    }
+                </div>
+            }
+
+            <div class="tab-pane" id="tab15">
+                @{
+                    Html.RenderAction("PCreate", "DirectEntryExams");
+                }
+            </div>
+            <div class="tab-pane" id="tab21">
+                @{
+                    Html.RenderAction("SavePassport", "Students");
+                }
+            </div>
+
+            <div class="tab-pane" id="tab16">
+                @{
+                    Html.RenderAction("JambAdmissionLetterUpload", "RelevantDocuments");
+                }
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+

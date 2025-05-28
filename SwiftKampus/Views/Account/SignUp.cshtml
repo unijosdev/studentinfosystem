@@ -1,0 +1,64 @@
+﻿@using SwiftKampus.Models
+@{
+    ViewBag.Title = "SignUp";
+    //Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    Layout = "~/Views/Shared/_LayoutWebSite2.cshtml";
+}
+<link href="~/Content/my_css/footer.css" rel="stylesheet" />
+
+<section class="divider">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-push-2">
+                <div class="border-1px p-20 mb-0" style="border: 1px solid #cac9c9 !important;">
+
+                    <div class="row">
+
+                        <div class="col-md-6 border-right">
+                            <div class="col-md-12">
+
+                                <h4>Instruction(s)</h4>
+                                <h5>
+                                    Please type in Email Address.
+                                </h5>
+
+                                <hr />
+                                <a href="@Url.Action("Login","Account")">Back to Login Page</a>
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <div class="col-md-12">
+                                <p class="text-danger">@ViewBag.Message</p>
+
+                                @using (Html.BeginForm("SignUp", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <div class="field-wrap">
+                                        <label>
+                                            Email<span class="req">*</span>
+                                        </label>
+                                        @Html.TextBox("id", "", new { @class = "form-control", @placeholder="Enter Email here" })
+                                    </div>
+
+                                    <div class="field-wrap">
+                                    </div>
+                                    <br />
+
+                                    <input type="submit" class="btn btn-primary btn-raised" value="Get Started" />
+                                }
+
+                                @section Scripts {
+                                    @Scripts.Render("~/bundles/jqueryval")
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

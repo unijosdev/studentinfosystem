@@ -1,0 +1,64 @@
+﻿@model SwiftKampus.ViewModels.RejectAdmissionVm
+
+
+<form id="myform" onsubmit="return false;">
+    @Html.AntiForgeryToken()
+
+
+    <div class="card">
+        <div class="card-head style-primary">
+            <header>
+                <h3>@ViewBag.Message</h3>
+            </header>
+
+        </div><!--end .card-head -->
+        <div class="card-body">
+            @Html.HiddenFor(x => x.applicantId)
+            @Html.HiddenFor(x => x.LevelOfReject)
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <h3>@ViewBag.Message</h3>
+            <div class="form-group">
+                @Html.Label("Reason for Reject")
+                @Html.EditorFor(model => model.ReasonForReject, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ReasonForReject, "", new { @class = "text-danger" })
+            </div>
+
+
+            <div class="md-form">
+
+
+                <input id="btnsubmit" type="submit" value="Save" class="btn btn-success btn-lg" />
+
+                <a href="#" class="btn btn-danger btn-lg" data-dismiss="modal">Cancel</a>
+            </div>
+        </div><!--end .card-body -->
+    </div><!--end .card -->
+</form>
+
+<script type="text/javascript">
+    $("#btnsubmit").click(function () {
+        var data = $("#myform").serialize();
+        $.ajax({
+            type: "POST",
+            url: "/Applicants/SaveHodApproval",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+                    toastr["success"](data.message);
+                    $('#myform')[0].reset();
+                } else {
+                    //$('#actionsList').modal("hide");
+                    toastr["error"](data.message);
+                }
+
+            }
+        });
+    });
+</script>
+
+
+
+
+

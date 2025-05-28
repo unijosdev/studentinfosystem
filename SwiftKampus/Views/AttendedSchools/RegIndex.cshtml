@@ -1,0 +1,136 @@
+﻿@model SwiftKampus.ViewModels.AttendedSchoolsVm
+@using SwiftKampusModel.AddmissionApplicant
+
+@{
+    Layout = null;
+    ViewBag.Title = "O-Level Results";
+}
+
+
+<div class="container-fluid">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>List of Academic Qualification</h5>
+
+                        <div class="ibox-tools">
+                            @*<a href="#" onclick="EditOQualification()" class="btn btn-primary"> <i class="fa fa-plus left"></i> EDIT ACADEMIC QUALIFICATIOn</a>*@
+
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="ibox-content">
+                        <div class="row">
+                            <table class=" table table-responsive">
+                                <tr>
+                                    <th>Qualification</th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.AttendedSchool.SchoolName)
+                                    </th>
+
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.AttendedSchool.CourseOfStudy)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.AttendedSchool.ClassOfDegree)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.AttendedSchool.ResultGrade)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.AttendedSchool.FromDate)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.AttendedSchool.ToDate)
+                                    </th>
+                                    <th></th>
+                                </tr>
+
+                                @foreach (var item in Model.AttendedSchools)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Degree)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.SchoolName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CourseOfStudy)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ClassOfDegree)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ResultGrade)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FromDate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ToDate)
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-primary" target="_blank" href="@Url.Action("TranscriptRequestForm", "Referees",
+                                                                    new { attendedSchoolId = item.AttendedSchoolId})">Request Transcript</a>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </table>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*<div class="col-md-6 pull-right">
+            <span class="pull-right">
+                <a id="btnAcademicNext" href="#" class="btn btn-warning btn-lg btnNext" data-dismiss="modal">NEXT</a>
+            </span>
+        </div>
+        <div class="col-md-6">
+            <a id="btnAcademicPrevious" href="#" class="btn btn-warning btn-lg btnPrevious" data-dismiss="modal">PREVIOUS</a>
+        </div>*@
+
+        @*Get school programme name of applicant*@
+        <input id="schoolProgramme" type="hidden" value="@Model.SchoolProgramme.ProgrammeCategory" />
+
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+
+<script>
+
+    function EditOQualification() {
+        var url = "/AttendedSchools/Create?id=0&IsEdit=true";
+        //var url = "/AttendedSchools/PCreate";
+        $('#tab15').load(url);
+    }
+
+   
+    $("#btnAcademicPrevious").click(function () {
+        $("#aqualification").click();
+    });
+
+    $("#btnAcademicNext").click(function () {
+        var check = $('#schoolProgramme').val();
+        if (check === 'Phd') {
+            $("#thesis").click();
+        }
+        else {
+            $("#uploaddocument").click();
+        }
+    });
+
+</script>

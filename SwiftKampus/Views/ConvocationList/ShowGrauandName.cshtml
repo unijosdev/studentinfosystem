@@ -1,0 +1,58 @@
+﻿@model SwiftKampusModel.Convocation.ConvocationList
+@using Vereyon.Web
+@{
+
+    //Layout = null;
+}
+<h3>Please correct your name as should appear on your certificate</h3>
+
+@using (Html.BeginForm("", "", FormMethod.Post, new { enctype = "multipart/form-data", @id= "notificationForm" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="ibox-title">
+        <div class="form-horizontal col-lg-offset-0 ">
+            @Html.RenderFlashMessages()
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Corrected_LastName)
+                @Html.TextBoxFor(model => model.Corrected_LastName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Corrected_LastName, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Corrected_FirstName)
+                @Html.TextBoxFor(model => model.Corrected_FirstName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Corrected_FirstName, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Corrected_MiddleName)
+                @Html.TextBoxFor(model => model.Corrected_MiddleName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Corrected_MiddleName, "", new { @class = "text-danger" })
+            </div>
+            @Html.HiddenFor(Model => Model.StudentId)
+
+
+            <div class="form-group">
+                <div class="col-12 pull-right">
+                    <button value="Submit" class="btn btn-success btn-outline-success btnSave">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script src="~/AdminTemplate/js/jquery-3.1.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#evidence').hide();
+
+        $('#hasEvidence').change(function () {
+            if (this.checked) {
+                $('#evidence').toggle('show');
+            } else {
+                $('#evidence').toggle('hide');
+            }
+        });
+    });
+</script>

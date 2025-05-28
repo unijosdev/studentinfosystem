@@ -1,0 +1,34 @@
+﻿@model SwiftKampusModel.Library.MembershipType
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>MembershipType</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TypeOfMembership)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TypeOfMembership)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberOfBookToBorrow)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfBookToBorrow)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MembershipTypeId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

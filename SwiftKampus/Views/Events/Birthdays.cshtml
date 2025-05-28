@@ -1,0 +1,31 @@
+﻿@model IEnumerable<SwiftKampusModel.Staff>
+@{
+    ViewBag.Title = "Birthdays";
+}
+@if (!Model.Any())
+{
+    <h3>No Birthday Events</h3>
+}
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-lg-3 col-sm-6">
+            <div class="card">
+                <div class="card-head card-head-xs style-primary">
+                    <header>@item.FullName</header>
+                    
+                </div><!--end .card-head -->
+                <div class="card-body">
+                   Department: @item.Department.DeptName
+                    <blockquote><small><img src="@Url.Action("RenderImage", "Staffs", new { staffId = @item.StaffId})" width="100" height="100" />
+                    </small></blockquote>
+                    <a href="#" class="btn btn-primary">Profile</a><span>&nbsp;<a href="#" class="btn btn-primary">Message</a></span>
+                </div><!--end .card-body -->
+            </div><!--end .card -->
+        </div><!--end .col -->
+    }
+   
+
+
+</div><!--end .row -->
+

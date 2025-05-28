@@ -1,0 +1,50 @@
+﻿@model SwiftKampusModel.AddmissionApplicant.ApplicantOLevelResult
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ApplicantOLevelResult</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplicantId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApplicantId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Subject.CourseCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Subject.CourseCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResultName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResultName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SubjectGrade)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SubjectGrade)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ApplicantOLevelResultId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

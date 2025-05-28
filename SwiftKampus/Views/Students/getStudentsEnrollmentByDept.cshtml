@@ -1,0 +1,43 @@
+﻿
+
+
+
+@model IEnumerable<SwiftKampusModel.DepartmentLevelGenderCountViewModel>
+
+@{ ViewBag.Title = "Student Gender Count by Department"; }
+
+<h2>Student Gender Count by Department</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Department Name</th>
+            <th>Level</th>
+            <th>Male Count</th>
+            <th>Female Count</th>
+            <th>Total Count</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var department in Model.GroupBy(m => new { m.DepartmentId, m.DepartmentName }))
+        {
+            var rowCount = department.Count();
+            bool firstRow = true;
+
+            foreach (var level in department)
+            {
+                <tr>
+                    @if (firstRow)
+                    {
+                        <td rowspan="@rowCount">@department.Key.DepartmentName</td>
+                        firstRow = false;
+                    }
+                    <td>@level.LevelId</td>
+                    <td>@level.MaleCount</td>
+                    <td>@level.FemaleCount</td>
+                    <td>@level.TotalCount</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

@@ -1,0 +1,51 @@
+﻿@model SwiftKampus.Models.GoogleAuthenticatorViewModel
+@using SwiftKampus.Models
+@{
+    ViewBag.Title = "EnableGoogleAuthenticator";
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Enable Authenticator</h2>
+        <h4>Use Google Authenticator or Authy Authenticator</h4>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<br />
+<div class="ibox-title">
+
+    <div class="row">
+        <div class="col-md-8">
+            <h3>1\. Add @SchoolSetUp.CurrentSchoolName to Google Authenticator or Authy Authenticator</h3>
+            <p>Open Google Authenticator and add @SchoolSetUp.CurrentSchoolName by scanning the QR Code to the right.</p>
+            <h3>2\. Enter the 6 digit code that Google Authenticator  or Authy Authenticator generates</h3>
+            <p>
+                Verify that @SchoolSetUp.CurrentSchoolName is added correctly in Google Authenticator / Authy Authenticator by entering the 6 digit code which
+                Google Authenticator / Authy Authenticator generates for @SchoolSetUp.CurrentSchoolName below, and then click Enable.
+            </p>
+            @using (Html.BeginForm("EnableGoogleAuthenticator", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(false)
+                @Html.HiddenFor(m => m.SecretKey)
+                @Html.HiddenFor(m => m.BarcodeUrl)
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Code, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Code, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" class="btn btn-lg btn-primary" value="Enable" />
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-md-4">
+            <img src="http://qrcode.kaywa.com/img.php?s=4&d=@(Model.BarcodeUrl)" />
+        </div>
+    </div>
+    </div>

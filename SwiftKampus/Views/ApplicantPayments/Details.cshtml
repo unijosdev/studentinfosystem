@@ -1,0 +1,153 @@
+﻿@model SwiftKampus.ViewModels.ApplicantReceiptVm
+
+@{
+    Layout = null;
+}
+
+<html>
+
+
+<!-- Mirrored from webapplayers.com/inspinia_admin-v2.7.1/invoice_print.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 23 Dec 2017 09:10:07 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>UNIJOS | Application Form</title>
+
+    <link href="~/AdminTemplate/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/AdminTemplate/font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <link href="~/AdminTemplate/css/animate.css" rel="stylesheet">
+    <link href="~/AdminTemplate/css/style.css" rel="stylesheet">
+
+</head>
+
+<body class="white-bg">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-8">
+            <h2>Application Form Receipt</h2>
+
+        </div>
+        <div class="col-lg-4">
+            <div class="title-action">
+                @*<a href="@Url.Action("PrintDetails","UtmeApplicants")" target="_self" class="btn btn-primary"><i class="fa fa-print"></i> Print Invoice </a>*@
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="wrapper wrapper-content animated fadeInRight">
+                <div class="ibox-content p-xl">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h5>Personal Details:</h5>
+                            <dl class="dl-horizontal">
+                                <dt>
+                                    Full Name
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.FullName)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.PaymentDate)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.PaymentDate)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.AmountPayed)
+                                </dt>
+
+                                <dd>
+                                    #@Html.DisplayFor(model => model.AmountPayed)
+                                </dd>
+                                <dt>
+                                    Application Payment For
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.FormName)
+                                </dd>
+
+
+
+                            </dl>
+                        </div>
+
+                        <div class="col-sm-6 text-right">
+                            <h4>Passport.</h4>
+                            <img src="@Url.Action("RenderImage","UtmeApplicants", new { userId = Model.Email})" alt="" class="img-fluid rounded-circle contact-avatar mx-auto">
+
+                        </div>
+                    </div>
+
+                    <div class="table-responsive m-t">
+                        @*<table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Subject Name</th>
+                                    <th>Result Name</th>
+                                    <th>Year</th>
+                                    <th>Subject Grade</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.ApplicantOlevelResult)
+                                {
+                                    <tr>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Subject.CourseName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ResultName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Year)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.SubjectGrade)
+                                        </td>
+
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>*@
+                    </div><!-- /table-responsive -->
+
+
+                    <div class="text-right">
+                        @*<button class="btn btn-primary"><i class="fa fa-dollar"></i> Make A Payment</button>*@
+
+                        @*<a href="@Url.Action("PrintDetails","UtmeApplicants")" target="_self" class="btn btn-primary"><i class="fa fa-print"></i> Print Invoice </a>*@
+                    </div>
+
+                    <div class="well m-t">
+                        <strong>Printed on @DateTime.Now.ToLongDateString()</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mainly scripts -->
+    <script src="~/AdminTemplate/js/jquery-3.1.1.min.js"></script>
+    <script src="~/AdminTemplate/js/bootstrap.min.js"></script>
+    <script src="~/AdminTemplate/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="js/inspinia.js"></script>
+
+    <script type="text/javascript">
+        window.print();
+    </script>
+
+</body>
+
+
+</html>

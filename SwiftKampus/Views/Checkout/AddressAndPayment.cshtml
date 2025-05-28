@@ -1,0 +1,156 @@
+﻿@model SwiftKampus.ViewModels.ShoppingCart.CustomerOrderVm
+
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+<form id="myform" onsubmit="return false;">
+    @Html.AntiForgeryToken()
+
+    <div class="card">
+        <div class="card-head style-primary">
+            <header>
+                <div class="form-header  purple darken-4">
+                    <h3><i class="fa fa-save"></i> Customer Detail</h3>
+                </div>
+            </header>
+
+        </div><!--end .card-head -->
+        <div class="card-body">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Fullname)
+                @Html.EditorFor(model => model.Fullname, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Fullname, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.UserName)
+                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email)
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PhoneNumber)
+                @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+            </div>
+
+
+            <div class="md-form">
+                <input id="Btnsubmit" type="submit" value="Process Payment" class="btn btn-success" />
+                <a href="#" class="btn btn-danger" data-dismiss="modal">Cancel</a>
+            </div>
+        </div>
+    </div>
+
+</form>
+<div class="modal fade inmodal" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content animated">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title"></h4>
+                    @*<a class="btn btn-primary btn-sm">Create new action</a>*@
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+@*<script src="~/AdminTemplate/js/jquery-3.1.1.min.js"></script>*@
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Btnsubmit").click(function () {
+            var data = $("#myform").serialize();
+            //$('form[id="myform"]').validate({
+            //    rules: {
+            //        Fullname: {
+            //            required: true,
+            //        },
+            //        UserName: {
+            //            required: true,
+            //        },
+            //        Email: {
+            //            required: true,
+            //        },
+            //        PhoneNumber: {
+            //            required: true,
+            //        },
+
+            //    },
+            //    messages: {
+            //        Fullname: {
+            //            minlength: 'This field is Required'
+            //        },
+            //        UserName: {
+            //            minlength: 'This field is Required'
+            //        },
+            //        Email: {
+            //            minlength: 'This field is Required'
+            //        },
+            //        PhoneNumber: {
+            //            minlength: 'This field is Required'
+            //        },
+
+            //    },
+            //    submitHandler: function (form) {
+
+            //        console.log(formData);
+            //        $.ajax({
+            //            type: "POST",
+            //            //contentType: 'application/json',
+            //            contentType: false,
+            //            cache: false,
+            //            processData: false,
+            //            //dataType: 'json',
+            //            url: "/Checkout/AddressAndPayment/",
+            //            data: formData,
+            //            success: function (data) {
+            //                console.log(data);
+            //                swal({
+            //                    title: "Successful!",
+            //                    text: data,
+            //                    type: "success",
+            //                });
+
+            //                $("#updateModal").modal('toggle');
+            //            }
+            //        });
+            //    }
+            //});
+            $.ajax({
+                type: "POST",
+                url: "/Checkout/AddressAndPayment",
+                data: data,
+                success: function (data) {                    
+                    window.location.href =  "/Checkout/CheckOutView?id=" + parseInt(data.id);
+                }
+            });
+        });
+    });
+</script>
+
+

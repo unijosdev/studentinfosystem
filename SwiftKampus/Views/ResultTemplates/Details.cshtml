@@ -1,0 +1,34 @@
+﻿@model SwiftKampusModel.ResultTemplate
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ResultTemplate</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ResultType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResultType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FancyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FancyName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ResultTemplateId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

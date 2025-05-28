@@ -1,0 +1,50 @@
+﻿@model SwiftKampusModel.AddmissionApplicant.ApplicantFeeSetting
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ApplicantFeeSetting</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SchoolProgramme.ProgrammeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SchoolProgramme.ProgrammeName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Session.SessionName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Session.SessionName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplicationFee)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApplicationFee)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AmountInWords)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AmountInWords)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @*@Html.ActionLink("Edit", "Edit", new { id = Model.ApplicantFeeSettingId }) |*@
+    @Html.ActionLink("Back to List", "Index")
+</p>

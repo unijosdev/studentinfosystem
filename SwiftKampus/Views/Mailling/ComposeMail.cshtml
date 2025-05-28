@@ -1,0 +1,115 @@
+﻿@using Microsoft.AspNet.Identity
+<!-- iCheck -->
+<script src="~/AdminTemplate/js/plugins/iCheck/icheck.min.js"></script>
+
+<!-- SUMMERNOTE -->
+<script src="~/AdminTemplate/js/plugins/summernote/summernote.min.js"></script>
+<link href="~/AdminTemplate/css/plugins/iCheck/custom.css" rel="stylesheet" />
+<link href="~/AdminTemplate/css/plugins/summernote/summernote.css" rel="stylesheet">
+<link href="~/AdminTemplate/css/plugins/summernote/summernote-bs3.css" rel="stylesheet">
+
+<div class="mail-box-header">
+    <div class="pull-right tooltip-demo">
+        <a href="#" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="Move to draft folder"><i class="fa fa-pencil"></i> Draft</a>
+        <a href="#" onclick="DiscardMessage()" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Discard email"><i class="fa fa-times"></i> Discard</a>
+    </div>
+    <h2>
+        Compose mail
+    </h2>
+</div>
+<div class="mail-box">
+
+    <div class="mail-body">
+
+        <form class="form-horizontal" method="get" id="myform" onsubmit="return false;">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">To:</label>
+
+                <div class="col-sm-10"><input type="text" class="form-control" id="RecieverId" name="RecieverId" required></div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Subject:</label>
+
+                <div class="col-sm-10"><input type="text" class="form-control" id="MessageSubject" name="MessageSubject"></div>
+            </div>
+
+            <div class="mail-text h-200">
+                <textarea type="text" class="form-control summernote" id="MessageBody" name="MessageBody" required />
+                <div class="clearfix"></div>
+            </div>
+            <div class="mail-body text-right tooltip-demo">
+                <a href="#" onclick="SendMessage()" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Send"><i class="fa fa-reply"></i> Send</a>
+                <a href="#" onclick="DiscardMessage()" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="Discard email"><i class="fa fa-times"></i> Discard</a>
+                <a href="#" onclick="SaveAsDraft()" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="Move to draft folder"><i class="fa fa-pencil"></i> Draft</a>
+            </div>
+            <div class="clearfix"></div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        //var url = "/Mailling/ComposeMail";
+        //$('#mydetailBody').load(url);
+        //$('.summernote').summernote();
+        $('.summernote').summernote({
+            height: 170,  //set editable area's height
+             //placeholder: 'Hello bootstrap 4'
+
+        });
+    });
+    function SendMessage() {
+
+        var data = $("#myform").serialize();
+       //window.alert($("#MessageBody").val());
+        $.ajax({
+            type: "POST",
+            url: "/Mailling/SendMessage",
+            data: data,
+            dataType: 'json',
+            success: function (data) {
+                if (data.status) {
+                    toastr["success"](data.message);
+                    $('#myform')[0].reset();
+                } else {
+                    toastr["error"](data.message);
+
+                }
+
+            }
+        });
+
+    };
+
+    function SaveAsDraft() {
+
+        var data = $("#myform").serialize();
+        //window.alert($("#MessageBody").val());
+        $.ajax({
+            type: "POST",
+            url: "/Mailling/SaveDraft",
+            data: data,
+            dataType: 'json',
+            success: function (data) {
+                if (data.status) {
+                    toastr["success"](data.message);
+                    $('#myform')[0].reset();
+                } else {
+                    toastr["error"](data.message);
+
+                }
+
+            }
+        });
+
+    };
+
+    function DiscardMessage() {
+        toastr["success"]("Message Discarded Successfully");
+        var url = "/Mailling/InboxMail?userId=" + '@User.Identity.GetUserId()';
+
+        $('#mydetailBody').load(url);
+
+    };
+</script>

@@ -1,0 +1,117 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>List of Registered Students</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+                <div class="ibox-content">
+
+                    <table id="JdatatableStudent" class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Dept Name</th>
+                                <th>Matric No</th>
+                                <th>Student Name</th>
+                                <th>Course Name</th>
+                                <th>Level Name</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Action</th>
+
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.11.3.min.js"></script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ("@ViewBag.Message") {
+            toastr["success"]("@ViewBag.Message");
+        }
+
+        var id = "@ViewBag.Id";
+        var attendanceDate = "@ViewBag.AttendanceDate"
+
+        window.oTableStudent = $("#JdatatableStudent").DataTable({
+            "processing": true, // for show progress bar while loading
+            //"serverSide": true, // if it is true the preocess is done on server side
+            //"filter": true, // disables search box
+            //"info": true,
+            //"stateSave": true,
+            //"orderMulti": false, // disable multiple column loading at once
+            "ajax": {
+                "url": "/AssignedCourses/GetRegisteredStudent?id=" + id + "&attendanceDate=" + attendanceDate,
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "ProgrammeName", "autoWidth": true },
+                { "data": "MatricNo", "autoWidth": true },
+                { "data": "FullName", "autoWidth": true },
+                { "data": "CourseName", "autoWidth": true },
+                { "data": "LevelName", "autoWidth": true },
+                { "data": "AttendanceDate", "autoWidth": true },
+                { "data": "IsPresent", "autoWidth": true },
+
+
+                {
+                    "data": "StudentAttendanceId",
+                    "autoWidth": true,
+                    "render": function (data) {
+                        return '<a onclick="Edit(' + data + ')" >  <i class="fa fa-pencil" aria-hidden="true" >&nbsp;Change Attendance</i></a>&nbsp;&nbsp;';
+                    }
+                }
+
+                //{ "data": "EmailID", "autoWidth": true },
+                //{ "data": "Phone", "autoWidth": true },
+            ]
+        });
+
+    });
+
+    function Edit(studentAttendanceId) {
+         $.ajax({
+            type: "POST",
+            url: "/AssignedCourses/ChangeAttendance?id=" + studentAttendanceId,
+            success: function (data) {
+                if (data.status) {
+                    window.oTableStudent.ajax.reload(); //run my_fun() ondomready
+                    toastr["success"](data.message);
+                    $('#myform')[0].reset();
+                } else {
+                    toastr["error"](data.message);
+                    $('#actionsList').modal("hide");
+
+                }
+
+            }
+        });
+    };
+
+
+
+
+
+</script>

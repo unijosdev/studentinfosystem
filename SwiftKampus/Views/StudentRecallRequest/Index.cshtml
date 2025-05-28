@@ -1,0 +1,90 @@
+﻿@model SwiftKampus.ViewModels.MisconductVm.RecallRequestViewModel
+@{
+    ViewBag.Title = "Index";
+}
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+
+<h2>Index</h2>
+
+@using (Html.BeginForm("", "", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="ibox float-e-margins col-md-10 col-md-offset-1">
+        <div class="ibox-title">
+            <div class="form-horizontal col-lg-offset-0 " id="applicationForm">
+                @Html.Raw(ViewBag.Message)
+                <h2>Application for Resumption From Suspension</h2>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.DisplayName("Reason for Request")
+                        @Html.EnumDropDownListFor(Model => Model.ReasonForRequest, new { @class = "form-control", @id = "reason", @name = "reason" })
+                        @*@Html.DropDownListFor(model => model.MisconductId, new SelectList(Model.Misconducts, "MisconductId", "MisconductName", Model.MisconductId), Model.MisconductName, new { @class = "form-control" })*@
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-auto col-md-10 pull-left">
+                        <button type="button" value="" class="btn btn-outline-primary" id="apply">Apply</button>
+                    </div>
+                </div>
+                <input type="hidden" name="naStudentIdme" value="@Model.StudentId" id="studentId" />
+                <input type="hidden" name="StudentDisciplinaryStatusId" value="@Model.DefaulterId" id="defaulterId" />
+
+            </div>
+        </div>
+    </div>
+}
+<script src="~/AdminTemplate/js/jquery-3.1.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $('#apply').on('click', function (e) {
+
+            e.preventDefault();
+            var reasonId = $('#reason').val();
+            var studentId = $('#studentId').val();
+            var defaulterId = $('#defaulterId').val();
+            console.log(reason);
+
+            if (reasonId != 0) {
+                //alert(reason.val());
+                $.ajax({
+                    type: "POST",
+                    //contentType: 'application/json',
+                    //processData:false,
+                    //dataType: 'json',
+                    url: "/StudentRecallRequest/JSONCreateRequest/",
+                    data: {
+                        reasonId,
+                        studentId,
+                        defaulterId
+                    },
+                    success: function (data) {
+                        // clear HOD's comment
+                        //$('#reason').val("");
+
+                        swal({
+                            title: "Succssful!!",
+                            text: data,
+                            type: "success",
+                        });
+                    }
+                });
+            }
+            else {
+                swal({
+                    title: "Oops!",
+                    text: "Please Select a reason!",
+                    type: "warning",
+                });
+            }
+        });
+    });
+</script>

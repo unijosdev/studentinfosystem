@@ -1,0 +1,108 @@
+﻿@model IEnumerable<SwiftKampusModel.PreDegreeStudent>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+
+@*<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.RegNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Department)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Gender)
+        </th>
+       
+        <th>
+            @Html.DisplayNameFor(model => model.JambScore)
+        </th>
+       
+        <th>
+            @Html.DisplayNameFor(model => model.Passport)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.RegNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FullName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Department)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Gender)
+        </td>
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.JambScore)
+        </td>
+       
+        <td>
+            <img src="@Url.Action("RenderImage", new { studentId = item.RegNo})" width="100" height="100" />
+        </td>
+
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.RegNo }) |
+            @Html.ActionLink("Details", "Details", new { id=item.RegNo }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.RegNo })
+        </td>
+    </tr>
+}
+
+</table>*@
+<table id="Jdatatable" class="table table-responsive table-striped table-hover">
+    <thead>
+    <tr>
+        <th>Reg No</th>
+        <th>Full Name</th>
+        <th>Department</th>
+        <th>Gender</th>
+    </tr>
+    </thead>
+</table>
+
+@section Scripts{
+    <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+    <script>
+
+        $(document).ready(function() {
+            $('#Jdatatable').DataTable({
+                "ajax": {
+                    "url": "/PreDegreeStudents/GetData",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "RegNo", "autoWidth": true },
+                    { "data": "FullName", "autoWidth": true },
+                    { "data": "Department", "autoWidth": true },
+                    { "data": "Gender", "autoWidth": true },
+                    //{ "data": "City", "autoWidth": true },
+                    //{ "data": "PostalCode", "autoWidth": true }
+                ]
+            });
+        });
+
+    </script>
+}

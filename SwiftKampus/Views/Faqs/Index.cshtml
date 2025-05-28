@@ -1,0 +1,54 @@
+﻿@model IEnumerable<SwiftKampusModel.Faq>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<style>
+    .dashbard-1 {
+        background-color: white;
+    }
+    /* Remove white background and add drop shadow to table rows */
+    table.table-striped tbody tr {
+        background-color: transparent !important;
+    }
+
+    /* Add margin to table rows */
+    table.table-striped tbody tr {
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="container">
+    <h2>FAQ Index</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+    </p>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Question)</th>
+                    <th>@Html.DisplayNameFor(model => model.Answer)</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Question)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Answer)</td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.FaqId }, new { @class = "btn btn-warning" }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.FaqId }, new { @class = "btn btn-info" }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.FaqId }, new { @class = "btn btn-danger" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

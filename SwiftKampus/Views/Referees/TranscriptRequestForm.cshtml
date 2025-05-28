@@ -1,0 +1,269 @@
+﻿@model SwiftKampus.ViewModels.StudentBioData.TranscriptFormVm
+
+@{
+//Layout = null;
+}
+<title>University of Jos, Nigeria - @*<?php echo $personal_details['faculty_name']; ?>*@ Complete Application Form</title>
+
+<style type="text/css">
+    .print {
+        font-size: 12px;
+    }
+
+    .date {
+        display: none;
+    }
+
+    @@media print {
+        .noprint {
+            display: none
+        }
+        /*.date{display:block;}*/
+        .visible-print {
+            display: block !important;
+        }
+
+        .imgg {
+            margin-top: -630px;
+            margin-left: 200px;
+            opacity: 0.2;
+            width: 200px;
+            /*display:inline-block !important;*/
+        }
+
+        .imgg-2 {
+            margin-top: -1210px;
+            margin-left: 200px;
+            opacity: 0.2;
+            width: 200px;
+            /*display:inline-block !important;*/
+        }
+    }
+
+    .imgg, .imgg-2 {
+        display: none;
+    }
+</style>
+<body>
+
+    <div class="noprint">
+        @*<?php include_layout_template("header.php"); ?>
+            <?php include_layout_template("confirmation_menu.php"); ?>*@
+    </div>
+
+    <!--The Main Content Here Please-->
+    <div class="container-semifluid">
+
+        <div class="alert alert-info">
+            <h4 style="text-align:center; font-size: 22px;">UNIVERSITY OF JOS, JOS - NIGERIA</h4>
+        </div>
+
+        <div class="noprint">
+            <h5 style="text-align:center"> POST GRADUATE ONLINE APPLICATION</h5>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.ProgrameName))
+        {
+            <div class="print">
+
+                <!-- Page 1 -->
+                <table width="100%">
+                    <tbody>
+                        <tr>
+                            <td width="25%"></td>
+                            <td align="center">
+
+                                <!-- <h5 style="color: #428bca; font-size: 14px;">UNIVERSITY OF JOS, JOS, NIGERIA.</h5> -->
+                            </td>
+                            <td width="25%"></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span style="color: #428bca;"><strong> The Registrar,</strong></span><br>
+                                <strong style="color: #428bca;"></strong><br>
+                                Dear Sir/Madam,
+                            </td>
+                            <td align="center">
+                                <div>
+                                    @*<img style="height:110px;" src="~/Content/Images/unijoslogo.png" />*@
+                                    <img style="height:110px;" src="~/Content/Images/unijoslogo.png" />
+                                </div>
+                            </td>
+                            <td>
+                                <span class="pull-right" style="color: #428bca;">
+                                    <br>
+                                    <strong>Date: @DateTime.Now.ToString("dd MMM yyyy")</strong>
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td width="25%"></td>
+                            <td align="center">
+                                <h4 style="color: #428bca; font-size: 14px;"><strong>SCHOOL OF POSTGRADUATE STUDIES</strong></h4>
+                                <h4 style="color: #428bca; font-size: 11px;">REQUEST FOR ACADEMIC TRANSCRIPT</h4>
+                                <hr>
+                            </td>
+                            <td width="25%"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Begining of content positioning -->
+                <div class="row-fluid">
+
+
+                    <p>
+                        <strong class="text-success"> @Model.FullName </strong>
+                        whose detail is captured in the table below is a graduate from your institution and an applicant for @Model.ProgrammeCode in @Model.ProgrameName of our institution with form number <strong class="text-info">@Model.RegNo </strong>
+                    </p>
+
+                    <div class="row-fluid">
+
+                        <div class="span12">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td >
+                                        <ul align="right">
+                                            <li><strong>REGISTRATION NO:</strong>  </li>
+                                            <li><strong>PROGRAMME:</strong> </li>
+                                            <li><strong>QUALIFICATION:</strong> </li>
+                                            <li><strong>Class OF DEGREE:</strong> </li>
+                                            <li><strong>YEAR GRADUATED:</strong> </li>
+                                            <li><strong>C.G.P.A:</strong> </li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            <li>......................................</li>
+                                            <li>@Model.ProgrameName</li>
+                                            <li>@Model.Qualification</li>
+                                            <li>@Model.ClassOfDegree</li>
+                                            <li>@Model.YearGraduated</li>
+                                            <li>@Model.Cgpa</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </table>
+
+
+                        </div>
+                    </div>
+
+
+                    <p>Kindly process and send the applicant's academic transcript to the address below for our consideration:</p>
+                    <div class="row-fluid">
+                        <div class="span6">
+
+                            <table width="100%">
+                                <tr>
+                                    <td>
+                                        <address>
+                                            <strong>
+                                                The Head of Department,<br>
+                                                @Model.DeptName,<br>
+                                                @Model.FacultyName,<br>
+                                                University of Jos,<br>
+                                                P.M.B. 2084, Jos, <br />
+                                                Plateau State, Nigeria.
+                                            </strong><br>
+                                        </address>
+
+                                        <address>
+                                            Thank you<br>
+
+                                            Your Sincerely,<br><br>
+
+
+                                            Dean, School of Postgraduate Studies,<br>
+                                            University of Jos.
+
+                                        </address>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </table>
+
+                        </div>
+                        <div class="span6">
+
+                            <table width="100%" border="0">
+                                <tr>
+                                    <td width="25%">
+                                        This Transcript request for is auto-generated from the University of Jos Online Form Processing application make sure the information within the QrCode is correct with what is on the form and school record please.
+                                    </td>
+                                    <td width="25%">
+                                         '<img src="" />
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </div>
+                    <table>
+                        <tr>
+                            <td width="25%">
+                                <span class="visible-print hide text-info" style="font-size: 10px;">
+                                    Date Printed:
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                    <!-- /page 1 -->
+
+
+                </div>
+                <!--End Transcript form Template-->
+
+                <div class="row">
+                    <div class="span2 offset6">
+                        <div class="control-group noprint">
+                            <label class="control-label"></label>
+                            <div class="controls">
+                                <button type="submit" class="btn printbtn">Print <i class="icon-print"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <img src="~/Content/Images/unijoslogo.png" class="imgg visible-print">
+                    <img src="~/Content/Images/unijoslogo.png" class="imgg-2 visible-print">
+                </div>
+            </div>
+        }
+        else
+        {
+            <h3>Please complete the Bio-data Tab first</h3>
+        }
+
+
+
+        <div id="displayinfo" class="modal hide" tabindex="-1" data-backdrop="static" data-keyboard="false" style="display: none;">
+            <div class="modal-body ajax_data"></div>
+            <div class="modal-footer">
+                <a href="#" class="btn" id="close">Close</a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer for the page -->
+    <div class="noprint">
+
+
+    </div>
+
+</body>
+@*<script src="js/jquery.js"></script>
+    <script src="css/assets/js/bootstrap.js"></script>
+    <script src="js/jquery.validate.min.js"></script>*@
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    jQuery.noConflict();
+    jQuery(document).ready(function () {
+        jQuery('.printbtn').click(function () {
+            window.print();
+        });
+    });
+</script>
+<script type="text/javascript">jQuery('.dropdown-toggle').dropdown();</script>

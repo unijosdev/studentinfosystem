@@ -1,0 +1,91 @@
+﻿@model SwiftKampusModel.Result
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Result</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Programme.ProgrammeCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Programme.ProgrammeCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Semester.SemesterName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Semester.SemesterName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sessions.SessionName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sessions.SessionName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StudentId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StudentId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalCourseUnit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalCourseUnit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalGradePoint)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalGradePoint)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalQualityPoint)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalQualityPoint)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gpa)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gpa)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cgpa)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cgpa)
+        </dd>
+
+    </dl>
+</div>
+@*<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ResultId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>*@

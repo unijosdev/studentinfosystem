@@ -1,0 +1,34 @@
+﻿@model SwiftKampusModel.CoursePrerequisite
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CoursePrerequisite</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.MainCourseId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MainCourseId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PrerequisiteCourseId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrerequisiteCourseId)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CoursePrerequisiteId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

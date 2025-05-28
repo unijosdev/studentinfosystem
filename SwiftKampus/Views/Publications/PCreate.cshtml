@@ -1,0 +1,409 @@
+﻿@model SwiftKampus.ViewModels.StudentBioData.PublicationVm
+
+@{
+    ViewBag.Title = "Publications";
+    Layout = null;
+}
+
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+<input value="@ViewBag.isStudent" hidden id="isStudent" />
+
+<form id="myform" onsubmit="return false;">
+
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>Add Publications</h2>
+        </div>
+        <div class="col-lg-2">
+            <br />
+            <span class="col-md-12" input-group-btn col-sm-2">
+                <button id="btnPublicationAddMore" onclick="PublicationAdd()" type="button" class="btn btn-primary"><i class="fa fa-plus"></i></button>
+            </span>
+        </div>
+    </div>
+
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="com-md-12">
+                    @*<h4 class="text-center">Instruction</h4>*@
+                    @*<ol class="bold">
+                            <li>You are only allowed to Add 5 results from <i class="bold italic">Maximum of two sittings</i> </li>
+                            <li>Select Exam Type</li>
+                            <li>Select Subject(s)</li>
+                            <li>Add Grade based on the order of subject selected</li>
+                        </ol>*@
+                </div>
+            </div>
+            <div class="col-md-10">
+
+                <ul class="text-danger">
+                    <li style="font-size:20px">Fill all the details. Put 'none' if you don't have any detail</li>
+                </ul>
+
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="publicationRepeatable">
+                            @if (Model.Publications != null && Model.Publications.Count() > 0)
+                            {
+                                for (int i = 0; i < Model.Publications.Count(); i++)
+                                {
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.Publications[i].Title)
+                                                    @Html.EditorFor(model => model.Publications[i].Title, new { htmlAttributes = new { @class = "form-control ptitle" } })
+                                                    @Html.ValidationMessageFor(model => model.Publications[i].Title, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.Publications[i].Institution)
+                                                    @Html.EditorFor(model => model.Publications[i].Institution, new { htmlAttributes = new { @class = "form-control pinstitution" } })
+                                                    @Html.ValidationMessageFor(model => model.Publications[i].Institution, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.Publications[i].PublicationType)
+                                                    @Html.EditorFor(model => model.Publications[i].PublicationType, new { htmlAttributes = new { @class = "form-control ppublicationType" } })
+                                                    @Html.ValidationMessageFor(model => model.Publications[i].PublicationType, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.Publications[i].Qualification)
+                                                    @Html.EditorFor(model => model.Publications[i].Qualification, new { htmlAttributes = new { @class = "form-control pqualification" } })
+                                                    @Html.ValidationMessageFor(model => model.Publications[i].Qualification, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.Publications[i].Publisher)
+                                                    @Html.EditorFor(model => model.Publications[i].Publisher, new { htmlAttributes = new { @class = "form-control ppublisher" } })
+                                                    @Html.ValidationMessageFor(model => model.Publications[i].Publisher, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.Publications[i].PublishedDate)
+                                                    @Html.EditorFor(model => model.Publications[i].PublishedDate, new { htmlAttributes = new { @class = "form-control ppublishedDate", type = "text", placeholder = "dd/mm/yyyy" } })
+                                                    @Html.ValidationMessageFor(model => model.Publications[i].PublishedDate, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <span class="col-md-12" onclick="remove_Publicationbutton(this)" input-group-btn col-sm-2">
+                                            <button type="button" class="btn btn-primary"><i class="fa fa-minus"></i></button>
+                                        </span>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Publication.Title)
+                                                @Html.EditorFor(model => model.Publication.Title, new { htmlAttributes = new { @class = "form-control ptitle" } })
+                                                @Html.ValidationMessageFor(model => model.Publication.Title, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Publication.Institution)
+                                                @Html.EditorFor(model => model.Publication.Institution, new { htmlAttributes = new { @class = "form-control pinstitution" } })
+                                                @Html.ValidationMessageFor(model => model.Publication.Institution, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Publication.PublicationType)
+                                                @Html.EditorFor(model => model.Publication.PublicationType, new { htmlAttributes = new { @class = "form-control ppublicationType" } })
+                                                @Html.ValidationMessageFor(model => model.Publication.PublicationType, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Publication.Qualification)
+                                                @Html.EditorFor(model => model.Publication.Qualification, new { htmlAttributes = new { @class = "form-control pqualification" } })
+                                                @Html.ValidationMessageFor(model => model.Publication.Qualification, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Publication.Publisher)
+                                                @Html.EditorFor(model => model.Publication.Publisher, new { htmlAttributes = new { @class = "form-control ppublisher" } })
+                                                @Html.ValidationMessageFor(model => model.Publication.Publisher, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Publication.PublishedDate)
+                                                @Html.EditorFor(model => model.Publication.PublishedDate, new { htmlAttributes = new { @class = "form-control ppublishedDate", type = "text", placeholder = "dd/mm/yyyy" } })
+                                                @Html.ValidationMessageFor(model => model.Publication.PublishedDate, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="col-md-12" onclick="remove_Publicationbutton(this)" input-group-btn col-sm-2">
+                                        <button type="button" class="btn btn-primary"><i class="fa fa-minus"></i></button>
+                                    </span>
+                                </div>
+                            }
+                        </div>
+
+                        @*<div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-md-offset-2 col-md-10">
+                                            <input type="submit" onclick="PublicationSave()" id="btnSavePub" value="SAVE AND CONTINUE" class="btn block btn-primary btn-lg col-md-12" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+
+                                </div>
+                            </div>*@
+
+                        <div class="form-group">
+                            <div class="col-md-6"></div>
+                            <div class="col-md-6 pull-right">
+                                <span class="pull-right">
+                                    <input type="submit" onclick="PublicationSave()" id="btnSavePub" value="SAVE AND CONTINUE" class="btn btn-primary block btn-sm">
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="col-md-12">
+                    <a id="btnPubliationPrevious" href="#" onclick="PublicationPrevious()" class="btn btn-warning btn-lg btnPrevious" data-dismiss="modal">PREVIOUS</a>
+                    @*<a id="btnPubliationNext" href="#" onclick="PublicationNext()" class="btn btn-warning btn-lg btnNext" data-dismiss="modal">NEXT</a>*@
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script>
+    var count = 2;
+        function PublicationAdd() {
+            if (count <= 5) {
+                var new_field = `<div class="row"> <div class="hr-line-dashed"></div>
+                                <div class="col-md-4">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Publication.Title)
+                                            @Html.EditorFor(model => model.Publication.Title, new { htmlAttributes = new { @class = "form-control ptitle" } })
+                                            @Html.ValidationMessageFor(model => model.Publication.Title, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Publication.Institution)
+                                            @Html.EditorFor(model => model.Publication.Institution, new { htmlAttributes = new { @class = "form-control pinstitution" } })
+                                            @Html.ValidationMessageFor(model => model.Publication.Institution, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Publication.PublicationType)
+                                            @Html.EditorFor(model => model.Publication.PublicationType, new { htmlAttributes = new { @class = "form-control ppublicationType" } })
+                                            @Html.ValidationMessageFor(model => model.Publication.PublicationType, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Publication.Qualification)
+                                            @Html.EditorFor(model => model.Publication.Qualification, new { htmlAttributes = new { @class = "form-control pqualification" } })
+                                            @Html.ValidationMessageFor(model => model.Publication.Qualification, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Publication.Publisher)
+                                            @Html.EditorFor(model => model.Publication.Publisher, new { htmlAttributes = new { @class = "form-control ppublisher" } })
+                                            @Html.ValidationMessageFor(model => model.Publication.Publisher, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Publication.PublishedDate)
+                                            @Html.EditorFor(model => model.Publication.PublishedDate, new { htmlAttributes = new { @class = "form-control ppublishedDate", type = "text", placeholder = "dd/mm/yyyy" } })
+                                            @Html.ValidationMessageFor(model => model.Publication.PublishedDate, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                            <span class="col-md-12" onclick="remove_Publicationbutton(this)" input-group-btn col-sm-2">
+                                <button type="button" class="btn btn-primary"><i class="fa fa-minus"></i></button>
+                            </span>
+                            </div>
+
+                        </div>`;
+                $('.publicationRepeatable').append(new_field);
+                count++;
+            }
+            else
+            {
+                swal({
+                    title: "Warning",
+                    text: "Maximum number of fields exceeded!",
+                    type: "warning",
+                });
+            }
+        }
+
+        //$('#btnSavePub').click(function () {
+        function PublicationSave() {
+            var ptitle = [];
+            var institution = [];
+            var publicationType = [];
+            var qualification = [];
+            var publisher = [];
+            var publishedDate = [];
+            var publishedList = [];
+
+            //pulling the form data using the class and adding it to a list
+            $.each($('.ptitle'), function () {
+                ptitle.push($(this).val());
+            });
+
+            $.each($('.pinstitution'), function () {
+                institution.push($(this).val());
+            });
+
+            $.each($('.ppublicationType'), function () {
+                publicationType.push($(this).val());
+            });
+
+            $.each($('.pqualification'), function () {
+                qualification.push($(this).val());
+            });
+
+            $.each($('.ppublisher'), function () {
+                publisher.push($(this).val());
+            });
+
+            $.each($('.ppublishedDate'), function () {
+                publishedDate.push($(this).val());
+            });
+
+            //append to list for c# in controller
+            for (var i = 0; i < ptitle.length; i++) {
+                var data = {
+                    "Title": ptitle[i],
+                    "Institution": institution[i],
+                    "PublicationType": publicationType[i],
+                    "Qualification": qualification[i],
+                    "Publisher": publisher[i],
+                    "PublishedDate": publishedDate[i],
+                };
+                publishedList.push(data);
+            }
+
+
+            var Mydata = JSON.stringify(publishedList);
+
+            $.ajax({
+
+                contentType: 'application/json',
+                type: "POST",
+                url: "/Publications/PCreate",
+                data: Mydata,
+                success: function (data) {
+                    if (data.status) {
+                        swal({
+                            title: "Good Job!!!",
+                            text: "Publication details saved successfully",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#ab973a",
+                            confirmButtonText: "Proceed",
+                            cancelButtonText: "Cancel",
+                            closeOnConfirm: false,
+                            closeOnCancel: false
+                        },
+                        function (isConfirm) {
+                            if (isConfirm) {
+                                swal("Great", "You can proceed now", "success");
+
+                                var isStudent = $('#isStudent').val();
+                                if (isStudent === 'Student') {
+                                    $("#referee").click();
+                                }
+                                else $("#uploaddocument").click();
+                            }
+                            else {
+                                swal("Great", "You can click procced button to continue", "success");
+                            }
+                        });
+                        toastr["success"](data.message);
+                    } else {
+                        swal({
+                            title: "Warning",
+                            text: data.message,
+                            type: "warning",
+                        });
+                        toastr["success"](data.message);
+                    }
+
+
+                }
+            });
+    }
+
+        function remove_Publicationbutton(elem) {
+            $(elem).closest('div').remove();
+        }
+
+        function PublicationPrevious() {
+            $("#thesis").click();
+        }
+
+        function PublicationNext() {
+            $("#referee").click();
+        }
+
+</script>
+

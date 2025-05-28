@@ -1,0 +1,117 @@
+﻿@model SwiftKampusModel.AssignedCourseVm
+
+<script src="~/AdminTemplate/js/plugins/chosen/chosen.jquery.js"></script>
+<link href="~/AdminTemplate/css/plugins/chosen/bootstrap-chosen.css" rel="stylesheet" />
+<form id="myform" onsubmit="return false;">
+    @Html.AntiForgeryToken()
+    <div class="card">
+        <div class="card-head style-primary">
+
+
+        </div><!--end .card-head -->
+        <div class="card-body">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @if (Model != null && Model.AssignedCourseId > 0)
+            {
+                @Html.HiddenFor(model => model.AssignedCourseId)
+            }
+
+
+            <div class="form-group">
+                @Html.Label("Staff Name")
+                @Html.DropDownList("StaffId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.StaffId, "", new { @class = "text-danger" })
+            </div>
+            @if (Model != null && Model.AssignedCourseId > 0)
+            {
+                <div class="form-group">
+                    @Html.Label("Course Name")
+                    @Html.DropDownList("CourseId", null, htmlAttributes: new { @class = "form-control col-md-2" })
+                    @Html.ValidationMessageFor(model => model.CourseId, "", new { @class = "text-danger" })
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    @Html.Label("Course Name")
+                    @Html.DropDownList("CourseId", null, htmlAttributes: new { @class = "form-control chosen-select", @multiple = "true" })
+                    @Html.ValidationMessageFor(model => model.CourseId, "", new { @class = "text-danger" })
+                </div>
+
+            }
+
+
+            <div class="form-group">
+                @Html.Label("Semester Name")
+                @Html.DropDownList("SemesterId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SemesterId, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.Label("Session Name")
+                @Html.DropDownList("SessionId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SessionId, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Is Main Lecturer")
+                @Html.EditorFor(model => model.IsMainLecture)
+                @Html.ValidationMessageFor(model => model.IsMainLecture, "", new { @class = "text-danger" })
+            </div>
+
+
+            <div class="md-form">
+
+                @if (Model != null && Model.AssignedCourseId > 0)
+                {
+                    <input id="btnsubmit" type="submit" value="Update" class="btn btn-primary btn-lg" />
+                }
+                else
+                {
+                    <input id="btnsubmit" type="submit" value="Save" class="btn btn-primary btn-lg" />
+                }
+                <a href="#" class="btn btn-danger btn-lg" data-dismiss="modal">Cancel</a>
+            </div>
+        </div><!--end .card-body -->
+
+    </div>
+</form>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.chosen-select').chosen();
+        $(function () {
+            $('.listbox').multiselect({
+                includeSelectAllOption: true
+            });
+        });
+
+
+        $("#btnsubmit").click(function () {
+
+            var data = $("#myform").serialize();
+
+            $.ajax({
+                type: "POST",
+                url: "/AssignedCourses/Save",
+                data: data,
+                success: function (data) {
+                    if (data.status) {
+                        $('#actionsList').modal("hide");
+                        window.oTable.ajax.reload(); //run my_fun() ondomready
+                        toastr["success"](data.message);
+                        $('#myform')[0].reset();
+                    } else {
+                        toastr["error"](data.message);
+                        $('#actionsList').modal("hide");
+
+                    }
+
+                }
+            });
+        });
+    });
+
+</script>
+

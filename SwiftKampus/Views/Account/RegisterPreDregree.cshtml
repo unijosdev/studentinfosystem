@@ -1,0 +1,107 @@
+﻿@model SwiftKampus.Models.RegisterViewModel
+    @using SwiftKampus.Models
+@{
+    ViewBag.Title = "student Registration";
+    //Layout = "~/Views/Shared/_LayoutWebSite2.cshtml";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    var schoolImage = SchoolSetUp.SchoolBanner;
+
+}
+
+<br />
+<br />
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-9 col-lg-6 login-form mx-auto float-none">
+
+            <!--Form with header-->
+            <div class="card">
+                <div class="card-block">
+
+                    <!--Header-->
+                    <div class="form-header">
+                        <h3>
+                            <img class="img-responsive" src="~/Content/Images/@schoolImage" />
+                            @*<i class="fa fa-lock"></i>*@
+                        </h3>
+                    </div>
+
+                    <!--Body-->
+                    @using (Html.BeginForm("RegisterPreDregree", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <h4>Confirm your Details</h4>
+                        <hr />
+                        @Html.ValidationSummary("", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.FirstName)
+                            @Html.TextBoxFor(m => m.FirstName, new {@class = "form-control", @readonly = true})
+                        </div>
+                       
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.StudentId)
+                                    @Html.TextBoxFor(m => m.StudentId, new { @class = "form-control", @readonly = true })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Department)
+                                    @Html.TextBoxFor(m => m.Department, new {@class = "form-control", @readonly = true})
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Email)
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Password)
+                                    @Html.PasswordFor(m => m.Password, new {@class = "form-control"})
+                                    @Html.ValidationMessageFor(model => model.Password, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.ConfirmPassword)
+                                    @Html.PasswordFor(m => m.ConfirmPassword, new {@class = "form-control"})
+                                </div>
+                            </div>
+                        </div>
+                        
+                       
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-7">
+                                <input type="submit" class="btn ink-reaction btn-raised btn-primary" value="Register" />
+                            </div>
+                        </div>
+                    }
+                </div>
+
+
+
+            </div>
+            <!--/Form with header-->
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+

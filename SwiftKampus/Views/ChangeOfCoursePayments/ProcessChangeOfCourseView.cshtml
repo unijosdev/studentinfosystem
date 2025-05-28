@@ -1,0 +1,116 @@
+@model SwiftKampus.ViewModels.ProcessChangeOfCourse.ProcessChangeOfCourseVM
+
+
+<form id="myform" onsubmit="return false;">
+    @Html.AntiForgeryToken()
+
+
+    <div class="card">
+        <div class="card-head style-primary">
+            <header>
+                <h3>@ViewBag.Message</h3>
+            </header>
+
+        </div><!--end .card-head -->
+        <div class="card-body">
+            @Html.HiddenFor(x => x.StudentId)
+            @Html.HiddenFor(x => x.OldLevelId)
+            @Html.HiddenFor(x => x.OldprogrammeId)
+            @Html.HiddenFor(x => x.AuthorId)
+            @Html.HiddenFor(x => x.SessionAppliedForCOC)
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <h3>@ViewBag.Message</h3>
+
+            <div class="form-group">
+                @Html.Label("Current Level")
+                @Html.EditorFor(model => model.OldLevelName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Old Programme")
+                @Html.EditorFor(model => model.OldprogrammeName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("New Level")
+                @Html.DropDownList("LevelId", (SelectList)ViewBag.LevelId, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LevelId, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("New Programme")
+                <br />
+                @Html.DropDownList("ProgrammeId", (SelectList)ViewBag.ProgrammeId, htmlAttributes: new { @class = "form-control js-select2" })
+                @Html.ValidationMessageFor(model => model.ProgrammeId, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="md-form">
+
+
+                <input id="btnsubmit" type="submit" value="Save" class="btn btn-success btn-lg" />
+
+                <a href="#" class="btn btn-danger btn-lg" data-dismiss="modal">Cancel</a>
+            </div>
+        </div><!--end .card-body -->
+    </div><!--end .card -->
+</form>
+
+
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
+
+<script type="text/javascript">
+    
+    $(document).ready(function () {
+
+        jQuery(function ($) {
+            $('.js-select2').select2({
+                placeholder: 'Select an option...',
+                allowClear: true,
+                dropdownParent: $('.modal-body'),
+                width: '400px'
+            });
+        });
+
+        //$(document).ready(function () {
+
+        //    $('#ProgrammeId').select2({
+
+        //        placeholder: "Select Item",
+
+        //        allowClear: true
+
+        //    });
+
+        //});
+        $("#btnsubmit").click(function () {
+            var newLevelId = $('#LevelId').val();
+            var newProgrammeId = $('#ProgrammeId').val();
+            var data = $("#myform").serialize();
+            console.log(data);
+
+            $.ajax({
+                type: "POST",
+                url: "/ChangeOfCoursePayments/ProcessChangeOfCourse",
+                data: data,
+                success: function (data) {
+                    if (data.status) {
+                        $('#actionsList').modal("hide");
+
+                        window.oTable.ajax.reload(); //run my_fun() ondomready
+                        toastr["success"](data.message);
+                        $('#myform')[0].reset();
+                    } else {
+                        //$('#actionsList').modal("hide");
+                        toastr["error"](data.message);
+                    }
+
+                }
+            });
+        });
+    });
+</script>

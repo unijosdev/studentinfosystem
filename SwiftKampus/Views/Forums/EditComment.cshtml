@@ -1,0 +1,83 @@
+﻿@model SwiftKampusModel.CourseForum.ForumComment
+<link href="~/AdminTemplate/css/plugins/summernote/summernote.css" rel="stylesheet">
+<link href="~/AdminTemplate/css/plugins/summernote/summernote-bs3.css" rel="stylesheet">
+
+<div class="card">
+    <div class="card-body">
+
+
+        <form id="myform" onsubmit="return false;">
+
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.HiddenFor(m => Model.ContentId)
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Body)
+                    @*@Html.TextAreaFor(model => model.Question, new { htmlAttributes = new { @class = "summernote" } })*@
+                    <textarea id="Body" name="Body" class="summernote" placeholder="Type your answer here">@Model.Body</textarea>
+                    @Html.ValidationMessageFor(model => model.Body, "", new { @class = "text-danger" })
+                </div>
+
+
+
+                <div class="form-group">
+                    <div class="text-center">
+                        <input id="btnsubmit2" type="submit" value="UPDATE RESPONSE" class="btn btn-primary btn-lg" />
+                        @*<input id="btnsubmit3" type="submit" value="CANCEL" class="btn btn-success btn-lg" />*@
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="~/Admintemplate/js/plugins/summernote/summernote.min.js"></script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.summernote').summernote();
+    });
+
+    $("#btnsubmit2").click(function () {
+        var data = $("#myform").serialize();
+        $.ajax({
+            type: "POST",
+            url: "/Forums/EditComment",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    toastr["success"](data.message);
+                    //$('#myform')[0].reset();
+                    window.GetCourseForum(data.id);
+                } else {
+                    //$('#actionsList').modal("hide");
+                    toastr["error"](data.message);
+                }
+
+            }
+        });
+
+    });
+
+    function GetCourseForum(courseId) {
+        var url = "/Forums/GetQuestionReply?id=" + courseId;
+        window.open(url, '_self');
+
+    };
+
+
+</script>
+
+
+
+
+
+
+
+

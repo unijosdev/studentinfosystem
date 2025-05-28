@@ -1,0 +1,113 @@
+﻿@model SwiftKampusModel.CourseForum.Forum
+
+<div class="card">
+    <div class="card-head style-primary">
+        <header>
+            <h3>
+                FORUM QUESTIONS
+            </h3>
+        </header>
+
+    </div><!--end .card-head -->
+    <div class="card-body">
+        <a onclick="AddQuestion('@Model.CourseId')" class="btn btn-primary"><i class="fa fa-plus">Add Question</i> </a>
+        <div>
+            <dl class="dl-horizontal">
+
+
+                <dt>
+                    Forum Name
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+                <dt>
+                    Description
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+
+            </dl>
+        </div>
+        
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="JdatatableGetQuestion" class="table table-responsive">
+                    <thead>
+                    <tr>
+                        <th>Questions</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        @*<table style="width: 100%">
+            <tr>
+                <th>Questions Title</th>
+                <th>Actions</th>
+            </tr>
+            
+                @foreach (var item in Model.ForumQuestions)
+                {
+                    <tr>
+                    <td>@item.Title</td>
+                    <td><a onclick="GetQuestion('@item.ForumQuestionId')"><i class="fa-info-circle">View Replies</i></a></td>
+                    </tr>
+                }
+            
+        </table>*@
+
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+    window.oTableQuestion = $("#JdatatableGetQuestion").DataTable({
+        "processing": true, // for show progress bar while loading
+        //"serverSide": true, // if it is true the preocess is done on server side
+        //"filter": true, // disables search box
+        //"info": true,
+        //"stateSave": true,
+        //"orderMulti": false, // disable multiple column loading at once
+        "ajax": {
+            "url": "/Forums/GetQuestion?id=" + "@Model.CourseId",
+            "type": "POST",
+            "datatype": "json"
+        },
+        "columns": [
+            { "data": "Title", "autoWidth": true },
+            {
+                "data": "ForumQuestionId",
+                "autoWidth": true,
+                "render": function(data) {
+                    return '<a href="#" onclick="GetQuestion(\''+data+'\')" data-toggle="tooltip" data-placement="top" title="View Question Replies"><i class="fa fa-eye" aria-hidden="true">REplies</i></a>';
+                }
+            }
+            //{ "data": "EmailID", "autoWidth": true },
+            //{ "data": "Phone", "autoWidth": true },
+        ]
+    });
+
+    });
+    function AddQuestion(courseId) {
+        // window.alert(courseId);
+        var url = "/Forums/SaveForumQuestion?id=" + courseId;
+        $('#topicContentDetail').load(url);
+     
+    };
+   
+    function GetQuestion(forumQuestionId) {
+        var url = "/Forums/GetQuestionDetails?id=" + forumQuestionId;
+        // document.getElementById('topicContentDetail').scrollIntoView();
+        $('#topicContentDetail').load(url);
+        $('html, body').animate({ scrollTop: $('#topicContentDetail').offset().top }, 'slow');
+    };
+
+</script>

@@ -1,0 +1,133 @@
+﻿@model IEnumerable<SwiftKampusModel.AddmissionApplicant.ChangeOfCoursePayment>
+
+@{
+    ViewBag.Title = "Change of Course";
+}
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox-content">
+                <table class="table table-responsive">
+                    <tr>
+                        <th>Type</th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.Student.FullName)
+                        </th>
+                        <th>
+                            Session Name
+                        </th>
+                        <th>
+                            Programme
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ReferenceNo)
+                        </th>
+                        <th>
+                            Amount
+                        </th>
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Transaction Message
+                        </th>
+                        <th>Status</th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ChangeOfCourseType)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Student.FullName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Session.SessionName)
+                        </td>
+                        <td>
+                            @if (item.Programme != null)
+                            {
+                                @item.Programme.ProgrammeName
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ReferenceNo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TotalAmount)
+                        </td>
+                        <td>
+                            @item.PaymentDateTime.ToString("dd MMM yyyy")
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TransactionMessage)
+                        </td>
+                        @if (item.IsPayed.Equals(true) && item.IsExpired.Equals(false))
+                        {
+                            <td>
+                                <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#actionsList" onclick="Edit(@item.ChangeOfCoursePaymentId)">Process</a>
+
+                            </td>
+                        }
+                        @if (item.IsExpired.Equals(true))
+                        {
+
+                            <td>    
+                                <a href="#" class="text-warning">Processing Request</a>
+                            </td>
+                        }
+                    <td>
+                        <a class="btn btn-sm btn-success" target="_blank" href="@Url.Action("PrintReceipt","ChangeOfCoursePayments", new{ id = item.ChangeOfCoursePaymentId})">Print Receipt</a>
+                    </td>
+
+                    </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">CHANGE OF COURSE</h4>
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+<script type="text/javascript">
+
+    function Edit(gradeId) {
+        var url = "/ChangeOfCoursePayments/Save?id=" + gradeId;
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+
+</script>

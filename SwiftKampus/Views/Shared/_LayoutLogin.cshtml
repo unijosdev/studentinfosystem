@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from mdbootstrap.com/live/_MDB/templates/Admin/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 13 Jul 2017 21:22:01 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>@System.Configuration.ConfigurationManager.AppSettings["SchoolName"]</title>
+    
+    @*<link rel="icon" href="~/Content/images/swiftskool2.png" item-height="200" type="image/x-icon">*@
+    <meta name="keywords" content="uniben, unibenportal, unibenedu, unibennigeria, uniben nigeria, uniben edu">
+    <meta name="description" content="Uniben Portal @DateTime.Now.Year">
+    <link rel="icon" type="image/png" href="~/Content/Images/unibenicon.png">
+
+    <!-- /Twitter Card -->
+    @Scripts.Render("~/bundles/modernizr")
+    <!-- Font Awesome -->
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <!-- Bootstrap core CSS -->
+    <link href="~/Content/Md/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Material Design Bootstrap -->
+    <link href="~/Content/Md/css/mdb.min.css" rel="stylesheet" />
+
+    <!-- Customizer -->
+    <link href="~/Content/Md/css/customizer.min.css" rel="stylesheet" />
+    <!-- Your custom styles (optional) -->
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+
+</head>
+<body class="fixed-sn white-skin">
+    @RenderBody()
+    <!-- SCRIPTS -->
+    <!-- JQuery -->
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script src="~/Content/Md/js/tether.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script src="~/Content/Md/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script src="~/Content/Md/js/mdb.min.js"></script>
+    <!--Start of Tawk.to Script-->
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+        (function () {
+            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/5c7906313341d22d9ce6c71a/default';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
+
+    <script type="text/javascript">
+        // Tooltips Initialization
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip('show');
+        })
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+
+</html>

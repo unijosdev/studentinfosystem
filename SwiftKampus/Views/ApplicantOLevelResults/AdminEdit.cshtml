@@ -1,0 +1,257 @@
+﻿@model IEnumerable<SwiftKampusModel.AddmissionApplicant.ApplicantOLevelResult>
+@using SwiftKampusModel
+
+<div class="container-fluid">
+    <h3>Edit O-Level Results for @ViewBag.ApplicantEmail</h3>
+
+    <table class="table table-bordered" id="olevel-results-table">
+        <thead>
+            <tr>
+                <th>Result Name</th>
+                <th>Subject</th>
+                <th>Grade</th>
+                <th>Center</th>
+                <th>Year</th>
+                <th>Exam Number</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var result in Model)
+            {
+                <tr>
+                    <input type="hidden" class="applicantId" value="@result.ApplicantId" />
+                    <td>
+                        @if (result.GradePoint == 0)
+                        {
+                            @Html.DropDownList($"ResultName_{result.ApplicantOLevelResultId}",
+                                               (SelectList)ViewBag.ResultTypeOptions,
+                                               result.ResultName,
+                                               new { @class = "form-control resultName" })
+                        }
+                        else
+                        {
+                            @result.ResultName
+                        }
+                    </td>
+                    <td>
+                        @if (result.GradePoint == 0)
+                        {
+                            @Html.DropDownList($"SubjectId_{result.ApplicantOLevelResultId}",
+                                               (SelectList)ViewBag.StdSubjectId,
+                                               result.Subject.CourseName,
+                                               new { @class = "form-control subjectId" })
+                        }
+                        else
+                        {
+                            @result.Subject.CourseName
+                        }
+                    </td>
+                    <td>
+                        @if (result.GradePoint == 0)
+                        {
+                            @Html.DropDownList($"SubjectGrade_{result.ApplicantOLevelResultId}",
+                                               (SelectList)ViewBag.SubjectGrade,
+                                               result.SubjectGrade,
+                                               new { @class = "form-control subjectGrade" })
+                        }
+                        else
+                        {
+                            @result.SubjectGrade
+                        }
+                    </td>
+                    <td><input type="text" class="form-control center" value="@result.ExaminationCenter " /></td>
+                    <td><input type="number" class="form-control year" value="@result.Year" /></td>
+                    <td><input type="text" class="form-control examNumber" value="@result.ExamNumber" /></td>
+                    <td style="white-space: nowrap;">
+                        <button class="btn btn-success btn-sm save-button" data-id="@result.ApplicantOLevelResultId">Save</button>
+                        <button class="btn btn-danger btn-sm delete-button" data-id="@result.ApplicantOLevelResultId">Del</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button id="add-new-row" class="btn btn-primary">Add New Row</button>
+</div>
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+<script>
+    var applicantId = '@ViewBag.ApplicantId';
+</script>
+
+<script>
+    $(document).ready(function () {
+        // Save button functionality
+        $(".save-button").click(function () {
+            var button = $(this);
+            var resultId = button.data("id");
+            var row = button.closest("tr");
+
+            var applicantId = row.find(".applicantId").val();
+            var resultName = row.find(".resultName").val();
+            var subjectId = row.find(".subjectId").val();
+            var subjectGrade = row.find(".subjectGrade").val();
+            var center = row.find(".center").val();
+            var year = row.find(".year").val();
+            var examNumber = row.find(".examNumber").val();
+
+            var rowData = {
+                ApplicantOLevelResultId: resultId,
+                ResultName: resultName,
+                SubjectId: subjectId,
+                SubjectGrade: subjectGrade,
+                ExaminationCenter: center,
+                Year: year,
+                ExamNumber: examNumber
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/ApplicantOLevelResults/AdminsaveRowData", // Update with actual URL
+                data: JSON.stringify(rowData),
+                contentType: "application/json; charset=utf-8",
+                success: function (response) {
+                    if (response.status) {
+                        alert("Result saved successfully!");
+                    } else {
+                        alert("Failed to save result.");
+                    }
+                },
+                error: function (xhr) {
+                    console.error("Error: " + xhr.responseText);
+                }
+            });
+        });
+
+        // Add new row functionality
+        $("#add-new-row").click(function () {
+
+            // Retrieve the `applicantId` from the first row or any existing row
+            var applicantId = $("#olevel-results-table tbody tr:first .applicantId").val();
+
+            // Fallback if no rows exist (optional)
+            if (!applicantId) {
+                alert("ApplicantId is missing. Please ensure the table is properly initialized.");
+                return;
+            }
+            var newRowHtml = `
+                <tr>
+            <input type="hidden" class="applicantId" value="${applicantId}" /> <!-- Use JavaScript variable -->
+            <td>
+                        <select class="form-control resultName">
+                            @foreach (var option in (IEnumerable<SelectListItem>)ViewBag.ResultTypeOptions)
+                            {
+                                <option value="@option.Value">@option.Text</option>
+                            }
+                        </select>
+                    </td>
+                    <td>
+                        <select class="form-control subjectId">
+                            @foreach (var subject in (SelectList)ViewBag.StdSubjectId)
+                            {
+                                <option value="@subject.Value">@subject.Text</option>
+                            }
+                        </select>
+                    </td>
+                    <td>
+                        <select class="form-control subjectGrade">
+                            @foreach (var grade in (SelectList)ViewBag.SubjectGrade)
+                            {
+                                <option value="@grade.Value">@grade.Text</option>
+                            }
+                        </select>
+                    </td>
+                    <td><input type="text" class="form-control center" placeholder="Center" /></td>
+                    <td><input type="number" class="form-control year" placeholder="Year" /></td>
+                    <td><input type="text" class="form-control examNumber" placeholder="Exam Number" /></td>
+                    <td style="white-space: nowrap;">
+                        <button class="btn btn-success btn-sm save-new-row-button">Save</button>
+                    </td>
+                </tr>
+            `;
+
+            $("#olevel-results-table tbody").append(newRowHtml);
+        });
+
+        // Save new row functionality
+        $(document).on("click", ".save-new-row-button", function () {
+            var row = $(this).closest("tr");
+
+            var rowData = {
+                ApplicantId: row.find(".applicantId").val(),
+                ResultName: row.find(".resultName").val(),
+                SubjectId: row.find(".subjectId").val(),
+                SubjectGrade: row.find(".subjectGrade").val(),
+                ExaminationCenter: row.find(".center").val(),
+                Year: row.find(".year").val(),
+                ExamNumber: row.find(".examNumber").val()
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/ApplicantOLevelResults/SaveNewRow", // Update with actual URL
+                data: JSON.stringify(rowData),
+                contentType: "application/json; charset=utf-8",
+                success: function (response) {
+                    if (response.status) {
+                        alert("New result added successfully!");
+                        location.reload(); // Reload page to reflect changes
+                    } else {
+                        alert("Failed to add new result.");
+                    }
+                },
+                error: function (xhr) {
+                    console.error("Error: " + xhr.responseText);
+                }
+            });
+        });
+
+
+        // Delete row functionality
+        $(document).on("click", ".delete-row-button", function () {
+            $(this).closest("tr").remove();
+        });
+
+        $(document).on("click", ".delete-button", function () {
+            var row = $(this).closest("tr");
+
+            const dataId = event.target.getAttribute('data-id');
+            console.log(dataId); // Output: 123
+
+            var applicantId = row.find(".applicantId").val();
+            var subjectId = row.find(".subjectId").val();
+            var gradePoint = row.find(".subjectGrade").data("gradepoint"); // Assumes gradepoint is available as a data attribute
+
+            // Check if GradePoint prevents deletion
+            if (gradePoint > 0) {
+                alert("Cannot delete subjects with a grade point.");
+                return;
+            }
+
+            // Confirm deletion
+            if (confirm("Are you sure you want to delete this row?")) {
+                // Use the row's unique ID (if applicable) or combine identifiers like ApplicantId and SubjectId
+                $.ajax({
+                    type: "POST",
+                    url: "/ApplicantOLevelResults/DeleteRow",
+                    data: JSON.stringify({ ApplicantOlevelResultId: dataId, SubjectId: subjectId }),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (response) {
+                        if (response.status) {
+                            row.remove(); // Remove the row from the table
+                            alert("Row deleted successfully!");
+                        } else {
+                            alert("Failed to delete row.");
+                        }
+                    },
+                    error: function (xhr) {
+                        console.error("Error: " + xhr.responseText);
+                    }
+                });
+            }
+        });
+
+    });
+</script>

@@ -1,0 +1,331 @@
+﻿@model SwiftKampusModel.AddmissionApplicant.Applicant
+@using SwiftKampus.Models
+
+@{
+    ViewBag.Title = "Print Form";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style type="text/css">
+        .body {
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            margin: 0 !important;
+            width: 100% !important;
+            -webkit-text-size-adjust: 100% !important;
+            -ms-text-size-adjust: 100% !important;
+            -webkit-font-smoothing: antialiased !important;
+            /*line-height:normal;*/
+        }
+
+        .print {
+            font-size: 12px;
+        }
+
+        .date {
+            display: none;
+        }
+
+        @@media print {
+            .noprint, .no-print * {
+                display: none !important;
+            }
+            /*.date{display:block;}*/
+            .visible-print {
+                display: block !important;
+            }
+
+            .imgg {
+                margin-top: -630px;
+                margin-left: 200px;
+                opacity: 0.2;
+                width: 200px;
+                /*display:inline-block !important;*/
+            }
+
+            .imgg-2 {
+                margin-top: -1210px;
+                margin-left: 200px;
+                opacity: 0.2;
+                width: 200px;
+                /*display:inline-block !important;*/
+            }
+
+            .print-cell {
+                padding: 15px;
+                width: 100px !important;
+            }
+
+            .center-span {
+                text-align: left !important;
+            }
+
+            .center-span img {
+                display: inline-block !important;
+                padding-left: 10px !important;
+            }
+            .ref{
+                font-size: 11px;
+            }
+            body {
+                width: 21cm;
+                height: 34.7cm;
+                margin: 0;
+            }
+        }
+
+        .row-fluid {
+            line-height: 20px;
+        }
+
+        .imgg, .imgg-2 {
+            display: none;
+        }
+        .constrained-text {
+            display: inline-block;
+            max-width: 200px; /* Adjust the max-width as needed */
+            word-wrap: break-word;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="noprint">
+        <?php //include_layout_template("header.php"); ?>
+        <?php //include_layout_template("confirmation_menu.php"); ?>
+    </div>
+
+    <!--The Main Content Here Please-->
+    <div class="container-semifluid">
+
+        <div >
+            <h2 style="text-align:center; font-size: 22px; font-family: Playbill; color: darkblue">SCHOOL OF POSTGRADUATE STUDIES</h2>
+        </div>
+
+        <div class="">
+            <h3 style="text-align: center">UNIVERSITY OF JOS, JOS, NIGERIA <br /></h3>
+        <table style="width: 100%" class="border-2px">
+            <!-- Image Row -->
+            <tr>
+                <td colspan="3" style="text-align: center;">
+                    <img src="~/Content/Images/unijoslogo.png" width="80" height="85" />
+                </td>
+            </tr>
+
+            <!-- Content Row -->
+            <tr class="ref">
+                <td class="text-center" style="text-align: left;">
+                    <span>
+                        <small>
+                            Our Ref: <br />
+                            Vice-Chancellor: Prof. Tanko Ishaya <br />
+                            B.Sc. (Unijos), M.Sc, Ph.D, (Manchester),<br /> FBCS, FNCS
+                        </small>
+                    </span>
+                </td>
+
+                <td class="text-center" style="text-align: left;">
+                    <span>
+                        <small>
+                            Registrar: Rejoice James Songden<br />
+                            BA, MA, Ph.D. (Jos), FIDMA <br />
+                            e-mail: registrar@unijos.edu.ng <br />
+                           
+                        </small>
+                    </span>
+                </td>
+
+                <td class="text-center" style="text-align: left;">
+                    <span>
+                        <small>
+                            Dean, SPGS: Prof. Dakul D. Anthony<br />
+                            B.Sc, M.Sc, Ph.D. (Jos), FPPSN <br />
+                            e-mail: postgraduate@unijos.edu.ng <br />
+                            <b>Date: April 7, 2025</b>
+                        </small>
+                    </span>
+                </td>
+            </tr>
+        </table>
+
+
+        <div class="print">
+
+            <!-- Page 1 -->
+            <table style="width: 100%">
+                <tbody>
+                    <tr>
+                        <td width="40%">
+                            <strong>
+                                <small>
+                                    @Model.FullName, <br />
+                                    <span class="constrained-text">
+                                        @Model.Address
+                                    </span>
+                                </small>
+                            </strong>
+                        </td>
+                        <td style="text-align:left">
+                            <span class=" print-cell">
+                                <img src="@Url.Action("RenderImage", "Applicants" , new { studentId=@Model.ApplicantEmail })" width="80" height="60">
+                            </span>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td align="left" width="80%">
+                            <h5>Dear Sir/Madam</h5>
+                            <h5 style=" font-size: 12.5px;"><strong>PROVISIONAL ADMISSION FOR @Model.Session.SessionName ACADEMIC SESSION </strong></h5>
+                            <!--<hr />-->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <!-- Begining of content positioning -->
+            <div class="row-fluid">
+                @{
+                var numberOfSemesters = Model.AvailableCourse.Programme.NoOfSemesters.Value;
+
+                var minimumPeriod = numberOfSemesters == 2 ? "12" :
+                numberOfSemesters == 4 ? "24" : "36";
+
+                var maximumPeriod = numberOfSemesters == 2 ? "24" :
+                numberOfSemesters == 4 ? "36" : "60";
+                }
+
+                <p style=" font-size: 12px;">
+                    I am pleased to inform you that on the recommendation of the Board, School of Postgraduate Studies and the approval of the University Senate,
+                    you have been offered a provisional admission to pursue Full/Part-Time programme leading to the award of @Model.AvailableCourse.Programme.ProgrammeName at the University of Jos.
+                    The programme will run for a minimum period of @minimumPeriod  months and maximum period of @maximumPeriod months.
+                </p>
+
+
+                <p style=" font-size: 12px;">
+                    Please note that registration for @Model.Session.SessionName Academic Session starts immediately and lasts for two weeks only. Late registration attracts additional fee.
+                </p>
+
+                <p style=" font-size: 12px;">
+                    This admission is subject to the following conditions: -
+                </p>
+                <strong>
+                    <ol align="left" style=" font-size: 12px;">
+                        <li>That your former University/College has sent us your entire transcript,</li>
+                        <li>That your referees have completed and sent to us their letters of references; </li>
+                        <li>That you have sent us the photocopies of your certificates including the NYSC Discharge Certificate.</li>
+                    </ol>
+                </strong>
+
+                <p style=" font-size: 12px;">
+                    I wish to inform you that the following documents are required during the Registration exercise:
+                </p>
+                <strong>
+                    <ul align="left" style=" font-size: 12px;">
+                        <li>Completed Acceptance/Clearance Form;</li>
+                        <li>Completed Course Registration Forms (Course Registration Forms should be duly completed and submitted within the registration period); </li>
+                        <li>Original Birth Certificate/Statutory Declaration of Age;</li>
+                        <li>Original Certificates/evidence of qualifications claimed;</li>
+                        <li>Completed Student’s Medical Examination Form;</li>
+                        <li>Receipt of Acceptance Fee;</li>
+                        <li>Receipt of payment of School Fees (downloadable from the students' portal upon successful payment).</li>
+                        @*<li>Receipt of payment of Screening Fee.</li>*@
+                    </ul>
+                </strong>
+
+                <p style=" font-size: 12px;">Please note that payment of School/Tuition Fees is Sessional for the period of studentship.<br />
+
+                All correspondences should be addressed to the Secretary, School of Postgraduate Studies, University of Jos, PMB 2084, Plateau State, Nigeria or visit: www.unijos.edu.ng.<br/>
+                Please note that Postgraduate Hostel Accommodation is available on a first come first serve basis.  Also note that this offer cannot be deferred to another session without completion of registration. <br/>
+
+                Congratulations on your admission and best wishes for a successful programme.</p>
+                Yours sincerely,<br/>
+                <table style="width: 100%" class="border-2px">
+                    <tr>
+                        <td class="text-center" style="text-align: left;">
+                            <span>
+                                <small>
+                                    <img src="~/Content/Images/pg_sign.png" width="60" height="40" />
+
+                                    <!--End Transcript form Template-->
+                                    <h6 align="left" style=" font-size: 12px;"><b>H.E. Nwachukwu (Mrs) <br />Senior Deputy Registrar/Secretary, SPGS</b></h6>
+                                </small>
+                            </span>
+                        </td>
+
+                        @*
+                        <td style="text-align: left; width: 170px">
+                            <img src="~/Content/Images/unijoslogo.png" width="80" height="85" />
+                        </td>*@
+
+                        <td class="text-center" style="text-align: left; ">
+                            <span>
+                                @*<small>
+                                    Dean, SPGS- Prof. Dakul D. Anthony<br />
+                                    B.Sc, M.Sc, Ph.D. (Jos), FPPSN <br />
+                                    e-mail: postgraduate@unijos.edu.ng <br />
+                                </small>*@
+
+                            </span>
+
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="row">
+                    <div class="span2 offset6">
+                        <div class="noprint">
+                            <label class="control-label"></label>
+                            <div class="controls no-print">
+                                <button type="submit" class="btn btn-success printbtn">Print <i class="icon-print"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <!-- <div>
+                <img src="{!!asset('/img/unnamed.png') !!}" width=150>
+                <img src="{!!asset('/img/unnamed.png') !!}" width=150>
+            </div> -->
+            </div>
+        </div>
+
+        <!-- Footer for the page -->
+        <div class="noprint">
+
+            <br />
+            <br />
+        </div>
+
+    </div>
+    </div>
+</body>
+
+<!--<script src="~/Scripts/jquery-3.3.1.min.js"></script>-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    jQuery.noConflict();
+    jQuery(document).ready(function () {
+        //jQuery("#tawkchat-minified-box").hide();
+        window.print();
+
+        jQuery('.printbtn').click(function () {
+            if (Tawk_API) {
+                Tawk_API.hideWidget();
+                setTimeout(function () {
+                    Tawk_API.showWidget();
+                }, 1000);
+            }
+            window.print();
+        });
+    });
+</script>
+</html>

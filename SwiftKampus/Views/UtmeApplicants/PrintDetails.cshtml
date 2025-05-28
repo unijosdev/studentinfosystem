@@ -1,0 +1,191 @@
+﻿@model SwiftKampus.ViewModels.UtmeApplicantDetailVm
+
+
+@{
+    ViewBag.Title = "PrintReceipt";
+    Layout = "~/Views/Shared/_LayoutPrint.cshtml";
+}
+    <div class="transparentbox">
+        <table style="width: 100%" class="border-2px">
+            <tr>
+                <td>
+                    <img src="~/Content/Images/unijoslogo.png" width="90" height="100" />
+                </td>
+                <td class="text-center">
+                    <h3>
+                        UNIVERSITY OF JOS
+                    </h3>
+                    <h4>
+                        <br />
+                        UTME/DE SCREENING SUMMARY FORM
+                    </h4>
+                </td>
+                <td class="text-right">
+                    <img src="@Url.Action("RenderImage", new { userId = Model.UtmeApplicant.Email})" width="90" height="100" alt="" class="img-fluid contact-avatar mx-auto">
+                </td>
+            </tr>
+        </table>
+        <br />
+        <h4 class="text-center">  </h4>
+        <br />
+        <h4>Applicant's Information</h4>
+
+        <table style="width: 100%">
+            <tr>
+                <th>
+                    <div class="col-md-6">
+                        <table class="table table-banded no-margin table-responsive">
+                            <tbody>
+                                <tr>
+                                    <td>FULLNAME: <strong> @Model.UtmeApplicant.FullName</strong></td>
+                                    <td style="padding-left:15em;">DATE:<strong> @DateTime.Now.Date.ToString("dd MMM yyy")</strong></td>
+
+                                </tr>
+                                <tr>
+                                    <td>@*FACULTY: <strong> @Model.Student.Programme.Department.Faculty.FacultyName</strong>*@</td>
+                                    <td rowspan="3" style="padding-left:15em;">
+                                        <img src="@Url.Action("BarcodeImage", "Home",new { barcodeText = $"{Model.UtmeApplicant.JambRegNo} {Model.ApplicantPayment.ReferenceNo} {Model.UtmeApplicant.FullName}"})" width="150" height="100" />
+
+                                    </td>
+                                </tr>
+                                @*<tr><td>DEPARTMENT: <strong> @Model.UtmeApplicant.Programme.ProgrammeName</strong></td></tr>*@
+                                <tr><td>JAMB REG NO: <strong> @Model.UtmeApplicant.JambRegNo</strong></td></tr>
+                                <tr><td>EMAIL: <strong> @Model.UtmeApplicant.Email</strong></td></tr>
+                                <tr><td>PHONE NUMBER: <strong>@Model.UtmeApplicant.PhoneNumber</strong></td></tr>
+                                @if (Model.UtmeApplicant.IsDirectEntry.Equals(false))
+                                {
+                                    <tr><td>JAMB SCORE: <strong>@Model.UtmeApplicant.ResultGrade</strong></td></tr>
+                                }
+                                
+                                <tr><td>COURSE OF CHOICE: <strong>@Model.UtmeApplicant.Programme.ProgrammeName</strong></td></tr>
+                                <tr><td>RRR: <strong>@Model.ApplicantPayment.ReferenceNo</strong></td></tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </th>
+                <th>
+                    <div class="col-md-6">
+                        <table class="table table-banded no-margin table-responsive">
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </th>
+            </tr>
+        </table>
+        <table style="width: 100%">
+            <tr>
+                @*<td>
+                    PAYMENT DETAILS
+                    <table style="width: 100%">
+                        <tr><td>RRR:<i class="text-left">@Html.DisplayFor(modelItem => Model.SchoolFeePayment.ReferenceNo)</i></td></tr>
+
+                        <tr><td>Payment Date:<i class="text-left">@Html.DisplayFor(modelItem => Model.SchoolFeePayment.Date)</i></td></tr>
+                        <tr><td>Payment Status: @Html.DisplayFor(modelItem => Model.SchoolFeePayment.PaymentStatus)</td></tr>
+                        <tr><td>Amount Paid: @Html.DisplayFor(modelItem => Model.SchoolFeePayment.TotalAmount)</td></tr>
+                    </table>
+                </td>*@
+                <td>
+                    <table style="width: 100%">
+                        <tr>
+                            <th>Subject Name</th>
+                            <th>Result Name</th>
+                            <th>Subject Grade</th>
+                        </tr>
+                        @{
+                            var number = 1;
+                        }
+                        @foreach (var item in Model.ApplicantOlevelResult)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Subject.CourseName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ResultName)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SubjectGrade)
+                                </td>
+
+
+                            </tr>
+
+                        }
+
+
+                    </table>
+                </td>
+            </tr>           
+        </table>
+        <br />
+        <br />
+
+        @if (Model.UtmeApplicant.IsDirectEntry.Equals(true))
+        {
+            <div class="table-responsive m-t">
+                <h3> Direct Entry Qualification</h3>
+                <table style="width: 100%" >
+                    <thead>
+                        <tr>
+                            <th>Name of Institution</th>
+                            <th>Qualification Type</th>
+                            <th>Discipline</th>
+                            <th>Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Qualification == null)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("Create","Qualifications")" class="btn btn-primary btn-lg">Add Academic Qualification</a>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model.Qualification.NameOfInstitution)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model.Qualification.QualificationName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model.Qualification.Discipline)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model.Qualification.Grade)
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        }
+    <table style="width: 100%">
+        <tr class="text-center">
+            <td>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <p>
+                    For further enquiry, please email us at support@unijos.edu.ng.<br />
+                    Thank you for choosing UNIJOS and we wish you good luck.
+                </p>
+            </td>
+        </tr>
+    </table>
+    </div>
+
+
+
+

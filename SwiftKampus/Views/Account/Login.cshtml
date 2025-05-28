@@ -1,0 +1,118 @@
+﻿@using SwiftKampus.Models
+
+@model LoginViewModel
+@{
+    ViewBag.Title = "Log in";
+    Layout = "~/Views/Shared/_LayoutWebSite2.cshtml";
+
+}
+
+<link href="~/Content/my_css/footer.css" rel="stylesheet" />
+
+<style>
+    .forgotPassword {
+        display: block;
+        background-color: transparent;
+        color: #6c6c6c;
+        border-color: #999999;
+    }
+    .signUp {
+        float: right;
+    }
+</style>
+
+<section class="divider">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-push-2">
+                <div class="border-1px p-20 mb-0" style="border: 1px solid #cac9c9 !important;">
+
+                    <div class="row">
+
+                        <div class="col-md-6 border-right">
+                            <div class="col-md-12">
+                                <h4 class="text-center">
+                                    Please read the following Instructions.                                                                
+                                </h4>
+                                <ul class="list check">
+                                    @*<li>Use your registered 
+                                        <span class="text-danger">
+                                            <br />The University of Jos Payment Portal is temporary suspended to enable upgrade and efficient service delivery .
+
+                                            Please try again later
+                                        </span>.
+                                    </li>*@
+                                    <li>Use your registered <span class="text-danger"><br />Email</span>.</li>
+                                    <li>Type in your correct password. click the button in the password field to umask and make sure it is correct.</li>
+                                    <li>
+                                        Click the activation link sent to your email if your registration has not been confirmed
+                                        to proceed with the registration
+                                    </li>
+                                </ul>
+                                <h6 class="text-danger">
+                                    @ViewBag.Message
+                                </h6>
+                                <h6 class="text-danger">
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                </h6>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="col-md-12">
+                                <h4 class="text-center">Enter Your Login Details</h4>
+                                <h6 class="text-center text-danger"> @ViewBag.Message</h6>
+                                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <p class="text-danger">@ViewBag.Message</p>
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Enter Email" })
+                                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="password-wrapper">
+                                            @Html.PasswordFor(m => m.Password, new { @class = "form-control password", @placeholder = "Enter Password" })
+                                            <button class="unmask" type="button" title="Mask/Unmask password to check content">Unmask</button>
+                                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary block col-xs-12 col-md-12">Login</button>
+                                    <br />
+                                    <br /> <br />
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <a href="@Url.Action("ForgotPassword","Account")"><small class="text-center forgotPassword btn btn-outline-dark">Recover your password</small></a>
+
+                                        </div>
+                                        <div class="col-md-6 text-right signUp">
+                                            <a class="" href="@Url.Action("SignUp","Account")">Create an account</a>
+
+                                        </div>
+
+                                    </div>
+
+
+                                }
+                                <br />
+                                <br />
+                                  @*<section id="socialLoginForm">
+                                        @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                                    </section>
+                                  *@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

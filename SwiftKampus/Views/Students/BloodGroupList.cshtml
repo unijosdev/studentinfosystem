@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewBag.Title = "Blood Group";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+<div class="container-fluid">
+    <h2>Enter Your Blood Group</h2>
+
+    <div class="row">
+
+        @*@using (Html.BeginForm("BloodGroupList", "Students", FormMethod.Post, new { @class = "", role = "form", onsubmit = "return false" }))*@
+        <form id="myform" method="post" enctype="multipart/form-data" onsubmit="return false;">
+            <div class="form-group col-md-4">
+                <select class="form-control js-example-basic-single" name="bloodGroup" id="bloodGroup">
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <button class="btn btn bg-primary" style="width:60%" id="submit" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
+@*For client side validation*@
+@Scripts.Render("~/bundles/jqueryval")
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
+
+<script type="text/javascript">
+    jQuery(function ($) {
+        $('.js-example-basic-single').select2({
+            placeholder: 'Select an option...',
+            allowClear: true
+        });
+    });
+
+    $(document).ready(function () {
+
+        $('#submit').click(function () {
+
+            var formData = {
+                bloodGroup: $('#bloodGroup').val(),
+            };
+
+            var Mydata = JSON.stringify(formData);
+
+            $.ajax({
+                url: '/Students/BloodGroupList',
+                type: "POST",
+                contentType: "application/json",
+                data: Mydata,
+                success: function (data) {
+                    console.log("data", data);
+                    if (data.status) {
+                        swal({
+                            title: "Blood group saved successfully",
+                            type: "success",
+                            //showCancelButton: true,
+                            //confirmButtonColor: "#ab973a",
+                            confirmButtonText: "Ok",
+                            closeOnConfirm: true,
+                            closeOnCancel: false
+                        },
+                            function (isConfirm) {
+                                //if (isConfirm) {
+                                //    window.location.href = "https://his.unijos.edu.ng/student_login";
+                                //}
+                            });
+                        //toastr["success"](data.message)
+                    } else {
+                        swal({
+                            title: "Warning",
+                            text: data.message,
+                            type: "warning",
+                        });
+                        //toastr["success"](data.message);
+                    }
+
+                }
+            });
+
+        });
+    });
+
+</script>

@@ -1,0 +1,312 @@
+﻿@model SwiftKampus.ViewModels.StudentBioData.ThesisVm
+
+@{
+    Layout = null;
+    ViewBag.Title = "Create";
+}
+
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+
+<input value="@ViewBag.Role" hidden id="userRole" />
+<form id="myform" onsubmit="return false;">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>Add Thesis Proposal</h2>
+        </div>
+        <div class="col-lg-2">
+            <br />
+            <span class="col-md-12" input-group-btn col-sm-2">
+                <button id="btnThesisAddMore" type="button" class="btn btn-primary"><i class="fa fa-plus"></i></button>
+            </span>
+        </div>
+    </div>
+
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="com-md-12">
+                    @*<h4 class="text-center text-danger">Instruction</h4>*@
+
+                    @*<ol class="bold">
+                            <li>You are only allowed to Add 5 results from <i class="bold italic">Maximum of two sittings</i> </li>
+                            <li>Select Exam Type</li>
+                            <li>Select Subject(s)</li>
+                            <li>Add Grade based on the order of subject selected</li>
+                        </ol>*@
+                </div>
+            </div>
+            <div class="col-md-10">
+
+                <ul class="text-danger">
+                    <li style="font-size:20px">Fill all the details. Put 'none' if you don't have any detail</li>
+                </ul>
+
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="thesisRepeatable">
+                            @if (Model.ThesisProposals != null && Model.ThesisProposals.Count() > 0)
+                            {
+                                for (int i = 0; i < Model.ThesisProposals.Count(); i++)
+                                {
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.Label("Special Interest")
+                                                    @Html.EditorFor(model => model.ThesisProposals[i].SpecialInterest, new { htmlAttributes = new { @class = "form-control specialInterest" } })
+                                                    @Html.ValidationMessageFor(model => model.ThesisProposals[i].SpecialInterest, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.Label("Proposed Topic")
+                                                    @Html.EditorFor(model => model.ThesisProposals[i].ProposedTopic, new { htmlAttributes = new { @class = "form-control proposedTopic" } })
+                                                    @Html.ValidationMessageFor(model => model.ThesisProposals[i].ProposedTopic, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.ThesisProposals[i].Proposal)
+                                                    @Html.EditorFor(model => model.ThesisProposals[i].Proposal, new { htmlAttributes = new { @class = "form-control proposal" } })
+                                                    @Html.ValidationMessageFor(model => model.ThesisProposals[i].Proposal, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @*<div class="col-md-2">*@
+                                        <br />
+                                        <span class="col-md-2" onclick="remove_Thesisbutton(this)" input-group-btn col-sm-2">
+                                            <button type="button" class="btn btn-primary"><i class="fa fa-minus"></i></button>
+                                        </span>
+                                        @*</div>*@
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                @Html.Label("Special Interest")
+                                                @Html.EditorFor(model => model.ThesisProposal.SpecialInterest, new { htmlAttributes = new { @class = "form-control specialInterest" } })
+                                                @Html.ValidationMessageFor(model => model.ThesisProposal.SpecialInterest, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                @Html.Label("Proposed Topic")
+                                                @Html.EditorFor(model => model.ThesisProposal.ProposedTopic, new { htmlAttributes = new { @class = "form-control proposedTopic" } })
+                                                @Html.ValidationMessageFor(model => model.ThesisProposal.ProposedTopic, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.ThesisProposal.Proposal)
+                                                @Html.EditorFor(model => model.ThesisProposal.Proposal, new { htmlAttributes = new { @class = "form-control proposal" } })
+                                                @Html.ValidationMessageFor(model => model.ThesisProposal.Proposal, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*<div class="col-md-2">*@
+                                    <br />
+                                    <span class="col-md-2" onclick="remove_Thesisbutton(this)" input-group-btn col-sm-2">
+                                        <button type="button" class="btn btn-primary"><i class="fa fa-minus"></i></button>
+                                    </span>
+                                    @*</div>*@
+                                </div>
+                            }
+
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-6"></div>
+                            <div class="col-md-6 pull-right">
+                                <span class="pull-right">
+                                    <input type="submit" id="btnSavethesis" value="SAVE AND CONTINUE" class="btn btn-primary block btn-sm">
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <a id="btnthesisPrevious" href="#" class="btn btn-warning btn-lg btnPrevious" data-dismiss="modal">PREVIOUS</a>
+                    @*<a id="btnthesisNext" href="#" class="btn btn-warning btn-lg btnNext" data-dismiss="modal">NEXT</a>*@
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script>
+    var count = 2;
+    $(document).ready(function () {
+        var role = $("#userRole").val();
+
+        $('#btnThesisAddMore').click(function () {
+            if (count <= 5) {
+                var new_field = `<div>  <div class="row"> <div class="hr-line-dashed"></div>
+                               <div class="col-md-6">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                @Html.Label("Special Interest")
+                                                @Html.EditorFor(model => model.ThesisProposal.SpecialInterest, new { htmlAttributes = new { @class = "form-control specialInterest" } })
+                                                @Html.ValidationMessageFor(model => model.ThesisProposal.SpecialInterest, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                @Html.Label("Proposed Topic")
+                                                @Html.EditorFor(model => model.ThesisProposal.ProposedTopic, new { htmlAttributes = new { @class = "form-control proposedTopic" } })
+                                                @Html.ValidationMessageFor(model => model.ThesisProposal.ProposedTopic, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.ThesisProposal.Proposal)
+                                                @Html.EditorFor(model => model.ThesisProposal.Proposal, new { htmlAttributes = new { @class = "form-control proposal" } })
+                                                @Html.ValidationMessageFor(model => model.ThesisProposal.Proposal, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                            <br />
+                            <span class="col-md-2" onclick="remove_Thesisbutton(this)" input-group-btn col-sm-2"></br>
+                                <button type="button" class="btn btn-primary"><i class="fa fa-minus"></i></button>
+                            </span>
+
+                        </div>`;
+                $('.thesisRepeatable').append(new_field);
+                count++;
+            }
+            else
+            {
+                swal({
+                    title: "Warning",
+                    text: "Maximum number of fields exceeded!",
+                    type: "warning",
+                });
+            }
+        });
+
+        $('#btnSavethesis').click(function () {
+            var specialInterest = [];
+            var proposedTopic = [];
+            var proposal = [];
+
+            var thesisList = [];
+
+            //pulling the form data using the class and adding it to a list
+            $.each($('.specialInterest'), function () {
+                specialInterest.push($(this).val());
+            });
+
+            $.each($('.proposedTopic'), function () {
+                proposedTopic.push($(this).val());
+            });
+
+            $.each($('.proposal'), function () {
+                proposal.push($(this).val());
+            });
+
+            ////}
+            //append to list for c# in controller
+            for (var i = 0; i < proposedTopic.length; i++) {
+                var data = {
+                    "SpecialInterest": specialInterest[i],
+                    "ProposedTopic": proposedTopic[i],
+                    "Proposal": proposal[i],
+                };
+                thesisList.push(data);
+            }
+
+
+            var Mydata = JSON.stringify(thesisList);
+           // alert(Mydata);
+
+            $.ajax({
+
+                contentType: 'application/json',
+                type: "POST",
+                url: "/ThesisProposals/PCreate",
+                data: Mydata,
+                success: function (data) {
+                    if (data.status) {
+                        swal({
+                            title: "Good Job!!!",
+                            text: "Do you want to add More thesis proposal?..",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#ab973a",
+                            confirmButtonText: "Yes, Add More it!",
+                            cancelButtonText: "No, Please proceed!",
+                            closeOnConfirm: false,
+                            closeOnCancel: false
+                        },
+                            function (isConfirm) {
+                                if (isConfirm) {
+                                    swal("Great!", "You can now add more.", "success");
+                                } else {
+                                    swal("Great", "You can now proceed", "success");
+
+                                    // proceed to either upload document or publication, if student or applicant
+                                    if (role === 'Student') {
+                                        $("#uploaddocument").click();
+                                    } else $("#publication").click();
+                                }
+                            });
+                        toastr["success"](data.message);
+                    } else {
+                        swal({
+                            title: "Warning",
+                            text: data.message,
+                            type: "warning",
+                        });
+                        toastr["success"](data.message);
+                    }
+
+                }
+            });
+        });
+
+    });
+
+    function remove_Thesisbutton(elem) {
+            $(elem).closest('div').remove();
+    }
+
+
+    $("#btnthesisPrevious").click(function () {
+        $("#aqualification").click();
+    });
+
+    $("#btnthesisNext").click(function () {
+        $("#publication").click();
+    });
+
+</script>

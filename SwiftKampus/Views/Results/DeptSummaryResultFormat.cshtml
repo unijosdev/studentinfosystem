@@ -1,0 +1,274 @@
+﻿
+@{
+    ViewBag.Title = "Dept Summary Senate Format";
+}
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Senate Summary Format</h5>
+                    <div class="ibox-tools">
+
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+
+                    </div>
+                    <div class="ibox-content">
+                        <article class="margin-bottom-xxl">
+                            <p class="lead">
+                                Please use the following parameters to perform Query
+                            </p>
+                        </article>
+                        <div class="card-body">
+                            <form class="form-inline" id="formFilter" onsubmit="return false;">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label>School Programme</label><br />
+                                            @Html.DropDownList("SchoolProgrammeId", (SelectList)ViewBag.SchoolProgrammeId, "", new { @class = "form-control js-example-basic-single" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Faculty</label><br />
+                                            @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                                            {
+                                                @Html.DropDownList("FacultyId", (SelectList)ViewBag.FacultyId, "", new { @class = "form-control js-example-basic-single", @onchange = "getDeptList()" })
+                                            }
+                                            else
+                                            {
+                                                @Html.DropDownList("FacultyId", (SelectList)ViewBag.FacultyId, "", new { @class = "form-control js-example-basic-single" })
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Department</label><br />
+                                            @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                                            {
+                                                @Html.DropDownList("DepartmentId", (SelectList)ViewBag.DepartmentId, "", new { @class = "form-control", @onchange = "getProgrammeList()" })
+                                            }
+                                            else
+                                            {
+                                                @Html.DropDownList("DepartmentId", (SelectList)ViewBag.DepartmentId, "", new { @class = "form-control" })
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Dept Option</label><br />
+                                            @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                                            {
+                                                @Html.DropDownList("ProgrammeId", (SelectList)ViewBag.ProgrammeId, "", new { @class = "form-control js-example-basic-single", @onchange = "getCourseList()" })
+                                            }
+                                            else
+                                            {
+                                                @Html.DropDownList("ProgrammeId", (SelectList)ViewBag.ProgrammeId, "", new { @class = "form-control js-example-basic-single" })
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <label>Level Name</label>
+                                            @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                                            {
+                                                @Html.DropDownList("LevelId", (SelectList)ViewBag.LevelId, "", new { @class = "form-control", @onchange = "getCourseList()" })
+                                            }
+                                            else
+                                            {
+                                                @Html.DropDownList("LevelId", (SelectList)ViewBag.LevelId, "", new { @class = "form-control" })
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Session Name</label>
+                                            @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                                            {
+                                                @Html.DropDownList("SessionId", (SelectList)ViewBag.SessionId, "", new { @class = "form-control", @onchange = "getCourseList()" })
+                                            }
+                                            else
+                                            {
+                                                @Html.DropDownList("SessionId", (SelectList)ViewBag.SessionId, "", new { @class = "form-control" })
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <br />
+                                        <button type="submit" id="btn-search" class="btn btn-primary">Search/View</button>
+                                        <span>
+                                            <button type="submit" id="btn-download" class="btn btn-primary">Download</button>
+                                        </span>
+                                    </div>
+                                    
+                                </div>
+
+                            </form>
+                        </div><!--end .row -->
+
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div id="loadResult"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        //for select2 plugin
+        jQuery(function ($) {
+            $('.js-example-basic-single').select2({
+                placeholder: 'Select an option...',
+                allowClear: true
+            });
+        });
+    });
+
+    $("#btn-search").click(function () {
+        var programmeId = $("#ProgrammeId").val();
+        var levelId = $("#LevelId").val();
+        var sessionId = $("#SessionId").val();
+        var url = "/Results/DisplaySummaryDeptSenateFormat?programmeId=" + programmeId + "&levelId=" + levelId + "&sessionId=" + sessionId;
+       // alert(url);
+        $('#loadResult').load(url);
+
+    });
+
+    $("#btn-download").click(function () {
+        var programmeId = $("#ProgrammeId").val();
+        var levelId = $("#LevelId").val();
+        var sessionId = $("#SessionId").val();
+        var url = "/Results/DownloadSummarySenateFormat?programmeId=" + programmeId + "&levelId=" + levelId + "&sessionId=" + sessionId;
+        window.open(url, '_blank');
+
+    });
+
+    function Edit(facultyId) {
+        var url = "/ContinuousAssessments/Save?id=0" + facultyId;
+        //$('#actionsList').modal("show");
+        // window.alert(url);
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    function Delete(facultyId) {
+        var url = "/ContinuousAssessments/Delete?id=" + facultyId;
+
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    function myFunction() {
+        var url = "/ContinuousAssessments/CreateCaView";
+        window.open('@Url.Action("CreateCaView", "ContinuousAssessments")', '_self');
+    };
+    function excelUpload() {
+        var url = "/ContinuousAssessments/UploadResult";
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+
+    function getDeptList() {
+        var facultyId = $("#FacultyId").val();
+        //alert(stateId);
+        $.ajax
+            ({
+                url: '/Students/GetDeptList?codeId=' + facultyId,
+                type: 'GET',
+                datatype: 'application/json',
+                contentType: 'application/json',
+                //data: JSON.stringify({
+                //    codeId: +stateId
+                //}),
+                success: function (result) {
+                    $("#DepartmentId").html("");
+                    $.each($.parseJSON(result),
+                        function (i, city) {
+                            //alert(result);
+                            $("#DepartmentId").append($('<option></option>').val(city.DepartmentId).html(city.DeptName));
+                        });
+
+                },
+                error: function () {
+                    alert("Whooaaa! Something went wrong..");
+                }
+            });
+    }
+    function getProgrammeList() {
+        var deptId = $("#DepartmentId").val();
+        //alert(stateId);
+        $.ajax
+            ({
+                url: '/Students/GetProgrammeList?codeId=' + deptId,
+                type: 'GET',
+                datatype: 'application/json',
+                contentType: 'application/json',
+                //data: JSON.stringify({
+                //    codeId: +stateId
+                //}),
+                success: function (result) {
+                    $("#ProgrammeId").html("");
+                    $.each($.parseJSON(result),
+                        function (i, city) {
+                            //alert(result);
+                            $("#ProgrammeId").append($('<option></option>').val(city.ProgrammeId).html(city.ProgrammeName));
+                        });
+
+                },
+                error: function () {
+                    alert("Whooaaa! Something went wrong..");
+                }
+            });
+    }
+    function getCourseList() {
+        var programmeId = $("#ProgrammeId").val();
+        //alert(stateId);
+        $.ajax
+            ({
+                url: '/Students/GetCourseList?codeId=' + programmeId,
+                type: 'GET',
+                datatype: 'application/json',
+                contentType: 'application/json',
+                //data: JSON.stringify({
+                //    codeId: +stateId
+                //}),
+                success: function (result) {
+                    $("#CourseId").html("");
+                    $.each($.parseJSON(result),
+                        function (i, city) {
+                            //alert(result);
+                            $("#CourseId").append($('<option></option>').val(city.CourseId).html(city.CourseName));
+                        });
+
+                },
+                error: function () {
+                    alert("Whooaaa! Something went wrong..");
+                }
+            });
+    }
+</script>
+
+

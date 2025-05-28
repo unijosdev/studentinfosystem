@@ -1,0 +1,129 @@
+﻿@model IEnumerable<SwiftKampusModel.DeCoreCourse>
+
+@{
+}
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>List of De Courses</h5>
+                    <div class="ibox-tools">
+                        <a href="#" onclick="myFunction()" class="btn btn-primary"><i class="fa fa-plus left"></i> ADD DE COURSE</a>
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+
+                    </div>                   
+                </div>
+                <div class="ibox-content">
+
+                    <div class="table-responsive">
+                        <table id="Jdatatable" class="table table-striped table-bordered table-hover table-responsive dataTables-example">
+                            <thead>
+                                <tr>
+                                    <th>Dept Option</th>
+                                    <th>Level Name</th>
+                                    <th>Course Code</th>
+                                    <th>Course Name</th>                                    
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                        </table>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var error = "@ViewBag.Error";
+        var message = "@ViewBag.Message";
+        var success = "@ViewBag.Success";
+        if (error || message) {
+            toastr["error"](error);
+            toastr["error"](message);
+        }
+        if (success) {
+            toastr["success"](success);
+        }
+
+        window.oTable = $("#Jdatatable").DataTable({
+            "processing": true, // for show progress bar while loading
+            //"serverSide": true, // if it is true the preocess is done on server side
+            "filter": true, // disables search box
+            "info": true,
+
+            "stateSave": true,
+            "orderMulti": false, // disable multiple column loading at once
+            "ajax": {
+                "url": "/DeCoreCourses/GetIndex",
+                "type": "POST",
+                "datatype": "json",              
+
+            },
+            "columns": [
+                { "data": "ProgrammeName", "autoWidth": true },
+                { "data": "LevelName", "autoWidth": true },
+                { "data": "CourseCode", "autoWidth": true },
+                { "data": "CourseName", "autoWidth": true },              
+                {
+                    "data": "DeCoreCourseId",
+                    "autoWidth": true,
+                    "render": function (data) {
+                        return '<a href="#" onclick="Edit(' + data + ')">  <i class="fa fa-pencil" aria-hidden="true" >&nbsp;Edit</i></a>&nbsp;&nbsp;';
+                            //'<a href="#" class="text-danger" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" >&nbsp;Remove<i /></a>';
+                    }
+                }
+            ],
+            responsive: true,
+            dom: '<"html5buttons"B>lTfgitp',
+            buttons: [
+                { extend: 'copy' },
+                { extend: 'csv' },
+                { extend: 'excel', title: 'CourseList' },
+                { extend: 'pdf', title: 'CourseList' },
+
+                {
+                    extend: 'print',
+                    customize: function (win) {
+                        $(win.document.body).addClass('white-bg');
+                        $(win.document.body).css('font-size', '10px');
+
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+                    }
+                }
+            ]
+        });
+
+    });
+
+    $("#btn-search").click(function () {
+        // window.alert("sem:" + $('#SemesterId').val() + " sess:" + $('#SessionId').val());
+        window.oTable.ajax.reload();
+
+    });
+
+    function myFunction() {
+        var url = "/DeCoreCourses/Create?id=0";
+        window.open(url, '_self');
+    };
+    function Edit(deCoreCourseId) {
+        var url = "/DeCoreCourses/Create?id=" + deCoreCourseId
+        window.open(url, '_self');
+    };
+    
+
+</script>

@@ -1,0 +1,651 @@
+﻿@model SwiftKampus.ViewModels.StudentBioData.StudentFullBioDataVm
+@using SwiftKampusModel
+@using SwiftKampus.Controllers
+@{
+    ViewBag.Title = "Complete Student Bio-Data";
+    Layout = "~/Views/Shared/_LayoutPrint.cshtml";
+
+    ApplicantTypeVm ApplicantType = (ApplicantTypeVm)ViewBag.ApplicantType;
+}
+
+<div class="ibox-content">
+    <div class="container-fluid">
+        <table style="width: 100%">
+            <tr>
+                <td class="text-center">
+                    <img src="@Url.Action("BarcodeImage", "Home",new { barcodeText = $"{Model.Student.FullName} {Model.Student.JambRegNo} {Model.Student.Programme.ProgrammeName} {Model.Student.Session.SessionName}"})" width="120" height="100" />
+                </td>
+                <td class="text-center">
+                    <img src="~/Content/Images/Unijos Logo.jpg" width="120" height="120" />
+                    <h6 class="text-center"> Student Information Form (SIF) </h6>
+                </td>
+                <td class="text-center">
+                    <img src="@Url.Action("RenderImage", "Students",new { studentId = Model.Student.StudentId})" width="100" height="100" />
+                </td>
+            </tr>
+        </table>
+
+        <div class="row">
+            <h5>Personal Details</h5>
+            <table style="width: 100%" class="table">
+                <tr>
+                    <td>Jamb Registration</td>
+                    <td>@Model.Student.JambRegNo</td>
+                    <td>Last Name</td>
+                    <td>@Model.Student.LastName</td>
+                </tr>
+                <tr>
+                    <td>First Name</td>
+                    <td>@Model.Student.FirstName</td>
+                    <td>Middle Name</td>
+                    <td>@Model.Student.MiddleName</td>
+                </tr>
+                <tr>
+                    <td>Primary Email </td>
+                    <td>@Model.Student.PrimaryEmail</td>
+                    <td>Secondary Email</td>
+                    <td>@Model.Student.Email</td>
+                </tr>
+                <tr>
+                    <td>Phone Number </td>
+                    <td>@Model.Student.PhoneNumber</td>
+                    <td>Gender</td>
+                    <td>@Model.Student.Gender</td>
+                </tr>
+                <tr>
+                    <td>Date of Birth </td>
+                    <td>@Model.Student.DateOfBirth.ToString("dd MMM yyyy")</td>
+                    <td>Marital Status</td>
+                    <td>@Model.Student.MaritalStatus</td>
+                </tr>
+                <tr>
+                    <td>Nationality </td>
+                    <td>@Model.Student.Nationality</td>
+                    <td>State of Origin</td>
+                    <td>@Model.Student.StateOfOrigin</td>
+                </tr>
+                <tr>
+                    <td>LGA </td>
+                    <td>@Model.Student.Lga</td>
+                    <td>Mode of Entry</td>
+                    <td>@Model.Student.ModeOfEntry</td>
+                </tr>
+                <tr>
+                    <td>Religion </td>
+                    <td>@Model.Student.Religion</td>
+                    <td>Physically Challenged</td>
+                    @if (Model.Student.IsPhysicallyChallenged.Equals(false))
+                    {
+                        <td>NORMAL</td>
+                    }
+                    else
+                    {
+                        <td>@Model.Student.PChallengedDetail</td>
+                    }
+                </tr>
+                <tr>
+                    <td>Faculty</td>
+                    <td>@Model.Student.Programme.Department.Faculty.FacultyName</td>
+                    <td>Department</td>
+                    <td>@Model.Student.Programme.Department.DeptName</td>
+                </tr>
+                <tr>
+                    <td>Programme </td>
+                    <td>@Model.Student.Programme.ProgrammeName</td>
+                </tr>
+                <tr>
+                    <td>Blood Group </td>
+                    <td>@Model.Student.BloodGroup</td>
+                </tr>
+                <tr>
+                    <td>Hobbies </td>
+                    <td>@Model.Student.Hobby</td>
+                </tr>
+                @if (Model.Address != null)
+                {
+                    <tr>
+                        <td>Address </td>
+                        <td>@Model.Address.HouseNo @Model.Address.Street, @Model.Address.Town, @Model.Address.Lga, @Model.Address.State. </td>
+                    </tr>
+                }
+            </table>
+
+        </div>
+        @if (ApplicantType.ApplicantType == ProgrammeCategory.UnderGraduate.ToString() ||
+             ApplicantType.ApplicantType.Equals(ProgrammeCategory.Institute_Of_Education.ToString()) ||
+             ApplicantType.ApplicantType.Equals(ProgrammeCategory.Remedial_Science.ToString()) ||
+             ApplicantType.ApplicantType.Equals(ProgrammeCategory.Preliminary_French.ToString()))
+        {
+            <div class="row col-md-12">
+                <h3 class="text-center">Next Of Kin</h3>
+                <table style="width: 100%">
+                    @if (Model.NextOfKin != null)
+                    {
+                        <tr>
+                            <td>Full Name: @Model.NextOfKin.FullName </td>
+                        </tr>
+                        <tr>
+                            <td> Address: @Model.NextOfKin.Address </td>
+                        </tr>
+                        <tr>
+                            <td>Gender: @Model.NextOfKin.Gender</td>
+                            <td>Email: @Model.NextOfKin.Email</td>
+                            <td>Phone Number: @Model.NextOfKin.PhoneNumber</td>
+                            <td>Relationship: @Model.NextOfKin.Relationship</td>
+                        </tr>
+                    }
+
+                </table>
+                <br />
+                <br />
+            </div>
+            <div class="row col-md-12">
+                <h3 class="text-center">Sponsor Details</h3>
+                <table style="width: 100%">
+                    <tr>
+                        <th> S/N </th>
+                        <th> Sponsor Name </th>
+                        <th> Sponsor Mail</th>
+                        <th> Phone Number</th>
+                        <th> Status</th>
+
+                    </tr>
+                    @if (Model.Sponsors != null)
+                    {
+                        var number6 = 1;
+
+                        foreach (var item in Model.Sponsors)
+                        {
+                            <tr>
+                                <td> @number6 </td>
+                                <td> @item.FullName </td>
+                                <td> @item.Email </td>
+                                <td>@item.PhoneNumber</td>
+                                <td>@item.Address</td>
+                            </tr>
+                            {
+                                number6 = number6 + 1;
+                            }
+                        }
+                    }
+                </table>
+                <br />
+                <br />
+            </div>
+        }
+        else
+        {
+            <div class="row col-md-12">
+                <h3 class="text-center">Referee Details</h3>
+                <table style="width: 100%">
+                    <tr>
+                        <th> S/N </th>
+                        <th> Referee Name </th>
+                        <th> Referee Mail</th>
+                        <th> Phone Number</th>
+                        <th> Status</th>
+
+                    </tr>
+                    @if (Model.Referee != null)
+                    {
+                        var number6 = 1;
+                        foreach (var item in Model.Referee)
+                        {
+                            <tr>
+                                <td> @number6 </td>
+                                <td> @item.FullName </td>
+                                <td> @item.Email </td>
+                                <td>@item.PhoneNumber</td>
+                                <td>@item.Address</td>
+                            </tr>
+                            {
+                                number6 = number6 + 1;
+                            }
+                        }
+                    }
+
+                </table>
+                <br />
+                <br />
+            </div>
+        }
+
+        @if (ApplicantType.ApplicantType != ProgrammeCategory.UnderGraduate.ToString() &&
+             ApplicantType.ApplicantType != ProgrammeCategory.Remedial_Science.ToString() &&
+             ApplicantType.ApplicantType != ProgrammeCategory.Institute_Of_Education.ToString() &&
+             ApplicantType.ApplicantType != ProgrammeCategory.Preliminary_French.ToString())
+        {
+            <div class="row col-md-12">
+                <h3 class="text-center">Employment Details</h3>
+                <table style="width: 100%">
+                    <tr>
+                        <th> S/N </th>
+                        <th> Employer </th>
+                        <th>Year of Employment</th>
+                        <th>Employer Address</th>
+
+                    </tr>
+                    @if (Model.EmploymentHistory != null)
+                    {
+                        var number = 1;
+                        foreach (var item in Model.EmploymentHistory)
+                        {
+                            <tr>
+                                <td> @number </td>
+                                <td> @Html.DisplayFor(modelItem => item.EmployeeName) </td>
+                                <td> @item.FromDate.ToString("dd MMM yyyy") - @item.ToDate.ToString("dd MMM yyyy") </td>
+                                <td>@item.Address</td>
+                            </tr>
+                            {
+                                number = number + 1;
+                            }
+                        }
+                    }
+
+
+                </table>
+                <br />
+                <br />
+            </div>
+
+            <div class="row col-md-12">
+                <h3 class="text-center">Academic Qualifications</h3>
+                <table style="width: 100%">
+                    <tr>
+                        <th> S/N </th>
+                        <th> Institution Name </th>
+                        <th> Class of Degree</th>
+                        <th> From</th>
+                        <th> To</th>
+                        <th> Degree Earned</th>
+                        <th> CGPA</th>
+                        <th> Course of Study</th>
+
+                    </tr>
+                    @if (Model.AcademicQualification != null)
+                    {
+                        var number2 = 1;
+                        foreach (var item in Model.AcademicQualification)
+                        {
+                            <tr>
+                                <td> @number2 </td>
+                                <td>@item.SchoolName </td>
+                                <td> @item.ClassOfDegree </td>
+                                <td>@item.FromDate.ToString("dd MMM yyyy")</td>
+                                <td>@item.ToDate.ToString("dd MMM yyyy")</td>
+                                <td>@item.Degree.</td>
+                                <td>@item.ResultGrade</td>
+                                <td>@item.CourseOfStudy</td>
+                            </tr>
+                            {
+                                number2 = number2 + 1;
+                            }
+                        }
+                    }
+
+                </table>
+                <br />
+                <br />
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.Student.ModeOfEntry) && Model.Student.ModeOfEntry.Equals(ModeOfEntry.DE.ToString()) && Model.DeExam != null)
+        {
+            <div class="row col-md-12">
+                <h3 class="text-center">Direct Entry</h3>
+                <table style="width: 100%">
+                    <tr>
+                        <td>Certificate Type: </td>
+                        <td>@Model.DeExam.CertificateType</td>
+                        <td>Overall Grade Obtained</td>
+                        <td>@Model.DeExam.OverallGrade</td>
+                    </tr>
+                    <tr>
+                        <td>Institution Name: </td>
+                        <td>@Model.DeExam.NameOfInstitution</td>
+                        <td>Exam Date:</td>
+                        <td>@Model.DeExam.ExamDate.ToString("dd MMM yyyy")</td>
+                    </tr>
+                    <tr>
+                        <td>Exam Number:</td>
+                        <td>@Model.DeExam.ExamNumber</td>
+                    </tr>
+
+                </table>
+                <br />
+                <br />
+            </div>
+        }
+        <div class="row">
+            <h3 class="text-center">O Level Results</h3>
+            @if (Model.OLevelResult != null)
+            {
+                <table style="width: 100%" class="table">
+                    <tr>
+                        @foreach (var item in ViewBag.ResultName)
+                        {
+                            <td>
+                                @{
+                                    var newModel = Model.OLevelResult.Where(x => x.ResultName.Equals(item)).FirstOrDefault();
+                                }
+                                <div class="row col-md-12">
+                                    <table style="width: 100%">
+                                        <tr>
+                                            <td>Exam Body:</td>
+                                            <td>@newModel.ResultName</td>
+                                            <td>Exam Date:</td>
+                                            <td>@newModel.Year</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Exam Center Name:</td>
+                                            <td>@newModel.ExaminationCenter</td>
+                                            <td>Exam Number:</td>
+                                            <td>@newModel.ExamNumber</td>
+                                        </tr>
+                                    </table>
+                                    <table class="table table-responsive">
+                                        <tr>
+                                            <th>
+                                                Subject Name
+                                            </th>
+
+                                            <th>
+                                                Subject Grade
+                                            </th>
+                                        </tr>
+                                        @foreach (var modelItem in Model.OLevelResult.Where(x => x.ResultName.Equals(item)))
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @modelItem.Subject.CourseName
+
+                                                </td>
+                                                <td>
+                                                    @modelItem.SubjectGrade
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    </table>
+                                </div>
+                            </td>
+                        }
+                    </tr>
+                </table>
+            }
+            <br />
+            <br />
+        </div>
+
+
+        @if (ApplicantType.ApplicantType != ProgrammeCategory.UnderGraduate.ToString() &&
+             ApplicantType.ApplicantType != ProgrammeCategory.Institute_Of_Education.ToString() &&
+             ApplicantType.ApplicantType != ProgrammeCategory.Remedial_Science.ToString() &&
+             ApplicantType.ApplicantType != ProgrammeCategory.Preliminary_French.ToString())
+        {
+            <div class="row col-md-12">
+                <h3 class="text-center">Award and Prizes</h3>
+                <table style="width: 100%">
+                    <tr>
+                        <th> S/N </th>
+                        <th> Prize </th>
+                        <th>Awarding Body</th>
+                        <th>Year</th>
+
+                    </tr>
+                    @if (Model.Award != null)
+                    {
+                        var number3 = 1;
+                        foreach (var item in Model.Award)
+                        {
+                            <tr>
+                                <td> @number3 </td>
+                                <td> @item.AcademicPrice </td>
+                                <td> @item.AwardingBody </td>
+                                <td>@item.Year</td>
+                            </tr>
+                            {
+                                number3 = number3 + 1;
+                            }
+                        }
+                    }
+
+                </table>
+                <br />
+                <br />
+            </div>
+            <div class="row col-md-12">
+                <h3 class="text-center">Professional and Other Relevant Qualifications</h3>
+                <table style="width: 100%">
+                    <tr>
+                        <th> S/N </th>
+                        <th> Name of Institution</th>
+                        <th> From</th>
+                        <th> To</th>
+                        <th> Qualification</th>
+                        <th> Grade</th>
+
+                    </tr>
+                    @if (Model.RelevanQualification != null)
+                    {
+                        var number4 = 1;
+                        foreach (var item in Model.RelevanQualification)
+                        {
+                            <tr>
+                                <td> @number4 </td>
+                                <td>@item.NameOfInstitution </td>
+                                <td>@item.FromDate</td>
+                                <td>@item.ToDate</td>
+                                <td>@item.QualificationName</td>
+                                <td>@item.Grade</td>
+                            </tr>
+                            {
+                                number4 = number4 + 1;
+                            }
+                        }
+                    }
+
+                </table>
+                <br />
+                <br />
+            </div>
+            <div class="row col-md-12">
+                <h3 class="text-center">Academic Publication</h3>
+
+                <table style="width: 100%">
+                    <tr>
+                        <th> S/N </th>
+                        <th> Title of Publication </th>
+                        <th> Institution</th>
+                        <th> Qualification</th>
+                        <th> Year</th>
+
+                    </tr>
+                    @if (Model.Publication != null)
+                    {
+                        var number5 = 1;
+
+                        foreach (var item in Model.Publication)
+                        {
+                            <tr>
+                                <td> @number5 </td>
+                                <td> @item.Title </td>
+                                <td> @item.Institution </td>
+                                <td>@item.Qualification</td>
+                                <td>@item.PublishedDate.ToString("dd MMM yyyy")</td>
+                            </tr>
+                            {
+                                number5 = number5 + 1;
+                            }
+                        }
+                    }
+
+                </table>
+                <br />
+                <br />
+            </div>
+        }
+
+        @if (ApplicantType.ApplicantType == ProgrammeCategory.Phd.ToString())
+        {
+            <div class="row col-md-12">
+                <h3 class="text-center">Thesis</h3>
+                <table style="width: 100%">
+                    <tr>
+                        <th> S/N </th>
+                        <th> Topic</th>
+
+                    </tr>
+                    @if (Model.Thesis != null)
+                    {
+                        var thesisNumber3 = 1;
+                        foreach (var item in Model.Thesis)
+                        {
+                            <tr>
+                                <td> @thesisNumber3 </td>
+                                <td> @item.ProposedTopic </td>
+                            </tr>
+                            {
+                                thesisNumber3 = thesisNumber3 + 1;
+                            }
+                        }
+                    }
+
+                </table>
+                <br />
+                <br />
+            </div>
+        }
+
+
+        @if (Model.UploadDocument != null && Model.UploadDocument.Count() > 0)
+        {
+            <div class="row col-md-12">
+                <h3 class="text-center">Relevant Document</h3>
+
+                <table style="width: 100%">
+                    <tr>
+                        <th> S/N </th>
+                        <th> File Name </th>
+                        <th> Action </th>
+                    </tr>
+                    @if (Model.Publication != null)
+                    {
+                        var number12 = 1;
+
+                        foreach (var item in Model.UploadDocument)
+                        {
+                            <tr>
+                                <td> @number12 </td>
+                                <td> @item.FileName </td>
+                                @if (string.IsNullOrEmpty(item.FileAddress))
+                                {
+                                    <td>File Not saved properly</td>
+                                }
+                                else
+                                {
+                                    <td> <a href="~/UploadedFiles/@item.FileAddress" target="_blank">View File</a> </td>
+                                }
+                            </tr>
+                            {
+                                number12 = number12 + 1;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        var number12 = 1; <!-- this condition handles displaying of uploaded jamb admission letter for undergraduate -->
+
+                        foreach (var item in Model.UploadDocument)
+                        {
+                            <tr>
+                                <td> @number12 </td>
+                                <td> @item.FileName </td>
+                                @if (string.IsNullOrEmpty(item.FileAddress))
+                                {
+                                    <td>File Not saved properly</td>
+                                }
+                                else
+                                {
+                                    <td> <a href="~/UploadedFiles/@item.FileAddress" target="_blank">View File</a> </td>
+                                }
+                            </tr>
+                            {
+                                number12 = number12 + 1;
+                            }
+                        }
+                    }
+
+                </table>
+                <br />
+                <br />
+            </div>
+        }
+
+        <div class="row">
+            <h5>Endorsement</h5>
+            <table style="width: 100%">
+                <tr>
+                    <td>
+                        Student Signature:
+                        <img src="@Url.Action("RenderSignature", "Students",new { studentId = Model.Student.StudentId})" width="50" height="50" />
+
+                    </td>
+                    <td>Date: @DateTime.Now.ToString("dd MMM yyyy")</td>
+                </tr>
+            </table>
+            <br />
+            <br />
+        </div>
+
+        <div class="row">
+            <table style="width: 100%">
+                <tr class="text-center">
+                    <td> Academic Officer Name </td>
+                    <td> Departmental Officer Name</td>
+                    <td> Faculty Officer Name</td>
+                </tr>
+                <tr class="text-center">
+                    <td><br /><br /> </td>
+                    <td> <br /><br /></td>
+                    <td><br /><br /> </td>
+                </tr>
+                <tr class="text-center">
+                    <td> Signature/Date </td>
+                    <td> Signature/Date</td>
+                    <td> Signature/Date</td>
+                </tr>
+                <tr class="text-center">
+                    <td> <br /><br /> </td>
+                    <td><br /> <br /></td>
+                    <td><br /> <br /></td>
+                </tr>
+            </table>
+
+        </div>
+
+        <p>
+            <strong>
+                Designed by CIS Team <br />
+                Copyright &copy; @DateTime.Now.Year University of Jos. All rights reserved
+            </strong>
+        </p>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+	function Excel() {
+		var url = "/CourseRegistrations/PrintDetails?model=" +@ViewBag.Course ;
+		$('#myModalDivBody').load(url,
+			function () {
+				$('#actionsList').modal("show");
+			});
+	};
+	function AddNew() {
+		window.open('@Url.Action("Create", "Students")', '_self');
+	};
+</script>
+
+
+

@@ -1,0 +1,110 @@
+﻿@using SwiftKampus.Models
+@model IEnumerable<SwiftKampusModel.ContinuousAssessment>
+@{
+    var detail = Model.FirstOrDefault();
+
+}
+
+@if (!detail.IsSenateApproved)
+{
+    <h4 class="text-center"> PROVISIONAL RESULT FOR @detail.Semester.SemesterName Semester of  @detail.Sessions.SessionName</h4>
+}
+else
+{
+    <h4 class="text-center"> RESULT FOR @detail.Semester.SemesterName Semester of  @detail.Sessions.SessionName</h4>
+    <a href="#" onclick="Excel()" class="btn btn-primary"><i class="fa fa-file-excel-o"></i>&nbsp;PRINT</a>
+
+}
+<p>
+    <h4>Matric Number: <strong>@detail.Student.MatricNo</strong></h4>   
+    <h4> Level: <stong>@detail.Level.LevelName</stong></h4>
+</p>
+<p class="text-success">GPA: @ViewBag.Gpa &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; CGPA: @ViewBag.Cgpa</p>
+
+<div class="table-responsive">
+    <table class="table">
+        <tr>
+            <th>Course Code</th>
+            <th>Course Title</th>
+            <th>Course Unit</th>
+            @*<th>Total</th>
+                <th>Grade Point</th>*@
+            <th>Grade</th>
+            <th>Remark</th>
+
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course.CourseCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course.CourseName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.CourseUnit)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Total)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GradePoint)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Grading)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Remark)
+                </td>
+            </tr>
+        }
+
+
+    </table>
+</div>
+
+
+
+
+<script type="text/javascript">
+    function Excel() {
+        var url = "/Results/PrintDetails?id=" +"@ViewBag.Course";
+        window.open(url, '_blank');
+    };
+
+    function DeleteCourse(courseRegistrationId) {
+        //window.alert("Hello" + courseRegistrationId);
+        $.ajax({
+            type: "POST",
+            url: "/CourseRegistrations/Delete?id=" + courseRegistrationId,
+            success: function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+                    toastr["info"](data.message);
+                    reload(data.studentId);
+                } else {
+
+                    toastr["error"](data.message);
+                }
+
+            }
+        });
+
+        function reload(studentId) {
+           // window.alert(studentId);
+            var url = "/CourseRegistrations/PartialDetails?id=" + studentId;
+            $('#myModalDivBody').load(url,
+                function () {
+                    $('#actionsList').modal("show");
+                });
+
+        }
+
+    };
+
+</script>
+
+

@@ -1,0 +1,610 @@
+﻿@model IEnumerable<SwiftKampus.ViewModels.Result.DeptSanateFormatSummaryVm>
+@using SwiftKampus.ViewModels.Result
+@using SwiftKampusModel
+@{ #line 4 "C:\Users\JOSEPH AJILEYE.DESKTOP-2LUKB0G\source\repos\UnijosProjectPrivateRepo\SwiftKampus\Views\Results\DisplaySummaryDeptSenateFormat.cshtml"
+    /**/
+
+    List<ContinuousAssessment> caCourse = null;
+    var result = new DeptSanateFormatSummaryVm();
+    var caHeading = new List<ContinuousAssessment>();
+    if (Model != null && Model.Count() > 0)
+    {
+
+        caCourse = Model.Select(s => s.ContinuousAssessments).FirstOrDefault();
+        result = Model.FirstOrDefault();
+        caHeading = Model.OrderByDescending(x => x.ContinuousAssessments.Count).Select(s => s.ContinuousAssessments).FirstOrDefault();
+    }
+    int count = 1;
+
+
+
+}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .table-container {
+        width: 100%;
+        max-height: 500px; /* Adjust height as needed */
+        overflow: auto;
+        border: 1px solid #ccc;
+        position: relative;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        text-align: left;
+        white-space: nowrap;
+    }
+
+    /* Fix the table header */
+    thead th {
+        position: sticky;
+        top: 0;
+        background: #f8f9fa;
+        z-index: 10; /* Ensure it stays above all other elements */
+    }
+
+    /* Fix the first three columns */
+    .fixed-column {
+        position: sticky;
+        left: 0;
+        background: white;
+        z-index: 5; /* Lower than header */
+    }
+
+        /* Set explicit positioning for each of the first three columns */
+        .fixed-column:nth-child(1) {
+            left: 0;
+        }
+
+        .fixed-column:nth-child(2) {
+            left: 40px; /* Adjust based on actual width */
+        }
+
+        .fixed-column:nth-child(3) {
+            left: 160px; /* Adjust based on actual width */
+        }
+
+    /* Ensure the first three headers are also sticky but do not overlap */
+    thead th.fixed-column {
+        z-index: 11; /* Higher than table cells but still below main header */
+    }
+
+</style>
+
+<div class="table-responsive table-container">
+    <table class="table table-responsive table-bordered table-hover">
+        <thead>
+            <tr>
+                <th class="fixed-column">S/N</th>
+                <th class="fixed-column">MAT NO</th>
+                <th class="fixed-column">Full Name</th>
+                <th>ME</th>
+                <th>MNSA</th>
+                <th>NSS</th>
+
+                @if (result != null)
+                    {
+                        if (result.SessionParameters.Count.Equals(6))
+                        {
+                            <th>
+                                <table>
+                                    <tr><td>100 LEVEL</td></tr>
+                                    <tr><td>TCR</td></tr>
+                                </table>
+                            </th>
+                            <th>TCE</th>
+                            <th>TGP</th>
+                            <th>GPA</th>
+
+                            <th>
+                                <table>
+                                    <tr><td>200 LEVEL</td></tr>
+                                    <tr><td>TCR</td></tr>
+                                </table>
+                            </th>
+                            <th>TCE</th>
+                            <th>TGP</th>
+                            <th>GPA</th>
+                            <th>CTCR</th>
+                            <th>CTCE</th>
+                            <th>CTGP</th>
+                            <th>CGPA</th>
+
+                            <th>
+                                <table>
+                                    <tr><td>300 LEVEL</td></tr>
+                                    <tr><td>TCR</td></tr>
+                                </table>
+                            </th>
+                            <th>TCE</th>
+                            <th>TGP</th>
+                            <th>GPA</th>
+                            <th>CTCR</th>
+                            <th>CTCE</th>
+                            <th>CTGP</th>
+                            <th>CGPA</th>
+
+                            <th>
+                                <table>
+                                    <tr><td>400 LEVEL</td></tr>
+                                    <tr><td>TCR</td></tr>
+                                </table>
+                            </th>
+                            <th>TCE</th>
+                            <th>TGP</th>
+                            <th>GPA</th>
+                            <th>CTCR</th>
+                            <th>CTCE</th>
+                            <th>CTGP</th>
+                            <th>CGPA</th>
+
+                            <th>
+                                <table>
+                                    <tr><td>500 LEVEL</td></tr>
+                                    <tr><td>TCR</td></tr>
+                                </table>
+                            </th>
+                            <th>TCE</th>
+                            <th>TGP</th>
+                            <th>GPA</th>
+                            <th>CTCR</th>
+                            <th>CTCE</th>
+                            <th>CTGP</th>
+                            <th>CGPA</th>
+                            <th>
+                                <table>
+                                    <tr><td>600 LEVEL</td></tr>
+                                    <tr><td>TCR</td></tr>
+                                </table>
+                            </th>
+                            <th>TCE</th>
+                            <th>TGP</th>
+                            <th>GPA</th>
+                            <th>CTCR</th>
+                            <th>CTCE</th>
+                            <th>CTGP</th>
+                            <th>CGPA</th>
+
+
+                        }
+                        if (result.SessionParameters.Count.Equals(5))
+                        {
+                            <th>
+                                <table>
+                                    <tr><td>100 LEVEL</td></tr>
+                                    <tr><td>TCR</td></tr>
+                                </table>
+                            </th>
+                            <th>TCE</th>
+                            <th>TGP</th>
+                            <th>GPA</th>
+
+                            <th>
+                                <table>
+                                    <tr><td>200 LEVEL</td></tr>
+                                    <tr><td>TCR</td></tr>
+                                </table>
+                            </th>
+                            <th>TCE</th>
+                            <th>TGP</th>
+                            <th>GPA</th>
+                            <th>CTCR</th>
+                            <th>CTCE</th>
+                            <th>CTGP</th>
+                            <th>CGPA</th>
+
+                            <th>
+                                <table>
+                                    <tr><td>300 LEVEL</td></tr>
+                                    <tr><td>TCR</td></tr>
+                                </table>
+                            </th>
+                            <th>TCE</th>
+                            <th>TGP</th>
+                            <th>GPA</th>
+                            <th>CTCR</th>
+                            <th>CTCE</th>
+                            <th>CTGP</th>
+                            <th>CGPA</th>
+
+                            <th>
+                                <table>
+                                    <tr><td>400 LEVEL</td></tr>
+                                    <tr><td>TCR</td></tr>
+                                </table>
+                            </th>
+                            <th>TCE</th>
+                            <th>TGP</th>
+                            <th>GPA</th>
+                            <th>CTCR</th>
+                            <th>CTCE</th>
+                            <th>CTGP</th>
+                            <th>CGPA</th>
+
+                            <th>
+                                <table>
+                                    <tr><td>500 LEVEL</td></tr>
+                                    <tr><td>TCR</td></tr>
+                                </table>
+                            </th>
+                            <th>TCE</th>
+                            <th>TGP</th>
+                            <th>GPA</th>
+                            <th>CTCR</th>
+                            <th>CTCE</th>
+                            <th>CTGP</th>
+                            <th>CGPA</th>
+
+
+                        }
+                        if (result.SessionParameters.Count.Equals(4))
+                        {
+                            <th>
+                                <table>
+                                    <tr><td>100 LEVEL</td></tr>
+                                    <tr><td>TCR</td></tr>
+                                </table>
+                            </th>
+                            <th>TCE</th>
+                            <th>TGP</th>
+                            <th>GPA</th>
+
+                            <th>
+                                <table>
+                                    <tr><td>200 LEVEL</td></tr>
+                                    <tr><td>TCR</td></tr>
+                                </table>
+                            </th>
+                            <th>TCE</th>
+                            <th>TGP</th>
+                            <th>GPA</th>
+                            <th>CTCR</th>
+                            <th>CTCE</th>
+                            <th>CTGP</th>
+                            <th>CGPA</th>
+
+                            <th>
+                                <table>
+                                    <tr><td>300 LEVEL</td></tr>
+                                    <tr><td>TCR</td></tr>
+                                </table>
+                            </th>
+                            <th>TCE</th>
+                            <th>TGP</th>
+                            <th>GPA</th>
+                            <th>CTCR</th>
+                            <th>CTCE</th>
+                            <th>CTGP</th>
+                            <th>CGPA</th>
+
+                            <th>
+                                <table>
+                                    <tr><td>400 LEVEL</td></tr>
+                                    <tr><td>TCR</td></tr>
+                                </table>
+                            </th>
+                            <th>TCE</th>
+                            <th>TGP</th>
+                            <th>GPA</th>
+                            <th>CTCR</th>
+                            <th>CTCE</th>
+                            <th>CTGP</th>
+                            <th>CGPA</th>
+
+
+                        }
+                        if (result.SessionParameters.Count.Equals(3))
+                        {
+
+                            <th>100TCR</th>
+                            <th>TCE</th>
+                            <th>TGP</th>
+                            <th>GPA</th>
+
+                            <th>200TCR</th>
+                            <th>TCE</th>
+                            <th>TGP</th>
+                            <th>GPA</th>
+                            <th>CTCR</th>
+                            <th>CTCE</th>
+                            <th>CTGP</th>
+                            <th>CGPA</th>
+
+                            <th>300TCR</th>
+                            <th>TCE</th>
+                            <th>TGP</th>
+                            <th>GPA</th>
+                            <th>CTCR</th>
+                            <th>CTCE</th>
+                            <th>CTGP</th>
+                            <th>CGPA</th>
+
+                        }
+                        if (result.SessionParameters.Count.Equals(2))
+                        {
+
+                            <th>100TCR</th>
+                            <th>TCE</th>
+                            <th>TGP</th>
+                            <th>GPA</th>
+
+                            <th>200TCR</th>
+                            <th>TCE</th>
+                            <th>TGP</th>
+                            <th>GPA</th>
+                            <th>CTCR</th>
+                            <th>CTCE</th>
+                            <th>CTGP</th>
+                            <th>CGPA</th>
+
+                        }
+                        if (result.SessionParameters.Count.Equals(1))
+                        {
+
+                            <th>TCR</th>
+                            <th>TCE</th>
+                            <th>TGP</th>
+                            <th>GPA</th>
+                        }
+                    }
+
+                @if (Model != null && Model.Count() > 0)
+                {
+                    foreach (var item in caHeading)
+                    {
+                        <th>
+                            @item.Course.CourseCode
+                            <br />@item.CourseUnit
+                        </th>
+                        <th>GP</th>
+                    }
+                }
+                <th>Remark</th>
+
+
+
+            </tr>
+        </thead>
+        @if (Model != null && Model.Count() > 0)
+        {
+            foreach (var ca in Model.OrderByDescending(x => x.ContinuousAssessments.Count))
+            {
+
+                <tr>
+                    <td class="fixed-column">@count</td>
+                    <td class="fixed-column">@ca.MatricNo</td>
+                    <td class="fixed-column">@ca.FullName</td>
+                    <td>@ca.ModeOfEntry</td>
+                    <td>@ca.MNSA</td>
+                    <td>@ca.NSS</td>
+                    @if (ca.SessionParameters.Count == 6)
+                    {
+                        <td>@ca.SessionParameters[5].TCR</td>
+                        <td>@ca.SessionParameters[5].TCE</td>
+                        <td>@ca.SessionParameters[5].TGP</td>
+                        <td>@ca.SessionParameters[5].GPA</td>
+
+
+                        <td>@ca.SessionParameters[4].TCR</td>
+                        <td>@ca.SessionParameters[4].TCE</td>
+                        <td>@ca.SessionParameters[4].TGP</td>
+                        <td>@ca.SessionParameters[4].GPA</td>
+                        <td>@ca.SessionParameters[4].CTCR</td>
+                        <td>@ca.SessionParameters[4].CTCE</td>
+                        <td>@ca.SessionParameters[4].CTGP</td>
+                        <td>@ca.SessionParameters[4].CGPA</td>
+
+                        <td>@ca.SessionParameters[3].TCR</td>
+                        <td>@ca.SessionParameters[3].TCE</td>
+                        <td>@ca.SessionParameters[3].TGP</td>
+                        <td>@ca.SessionParameters[3].GPA</td>
+                        <td>@ca.SessionParameters[3].CTCR</td>
+                        <td>@ca.SessionParameters[3].CTCE</td>
+                        <td>@ca.SessionParameters[3].CTGP</td>
+                        <td>@ca.SessionParameters[3].CGPA</td>
+
+                        <td>@ca.SessionParameters[2].TCR</td>
+                        <td>@ca.SessionParameters[2].TCE</td>
+                        <td>@ca.SessionParameters[2].TGP</td>
+                        <td>@ca.SessionParameters[2].GPA</td>
+                        <td>@ca.SessionParameters[2].CTCR</td>
+                        <td>@ca.SessionParameters[2].CTCE</td>
+                        <td>@ca.SessionParameters[2].CTGP</td>
+                        <td>@ca.SessionParameters[2].CGPA</td>
+
+                        <td>@ca.SessionParameters[1].TCR</td>
+                        <td>@ca.SessionParameters[1].TCE</td>
+                        <td>@ca.SessionParameters[1].TGP</td>
+                        <td>@ca.SessionParameters[1].GPA</td>
+                        <td>@ca.SessionParameters[1].CTCR</td>
+                        <td>@ca.SessionParameters[1].CTCE</td>
+                        <td>@ca.SessionParameters[1].CTGP</td>
+                        <td>@ca.SessionParameters[1].CGPA</td>
+
+                        <td>@ca.SessionParameters[0].TCR</td>
+                        <td>@ca.SessionParameters[0].TCE</td>
+                        <td>@ca.SessionParameters[0].TGP</td>
+                        <td>@ca.SessionParameters[0].GPA</td>
+                        <td>@ca.SessionParameters[0].CTCR</td>
+                        <td>@ca.SessionParameters[0].CTCE</td>
+                        <td>@ca.SessionParameters[0].CTGP</td>
+                        <td>@ca.SessionParameters[0].CGPA</td>
+                    }
+
+                    @if (ca.SessionParameters.Count == 5)
+                    {
+                        <td>@ca.SessionParameters[4].TCR</td>
+                        <td>@ca.SessionParameters[4].TCE</td>
+                        <td>@ca.SessionParameters[4].TGP</td>
+                        <td>@ca.SessionParameters[4].GPA</td>
+
+                        <td>@ca.SessionParameters[3].TCR</td>
+                        <td>@ca.SessionParameters[3].TCE</td>
+                        <td>@ca.SessionParameters[3].TGP</td>
+                        <td>@ca.SessionParameters[3].GPA</td>
+                        <td>@ca.SessionParameters[3].CTCR</td>
+                        <td>@ca.SessionParameters[3].CTCE</td>
+                        <td>@ca.SessionParameters[3].CTGP</td>
+                        <td>@ca.SessionParameters[3].CGPA</td>
+
+                        <td>@ca.SessionParameters[2].TCR</td>
+                        <td>@ca.SessionParameters[2].TCE</td>
+                        <td>@ca.SessionParameters[2].TGP</td>
+                        <td>@ca.SessionParameters[2].GPA</td>
+                        <td>@ca.SessionParameters[2].CTCR</td>
+                        <td>@ca.SessionParameters[2].CTCE</td>
+                        <td>@ca.SessionParameters[2].CTGP</td>
+                        <td>@ca.SessionParameters[2].CGPA</td>
+
+                        <td>@ca.SessionParameters[1].TCR</td>
+                        <td>@ca.SessionParameters[1].TCE</td>
+                        <td>@ca.SessionParameters[1].TGP</td>
+                        <td>@ca.SessionParameters[1].GPA</td>
+                        <td>@ca.SessionParameters[1].CTCR</td>
+                        <td>@ca.SessionParameters[1].CTCE</td>
+                        <td>@ca.SessionParameters[1].CTGP</td>
+                        <td>@ca.SessionParameters[1].CGPA</td>
+
+                        <td>@ca.SessionParameters[0].TCR</td>
+                        <td>@ca.SessionParameters[0].TCE</td>
+                        <td>@ca.SessionParameters[0].TGP</td>
+                        <td>@ca.SessionParameters[0].GPA</td>
+                        <td>@ca.SessionParameters[0].CTCR</td>
+                        <td>@ca.SessionParameters[0].CTCE</td>
+                        <td>@ca.SessionParameters[0].CTGP</td>
+                        <td>@ca.SessionParameters[0].CGPA</td>
+                    }
+                    @if (ca.SessionParameters.Count == 4)
+                    {
+                        <td>@ca.SessionParameters[3].TCR</td>
+                        <td>@ca.SessionParameters[3].TCE</td>
+                        <td>@ca.SessionParameters[3].TGP</td>
+                        <td>@ca.SessionParameters[3].GPA</td>
+
+                        <td>@ca.SessionParameters[2].TCR</td>
+                        <td>@ca.SessionParameters[2].TCE</td>
+                        <td>@ca.SessionParameters[2].TGP</td>
+                        <td>@ca.SessionParameters[2].GPA</td>
+                        <td>@ca.SessionParameters[2].CTCR</td>
+                        <td>@ca.SessionParameters[2].CTCE</td>
+                        <td>@ca.SessionParameters[2].CTGP</td>
+                        <td>@ca.SessionParameters[2].CGPA</td>
+
+                        <td>@ca.SessionParameters[1].TCR</td>
+                        <td>@ca.SessionParameters[1].TCE</td>
+                        <td>@ca.SessionParameters[1].TGP</td>
+                        <td>@ca.SessionParameters[1].GPA</td>
+                        <td>@ca.SessionParameters[1].CTCR</td>
+                        <td>@ca.SessionParameters[1].CTCE</td>
+                        <td>@ca.SessionParameters[1].CTGP</td>
+                        <td>@ca.SessionParameters[1].CGPA</td>
+
+                        <td>@ca.SessionParameters[0].TCR</td>
+                        <td>@ca.SessionParameters[0].TCE</td>
+                        <td>@ca.SessionParameters[0].TGP</td>
+                        <td>@ca.SessionParameters[0].GPA</td>
+                        <td>@ca.SessionParameters[0].CTCR</td>
+                        <td>@ca.SessionParameters[0].CTCE</td>
+                        <td>@ca.SessionParameters[0].CTGP</td>
+                        <td>@ca.SessionParameters[0].CGPA</td>
+                    }
+                    @if (ca.SessionParameters.Count == 3)
+                    {
+                        <td>@ca.SessionParameters[2].TCR</td>
+                        <td>@ca.SessionParameters[2].TCE</td>
+                        <td>@ca.SessionParameters[2].TGP</td>
+                        <td>@ca.SessionParameters[2].GPA</td>
+
+                        <td>@ca.SessionParameters[1].TCR</td>
+                        <td>@ca.SessionParameters[1].TCE</td>
+                        <td>@ca.SessionParameters[1].TGP</td>
+                        <td>@ca.SessionParameters[1].GPA</td>
+                        <td>@ca.SessionParameters[1].CTCR</td>
+                        <td>@ca.SessionParameters[1].CTCE</td>
+                        <td>@ca.SessionParameters[1].CTGP</td>
+                        <td>@ca.SessionParameters[1].CGPA</td>
+
+                        <td>@ca.SessionParameters[0].TCR</td>
+                        <td>@ca.SessionParameters[0].TCE</td>
+                        <td>@ca.SessionParameters[0].TGP</td>
+                        <td>@ca.SessionParameters[0].GPA</td>
+                        <td>@ca.SessionParameters[0].CTCR</td>
+                        <td>@ca.SessionParameters[0].CTCE</td>
+                        <td>@ca.SessionParameters[0].CTGP</td>
+                        <td>@ca.SessionParameters[0].CGPA</td>
+                    }
+                    @if (ca.SessionParameters.Count == 2)
+                    {
+                        <td>@ca.SessionParameters[1].TCR</td>
+                        <td>@ca.SessionParameters[1].TCE</td>
+                        <td>@ca.SessionParameters[1].TGP</td>
+                        <td>@ca.SessionParameters[1].GPA</td>
+
+                        <td>@ca.SessionParameters[0].TCR</td>
+                        <td>@ca.SessionParameters[0].TCE</td>
+                        <td>@ca.SessionParameters[0].TGP</td>
+                        <td>@ca.SessionParameters[0].GPA</td>
+                        <td>@ca.SessionParameters[0].CTCR</td>
+                        <td>@ca.SessionParameters[0].CTCE</td>
+                        <td>@ca.SessionParameters[0].CTGP</td>
+                        <td>@ca.SessionParameters[0].CGPA</td>
+                    }
+                    @if (ca.SessionParameters.Count == 1)
+                    {
+                        <td>@ca.SessionParameters[0].TCR</td>
+                        <td>@ca.SessionParameters[0].TCE</td>
+                        <td>@ca.SessionParameters[0].TGP</td>
+                        <td>@ca.SessionParameters[0].GPA</td>
+                    }
+                    @*@foreach (var item in ca.ContinuousAssessments)
+                        {
+                            <td>@item.Total</td>
+                            <td>@item.GradePoint</td>
+                        }*@
+                    @if (ca.ContinuousAssessments.Count() == caHeading.Count())
+                    {
+                        foreach (var item in ca.ContinuousAssessments)
+                        {
+                            <td>@item.Total</td>
+                            <td>@item.GradePoint</td>
+                        }
+                    }
+                    else
+                    {
+
+                        var remaining = caHeading.Count() - ca.ContinuousAssessments.Count();
+                        foreach (var item in ca.ContinuousAssessments)
+                        {
+                            <td>@item.Total</td>
+                            <td>@item.GradePoint</td>
+                        }
+                        for (int i = 0; i < remaining; i++)
+                        {
+                            <td></td>
+                            <td></td>
+                        }
+                    }
+
+                    @*<td>@ca.GPA</td>*@
+                    <td>@ca.Remarks</td>
+
+                </tr>
+
+               
+                count += 1;
+                
+            }
+        }
+    </table>
+</div>
+
+

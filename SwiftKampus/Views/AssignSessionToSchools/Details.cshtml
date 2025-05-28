@@ -1,0 +1,42 @@
+﻿@model SwiftKampusModel.AssignSessionToSchool
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>AssignSessionToSchool</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SchoolProgramme.ProgrammeType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SchoolProgramme.ProgrammeType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Session.SessionName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Session.SessionName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ActiveSession)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActiveSession)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.AssignSessionToSchoolId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

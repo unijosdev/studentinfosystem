@@ -1,0 +1,198 @@
+﻿
+@{
+    ViewBag.Title = "PrintReceipt";
+    Layout = "~/Views/Shared/_LayoutPrint.cshtml";
+}
+
+
+@using SwiftKampusModel
+@model SwiftKampus.ViewModels.Fee_Management.SchoolFeeReciept
+
+
+<div class="transparentbox">
+    <table style="width: 100%" class="border-2px">
+        <tr>
+            <td class="text-center" style="vertical-align: middle;">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <img src="@Url.Action("RenderImage", "Students",new { studentId = Model.Student.StudentId})" width="100" height="100" />
+                    <br />
+                    @Model.Student.MatricNo
+                </div>
+            </td>
+
+            <td class="text-center" style="vertical-align: middle;">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <img src="~/Content/Images/unijoslogo.png" width="100" height="100" />
+                </div>
+            </td>
+
+            <td rowspan="3" class="text-center" style="vertical-align: middle;">
+                <img src="@Url.Action("BarcodeImage", "Home",new { barcodeText = Model.Student.JambRegNo + Model.Student.DateOfBirth})" width="150" height="100" />
+            </td>
+        </tr>
+    </table>
+
+
+
+    @if (Model.FeeCategory.Equals(SchoolFeeCategory.Acceptance.ToString()))
+    {
+        <h4 class="text-center"> ACCEPTANCE CHARGE RECIEPT </h4>
+    }
+    else if (Model.FeeCategory.Equals(SchoolFeeCategory.School_Charges.ToString()))
+    {
+        <br />
+        <h4 class="text-center"> SCHOOL CHARGES RECIEPT </h4>
+        <br />
+
+    }
+
+    <h4>Student Information</h4>
+    <table style="width: 100%" style="font-size: 10pt;" >
+        <tr>
+
+            <th>
+                <div class="col-md-8">
+                    <table class="table 44">
+                        <tbody>
+                            <tr>
+                                <td>FULLNAME: <strong> @Model.Student.FullName</strong></td>
+                                <td style="padding-left:15em;">DATE:<strong> @Model.SchoolFeePayment.Date.ToShortDateString()</strong></td>
+
+                            </tr>
+                            <tr>
+                                <td>FACULTY: <strong> @Model.Student.Programme.Department.Faculty.FacultyName</strong></td>
+                                @*<td rowspan="3" style="padding-left:15em;">
+                                        <img src="@Url.Action("BarcodeImage", "Home",new { barcodeText = Model.Student.MatricNo})" width="150" height="100" />
+
+                                    </td>*@
+                                <td style="padding-left:15em;">SESSION: <strong> @Model.SchoolFeePayment.Session.SessionName</strong></td>
+                            </tr>
+                            <tr>    
+                                <td>DEPARTMENT: <strong> @Model.Student.Programme.Department.DeptName</strong></td>
+                                <td style="padding-left:15em;">LEVEL: <strong>@Model.SchoolFeePayment.Level.LevelName</strong></td>
+                            </tr>
+                            <tr>
+                                <td>MATRIC NO: <strong> @Model.Student.MatricNo</strong></td>
+                                 <td style="padding-left:15em;">RRR: <strong>@Model.SchoolFeePayment.ReferenceNo</strong></td>
+                            </tr>
+                            @*<tr></tr>
+                            <tr></tr>
+                            <tr></tr>*@
+
+                        </tbody>
+                    </table>
+                </div>
+            </th>
+            <th>
+                <div class="col-md-4">
+                    <table class="table table-banded no-margin table-responsive">
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </th>
+        </tr>
+    </table>
+    <table style="width: 100%">
+        <tr>
+            @*<td>
+                    PAYMENT DETAILS
+                    <table style="width: 100%">
+                        <tr><td>RRR:<i class="text-left">@Html.DisplayFor(modelItem => Model.SchoolFeePayment.ReferenceNo)</i></td></tr>
+
+                        <tr><td>Payment Date:<i class="text-left">@Html.DisplayFor(modelItem => Model.SchoolFeePayment.Date)</i></td></tr>
+                        <tr><td>Payment Status: @Html.DisplayFor(modelItem => Model.SchoolFeePayment.PaymentStatus)</td></tr>
+                        <tr><td>Amount Paid: @Html.DisplayFor(modelItem => Model.SchoolFeePayment.TotalAmount)</td></tr>
+                    </table>
+                </td>*@
+            <td>
+                <table style="width: 100%">
+                    SCHOOL FEE BREAKDOWN
+                    <tr>
+                        <th>
+                            S/N
+                        </th>
+                        <th>
+                            Fee Item
+                        </th>
+
+                        <th>Amount</th>
+
+                    </tr>
+                    @{
+                        var number = 1;
+                    }
+                    @foreach (var item in Model.FeeLists)
+                    {
+                        <tr>
+                            <td>
+                                @number
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Amount)
+                            </td>
+
+
+                        </tr>
+                        {
+                            number = number + 1;
+                        }
+                    }
+                <tr>
+                    <td></td>
+
+                    @if (Model.SchoolFeePayment.RemainingBalance == 0)
+                    {
+                        <td><strong>Balance Amount</strong></td>
+                        <td><strong>@Model.SchoolFeePayment.PaidFee</strong></td>
+
+                    }
+                    else
+                    {
+                        <td><strong>Total Amount</strong></td>
+                        <td><strong>@Model.FeeLists.Sum(s => s.Amount)</strong></td>
+                    }
+                </tr>
+                    <tr>
+                        <td></td>
+                        <td><strong>Amout Paid</strong></td>
+                        <td><strong>@Model.SchoolFeePayment.PaidFee</strong></td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+        <tr class="text-center">
+            <td>
+                <br />
+                <br />
+                <br />
+                <p>
+                    If you have any queries, please email us at billing@unijos.edu.ng.<br />
+                    Thank you very much for chosing UNIJOS and we hope to see you shine in the future.
+                </p>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+
+<script type="text/javascript">
+	function Excel() {
+		var url = "/CourseRegistrations/PrintDetails?model=" +@ViewBag.Course ;
+		$('#myModalDivBody').load(url,
+			function () {
+				$('#actionsList').modal("show");
+			});
+	};
+	function AddNew() {
+		window.open('@Url.Action("Create", "Students")', '_self');
+	};
+</script>
+
+
+

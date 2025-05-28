@@ -1,0 +1,132 @@
+﻿@model SwiftKampusModel.CourseForum.ForumIndexVm
+@{
+    ViewBag.Title = "Forum Details";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content animated fadeInRight">
+
+            <div class="ibox-content m-b-sm border-bottom">
+                <div class="p-xs">
+                    <div class="pull-left m-r-md">
+                        <i class="fa fa-globe text-navy mid-icon"></i>
+                    </div>
+                    <h2>Welcome to @Model.Forum.Name</h2>
+                    <span>Feel free to ask questions and interact with others. <i class="pull-right"><a href="#" onclick="AddQuestion('@Model.Forum.CourseId')" class="btn btn-primary btn-sm">Ask Question</a></i></span>
+
+                </div>
+            </div>
+
+            <div class="ibox-content forum-container">
+
+                <div class="forum-title">
+                    <div class="pull-right forum-desc">
+                        <samll>Total Question: @Model.ForumQuestion.Count()</samll>
+                    </div>
+                    <h3>Questions</h3>
+                </div>
+                @foreach (var question in Model.ForumQuestion)
+                {
+                    <div class="forum-item">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="forum-icon">
+                                    <i class="fa fa-question-circle"></i>
+                                </div>
+                                <a href="@Url.Action("GetQuestionReply","Forums", new { id = question.ForumQuestionId})" class="forum-item-title">@question.Title</a>
+                                <div class="forum-sub-title">@Html.Raw(question.Question) </div>
+                            </div>
+                            <div class="col-md-1 forum-info">
+                                <span class="views-number">
+                                    2550
+                                </span>
+                                <div>
+                                    <small>Views</small>
+                                </div>
+                            </div>
+                            <div class="col-md-1 forum-info">
+                                <span class="views-number">
+                                    122
+                                </span>
+                                <div>
+                                    <small>Replies</small>
+                                </div>
+                            </div>
+                            @if (question.StudentId.Equals(ViewBag.UserId))
+                            {
+                                <div class="col-md-1 forum-info">
+                                    <span class="views-number">
+                                        <a href="#" onclick="EditQuestion('@question.ForumQuestionId')">Edit</a>
+                                    </span>
+                                    <div>
+                                        <small>Question</small>
+                                    </div>
+                                </div>
+                            }
+
+
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade inmodal" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content animated flipInY">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">FORUM QUESTION</h4>
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+
+<script type="text/javascript">
+    function AddQuestion(courseId) {
+        var url = "/Forums/SaveForumQuestion?id=" + courseId;
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+        //// window.alert(courseId);
+        //var url = "/Forums/SaveForumQuestion?id=" + courseId;
+        //$('#topicContentDetail').load(url);
+
+    };
+    function EditQuestion(questionId) {
+        var url = "/Forums/EditForumQuestion?id=" + questionId;
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });        
+
+    };
+
+    function GetQuestion(forumQuestionId) {
+        var url = "/Forums/GetQuestionDetails?id=" + forumQuestionId;
+        // document.getElementById('topicContentDetail').scrollIntoView();
+        $('#topicContentDetail').load(url);
+        $('html, body').animate({ scrollTop: $('#topicContentDetail').offset().top }, 'slow');
+    };
+
+
+
+</script>

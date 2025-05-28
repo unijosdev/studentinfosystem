@@ -1,0 +1,84 @@
+﻿@model IEnumerable<SwiftKampusModel.AddmissionApplicant.AttendedSchool>
+
+@{
+    ViewBag.Title = "Attended School";
+}
+
+<div class="container-fluid">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>List of Schools Attended</h5>
+                        <div class="ibox-tools">
+                            @*<a href="@Url.Action("Create","AttendedSchools")" class="btn btn-primary"> <i class="fa fa-plus left"></i> ADD SCHOOL ATTENDED</a>*@
+
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <table class=" table table-responsive">
+                            <tr>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SchoolName)
+                                </th>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CourseOfStudy)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ClassOfDegree)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ResultGrade)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FromDate)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ToDate)
+                                </th>
+                                <th></th>
+                            </tr>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SchoolName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CourseOfStudy)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ClassOfDegree)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ResultGrade)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FromDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ToDate)
+                                    </td>
+                                    <td>
+                                        @*@Html.ActionLink("Edit", "Edit", new { id = item.AttendedSchoolId }) |
+                                            @Html.ActionLink("Details", "Details", new { id = item.AttendedSchoolId }) |*@
+                                        @Html.ActionLink("Remove", "Delete", new { id = item.AttendedSchoolId })
+                                    </td>
+                                </tr>
+                            }
+
+                        </table>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div>

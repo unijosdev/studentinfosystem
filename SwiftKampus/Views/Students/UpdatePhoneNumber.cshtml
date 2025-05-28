@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "Update Phone Number";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h2>Update Phone Number</h2> <br />
+    <h3 class="text-danger" style="font-weight:500;">@ViewBag.message</h3>
+
+    <div class="row">
+
+        @using (Html.BeginForm("UpdatePhoneNumber", "Students", FormMethod.Get, new { @class = "", role = "form"}))
+        {
+            <div class="col-md-4">
+                <input name="id" class="form-control" type="text" required placeholder="Type the Jamb Reg No or Matric No" /> <br />
+            </div>
+            <div class="col-md-4">
+                <input name="phoneNumber" class="form-control" type="number" required placeholder="Type the phone number" /> <br />
+            </div>
+
+            <div class="col-md-4">
+                <button class="btn btn bg-primary" style="width:60%" type="submit">Submit</button>
+            </div>
+        }
+    </div>
+
+</div>
+
+
+@*For client side validation*@
+@Scripts.Render("~/bundles/jqueryval")
+

@@ -1,0 +1,50 @@
+﻿@model SwiftKampusModel.Accomodation.SessionAccomodation
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>SessionAccomodation</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Room.RoomName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Room.RoomName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Session.SessionName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Session.SessionName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BlockId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BlockId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HostelId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HostelId)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.SessionAccomodationId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

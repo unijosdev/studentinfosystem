@@ -1,0 +1,104 @@
+﻿
+@{
+    ViewBag.Title = "Faculty Approval";
+}
+
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Faculty Result Approval</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+
+                    </div>
+                    <div class="ibox-content">
+                        <article class="margin-bottom-xxl">
+                            <p class="lead">
+                                Please use the following parameters to perform Query
+                            </p>
+                        </article>
+                        <div class="card-body">
+                            <form class="form-inline" id="formFilter" onsubmit="return false;">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>School Programme</label>
+                                            @Html.DropDownList("SchoolProgrammeId", (SelectList)ViewBag.SchoolProgrammeId, "", new { @class = "form-control js-example-basic-single", @style = "width: 100%;" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Session Name</label>
+                                            @Html.DropDownList("SessionId", (SelectList)ViewBag.SessionId, "", new { @class = "form-control js-example-basic-single", @style = "width: 100%;" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Dept Option Name</label>
+                                            @Html.DropDownList("ProgrammeId", (SelectList)ViewBag.ProgrammeId, "", new { @class = "form-control js-example-basic-single", @style = "width: 100%;" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Level Name</label>
+                                            @Html.DropDownList("LevelId", (SelectList)ViewBag.LevelId, "", new { @class = "form-control", @style = "width: 100%;" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <br />
+                                        <button type="submit" id="btn-search" class="btn btn-primary">Search/View</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div><!--end .row -->
+
+
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div id="loadSearch"></div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
+<script type="text/javascript">
+     jQuery(function ($) {
+        $('.js-example-basic-single').select2({
+            placeholder: 'Select an option...',
+            allowClear: true
+        });
+     });
+
+    $("#btn-search").click(function () {
+        submitSearch();
+    });
+
+    function submitSearch() {
+        var schoolProgrammeId = $('#SchoolProgrammeId').val();
+        var sessionId = $('#SessionId').val();
+        var programmeId = $('#ProgrammeId').val();
+        var levelId = $('#LevelId').val();
+        var url = "/ContinuousAssessments/GetFacultyApproval?SchoolProgrammeId=" + schoolProgrammeId + "&SessionId=" + sessionId + "&ProgrammeId=" + programmeId + "&LevelId=" + levelId;
+        $('#loadSearch').load(url);
+
+    }
+
+
+</script>

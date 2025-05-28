@@ -1,0 +1,76 @@
+﻿@model SwiftKampus.ViewModels.StudentAttendanceVm
+
+<script src="~/AdminTemplate/js/plugins/chosen/chosen.jquery.js"></script>
+<link href="~/AdminTemplate/css/plugins/chosen/bootstrap-chosen.css" rel="stylesheet" />
+<form id="myform" onsubmit="return false;">
+    @Html.AntiForgeryToken()
+    <div class="card">
+        <div class="card-head style-primary">
+
+
+        </div><!--end .card-head -->
+        <div class="card-body">
+
+
+            @Html.HiddenFor(model => model.CourseId)
+            @Html.HiddenFor(model => model.SchoolProgrammeId)
+
+
+
+            <div class="form-group">
+                @Html.Label("Attendance Date")
+                @Html.EditorFor(model => model.AttendanceDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AttendanceDate, "", new { @class = "text-danger" })
+            </div>
+          
+
+            <div class="form-group">
+                @Html.Label("Mark Present for All?")
+                @Html.EditorFor(model => model.MarkAttendanceForAll)
+                @Html.ValidationMessageFor(model => model.MarkAttendanceForAll, "", new { @class = "text-danger" })
+            </div>
+
+
+            <div class="md-form">
+
+                <input id="btnsubmit" type="submit" value="Save" class="btn btn-primary btn-lg" />
+                
+                <a href="#" class="btn btn-danger btn-lg" data-dismiss="modal">Cancel</a>
+            </div>
+        </div><!--end .card-body -->
+
+    </div>
+</form>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        
+        $("#btnsubmit").click(function () {
+
+            var data = $("#myform").serialize();
+
+            $.ajax({
+                type: "POST",
+                url: "/AssignedCourses/PickAttendance",
+                data: data,
+                success: function (data) {
+                    if (data.status) {
+                        $('#actionsList').modal("hide");
+                        var url = "/AssignedCourses/RegisteredStudent?id=" + data.id + "&attendanceDate=" + data.date;
+                        window.open(url, '_self');                       
+                       
+                    } else {
+                        toastr["error"](data.message);
+                        $('#actionsList').modal("hide");
+
+                    }
+
+                }
+            });
+        });
+    });
+
+</script>
+
+

@@ -1,0 +1,246 @@
+﻿@using SwiftKampus.Models
+@model IEnumerable<SwiftKampusModel.AddmissionApplicant.SchoolProgramme>
+
+@{
+    Layout = "~/Views/Shared/_LayoutLanding.cshtml";
+    ViewBag.Title = "Landing Page";
+}
+
+<!-- Start main-content -->
+<div class="main-content">
+    <section id="courses" class="bg-silver-light">
+        <div class="container">
+            <div class="section-title mb-20">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="title mb-5">Students' <span class="text-theme-colored2"><Fig>Portal</Fig></span></h2>
+                    </div>
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="owl-carousel-3col owl-nav-top" data-nav="tru">
+                            <div class="item">
+                                <div class="course-single-item bg-white border-1px clearfix">
+                                    <div class="course-thumb">
+                                        <img class="img-fullwidth" alt="" src="~/Content/Images/sm9.jpg">
+                                        <div class="course-top-meta">
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="course-details clearfix p-20 pt-15">
+                                        <div class="course-top-part">
+                                            <a href="page-course-details.html"><h4 class="mt-5 mb-5">2023 UTME/DE Screening</h4></a>
+                                            <h5 class="text-gray font-12 mt-0">ON-GOING</h5>
+                                        </div>
+                                        <p class="course-description mt-15 mb-0">
+                                            Search for your Jamb Reg No to begin registration.
+                                            <br /><strong>The screening charges are non-refundable</strong>
+                                        </p>
+                                        <div class="author-thumb">
+                                            @*<h5 class="btn btn-primary btn-xs">N2,000</h5>*@
+                                        </div>
+                                    </div>
+                                    <br />
+                                    
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="course-single-item bg-white border-1px clearfix">
+                                    <div class="course-thumb">
+                                        <img class="img-fullwidth" alt="" src="~/Content/Images/sm4.jpg">
+                                        <div class="course-top-meta">
+                                            @*<ul class="list-inline">
+                                                <li>
+                                                    <button type="submit" class="btn-form btn btn-block btn-dark btn-theme-colored btn-sm mt-20 pt-10 pb-10" data-loading-text="Please wait...">Apply Now</button>
+                                                </li>
+                                            </ul>*@
+                                        </div>
+                                    </div>
+                                    <div class="course-details clearfix p-20 pt-15">
+                                        <div class="course-top-part">
+                                            <a href="page-course-details.html"><h4 class="mt-5 mb-5">Part-Time Undergraduate</h4></a>
+                                            <h5 class="text-gray font-12 mt-0">UPCOMING</h5>
+                                        </div>
+                                        <p class="course-description mt-15 mb-0">Get to do you Bsc programme and work at the same time as you go through our evening classes.</p>
+                                        <div class="author-thumb">
+                                            <h5 class="btn btn-primary btn-xs">N10,000</h5>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="course-single-item bg-white border-1px clearfix">
+                                    <div class="course-thumb">
+                                        <img class="img-fullwidth" alt="" src="~/Content/Images/sm2.jpg">
+                                        <div class="course-top-meta">
+                                            @*<ul class="list-inline">
+                                                <li>
+                                                    <button type="submit" class="btn-form btn btn-block btn-dark btn-theme-colored btn-sm mt-20 pt-10 pb-10" data-loading-text="Please wait...">Apply Now</button>
+                                                </li>
+                                            </ul>*@
+                                        </div>
+                                    </div>
+                                    <div class="course-details clearfix p-20 pt-15">
+                                        <div class="course-top-part">
+                                            <a href="page-course-details.html"><h4 class="mt-5 mb-5">Remedial Programme</h4></a>
+                                            <h5 class="text-gray font-12 mt-0">ON-GOING</h5>
+                                        </div>
+                                        <p class="course-description mt-15 mb-0">Get into our predegree programme study for one year and get to study a Bsc course of your choice. </p>
+                                        <div class="author-thumb">
+                                            <h5 class="btn btn-primary btn-xs">N15,000</h5>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="course-single-item bg-white border-1px clearfix">
+                                    <div class="course-thumb">
+                                        <img class="img-fullwidth" alt="" src="~/Content/Images/sm3.jpg">
+                                        <div class="course-top-meta">
+                                            @*<ul class="list-inline">
+                                                <li>
+                                                    <button type="submit" class="btn-form btn btn-block btn-dark btn-theme-colored btn-sm mt-20 pt-10 pb-10" data-loading-text="Please wait...">Apply Now</button>
+                                                </li>
+                                            </ul>*@
+                                        </div>
+                                    </div>
+                                    <div class="course-details clearfix p-20 pt-15">
+                                        <div class="course-top-part">
+                                            <a href="page-course-details.html"><h4 class="mt-5 mb-5">Postgraduate Programme</h4></a>
+                                            <h5 class="text-gray font-12 mt-0">UPCOMING</h5>
+                                        </div>
+                                        <p class="course-description mt-15 mb-0">Apply for an Msc course of your choice to more skills that will help you in your career path. </p>
+                                        <div class="author-thumb">
+                                            <h5 class="btn btn-primary btn-xs">N25,000</h5>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="course-single-item bg-white border-1px clearfix">
+                                    <div class="course-thumb">
+                                        <img class="img-fullwidth" alt="" src="~/Content/Images/sm5.jpg">
+                                        <div class="course-top-meta">
+                                            @*<ul class="list-inline">
+                                                <li>
+                                                    <button type="submit" class="btn-form btn btn-block btn-dark btn-theme-colored btn-sm mt-20 pt-10 pb-10" data-loading-text="Please wait...">Apply Now</button>
+                                                </li>
+                                            </ul>*@
+                                        </div>
+                                    </div>
+                                    <div class="course-details clearfix p-20 pt-15">
+                                        <div class="course-top-part">
+                                            <a href="page-course-details.html"><h4 class="mt-5 mb-5">Diploma Programme</h4></a>
+                                            <h5 class="text-gray font-12 mt-0">UPCOMING</h5>
+                                        </div>
+                                        <p class="course-description mt-15 mb-0">Get into our predegree programme study for two years and get to study a Bsc course of your choice.</p>
+                                        @*<div class="author-thumb">
+                                            <h5 class="btn btn-primary btn-xs">N12,000</h5>
+                                        </div>*@
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="item">
+                                <div class="course-single-item bg-white border-1px clearfix">
+                                    <div class="course-thumb">
+                                        <img class="img-fullwidth" alt="" src="~/Content/Images/sm6.jpg">
+                                        <div class="course-top-meta">
+                                            @*<ul class="list-inline">
+                                                <li>
+                                                    <button type="submit" class="btn-form btn btn-block btn-dark btn-theme-colored btn-sm mt-20 pt-10 pb-10" data-loading-text="Please wait...">Apply Now</button>
+                                                </li>
+                                            </ul>*@
+                                        </div>
+                                    </div>
+                                    <div class="course-details clearfix p-20 pt-15">
+                                        <div class="course-top-part">
+                                            <a href="page-course-details.html"><h4 class="mt-5 mb-5">IJMB Programme</h4></a>
+                                            <h5 class="text-gray font-12 mt-0">UPCOMING</h5>
+                                        </div>
+                                        <p class="course-description mt-15 mb-0">Get into our predegree programme study for one year and get to study a Bsc course of your choice.</p>
+                                        <div class="author-thumb">
+                                            <h5 class="btn btn-primary btn-xs">N7,500</h5>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                </div>
+                            </div>
+
+                            <div class="item">
+                                <div class="course-single-item bg-white border-1px clearfix">
+                                    <div class="course-thumb">
+                                        <img class="img-fullwidth" alt="" src="~/Content/Images/sm7.jpg">
+                                        <div class="course-top-meta">
+                                            @*<ul class="list-inline">
+                                                <li>
+                                                    <button type="submit" class="btn-form btn btn-block btn-dark btn-theme-colored btn-sm mt-20 pt-10 pb-10" data-loading-text="Please wait...">Apply Now</button>
+                                                </li>
+                                            </ul>*@
+                                        </div>
+                                    </div>
+                                    <div class="course-details clearfix p-20 pt-15">
+                                        <div class="course-top-part">
+                                            <a href="page-course-details.html"><h4 class="mt-5 mb-5">Institute of Education<br/>(Long Vacation Programme)</h4></a>
+                                            <h5 class="text-gray font-12 mt-0">UPCOMING</h5>
+                                        </div>
+                                        <p class="course-description mt-15 mb-0">Get into our institute of education, to equip you to be an accurate educator.</p>
+                                        <div class="author-thumb">
+                                            <h5 class="btn btn-primary btn-xs">N10,000</h5>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div class="item">
+                                <div class="course-single-item bg-white border-1px clearfix">
+                                    <div class="course-thumb">
+                                        <img class="img-fullwidth" alt="" src="~/Content/Images/sm8.jpg">
+                                        <div class="course-top-meta">
+                                            @*<ul class="list-inline">
+                                                <li>
+                                                    <button type="submit" class="btn-form btn btn-block btn-dark btn-theme-colored btn-sm mt-20 pt-10 pb-10" data-loading-text="Please wait...">Apply Now</button>
+                                                </li>
+                                            </ul>*@
+                                        </div>
+                                    </div>
+                                    <div class="course-details clearfix p-20 pt-15">
+                                        <div class="course-top-part">
+                                            <a href="page-course-details.html"><h4 class="mt-5 mb-5">Preliminary French</h4></a>
+                                            <h5 class="text-gray font-12 mt-0">UPCOMING</h5>
+                                        </div>
+                                        <p class="course-description mt-15 mb-0">Get into our predegree programme study for one year and get to study a Bsc course of your choice.</p>
+                                        <div class="author-thumb">
+                                            <h5 class="btn btn-primary btn-xs">N10,000</h5>
+                                        </div>
+                                    </div>
+                                    
+                                    <br />
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+<!-- end main-content -->
+
+
+<script type="text/javascript">
+    $(".btn-form").click(function () {
+        var url = "/Account/AddmissionRegistration";
+        window.open('' + url + '', '_self');
+    });
+</script>

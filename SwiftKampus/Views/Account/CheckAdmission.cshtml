@@ -1,0 +1,85 @@
+﻿
+@{
+    ViewBag.Title = "CheckUtmeAdmission";
+}
+@using SwiftKampus.Models
+@{
+    ViewBag.Title = "SignUp";
+    Layout = "~/Views/Shared/_LayoutWebSite2.cshtml";
+}
+<link href="~/Content/my_css/footer.css" rel="stylesheet" />
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <h3><strong>@ViewBag.Message</strong></h3>
+        <span><a href="#" onclick="PayForId()" class="btn btn-primary btn-lg"><i class="fa fa-registered"></i>&nbsp;click here to login</a></span>
+    </div>
+}
+
+<section class="divider">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-push-2">
+                <div class="border-1px p-20 mb-0" style="border: 1px solid #cac9c9 !important;">
+
+                    <div class="row">
+
+                        <div class="col-md-6 border-right">
+                            <div class="col-md-12">
+                                <h4>Instruction(s)</h4>
+                                <h5>
+                                    Please type in your Jamb Reg No/Application Form No.
+                                </h5>
+                                <h5>
+                                    Undergraduate/Post Graduate Admission
+                                </h5>
+
+                                <hr />
+                                <a href="@Url.Action("Login","Account")">Back to Login Page</a>
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <div class="col-md-12">
+                                <p class="text-danger">@ViewBag.Message</p>
+
+                                @using (Html.BeginForm("CheckAdmission", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <div class="field-wrap">
+                                        <label>
+                                            Jamb No/Form No<span class="req">*</span>
+                                        </label>
+                                        @Html.TextBox("FormNo", "", new { @class = "form-control", @placeholder = "Enter Jamb No/Form No", @required = true })
+                                    </div>
+
+                                    <div class="field-wrap">
+                                    </div>
+                                    <br />
+
+                                    <input type="submit" class="btn btn-primary btn-raised" value="Get Started" />
+                                }
+
+                                @section Scripts {
+                                    @Scripts.Render("~/bundles/jqueryval")
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+<script type="text/javascript">
+    function PayForId() {
+        window.open('@Url.Action("Login", "Account")', '_self');
+    };
+</script>

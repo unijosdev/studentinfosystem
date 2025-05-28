@@ -1,0 +1,226 @@
+﻿@model SwiftKampus.ViewModels.Fee_Management.SchoolFeePaymentVm
+@using SwiftKampusModel.Payment
+@using SwiftKampusModel.AddmissionApplicant
+
+@{
+    ViewBag.Title = "Make Payment";
+    List<UnderGraduateRule> undergraduateRules = (List<UnderGraduateRule>)ViewBag.UndergraduateRule;
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>School Fee Payment</h2>
+
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<div class="container-fluid">    
+    <div class="wrapper wrapper-content animated fadeInRight">    
+
+
+        
+        <div class="row">
+            
+            <div class="col-md-4">
+                <div class="ibox-content">
+                    @if (undergraduateRules != null && undergraduateRules.Count > 0)
+                    {
+                        <br />
+                        <h4 class="text-center BigBold-Title">Instruction(s)</h4>
+                        <ul>
+                            <li>Please be sure you have all the required O-Level Result</li>
+                            <li>Please Check and confirm before you pay any fee</li>
+                            <li>The School will not refund any fee payed to the school account</li>
+                        </ul>
+                        <h5>The List of accepted subjects are</h5>
+                        <table class="table table-responsive">
+                            <tr>
+                                <th>Subject Name</th>
+                                <th>Required</th>
+                            </tr>
+                            @foreach (var item in undergraduateRules)
+                            {
+                                <tr>
+                                    <td>@item.Subject.CourseName</td>
+                                    @if (item.IsRequired.ToString().ToUpper().Equals("TRUE"))
+                                    {
+                                        <td class="text-success"> <strong>Compulsory</strong>  </td>
+                                    }
+                                    else
+                                    {
+                                        <td>Not Compulsory</td>
+                                    }
+
+                                </tr>
+                            }
+
+                        </table>
+                    }
+
+                </div>
+            </div>           
+            <div class="col-md-8">
+                <div class="ibox-content">
+                    <h2 class="text-danger text-center"> @ViewBag.Message</h2>
+                    @using (Html.BeginForm("Create", "SchoolFeePayments", FormMethod.Get))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input asp-for="StudentStatus" type="hidden" id="StudentStatus" value="@ViewBag.StudentStatus" />
+
+                <div class="form-horizontal">
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <h2> Payment for @ViewBag.StudentId</h2>
+
+                    <h2 class="text-danger">You are about to make payment for @ViewBag.StudentLevel Level</h2>
+                    <input type="hidden" name="level" value="@ViewBag.StudentLevel" id="stdLevel"/>
+
+                    <div class="form-group">
+                        @Html.Label("Select Payment", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("FeeCategory", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.FeeCategory, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div id="SemesterType">
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Select Semester", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("SemesterId", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.SemesterId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Select Session", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("SessionId", (IEnumerable<SelectListItem>)ViewBag.Sessions, htmlAttributes: new { @class = "form-control" })
+                            @*@Html.DropDownList("SessionId", null, htmlAttributes: new { @class = "form-control" })*@
+                            @Html.ValidationMessageFor(model => model.SessionId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="paymentKind">
+                        @Html.Label("Payment Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @if (!ViewBag.hasPartPayment)
+                            {
+                                <label>
+                                    <input type="checkbox" id="myCheckbox" name="IsPartPayment" value="" onchange="updateCheckboxValue()">
+                                    Part Payment
+                                </label>
+                            }
+                            else
+                            {
+                                <label>
+                                    <input type="checkbox" id="payBlanceCheckbox" name="isBalancePayment" value="" onchange="updateBalanceCheckboxValue()">
+                                    Pay Balance
+                                </label>
+                            }
+
+                            @*<label>
+            <input type="radio" name="IsPartPayment" value="">
+            Full Payment
+        </label>*@
+
+                            @*<label>
+            <input type="radio" name="payment" value="custom-payment">
+            Custom Payment
+        </label>*@
+                            @*@Html.ValidationMessageFor(model => model.PaymentType, "", new { @class = "text-danger" })*@
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="SELECT PAYMENT" class="btn btn-primary btn-lg" />
+                        </div>
+                    </div>
+                </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+    //document.getElementById('SchoolFeePaymentType').style.display = "none";
+    document.getElementById('SemesterType').style.display = "none";
+
+    $(document).ready(function () {
+
+        // Get references to the dropdown list and the div
+        var dropdown = document.getElementById("FeeCategory");
+        var myDiv = document.getElementById("paymentKind");
+        var stdStatus = document.getElementById("StudentStatus").value;
+
+        //myDiv.style.display = "none";
+        const levels = [100, 200, 300, 400, 500, 600];
+        const studentLevel = document.getElementById("stdLevel").value;
+        //alert(levels.includes(Number(studentLevel)));
+        // Add an event listener to the dropdown list
+        //dropdown.addEventListener("change", function () {
+            // Check if the selected option's value is "option1"
+        if (dropdown.value === "School_Charges" && levels.includes(Number(studentLevel)) && stdStatus !== "New_Student") {
+                // If yes, display the div
+                myDiv.style.display = "block";
+            } else {
+                // If no, hide the div
+                myDiv.style.display = "none";
+            }
+        //});
+
+        
+
+
+        $('#FeeCategory').change(function () {
+
+            if (dropdown.value === "School_Charges" && levels.includes(Number(studentLevel)) /*&& stdStatus != "New_Student"*/) {
+                // If yes, display the div
+                myDiv.style.display = "block";
+            } else {
+                // If no, hide the div
+                myDiv.style.display = "none";
+            }
+        });
+    });
+
+    function updateCheckboxValue() {
+        const checkbox = document.getElementById("myCheckbox");
+    
+        if (checkbox.checked) {
+            checkbox.value = "true"; // Set the value when checked
+        } else {
+            checkbox.value = "false"; // Set a different value when unchecked
+        }
+    
+        // Display the updated value (optional)
+        console.log("Checkbox Value: " + checkbox.value);
+    }
+
+    function updateBalanceCheckboxValue() {
+        const checkbox = document.getElementById("payBlanceCheckbox");
+
+        if (checkbox.checked) {
+            checkbox.value = "true"; // Set the value when checked
+        } else {
+            checkbox.value = "false"; // Set a different value when unchecked
+        }
+
+        // Display the updated value (optional)
+        console.log("Checkbox Value: " + checkbox.value);
+    }
+</script>
+
+
+

@@ -1,0 +1,42 @@
+﻿@model SwiftKampusModel.TimeTable.Building
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Building</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BuildingName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BuildingName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BuildingCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BuildingCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BuildingLocation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BuildingLocation)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @*@Html.ActionLink("Edit", "Edit", new { id = Model.BuildingId }) |*@
+    @Html.ActionLink("Back to List", "Index")
+</p>

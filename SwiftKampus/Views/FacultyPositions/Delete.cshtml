@@ -1,0 +1,103 @@
+﻿@model SwiftKampusModel.FacultyPosition
+
+
+
+
+<div class="card">
+    <div class="card-head style-primary">
+        <header>
+            <h3>
+                <i class="fa fa-remove"></i> Delete Record
+            </h3>
+        </header>
+
+    </div><!--end .card-head -->
+    <div class="card-body">
+        <h3>Are you sure you want to delete this?</h3>
+        <div>
+            <div>
+                <h4>FacultyPosition</h4>
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Faculty.FacultyCode)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Faculty.FacultyCode)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.StaffPosition.PositionName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.StaffPosition.PositionName)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Session.SessionName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Session.SessionName)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Staff.Designation)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Staff.Designation)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.IsActive)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.IsActive)
+                    </dd>
+
+                </dl>
+               
+            </div>
+
+            <form id="myform" onsubmit="return false;">
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" id="id" name="id" class="form-control" value="@Model.FacultyPositionId">
+                <input id="btndelete" type="submit" value="Delete" class="btn btn-danger" /> |
+
+                <a href="#" class="btn btn-info" data-dismiss="modal">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $("#btndelete").click(function () {
+
+        var data = $("#myform").serialize();
+        //window.alert(data);
+        $.ajax({
+            type: "POST",
+            url: "/FacultyPositions/Delete",
+            data: data,
+            success: function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+                    window.oTable.ajax.reload(); //run my_fun() ondomready
+
+                    toastr["info"](data.message);
+                    $('#myform')[0].reset();
+                } else {
+                    //$('#actionsList').modal("hide");
+                    toastr["error"](data.message);
+                }
+
+            }
+        });
+    });
+</script>

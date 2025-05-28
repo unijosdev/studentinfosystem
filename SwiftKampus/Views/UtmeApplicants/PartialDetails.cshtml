@@ -1,0 +1,35 @@
+﻿@model IEnumerable<SwiftKampusModel.AddmissionApplicant.ApplicantOLevelResult>
+
+@*<div class="mt-1 mb-1">
+        <img src="@Url.Action("RenderImage", new { userId = Model.FirstOrDefault().ApplicantId})" alt="No Image" class="img-fluid rounded-circle contact-avatar mx-auto">
+    </div>*@
+<br />
+<br />
+<br />
+<h4>List of Registered O Level Subjects</h4>
+@if (Model.Count() < 1)
+{
+    <h3 class="h3-responsive text-center">No Result Uploaded Yet</h3>
+
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table">
+            <tr>
+                <td> Subject Name </td>
+                <td> Subject Grade </td>
+                <td> Subject Grade Point </td>
+            </tr>
+            @foreach (var result in Model)
+            {
+                <tr>
+                    <td>@result.Subject.CourseName</td>
+                    <td>@result.SubjectGrade</td>
+                    <td>@result.GradePoint</td>
+                </tr>
+
+            }
+        </table>
+    </div>
+}

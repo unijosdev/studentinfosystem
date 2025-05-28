@@ -1,0 +1,535 @@
+﻿@using SwiftKampus.Models
+
+@{
+    ViewBag.Title = "Find Student";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+<style>
+    .searchStudent {
+        display: flex;
+        margin-bottom: 80px;
+    }
+
+        .searchStudent input {
+            background-color: transparent !important;
+        }
+
+    .error {
+        font-size: 16px;
+        margin-top: 15px;
+        margin-bottom: 80px;
+    }
+
+    .studentDetails {
+        padding-bottom: 50px;
+    }
+
+    .container-fluid {
+        background-color: white;
+        padding: 20px;
+        margin: 10px 0;
+        border-radius: 4px;
+    }
+
+    h2 {
+        margin-bottom: 30px;
+    }
+
+    .passport {
+        /*border: 1px solid gray;*/
+        border-radius: 4px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 30px;
+    }
+
+    .flexbox {
+        display: flex;
+        flex-direction: column;
+    }
+
+        .flexbox img {
+            width: 150px;
+            height: 150px;
+        }
+
+        .flexbox label {
+            margin-bottom: 20px
+        }
+
+        .flexbox button {
+            text-transform: uppercase;
+        }
+
+    .studentSignature {
+        border: 1px solid lightgray;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 30px;
+    }
+
+    .find-student input {
+        border-radius: 4px !important;
+        border: 1px solid #c8c8c8 !important;
+        background-color: #cfcfcf3b !important;
+    }
+
+    .form-control {
+        /*height:40px;*/
+    }
+
+    label {
+        font-size: 14px;
+        font-weight: 400;
+        color: #4c4c4c;
+    }
+
+    .editUpdate {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 30px;
+    }
+
+        .editUpdate button {
+            margin-left: 20px;
+            margin-right: 20px;
+            margin-bottom: 20px
+        }
+
+    .print {
+        border: 1px solid #afafaf;
+    }
+</style>
+
+
+<div class="container-fluid find-student">
+
+    <h2>Find Student</h2>
+
+    <div class="row">
+        <div class="col-md-6 searchStudent">
+            <input type="text" name="id" id="studentId" value="" class="form-control" placeholder="Matric / jamb / form number" style="background-color: transparent !important;" />
+            <button id="findStudent" class="btn btn-primary" type="submit" style="margin-left:10px">Find student</button>
+        </div>
+    </div>
+    <p class="text-danger error" hidden>No student with such details found</p>
+
+    <div class="studentDetails" hidden>
+        <img src="#" alt="passport" id="passport" class="img-responsive passport" width="150px" height="150px" />
+
+        <!-- first row -->
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="matricNo">Matric Number</label>
+                    <input class="form-control" id="matricNo" type="text" value="" readonly>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="jambNo">Jamb / Form Number</label>
+                    <input class="form-control" id="jambNo" type="text" value="" readonly>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="emailLogin">Email for login / signup</label>
+                    <input class="form-control" id="emailLogin" type="text" value="" readonly>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="email">Primary Email</label>
+                    <input class="form-control" id="email" type="text" value="" readonly>
+                </div>
+            </div>
+        </div>
+
+        <!-- second row -->
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input class="form-control" id="lastName" type="text" value="" readonly>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input class="form-control" id="firstName" type="text" value="" readonly>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="middleName">Middle Name</label>
+                    <input class="form-control" id="middleName" type="text" value="" readonly>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="dob">Date of Birth</label>
+                    <input class="form-control" id="dob" type="text" value="" readonly>
+                </div>
+            </div>
+        </div>
+
+        <!-- Third row -->
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="programme">School Programmee</label>
+                    <input class="form-control" id="programme" type="text" value="" readonly>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="faculty">Faculty</label>
+                    <input class="form-control" id="faculty" type="text" value="" readonly>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="department">Department</label>
+                    <input class="form-control" id="department" type="text" value="" readonly>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="course">Course</label>
+                    <input class="form-control" id="course" type="text" value="" readonly>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fourth row -->
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="level">Level</label>
+                    <input class="form-control" id="level" type="text" value="" readonly>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="session">Admitted Session</label>
+                    <input class="form-control" id="session" type="text" value="" readonly>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="modeOfEntry">Mode of Entry</label>
+                    <input class="form-control" id="modeOfEntry" type="text" value="" readonly>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="status">Student Status</label>
+                    <input class="form-control" id="status" type="text" value="" readonly>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fifth row -->
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="active">Active Student?</label>
+                    <input class="form-control" id="active" type="text" value="" readonly>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="graduated">Graduated Student?</label>
+                    <input class="form-control" id="graduated" type="text" value="" readonly>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="deptClearance">Department Clearance</label>
+                    <input class="form-control" id="deptClearance" type="text" value="" readonly>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="facultyClearance">Faculty Clearance</label>
+                    <input class="form-control" id="facultyClearance" type="text" value="" readonly>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Sixth row -->
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="academicClearance">Academic Clearance</label>
+                    <input class="form-control" id="academicClearance" type="text" value="" readonly>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <input class="form-control" id="gender" type="text" value="" readonly>
+                </div>
+            </div>
+        </div>
+
+        <input class="form-control" id="id" type="hidden" value="">
+
+        <div class="row editUpdate">
+            @if (User.IsInRole(RoleName.Admin) || User.IsInRole(RoleName.SuperAdmin))
+            {
+                <button class="btn btn-primary btn-lg" id="editStudent" onclick="edit()">Edit Student</button>
+                <button class="btn btn-primary btn-lg" onclick="update()">Update Student</button>
+                <button class="btn btn-default btn-lg print" onclick="printBiodata()">Print Biodata</button>
+                <button class="btn btn-default btn-lg print signature" onclick="uploadSignature()">Upload Signature</button>
+            }
+
+            @if (User.IsInRole(RoleName.TSupport))
+            {
+                <button class="btn btn-default btn-lg print" onclick="printBiodata()">Print Biodata</button>
+                <button class="btn btn-default btn-lg print signature" onclick="uploadSignature()">Upload Signature</button>
+            }
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Modal for Update Student -->
+<div class="modal fade inmodal" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content animated">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">STUDENT</h4>
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+<!-- Modal for upload signature -->
+<div class="modal fade inmodal" id="signatureModal" tabindex="-1" role="dialog" aria-labelledby="signatureModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content animated">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">Upload Signature</h4>
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="signature-Modal">
+                <form id="passportForm" class="form-horizontal" method="post" enctype="multipart/form-data" onsubmit="return false;">
+
+                    <input class="form-control" id="studentId_modal" name="StudentId" type="hidden" value="">
+                    <div class="flexbox">
+                        <img id="output2" alt="Signature" src="" class="rounded-circle contact-avatar my-2 mx-auto studentSignature" height="150" />
+
+                        <input id="FileSignature" type="file" name="FileSignature" onchange="loadFileTwo(event)" style="display: none">
+                        <label for="FileSignature" class="btn btn-lg btn-primary">Click to Upload Signature</label>
+                        <button class="btn btn-warning btn-lg" type="submit">Save Signature</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $('#findStudent').click(function () {
+            $('#findStudent').attr('disabled', true);
+            var id = $('#studentId').val();
+
+            $.ajax({
+                url: '/Students/FindStudent?id=' + id,
+                type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+                //data: Mydata,
+                success: function (data) {
+                    //console.log(data);
+                    studentDetails(data);
+                }
+            }).then(function () {
+                $('#findStudent').attr('disabled', false);
+            });
+        });
+    });
+
+    function studentDetails(data) {
+
+        // display error message if no student found
+        if (data.student == null) {
+            $('.error').removeAttr('hidden');
+            $('.studentDetails').attr('hidden', true);
+            $('.searchStudent').css("margin-bottom", "0px");
+        }
+
+        if (data.student != null) {
+            $('.error').attr('hidden', true);
+            $('.searchStudent').css("margin-bottom", "80px");
+            $('.studentDetails').removeAttr('hidden');
+        }
+
+        var myDate = new Date(data.student.DateOfBirth);
+        var dateOfBirth = new Intl.DateTimeFormat("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "2-digit",
+        }).format(myDate);
+        //var dateOfBirth = new Date(data.student.DateOfBirth).toLocaleDateString();
+
+        $('#matricNo').val(data.student.MatricNo);
+        $('#jambNo').val(data.student.JambRegNo);
+        $('#emailLogin').val(data.student.Email);
+        $('#email').val(data.student.PrimaryEmail);
+        $('#lastName').val(data.student.LastName);
+        $('#firstName').val(data.student.FirstName);
+        $('#middleName').val(data.student.MiddleName);
+        $('#dob').val(dateOfBirth);
+        $('#programme').val(data.student.SchoolProgramme);
+        $('#faculty').val(data.student.Faculty);
+        $('#department').val(data.student.Department);
+        $('#course').val(data.student.Programme);
+        $('#level').val(data.student.Level);
+        $('#session').val(data.student.Session);
+        $('#modeOfEntry').val(data.student.ModeOfEntry);
+        $('#status').val(data.student.StudentStatus);
+        $('#active').val(data.student.Active);
+        $('#graduated').val(data.student.IsGraduated);
+        $('#deptClearance').val(data.student.IsClearedDepartment);
+        $('#facultyClearance').val(data.student.IsClearedFaculty);
+        $('#academicClearance').val(data.student.IsClearedAcademics);
+        $('#gender').val(data.student.Gender);
+        $('#passport').attr('src', `/Students/RenderImage?studentId=${data.student.StudentId}`);
+        //$('#passport').val(data.student.Passport);
+        $('#id').val(data.student.StudentId);
+        $('#studentId_modal').val(data.student.StudentId);
+        $('.studentSignature').attr('src', `/Students/RenderSignature?studentId=${data.student.StudentId}`);
+    }
+
+    function edit() {
+        var studentId = $('#id').val();
+        var url = "/Students/Edit?id=" + studentId;
+        window.open('' + url + '', '_self');
+    };
+
+    function update() {
+        var studentId = $('#id').val();
+        var url = "/Departments/UpgradeLevel?studentId=" + studentId;
+        $('#myModalDivBody').load(url,
+            function () {
+                jQuery.noConflict();
+                $('#actionsList').modal("show");
+            });
+    };
+
+    function uploadSignature() {
+        $('#signatureModal').modal("show");
+    }
+
+    function printBiodata() {
+        var studentId = $('#id').val();
+        var url = "/Students/StudentFullDetail/" + studentId;
+        window.open('' + url + '', '_self');
+    }
+
+    // Handles the uploading of signature
+    var loadFileTwo = function (event) {
+        var fileUpload = document.getElementById("FileSignature");
+        if (typeof (fileUpload.files) !== "undefined") {
+            var size = parseFloat(fileUpload.files[0].size / 1024).toFixed(2);
+            if (size > 25) {
+                toastr["error"]("The image is bigger than the specified size of (25kb)");
+                var output = document.getElementById('output2');
+                output.src = "#";
+            } else {
+                var output2 = document.getElementById('output2');
+                output2.src = URL.createObjectURL(event.target.files[0]);
+            }
+        } else {
+            alert("This browser does not support HTML5.");
+        }
+    };
+
+    // Handles the submitting of uploaded signature
+    $("#passportForm").submit(function (e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+
+        $.ajax({
+            url: "/Students/SavePassport",
+            type: 'POST',
+            data: formData,
+            success: function (data) {
+                if (data.status) {
+                    //swal({
+                    //    title: "Signature has been saved successfully",
+                    //    type: "warning",
+                    //    showCancelButton: true,
+                    //    confirmButtonColor: "#ab973a",
+                    //    confirmButtonText: "Proceed!",
+                    //    closeOnConfirm: false,
+                    //    closeOnCancel: false
+                    //})
+                } else {
+                    swal({
+                        title: "Signature has been saved successfully",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#ab973a",
+                        confirmButtonText: "Proceed!",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    })
+                }
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    });
+
+</script>

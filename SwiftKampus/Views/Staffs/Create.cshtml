@@ -1,0 +1,369 @@
+﻿@model SwiftKampusModel.Staff
+
+@{
+    ViewBag.Title = "Add Staff";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Add New Staff</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                    </div>
+                </div>
+
+
+                <div class="ibox-content">
+
+                    @using (Html.BeginForm("Create", "Staffs", FormMethod.Post, new { enctype = "multipart/form-data", id = "myform" }))
+                    {
+                        <h3 class="text-danger">@ViewBag.Message</h3>
+                        @Html.AntiForgeryToken()
+                        <div class="container-fluid">
+                            <!-- Section: Edit Account -->
+                            <section class="section">
+                                <!-- First row -->
+                                <div class="row">
+                                    <!-- First column -->
+                                    <div class="col-lg-4">
+                                        <div class="row">
+
+                                            <div class="card">
+                                                <div class="card-head style-primary">
+                                                    <header>
+                                                        <h5>Add Staff Passport</h5>
+                                                    </header>
+
+                                                </div><!--end .card-head -->
+                                                <div class="card-body">
+
+                                                    <!-- Card content -->
+                                                    <div class="card-block text-center">
+
+                                                        <img id="output" alt="Staff Passport" class="rounded-circle contact-avatar my-2 mx-auto" />
+
+                                                        <p class="text-muted">
+                                                            <small>photo will be changed automatically</small>
+                                                        </p>
+
+                                                        <input id="File" type="file" accept="image/*" name="File" onchange="loadFile(event)" style="display: none">
+                                                        <label for="File" class="btn btn-primary btn-block">Upload Photo</label>
+                                                    </div>
+                                                    <!-- /.Card content -->
+                                                </div>
+                                            </div>
+                                            <!-- /.Card -->
+                                        </div>
+                                    </div>
+                                    <!-- /.First column -->
+                                    <!-- Second column -->
+                                    <div class="col-lg-8">
+                                        <!--Card-->
+                                        <div class="card">
+                                            <div class="card-head style-primary">
+                                                <header>
+                                                    <h5> Add Staff Profile</h5>
+                                                </header>
+
+                                            </div><!--end .card-head -->
+                                            <div class="card-body">
+
+
+                                                <div class="card-block">
+                                                    <!-- Edit Form -->
+                                                    <form>
+                                                        <!--Zero row-->
+                                                        <div class="row">
+                                                            <!--First column-->
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    @Html.Label("Staff Number")
+                                                                    @Html.EditorFor(model => model.StaffId, new { htmlAttributes = new { @class = "form-control" } })
+                                                                    @Html.ValidationMessageFor(model => model.StaffId, "", new { @class = "text-danger" })
+                                                                </div>
+
+                                                            </div>
+                                                            <!--Second column-->
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    @Html.LabelFor(model => model.HireDate)
+                                                                    @Html.EditorFor(model => model.HireDate, new { htmlAttributes = new { @class = "form-control" } })
+                                                                    @Html.ValidationMessageFor(model => model.HireDate, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+                                                            <!--Third column-->
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    @Html.LabelFor(model => model.ResumptionDate)
+                                                                    @Html.EditorFor(model => model.ResumptionDate, new { htmlAttributes = new { @class = "form-control" } })
+                                                                    @Html.ValidationMessageFor(model => model.ResumptionDate, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    @Html.LabelFor(model => model.Email)
+                                                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--/.First row-->
+                                                        <!--First row-->
+                                                        <div class="row">
+                                                            <!--First column-->
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    @Html.LabelFor(model => model.LastName)
+                                                                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                                                                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+                                                            <!--Second column-->
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    @Html.LabelFor(model => model.FirstName)
+                                                                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                                                                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+                                                            <!--Third column-->
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    @Html.LabelFor(model => model.MiddleName)
+                                                                    @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control" } })
+                                                                    @Html.ValidationMessageFor(model => model.MiddleName, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--/.First row-->
+                                                        <!--First row-->
+                                                        <div class="row">
+                                                            <!--First column-->
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    @Html.LabelFor(model => model.Gender)
+                                                                    @Html.DropDownList("Gender", null, htmlAttributes: new { @class = "form-control" })
+                                                                    @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+                                                            <!--Second column-->
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    @Html.LabelFor(model => model.DateOfBirth)
+                                                                    @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "form-control" } })
+                                                                    @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
+
+
+                                                                </div>
+                                                            </div>
+                                                            <!--Third column-->
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    @Html.LabelFor(model => model.Religion)
+                                                                    @Html.DropDownList("Religion", null, htmlAttributes: new { @class = "form-control" })
+                                                                    @Html.ValidationMessageFor(model => model.Religion, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--/.First row-->
+                                                        <!--Second row-->
+                                                        <div class="row">
+                                                            <!--First column-->
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    @Html.LabelFor(model => model.StateOfOrigin)
+                                                                    @Html.DropDownList("StateOfOrigin", null, htmlAttributes: new { @class = "form-control", @onchange = "getLgaList()" })
+                                                                    @Html.ValidationMessageFor(model => model.StateOfOrigin, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+                                                            <!--Second column-->
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    @Html.LabelFor(model => model.Lga)
+                                                                    @Html.DropDownList("Lga", null, htmlAttributes: new { @class = "form-control" })
+                                                                    @Html.ValidationMessageFor(model => model.Lga, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    @Html.LabelFor(model => model.TownOfBirth)
+                                                                    @Html.EditorFor(model => model.TownOfBirth, new { htmlAttributes = new { @class = "form-control" } })
+                                                                    @Html.ValidationMessageFor(model => model.TownOfBirth, "", new { @class = "text-danger" })
+
+                                                                </div>
+                                                            </div>
+                                                            <!--Third column-->
+
+                                                        </div>
+                                                        <!--/.Second row-->
+                                                        <!--Third row-->
+                                                        <div class="row">
+                                                            <!--First column-->
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    @Html.LabelFor(model => model.PhoneNumber)
+                                                                    @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                                                    @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    @Html.Label("Department")
+                                                                    @Html.DropDownList("DepartmentId", null, htmlAttributes: new { @class = "form-control js-example-basic-single" })
+                                                                    @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    @Html.LabelFor(model => model.Nationality)
+                                                                    @Html.EditorFor(model => model.Nationality, new { htmlAttributes = new { @class = "form-control" } })
+                                                                    @Html.ValidationMessageFor(model => model.Nationality, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--/.Third row-->
+                                                        <!--Forth row-->
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    @Html.Label("Staff Category")
+                                                                    @Html.DropDownList("StaffRole", null, htmlAttributes: new { @class = "form-control" })
+                                                                    @Html.ValidationMessageFor(model => model.StaffRole, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    @Html.LabelFor(model => model.MaritalStatus)
+                                                                    @Html.DropDownList("MaritalStatus", null, htmlAttributes: new { @class = "form-control" })
+                                                                    @Html.ValidationMessageFor(model => model.MaritalStatus, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+                                                            @*<div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        @Html.LabelFor(model => model.Nationality)
+                                                                        @Html.EditorFor(model => model.Nationality, new {htmlAttributes = new {@class = "form-control"}})
+                                                                        @Html.ValidationMessageFor(model => model.Nationality, "", new {@class = "text-danger"})
+                                                                    </div>
+                                                                </div>*@
+                                                        </div>
+                                                        <!--/.Forth row-->
+                                                        <!-- Fifth row -->
+                                                        <div class="row">
+                                                            <div class="col-md-12 text-center">
+                                                                <input type="submit" id="btnsubmit" value="Add Staff Record" class="btn btn-primary btn-lg">
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.Fifth row -->
+                                                    </form>
+                                                    <!-- Edit Form -->
+                                                </div>
+                                                <!--/.Card content-->
+                                            </div>
+                                        </div>
+                                        <!--/.Card-->
+                                    </div>
+                                    <!-- /.Second column -->
+                                </div>
+                                <!-- /.First row -->
+                            </section>
+                            <!-- /.Section: Edit Account -->
+                        </div>
+                    }
+                    <!--/Main layout-->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
+
+<script>
+
+    jQuery(function ($) {
+        $('.js-example-basic-single').select2({
+            placeholder: 'Select an option...',
+            allowClear: true
+        });
+    });
+
+    var loadFile = function (event) {
+        var fileUpload = document.getElementById("File");
+        if (typeof (fileUpload.files) != "undefined") {
+            var size = parseFloat(fileUpload.files[0].size / 1024).toFixed(2);
+            if (size > 20) {
+                toastr["error"]("The image is bigger than the specified size.");
+                var output = document.getElementById('output');
+                output.src = "#";
+            } else {
+                var output = document.getElementById('output');
+                output.src = URL.createObjectURL(event.target.files[0]);
+            }
+        } else {
+            alert("This browser does not support HTML5.");
+        }
+
+    };
+    var loadFile2 = function (event) {
+        var fileUpload = document.getElementById("BannerFile");
+        if (typeof (fileUpload.files) != "undefined") {
+            var size = parseFloat(fileUpload.files[0].size / 1024).toFixed(2);
+            if (size > 30) {
+                toastr["error"]("The image is bigger than the specified size.");
+                var output2 = document.getElementById('output2');
+                output2.src = "#";
+            } else {
+                var output2 = document.getElementById('output2');
+                output2.src = URL.createObjectURL(event.target.files[0]);
+            }
+        } else {
+            alert("This browser does not support HTML5.");
+        }
+    };
+
+    function getLgaList() {
+        var stateId = $("#StateOfOrigin").val();
+        //alert(stateId);
+        $.ajax
+            ({
+                url: '/Students/GetLgaList?codeId=' + stateId,
+                type: 'GET',
+                datatype: 'application/json',
+                contentType: 'application/json',
+                //data: JSON.stringify({
+                //    codeId: +stateId
+                //}),
+                success: function (result) {
+                    $("#Lga").html("");
+                    $.each($.parseJSON(result),
+                        function (i, city) {
+                            $("#Lga").append($('<option></option>').val(city).html(city));
+                        });
+
+                },
+                error: function () {
+                    alert("Whooaaa! Something went wrong..");
+                }
+            });
+    }
+</script>

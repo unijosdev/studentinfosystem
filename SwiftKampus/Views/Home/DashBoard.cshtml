@@ -1,0 +1,316 @@
+﻿@model SwiftKampus.ViewModels.AdminDashboardVm
+
+@{
+    /**/
+
+    ViewBag.Title = "Dashboard";
+}
+<h2>Dashboard</h2>
+
+<div class="row">
+    <!-- First Column -->
+    <div class="col-lg-4">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>DE SCREENING</h5>
+                <i class="fa fa-lg fa-user-o pull-right" aria-hidden="true"></i>
+            </div>
+            <div class="ibox-content">
+                <ul class="stat-list">
+                    <li>
+                        <h2 class="no-margins">@Model.RegisteredDe</h2>
+                        <small>Registered</small>
+                        <div class="stat-percent">@Model.RegisteredDePercentage% <i class="fa fa-level-up text-navy"></i></div>
+                        <div class="progress progress-mini">
+                            <div style="width: @Model.RegisteredDePercentage%; background:green;" class="progress-bar"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <h2 class="no-margins">@Model.UnRegisteredDe</h2>
+                        <small>Un-Registered</small>
+                        <div class="stat-percent">@Model.UnRegisteredDePercentage% <i class="fa fa-level-down text-navy"></i></div>
+                        <div class="progress progress-mini">
+                            <div style="width: @Model.UnRegisteredDePercentage%; background:#F3BB23;" class="progress-bar"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <h2 class="no-margins">@Model.TotalDeScreening</h2>
+                        <small>Total Students</small>
+                        <div class="stat-percent">100% <i class="fa fa-bolt text-navy"></i></div>
+                        <div class="progress progress-mini">
+                            <div style="width: 100%;" class="progress-bar"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Statistics</h5>
+                <i class="fa fa-1x fa-pie-chart pull-right" aria-hidden="true"></i>
+            </div>
+            <div class="ibox-content">
+                <canvas id="doughnutChart" height="150"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Second Column -->
+    <div class="col-lg-4">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>UTME SCREENING</h5>
+                <i class="fa fa-1x fa-bar-chart-o pull-right" aria-hidden="true"></i>
+            </div>
+            <div class="ibox-content">
+                <ul class="stat-list">
+                    <li>
+                        <h2 class="no-margins">@Model.RegisteredUtme</h2>
+                        <small>Registered</small>
+                        <div class="stat-percent">@Model.RegisteredUtmePercentage% <i class="fa fa-level-up text-navy"></i></div>
+                        <div class="progress progress-mini">
+                            <div style="width: @Model.RegisteredUtmePercentage%; background:#7CAC25;" class="progress-bar"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <h2 class="no-margins">@Model.UnRegisteredUtme</h2>
+                        <small>Un-Registered</small>
+                        <div class="stat-percent">@Model.UnRegisteredUtmePercentage% <i class="fa fa-level-down text-navy"></i></div>
+                        <div class="progress progress-mini">
+                            <div style="width: @Model.UnRegisteredUtmePercentage%; background:red;" class="progress-bar"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <h2 class="no-margins">@Model.TotalUtmeScreening</h2>
+                        <small>Total</small>
+                        <div class="stat-percent">100% <i class="fa fa-bolt text-navy"></i></div>
+                        <div class="progress progress-mini">
+                            <div style="width: 100%;" class="progress-bar"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Sms Platform</h5>
+            </div>
+            <div class="ibox-content">
+                <p>
+                    <i class="md md-mode-comment text-primary-light"></i>
+                    Use the Sms module to send messages to <b>Staff, Lecturers and Students.</b>
+                    The module is capable of filtering users based on departments.
+                    <i>Custom Sms Sending also available</i>
+                </p>
+                <ul class="todo-list small-list">
+                    <li>@Html.ActionLink("Notify PreDegree Student", "SendtoAllPreDegreeStudent", "Sms")</li>
+                    <li>@Html.ActionLink("Send to All Student", "SendToAllStudent", "Sms")</li>
+                    <li>@Html.ActionLink("Send to All Staff", "SendToAllStudent", "Sms")</li>
+                    <li>@Html.ActionLink("Send to Qualified Admission Applicants", "SendSms", "Sms")</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Third Column -->
+    <!-- Third Column -->
+    <div class="col-lg-4">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Students Stat</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="stat-percent font-bold text-warning">
+                    @ViewBag.OnlineUserPercentage% <i class="fa fa-level-up"></i>
+                </div>
+                <ul class="list-unstyled">
+                    <li><button type="button" class="btn btn-info">@ViewBag.OnlineUser</button> Current Users</li>
+                    <li><button type="button" class="btn btn-success">@ViewBag.AllUsers</button> All Users</li>
+                    <li><button type="button" class="btn btn-primary">@ViewBag.ActiveStudent</button> All Student</li>
+                    <li><button type="button" class="btn btn-primary">@ViewBag.AllUG</button> UG Student</li>
+                    <li><button type="button" class="btn btn-primary">@ViewBag.NewUg</button> UG New Student</li>
+                    <li><button type="button" class="btn btn-primary">@ViewBag.RegNewUG</button> UG Registered Student</li>
+                    <li><button type="button" class="btn btn-warning">@ViewBag.MscTotalStd</button> MSc Student</li>
+                    <li><button type="button" class="btn btn-warning">@ViewBag.PhDSTotalStd</button> PhD Student</li>
+                    <li><button type="button" class="btn btn-warning">@ViewBag.PhDOTotalStd</button> PhD Others Student</li>
+                    <li><button type="button" class="btn btn-warning">@ViewBag.MBATotalStd</button> MBA Student</li>
+                    <li><button type="button" class="btn btn-warning">@ViewBag.PGDTotalStd</button> PGD Student</li>
+                    <li><button type="button" class="btn btn-success">0</button> Pre-Degree</li>
+                    <li><button type="button" class="btn btn-primary">0</button> Staff</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+<script src="~/Scripts/jquery-3.2.1.js"></script>
+<script src="~/AdminTemplate/js/plugins/chartJs/Chart.min.js"></script>
+<script src="~/AdminTemplate/js/demo/chartjs-demo.js"></script>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @*<script>
+           // window.alert(5 + 6);
+            $(document).ready(function () {
+
+                var sourceFullView = { url: '/Students/GetDiaryEvents/' };
+                var sourceSummaryView = { url: '/Students/GetDiarySummary/' };
+                var CalLoading = true;
+
+                $('#calendar').fullCalendar({
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,agendaWeek,agendaDay'
+                    },
+                    defaultView: 'agendaDay',
+                    editable: true,
+                    allDaySlot: false,
+                    selectable: true,
+                    slotMinutes: 15,
+                    events: '/Students/GetDiaryEvents/',
+                    eventClick: function (calEvent, jsEvent, view) {
+                        alert('You clicked on event id: ' + calEvent.id
+                            + "\nSpecial ID: " + calEvent.someKey
+                            + "\nAnd the title is: " + calEvent.title);
+
+                    },
+
+                    eventDrop: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
+                        if (confirm("Confirm move?")) {
+                            UpdateEvent(event.id, event.start);
+                        }
+                        else {
+                            revertFunc();
+                        }
+                    },
+
+                    eventResize: function (event, dayDelta, minuteDelta, revertFunc) {
+
+                        if (confirm("Confirm change appointment length?")) {
+                            UpdateEvent(event.id, event.start, event.end);
+                        }
+                        else {
+                            revertFunc();
+                        }
+                    },
+
+
+
+                    dayClick: function (date, allDay, jsEvent, view) {
+                        $('#eventTitle').val("");
+                        $('#eventDate').val($.fullCalendar.formatDate(date, 'dd/MM/yyyy'));
+                        $('#eventTime').val($.fullCalendar.formatDate(date, 'HH:mm'));
+                        ShowEventPopup(date);
+                    },
+
+                    viewRender: function (view, element) {
+
+                        if (!CalLoading) {
+                            if (view.name == 'month') {
+                                $('#calendar').fullCalendar('removeEventSource', sourceFullView);
+                                $('#calendar').fullCalendar('removeEvents');
+                                $('#calendar').fullCalendar('addEventSource', sourceSummaryView);
+                            }
+                            else {
+                                $('#calendar').fullCalendar('removeEventSource', sourceSummaryView);
+                                $('#calendar').fullCalendar('removeEvents');
+                                $('#calendar').fullCalendar('addEventSource', sourceFullView);
+                            }
+                        }
+                    }
+
+                });
+
+                CalLoading = false;
+
+
+            });
+
+            $('#btnInit').click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: "/Students/Init",
+                    success: function (response) {
+                        if (response === 'True') {
+                            $('#calendar').fullCalendar('refetchEvents');
+                            alert('Database populated! ');
+                        }
+                        else {
+                            alert('Error, could not populate database!');
+                        }
+                    }
+                });
+            });
+
+            $('#btnPopupCancel').click(function () {
+                ClearPopupFormValues();
+                $('#popupEventForm').hide();
+            });
+
+            $('#btnPopupSave').click(function () {
+
+                $('#popupEventForm').hide();
+
+                var dataRow = {
+                    'Title': $('#eventTitle').val(),
+                    'NewEventDate': $('#eventDate').val(),
+                    'NewEventTime': $('#eventTime').val(),
+                    'NewEventDuration': $('#eventDuration').val()
+                }
+
+                ClearPopupFormValues();
+
+                $.ajax({
+                    type: 'POST',
+                    url: "/Students/SaveEvent",
+                    data: dataRow,
+                    success: function (response) {
+                        if (response === 'True') {
+                            $('#calendar').fullCalendar('refetchEvents');
+                            alert('New event saved!');
+                        }
+                        else {
+                            alert('Error, could not save event!');
+                        }
+                    }
+                });
+            });
+
+            function ShowEventPopup(date) {
+                ClearPopupFormValues();
+                $('#popupEventForm').show();
+                $('#eventTitle').focus();
+            }
+
+            function ClearPopupFormValues() {
+                $('#eventID').val("");
+                $('#eventTitle').val("");
+                $('#eventDateTime').val("");
+                $('#eventDuration').val("");
+            }
+
+            function UpdateEvent(EventID, EventStart, EventEnd) {
+
+                var dataRow = {
+                    'ID': EventID,
+                    'NewEventStart': EventStart,
+                    'NewEventEnd': EventEnd
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: "/Students/UpdateEvent",
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(dataRow)
+                });
+            }
+
+        </script>*@
+}

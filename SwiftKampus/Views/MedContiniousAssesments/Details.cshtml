@@ -1,0 +1,114 @@
+﻿@model SwiftKampusModel.MedicalScience.MedContiniousAssesment
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>MedContiniousAssesment</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.MedResultCa.ResultCaName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MedResultCa.ResultCaName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Session.SessionName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Session.SessionName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Student.MatricNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Student.MatricNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Score)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Score)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Submitted)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Submitted)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsDeptApproved)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsDeptApproved)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsFacultyApproved)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsFacultyApproved)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsSenateApproved)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsSenateApproved)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsAbsentForExam)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsAbsentForExam)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsDisqualified)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsDisqualified)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NoOfSubmission)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NoOfSubmission)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReasonForReject)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReasonForReject)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MedContiniousAssesmentId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

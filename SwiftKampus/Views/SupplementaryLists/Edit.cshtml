@@ -1,0 +1,148 @@
+﻿@model SwiftKampusModel.SupplementaryList
+
+@{
+    ViewBag.Title = "Search Result";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    var schoolImage = @System.Configuration.ConfigurationManager.AppSettings["SchoolImage"];
+
+
+}
+<div class="head-block">
+    <h1>PAYMENT INFORMATION</h1>
+</div>
+<div class="cnt-block">
+    @if (Model != null)
+    {
+        <h6 class="text-success">Congratulations!!! You are shortlisted for supplementary list</h6>
+        <ul>
+            <li>Jamb Reg No: @Model.JambRegNo</li>
+            <li>FullName: @Model.FullName</li>
+            <li>State of Origin: @Model.StateOfOrigin</li>
+            <li>Course: @Model.CourseAbbreviation</li>
+            <li>Jamb Score: @Model.JambScore</li>
+            <li>Age: @Model.Age</li>
+        </ul>
+        if (Model.IsActive.Equals(false))
+        {
+            using (Html.BeginForm(new {@class = "form-outer", role = "form"}))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+
+                    @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                    @Html.HiddenFor(model => model.SupplementaryListId)
+                    @Html.HiddenFor(model => model.FullName)
+                    @Html.HiddenFor(model => model.JambRegNo)
+                    @Html.HiddenFor(model => model.JambScore)
+                    @Html.HiddenFor(model => model.IsAdmitted)
+                    @Html.HiddenFor(model => model.StateOfOrigin)
+                    @Html.HiddenFor(model => model.LocalGovtArea)
+                    @Html.HiddenFor(model => model.CourseAbbreviation)
+                    @Html.HiddenFor(model => model.Age)
+                    @Html.HiddenFor(model => model.OrderId)
+                    @Html.HiddenFor(model => model.PaymentDate)
+
+
+                    @Html.Label("Select Payment Type")
+                    @Html.EnumDropDownListFor(model => model.RemitaPaymentType, htmlAttributes: new {@class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.RemitaPaymentType, "", new {@class = "text-danger"})
+                    <br/>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <button class="btn" type="submit">PAY NOW<span class="icon-more-icon"></span></button>
+
+                        </div><!--end .col -->
+                    </div><!--end .row -->
+                </div>
+            }
+        }
+        else
+        {
+            <a class="btn" href="@Url.Action("Login","Account")">Please Login</a>
+        }
+
+    }
+    else
+    {
+        <h5 class="text-danger">@ViewBag.Message</h5>
+        <a href="@Url.Action("CheckAdmission", "Account")">Back</a>
+    }
+
+
+</div>
+
+    @*<div class="container">
+        <div class="row">
+            <div class="col-md-6 col-lg-5 login-form mx-auto float-none">
+
+                <div class="card">
+                    <div class="card-block">
+
+                        <div class="form-header">
+                            <h3>
+                                <img href="@Url.Action("Index","Home")" class="img-responsive" src="~/Content/Images/@schoolImage" />
+                            </h3>
+                        </div>
+                        @if (Model != null)
+                        {
+                            <ul>
+                                <li>Jamb Reg No: @Model.JambRegNo</li>
+                                <li>FullName: @Model.FullName</li>
+                                <li>State of Origin: @Model.StateOfOrigin</li>
+                                <li>Course: @Model.CourseAbbreviation</li>
+                                <li>Jamb Score: @Model.JambScore</li>
+                                <li>Age: @Model.Age</li>
+                            </ul>
+
+                            using (Html.BeginForm())
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <div class="form-horizontal">
+
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    @Html.HiddenFor(model => model.SupplementaryListId)
+                                    @Html.HiddenFor(model => model.FullName)
+                                    @Html.HiddenFor(model => model.JambRegNo)
+                                    @Html.HiddenFor(model => model.JambScore)
+                                    @Html.HiddenFor(model => model.IsAdmitted)
+                                    @Html.HiddenFor(model => model.StateOfOrigin)
+                                    @Html.HiddenFor(model => model.LocalGovtArea)
+                                    @Html.HiddenFor(model => model.CourseAbbreviation)
+                                    @Html.HiddenFor(model => model.Age)
+                                    @Html.HiddenFor(model => model.OrderId)
+                                    @Html.HiddenFor(model => model.PaymentDate)
+
+
+                                    <div class="form-group">
+                                        @Html.Label("Select Payment Type")
+                                        @Html.EnumDropDownListFor(model => model.RemitaPaymentType, htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.RemitaPaymentType, "", new { @class = "text-danger" })
+
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-offset-2 col-md-10">
+                                            <input type="submit" value="PAY" class="btn btn-default" />
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <h5 class="text-danger">@ViewBag.Message</h5>
+                            <a href="@Url.Action("CheckAdmission", "Account")">Back</a>
+                        }
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

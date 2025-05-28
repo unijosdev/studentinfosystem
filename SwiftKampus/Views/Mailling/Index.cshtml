@@ -1,0 +1,94 @@
+﻿@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Mail";
+}
+
+<link href="~/AdminTemplate/css/plugins/iCheck/custom.css" rel="stylesheet">
+
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content mailbox-content">
+                    <div class="file-manager">
+                        <a class="btn btn-block btn-primary compose-mail" href="#" onclick="LoadCompose()">Compose Mail</a>
+                        <div class="space-25"></div>
+                        <h5>Folders</h5>
+                        <ul class="folder-list m-b-md" style="padding: 0">
+                            <li><a href="#" onclick="LoadInbox('@User.Identity.GetUserId()')"> <i class="fa fa-inbox "></i> Inbox <span id="inbox" class="label label-warning pull-right"></span> </a></li>
+                            <li><a href="#" onclick="LoadSentMail('@User.Identity.GetUserId()')"> <i class="fa fa-envelope-o"></i>Sent Mail <span id="sent" class="label label-success"></span></a></li>
+                            <li><a href="#" onclick="LoadImportantMail('@User.Identity.GetUserId()')"> <i class="fa fa-certificate"></i>Important <span id="important" class="label label-primary"></span> </a></li>
+                            <li><a href="#" onclick="LoadDraft('@User.Identity.GetUserId()')"> <i class="fa fa-file-text-o"></i> Drafts <span id="draft" class="label label-info"></span></a></li>
+                            <li><a href="#" onclick="LoadTrashMail('@User.Identity.GetUserId()')"> <i class="fa fa-trash-o"></i> Trash <span id="trash" class="label label-danger"></span></a></li>
+                        </ul>
+                        @*<h5>Categories</h5>
+                            <ul class="category-list" style="padding: 0">
+                                <li><a href="#"> <i class="fa fa-circle text-navy"></i> Work </a></li>
+                                <li><a href="#"> <i class="fa fa-circle text-danger"></i> Documents</a></li>
+                                <li><a href="#"> <i class="fa fa-circle text-primary"></i> Social</a></li>
+                                <li><a href="#"> <i class="fa fa-circle text-info"></i> Advertising</a></li>
+                                <li><a href="#"> <i class="fa fa-circle text-warning"></i> Clients</a></li>
+                            </ul>
+
+                            <h5 class="tag-title">Labels</h5>
+                            <ul class="tag-list" style="padding: 0">
+                                <li><a href="#"><i class="fa fa-tag"></i> Family</a></li>
+                                <li><a href="#"><i class="fa fa-tag"></i> Work</a></li>
+                                <li><a href="#"><i class="fa fa-tag"></i> Home</a></li>
+                                <li><a href="#"><i class="fa fa-tag"></i> Children</a></li>
+                                <li><a href="#"><i class="fa fa-tag"></i> Holidays</a></li>
+                                <li><a href="#"><i class="fa fa-tag"></i> Music</a></li>
+                                <li><a href="#"><i class="fa fa-tag"></i> Photography</a></li>
+                                <li><a href="#"><i class="fa fa-tag"></i> Film</a></li>
+                            </ul>*@
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9 animated fadeInRight" id="mydetailBody">
+        </div>
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<script src="~/AdminTemplate/js/jquery-3.1.1.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        @*$('#draft').html('@ViewBag.DraftMessages');
+        $('#sent').html('@ViewBag.SentMessages');
+        $('#trash').html('@ViewBag.TrashMessages');
+          $('#important').html('@ViewBag.ImportantMessages');*@
+        var url = "/Mailling/InboxMail?userId=" + '@User.Identity.GetUserId()';
+        $('#mydetailBody').load(url);
+
+    });
+    function LoadCompose() {
+        var url = "/Mailling/ComposeMail";
+        $('#mydetailBody').load(url);
+    };
+
+    function LoadInbox(userId) {
+
+        var url = "/Mailling/InboxMail?userId=" + userId;
+        $('#mydetailBody').load(url);
+    };
+    function LoadSentMail(userId) {
+        var url = "/Mailling/SentMail?userId=" + userId;
+        $('#mydetailBody').load(url);
+    };
+    function LoadTrashMail(userId) {
+        var url = "/Mailling/TrashMail?userId=" + userId;
+        $('#mydetailBody').load(url);
+    };
+    function LoadDraft(userId) {
+        var url = "/Mailling/DraftMail?userId=" + userId;
+        $('#mydetailBody').load(url);
+    };
+    function LoadImportantMail(userId) {
+        var url = "/Mailling/ImportantMail?userId=" + userId;
+        $('#mydetailBody').load(url);
+    };
+</script>

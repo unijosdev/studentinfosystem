@@ -1,0 +1,338 @@
+﻿6666
+@{
+    ViewBag.Title = "AllClearanceReport";
+}
+
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+
+<div class="container-fluid">
+    <!-- First row -->
+    <div class="row">
+        <!-- First column -->
+        <div class="col-md-12">
+            <form id="formFilter" onsubmit="return false;" class="col-md-12">
+                <div class="wrapper wrapper-content animated fadeInRight">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5>List of Uncleared Students</h5>
+                                    <div class="ibox-tools">
+                                        @if (ViewBag.Message != null)
+                                        {
+                                            <div class="alert alert-success">
+                                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                                <strong>@ViewBag.Message</strong>
+                                            </div>
+                                        }
+
+                                        <a class="collapse-link">
+                                            <i class="fa fa-chevron-up"></i>
+                                        </a>
+                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                            <i class="fa fa-wrench"></i>
+                                        </a>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <article class="margin-bottom-xxl">
+                                            <p class="lead">
+                                                Please use the following parameters to perform Query
+                                            </p>
+                                        </article>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label>School Programme</label>
+                                                        @Html.DropDownList("SchoolProgrammeId", (SelectList)ViewBag.SchoolProgrammeId, new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Faculty</label>
+                                                        @Html.DropDownList("FacultyId", (SelectList)ViewBag.FacultyId, "", new { @class = "form-control", @onchange = "getDeptList()" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-5">
+                                                    <div class="form-group">
+                                                        <label>Department</label>
+                                                        @Html.DropDownList("DepartmentId", (SelectList)ViewBag.DepartmentId, "", new { @class = "form-control", @onchange = "getProgrammeList()" })
+                                                    </div>
+                                                </div>                                               
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-5">
+                                                    <div class="form-group">
+                                                        <label>Dept Option</label>
+                                                        @Html.DropDownList("ProgrammeId", (SelectList)ViewBag.ProgrammeId, "", new { @class = "form-control", @onchange = "getCourseList()" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <label> Clearance Status</label>
+                                                        <select class="form-control dropdown" id="hasRegistered" name="hasRegistered">
+                                                            <option>UnCleared</option>
+                                                            <option>Cleared</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label> Clearance</label>
+                                                        <select class="form-control dropdown" id="clearanceStage" name="clearanceStage">
+                                                            <option></option>
+                                                            <option>Department</option>
+                                                            <option>Academic</option>
+                                                            <option>Faculty</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-2">
+                                                    <div class="col-md-12">
+                                                        <br />
+                                                        <button type="submit" id="btn-search" class="btn btn-primary">Search/View</button>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div><!--end .row -->
+
+                                    </div>
+                                </div>
+
+
+                                <div class="ibox-content">
+                                    <div class="table-responsive">
+                                        <table id="Jdatatable" class="table table-striped table-bordered table-hover table-responsive dataTables-example">
+                                            <thead>
+                                                <tr>
+                                                    <th>Matric No</th>
+                                                    <th> Full Name</th>
+                                                    <th> Gender</th>
+                                                    <th> Faculty</th>
+                                                    <th> Department</th>
+                                                    <th> Dept Option</th>
+                                                    <th> Olevel</th>
+                                                    <th> Action</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+        <!-- /.First column -->
+
+    </div>
+    <!-- /.First row -->
+</div>
+
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        window.oTable = $("#Jdatatable").DataTable({
+            "processing": true, // for show progress bar while loading
+            //"serverSide": true, // if it is true the preocess is done on server side
+            "filter": true, // disables search box
+            "info": true,
+
+            "stateSave": true,
+            "orderMulti": false, // disable multiple column loading at once
+            "ajax": {
+                "url": "/Students/GetClearanceReport",
+                "type": "POST",
+                "datatype": "json",
+                //"data": function (d) {
+                //    d.SchoolProgrammeId = $('#SchoolProgrammeId').val();
+                //}
+                "data": function (d) {
+                    return $('#formFilter').serialize();
+                },
+            },
+            "columns": [
+                { "data": "MatricNo", "autoWidth": true, "orderable": true },
+                { "data": "FullName", "autoWidth": true, "orderable": true },
+                { "data": "Gender", "autoWidth": true },
+                { "data": "FacultyName", "autoWidth": true },
+                { "data": "DeptName", "autoWidth": true },
+                { "data": "ProgrammeName", "autoWidth": true },
+                { "data": "Subjects", "autoWidth": true },
+                {
+                    "data": "StudentId",
+                    "autoWidth": true,
+                    "render": function (data) {
+                        return '<a href="#" onclick="Detail(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="View Details"><i class="fa fa-info-circle" aria-hidden="true">Details&nbsp;&nbsp;</i></a>' +
+                            '<a href="#" onclick="ClearStudent(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="Approve Course registration"><i class="fa fa-pencil" aria-hidden="true"></i>Approve &nbsp;&nbsp;</a>' +
+                            '<a class="text-danger" href="#" onclick="RejectStudent(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="DisApprove Course registration"><i class="fa fa-pencil" aria-hidden="true"></i>DisApprove</a>';
+                    }
+                }
+            ],
+            dom: '<"html5buttons"B>lTfgitp',
+            buttons: [
+                { extend: 'copy' },
+                { extend: 'csv' },
+                { extend: 'excel', title: 'FacultyList' },
+                { extend: 'pdf', title: 'FacultyList' },
+
+                {
+                    extend: 'print',
+                    customize: function (win) {
+                        $(win.document.body).addClass('white-bg');
+                        $(win.document.body).css('font-size', '10px');
+
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+                    }
+                }
+            ]
+        });
+        window.oTable.fnSort([[1, "asc"], [2, "desc"]]);
+
+    });
+   
+
+    $("#btn-search").click(function () {
+        window.oTable.ajax.reload();
+    });
+
+     function getDeptList() {
+        var facultyId = $("#FacultyId").val();
+        //alert(stateId);
+        $.ajax
+            ({
+                url: '/Students/GetDeptList?codeId=' + facultyId,
+                type: 'GET',
+                datatype: 'application/json',
+                contentType: 'application/json',
+                success: function (result) {
+                    $("#DepartmentId").html("");
+                    $.each($.parseJSON(result),
+                        function (i, city) {
+                            //alert(result);
+                            $("#DepartmentId").append($('<option></option>').val(city.DepartmentId).html(city.DeptName));
+                        });
+
+                },
+                error: function () {
+                    $("#DepartmentId").html("");
+                    $("#ProgrammeId").html("");
+                }
+            });
+    }
+
+    function Detail(studentId) {
+        var url = "/Students/StudentFullDetail?id=" + studentId;
+        window.open(url, '_blank');
+    };
+
+    function RejectStudent(studentId) {
+        var url = "/Students/RejectStudent?studentId=" + studentId + "&level=Faculty";
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+
+    function ClearStudent(studentId) {
+
+        swal({
+            title: "Student Clearance",
+            text: "Are you sure you want to clear this student?..",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#ab973a",
+            confirmButtonText: "Yes, Clear Student Now!",
+            cancelButtonText: "No, Reject Student!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+            function (isConfirm) {
+                if (isConfirm) {
+                    $('.confirm').attr("disabled", "true");
+
+                    var AllData = {
+                        "id": studentId,
+                    };
+                    var Mydata = JSON.stringify(AllData);
+
+                    $.ajax({
+                        contentType: 'application/json',
+                        type: "POST",
+                        url: "/Students/AdmissionClearStudent?id=" + studentId,
+                        data: Mydata,
+                        success: function (data) {
+                            if (data.status) {
+                                swal({
+                                    title: "Great",
+                                    text: data.message,
+                                    type: "success",
+                                });
+                                //window.oTable.ajax.reload(); //run my_fun() ondomready
+                                toastr["success"](data.message);
+                            } else {
+                                swal({
+                                    title: "Warning",
+                                    text: data.message,
+                                    type: "warning",
+                                });
+                                toastr["error"](data.message);
+                            }
+
+                        },
+                        complete: function () {
+                            $('.confirm').removeAttr("disabled");
+                        },
+                        error: function () {
+                            $('.confirm').removeAttr("disabled");
+                        }
+                    });
+                }
+                else {
+                    RejectStudent(studentId);
+                    swal("Good", "Operation has been cancelled successfully", "success");
+
+                }
+            });
+    };
+
+      function getProgrammeList() {
+        var deptId = $("#DepartmentId").val();
+        //alert(stateId);
+        $.ajax
+            ({
+                url: '/Students/GetProgrammeList?codeId=' + deptId,
+                type: 'GET',
+                datatype: 'application/json',
+                contentType: 'application/json',
+                //data: JSON.stringify({
+                //    codeId: +stateId
+                //}),
+                success: function (result) {
+                    $("#ProgrammeId").html("");
+                    $.each($.parseJSON(result),
+                        function (i, city) {
+                            //alert(result);
+                            $("#ProgrammeId").append($('<option></option>').val(city.ProgrammeId).html(city.ProgrammeName));
+                        });
+
+                },
+                error: function () {
+                    $("#ProgrammeId").html("");
+                }
+            });
+       }
+
+</script>
+
+

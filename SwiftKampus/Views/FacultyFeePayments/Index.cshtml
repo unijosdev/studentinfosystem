@@ -1,0 +1,87 @@
+﻿@model IEnumerable<SwiftKampusModel.Payment.FacultyFeePayment>
+
+@{
+    ViewBag.Title = "Index";
+}
+<div class="card">
+    <div class="card-head style-primary">
+        <header>
+            <h3>
+                Faculty Fee Payment Records
+            </h3>
+        </header>
+
+    </div><!--end .card-head -->
+    <div class="card-body">
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Faculty.FacultyName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Semester.SemesterName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Session.SessionName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Students.StudentType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PaidFee)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TotalAmount)
+                </th>
+               
+                <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+               
+                <th>
+                    @Html.DisplayNameFor(model => model.PaymentStatus)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Faculty.FacultyName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Semester.SemesterName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Session.SessionName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Students.StudentType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PaidFee)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalAmount)
+                    </td>
+                   
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                   
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PaymentStatus)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Print Reciept", "PrintReceipt", new { id = item.FacultyFeePaymentId }) |
+                        @*<a href="#">Print Receipt</a>*@
+                       
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+

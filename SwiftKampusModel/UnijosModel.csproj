@@ -1,0 +1,331 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.3.1.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.3.1.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4198A928-4CFF-4E16-B92C-FF5659689713}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SwiftKampusModel</RootNamespace>
+    <AssemblyName>SwiftKampusModel</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.2\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.2\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql, Version=4.0.2.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Npgsql.4.0.2\lib\net451\Npgsql.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.3\lib\netstandard2.0\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AcademicSession.cs" />
+    <Compile Include="Accomodation\AccommodationFeePayment.cs" />
+    <Compile Include="Accomodation\AssignedRoom.cs" />
+    <Compile Include="Accomodation\AssignHostel.cs" />
+    <Compile Include="Accomodation\Block.cs" />
+    <Compile Include="Accomodation\Hostel.cs" />
+    <Compile Include="Accomodation\HostelApplication.cs" />
+    <Compile Include="Accomodation\PrefferedChoice.cs" />
+    <Compile Include="Accomodation\Room.cs" />
+    <Compile Include="Accomodation\SessionAccomodation.cs" />
+    <Compile Include="Accomodation\StudentAccommodationFeePayment.cs" />
+    <Compile Include="Accomodation\StudentAssignedRoom.cs" />
+    <Compile Include="AddmissionApplicant\AdmissionGrade.cs" />
+    <Compile Include="AddmissionApplicant\Applicant.cs" />
+    <Compile Include="AddmissionApplicant\ApplicantFeeSetting.cs" />
+    <Compile Include="AddmissionApplicant\ApplicantOLevelResult.cs" />
+    <Compile Include="AddmissionApplicant\ApplicantPayment.cs" />
+    <Compile Include="AddmissionApplicant\ApplicantProgramme.cs" />
+    <Compile Include="AddmissionApplicant\AttendedSchool.cs" />
+    <Compile Include="AddmissionApplicant\AvailableCourse.cs" />
+    <Compile Include="AddmissionApplicant\AwardPrice.cs" />
+    <Compile Include="AddmissionApplicant\UtmeScreeningCutOff.cs" />
+    <Compile Include="BiodataProgress\BioDataProgress.cs" />
+    <Compile Include="ChangeOfCourse\ApplicantWaiverPayment.cs" />
+    <Compile Include="Payment\ChangeOfCoursePayment.cs" />
+    <Compile Include="AddmissionApplicant\DirectEntryExam.cs" />
+    <Compile Include="AddmissionApplicant\EmploymentDetail.cs" />
+    <Compile Include="AddmissionApplicant\Publication.cs" />
+    <Compile Include="AddmissionApplicant\RelevantDocument.cs" />
+    <Compile Include="AddmissionApplicant\SchoolProgramme.cs" />
+    <Compile Include="AddmissionApplicant\ScreeningRule.cs" />
+    <Compile Include="AddmissionApplicant\Subject.cs" />
+    <Compile Include="AddmissionApplicant\ThesisProposal.cs" />
+    <Compile Include="AddmissionApplicant\UnderGraduateRule.cs" />
+    <Compile Include="AddmissionApplicant\UtmeApplicant.cs" />
+    <Compile Include="AddmissionApplicant\UtmeApplicantSubject.cs" />
+    <Compile Include="AddmissionApplicant\UtmeScreningPolicy.cs" />
+    <Compile Include="ApplicationRole.cs" />
+    <Compile Include="ApplicationUser.cs" />
+    <Compile Include="AssignCourseToCategory.cs" />
+    <Compile Include="AssignedCourse.cs" />
+    <Compile Include="AssignSessionToSchool.cs" />
+    <Compile Include="AssignStudentLevel.cs" />
+    <Compile Include="Attendance\StudentAttendance.cs" />
+    <Compile Include="Audit.cs" />
+    <Compile Include="BlogPost\Administrator.cs" />
+    <Compile Include="BlogPost\Comment.cs" />
+    <Compile Include="BlogPost\Post.cs" />
+    <Compile Include="BlogPost\Tag.cs" />
+    <Compile Include="Calender\AppointmentDiary.cs" />
+    <Compile Include="CarryOverCourse.cs" />
+    <Compile Include="CBTE\ExamLog.cs" />
+    <Compile Include="CBTE\ExamRule.cs" />
+    <Compile Include="CBTE\ExamSetting.cs" />
+    <Compile Include="CBTE\ExamType.cs" />
+    <Compile Include="CBTE\QuestionAnswer.cs" />
+    <Compile Include="CBTE\ResultDivision.cs" />
+    <Compile Include="CBTE\StudentQuestion.cs" />
+    <Compile Include="ChangeOfCourse\ChangeOfCourseHistory.cs" />
+    <Compile Include="ChatConnection.cs" />
+    <Compile Include="Classroom\Assesment\AssesmentGrade.cs" />
+    <Compile Include="Classroom\Assesment\AssesmentQuestionAnswer.cs" />
+    <Compile Include="Classroom\Assesment\StudentAssesment.cs" />
+    <Compile Include="Classroom\Assesment\StudentAssesmentQuestion.cs" />
+    <Compile Include="Classroom\Assesment\StudentTestLog.cs" />
+    <Compile Include="Classroom\Classroom.cs" />
+    <Compile Include="Classroom\ClassRoomAnnoucement.cs" />
+    <Compile Include="Classroom\Module.cs" />
+    <Compile Include="Classroom\Quiz\QuizLog.cs" />
+    <Compile Include="Classroom\Quiz\QuizRule.cs" />
+    <Compile Include="Classroom\Quiz\StudentTopicQuiz.cs" />
+    <Compile Include="Classroom\Quiz\TopicQuiz.cs" />
+    <Compile Include="Classroom\Syllabus.cs" />
+    <Compile Include="Classroom\Topic.cs" />
+    <Compile Include="Classroom\TopicMaterial.cs" />
+    <Compile Include="ContinuousAssessment.cs" />
+    <Compile Include="ContinuousAssessmentHistory.cs" />
+    <Compile Include="Convocation\AcademicGownLease.cs" />
+    <Compile Include="Convocation\ConvocationList.cs" />
+    <Compile Include="Correspondence.cs" />
+    <Compile Include="CorrespondenceType.cs" />
+    <Compile Include="Course.cs" />
+    <Compile Include="CourseCategory.cs" />
+    <Compile Include="CourseForum\CommentReply.cs" />
+    <Compile Include="CourseForum\Forum.cs" />
+    <Compile Include="CourseForum\ForumComment.cs" />
+    <Compile Include="CourseForum\ForumQuestion.cs" />
+    <Compile Include="CourseForum\ForumQuestionReply.cs" />
+    <Compile Include="CourseLoadSetting.cs" />
+    <Compile Include="CoursePrerequisite.cs" />
+    <Compile Include="CourseRegistration.cs" />
+    <Compile Include="CourseRegSetting.cs" />
+    <Compile Include="CourseUpload.cs" />
+    <Compile Include="DeCoreCourse.cs" />
+    <Compile Include="Department.cs" />
+    <Compile Include="DepartmentRegistration.cs" />
+    <Compile Include="DeptPosition.cs" />
+    <Compile Include="DeptResultType.cs" />
+    <Compile Include="Employee\EmployeeAccountDetail.cs" />
+    <Compile Include="Employee\EmployeeCategory.cs" />
+    <Compile Include="Employee\EmployeeType.cs" />
+    <Compile Include="Employee\Leave\LeaveApplication.cs" />
+    <Compile Include="Employee\Leave\LeaveType.cs" />
+    <Compile Include="Employee\PayRoll\EmployeePayRoll.cs" />
+    <Compile Include="Employee\PayRoll\PayRollCategory.cs" />
+    <Compile Include="Enrollment.cs" />
+    <Compile Include="EnumExtensions.cs" />
+    <Compile Include="Events\Event.cs" />
+    <Compile Include="Executive.cs" />
+    <Compile Include="Faculty.cs" />
+    <Compile Include="FacultyPosition.cs" />
+    <Compile Include="Faq.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Grade.cs" />
+    <Compile Include="AddmissionApplicant\Guardian.cs" />
+    <Compile Include="IdCardRequest.cs" />
+    <Compile Include="Level.cs" />
+    <Compile Include="Library\Book.cs" />
+    <Compile Include="Library\BookCategory.cs" />
+    <Compile Include="Library\BookIssue.cs" />
+    <Compile Include="Library\LibraryRegistration.cs" />
+    <Compile Include="Library\MembershipType.cs" />
+    <Compile Include="AddmissionApplicant\NextOfKin.cs" />
+    <Compile Include="MarketPlace\Cart.cs" />
+    <Compile Include="MarketPlace\Order.cs" />
+    <Compile Include="MarketPlace\OrderDetail.cs" />
+    <Compile Include="MarketPlace\ProductCategory.cs" />
+    <Compile Include="MarketPlace\Customer.cs" />
+    <Compile Include="MarketPlace\Delivery.cs" />
+    <Compile Include="MarketPlace\Price.cs" />
+    <Compile Include="MarketPlace\Product.cs" />
+    <Compile Include="MarketPlace\Sale.cs" />
+    <Compile Include="MarketPlace\Stock.cs" />
+    <Compile Include="MarketPlace\StockOrder.cs" />
+    <Compile Include="MarketPlace\Transaction.cs" />
+    <Compile Include="MedicalScience\MedContiniousAssesment.cs" />
+    <Compile Include="MedicalScience\MedResultCa.cs" />
+    <Compile Include="MedicalScience\MedResultCategory.cs" />
+    <Compile Include="Misconduct\Defaulter.cs" />
+    <Compile Include="Misconduct\Misconduct.cs" />
+    <Compile Include="Misconduct\Punishment.cs" />
+    <Compile Include="Misconduct\StudentDisciplinaryStatus.cs" />
+    <Compile Include="Misconduct\StudentRecallRequest.cs" />
+    <Compile Include="OfficeAssignment.cs" />
+    <Compile Include="Payment\ChangeDetailFee.cs" />
+    <Compile Include="Payment\ChangeDetailPayment.cs" />
+    <Compile Include="Payment\ChangeOfCourseFee.cs" />
+    <Compile Include="Payment\DefermentReabsorptionFee.cs" />
+    <Compile Include="Payment\DefermentReabsorptionPayment.cs" />
+    <Compile Include="Payment\FacultyRemitaSetting.cs" />
+    <Compile Include="Payment\FeeCategory.cs" />
+    <Compile Include="Payment\FeeSetting.cs" />
+    <Compile Include="Payment\IdCardPayment.cs" />
+    <Compile Include="Payment\IdCardPaymentSetting.cs" />
+    <Compile Include="Payment\OtherFeeType.cs" />
+    <Compile Include="Payment\PaymentSetting.cs" />
+    <Compile Include="Payment\SchoolFeePayment.cs" />
+    <Compile Include="Payment\SchoolFeeType.cs" />
+    <Compile Include="Payment\StudentIdCardPayment.cs" />
+    <Compile Include="Payment\StudentPaymentDetails.cs" />
+    <Compile Include="Payment\SundryAndOtherIncomeCharge.cs" />
+    <Compile Include="Payment\SundryAndOtherIncomeChargesPayment.cs" />
+    <Compile Include="Permission.cs" />
+    <Compile Include="Person.cs" />
+    <Compile Include="PhoneImei.cs" />
+    <Compile Include="PopUp.cs" />
+    <Compile Include="PreDegreeExam.cs" />
+    <Compile Include="PreDegreeStudent.cs" />
+    <Compile Include="Programme.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Qualification.cs" />
+    <Compile Include="AddmissionApplicant\Referee.cs" />
+    <Compile Include="QueryableExtensions.cs" />
+    <Compile Include="RefreeResponse.cs" />
+    <Compile Include="RejectedStudent.cs" />
+    <Compile Include="RemitaPaymentLog.cs" />
+    <Compile Include="Result.cs" />
+    <Compile Include="RoleName.cs" />
+    <Compile Include="RolePermissions.cs" />
+    <Compile Include="SchoolMail\MailMessage.cs" />
+    <Compile Include="Semester.cs" />
+    <Compile Include="Session.cs" />
+    <Compile Include="Siwes\SiwesAttendance.cs" />
+    <Compile Include="Siwes\SiwesPlacement.cs" />
+    <Compile Include="Siwes\SiwesSetting.cs" />
+    <Compile Include="Staff.cs" />
+    <Compile Include="StaffPosition.cs" />
+    <Compile Include="StaffQualification.cs" />
+    <Compile Include="Student.cs" />
+    <Compile Include="StudentAssignment.cs" />
+    <Compile Include="StudentStatusManagement\Deferment.cs" />
+    <Compile Include="StudentStatusManagement\DefermentDocument.cs" />
+    <Compile Include="StudentStatusManagement\Extension.cs" />
+    <Compile Include="StudentStatusManagement\ExtensionDocument.cs" />
+    <Compile Include="StudentStatusManagement\ExtensionReason.cs" />
+    <Compile Include="StudentStatusManagement\PeriodOfExtension.cs" />
+    <Compile Include="StudentStatusManagement\Reabsorption.cs" />
+    <Compile Include="StudentStatusManagement\StudentTransferData.cs" />
+    <Compile Include="StudentStatusManagement\Transfer.cs" />
+    <Compile Include="StudentStatusManagement\TransferProcess.cs" />
+    <Compile Include="SupplementaryList.cs" />
+    <Compile Include="TimeTable\AssignFacultyBuilding.cs" />
+    <Compile Include="TimeTable\Building.cs" />
+    <Compile Include="TimeTable\ExamTimeTable.cs" />
+    <Compile Include="TimeTable\ExamTimeTableAllocation.cs" />
+    <Compile Include="TimeTable\LectureRoom.cs" />
+    <Compile Include="TimeTable\ClassRoomAllocation.cs" />
+    <Compile Include="TimeTable\TimeTablePeriod.cs" />
+    <Compile Include="ValidateFileAttribute.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.3.1.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.3.1.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+</Project>

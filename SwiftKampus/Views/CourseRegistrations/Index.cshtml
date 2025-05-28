@@ -1,0 +1,73 @@
+﻿@model IEnumerable<SwiftKampus.ViewModels.CourseRegistrationsIndexVM>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Student's Name
+        </th>
+        <th>
+            Course Name
+        </th>
+        <th>
+            Session
+        </th>
+        <th>
+            Semester
+        </th>
+        <th>
+            Prgramme Name
+        </th>
+        <th>
+            Student's Level
+        </th>
+     
+        <th>Credit Unit Per Course</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CourseName)
+        </td>
+     
+        <td>
+            @Html.DisplayFor(modelItem => item.Session)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Semester)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProgrammeName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LevelName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreditLoad)
+        </td>
+
+        <td>
+            @Html.ActionLink("Edit", "Edit", new {id = item.RegistrationId}) |
+            @Html.ActionLink("Details", "Details", new {id = item.RegistrationId}) |
+            @if (Request.IsAuthenticated && User.IsInRole("SuperAdmin"))
+            {
+                @Html.ActionLink("Delete", "Delete", new {id = item.RegistrationId})
+            }
+        </td>
+    </tr>
+}
+
+</table>

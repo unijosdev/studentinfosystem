@@ -1,0 +1,40 @@
+﻿@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create Role</h2>
+@Html.ActionLink("List Roles", "Index") | @Html.ActionLink("Manage User Role", "ManageUserRoles")
+<hr />
+<form id="myform">
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div>
+        Role name
+    </div>
+    <p>
+        @Html.TextBox("RoleName")
+    </p>
+    <input type="reset" id="btnsubmit" value="Save" />
+</form>
+
+<script src="~/Scripts/jquery-1.11.3.min.js"></script>
+<script>
+    $(document).ready(function () {
+        //window.alert("ready");
+
+        $("#btnsubmit").click(function() {
+            // window.alert("ready");
+            var data = $("#myform").serialize();            
+            $.ajax({
+                type: "POST",
+                url: "/RolesAdmin/Create",
+                data: data,
+                success: function(response) {
+                    $("#loaderDiv").hide();
+                    toastr["success"]("Role Added Successfully...");
+                }
+            });
+        });
+    })
+</script>

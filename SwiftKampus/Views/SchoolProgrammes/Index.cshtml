@@ -1,0 +1,155 @@
+﻿@model IEnumerable<SwiftKampusModel.AddmissionApplicant.SchoolProgramme>
+
+@{
+    ViewBag.Title = "School Programme";
+}
+
+<!-- Modal -->
+<div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">SCHOOL PROGRAMME</h4>
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>List of School Programme</h5>
+                        <div class="ibox-tools">
+                            <a href="#" onclick="myFunction()" class="btn btn-primary"><i class="fa fa-plus left"></i> ADD SCHOOL PROGRAMME</a>
+                            @if (ViewBag.Message != null)
+                            {
+                                <div class="alert alert-success">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    <strong>@ViewBag.Message</strong>
+                                </div>
+                            }
+
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <table id="Jdatatable" class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Full Name</th>
+                                    <th>Programme Code</th>
+                                    <th>Programme Type</th>
+                                    <th>Programme Category</th>
+                                    <th>Session</th>
+                                    <th>Active Sale</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>               
+            </div>   
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        window.oTable = $("#Jdatatable").DataTable({
+            "processing": true, // for show progress bar while loading
+
+            "ajax": {
+                "url": "/SchoolProgrammes/GetIndex",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "FancyName", "autoWidth": true },
+                { "data": "SchoolProgrammeCode", "autoWidth": true },
+                { "data": "ProgrammeType", "autoWidth": true },
+                { "data": "ProgrammeCategory", "autoWidth": true },
+                { "data": "SessionName", "autoWidth": true },
+                { "data": "ActiveSale", "autoWidth": true },
+                {
+                    "data": "SchoolProgrammeId",
+                    "autoWidth": true,
+                    "render": function (data) {
+                        return '<a href="#" onclick="Edit(' + data + ')" >  <i class="fa fa-pencil" aria-hidden="true" >&nbsp;Edit</i></a>&nbsp;&nbsp;' +
+                            '<a href="#" class="text-danger" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" >&nbsp;Remove<i /></a>';
+                    }
+                }
+
+                //{ "data": "EmailID", "autoWidth": true },
+                //{ "data": "Phone", "autoWidth": true },
+            ],
+            dom: '<"html5buttons"B>lTfgitp',
+            lengthMenu: [
+                [10, 25, 50, 100, 200, 500, 1000, 2000],
+                [10, 25, 50, 100, 200, 500, 1000, 2000]
+            ],
+            buttons: [
+                { extend: 'copy'},
+                {extend: 'csv'},
+                {extend: 'excel', title: 'Student List'},
+                { extend: 'pdf', title: 'Student List'},
+
+                {extend: 'print',
+                    customize: function (win){
+                        $(win.document.body).addClass('white-bg');
+                        $(win.document.body).css('font-size', '10px');
+
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+                    }
+                }
+            ]
+        });
+
+    });
+    function Edit(schoolProgrammeId) {
+        var url = "/SchoolProgrammes/Save?id=" + schoolProgrammeId;
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal('show');
+            });
+    };
+    function Delete(schoolProgrammeId) {
+        var url = "/SchoolProgrammes/Delete?id=" + schoolProgrammeId;
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    function myFunction() {
+        var url = "/SchoolProgrammes/Save?id=0";
+
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+</script>
+

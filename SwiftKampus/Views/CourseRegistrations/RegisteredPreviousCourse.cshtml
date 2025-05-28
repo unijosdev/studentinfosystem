@@ -1,0 +1,178 @@
+﻿@*@model IEnumerable<SwiftKampusModel.CourseRegistration>*@
+
+@{
+    ViewBag.Title = "Registered Courses";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+
+
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-12">
+                <h2>
+                    Course Registration History
+                    @if (!ViewBag.Registered)
+                    {
+                        <span><a href="#" onclick="AddNew()" class="btn btn-primary btn-lg"><i class="fa fa-registered"></i>&nbsp;START COURSE REGISTRATION</a></span>
+
+                    }
+                </h2>
+            </div>
+            @*<div class="col-lg-12">
+
+                @if (ViewBag.Message != null)
+                {
+                    <div class="alert alert-danger">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <h2><strong>@ViewBag.Message</strong></h2>
+                        <span><a href="#" onclick="PayForId()" class="btn btn-primary btn-lg"><i class="fa fa-registered"></i>&nbsp;Pay For ID CARD</a></span>
+                    </div>
+                }
+            </div>*@
+        </div>
+
+
+        <h2>@ViewBag.Gender</h2>
+        <div class="container-fluid">
+
+            <!-- First row -->
+            <div class="row">
+                <!-- First column -->
+                <div class="col-md-12">
+                   
+                    <div class="row">
+                        <div class="card">
+                            <div class="card-head style-primary">
+                                <header>
+                                    Course Registration History
+                                </header>
+                            </div><!--end .card-head -->
+                            <div class="card-body">
+                                <form>
+                                    <input type="hidden" name="StudentID" id="StudentID" value="@ViewBag.StudentId" />
+                                </form>
+                                <div class="table-responsive">
+                                    <table id="Jdatatable" class="table table-striped table-bordered table-hover table-responsive">
+                                        <thead>
+                                            <tr>
+                                                <th>Student Name</th>
+                                                <th>Session</th>
+                                                <th>Dept Option</th>
+                                                <th>Level</th>
+                                                <th>Is Approved</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div><!--end .card-body -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <!--Content-->
+        <div class="modal-content animated">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">Course Registration</h4>
+                    @*<a class="btn btn-primary btn-sm">Create new action</a>*@
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        // var gender = "@ViewBag.Gender";
+        window.oTable = $("#Jdatatable").DataTable({
+            "processing": true, // for show progress bar while loading
+            "serverSide": true, // if it is true the preocess is done on server side
+            "filter": true, // disables search box
+            "info": true,
+            "stateSave": true,
+            "orderMulti": false, // disable multiple column loading at once
+            "ajax": {
+                "url": "/CourseRegistrations/GetStudentPreviousCourseIndex",
+                "type": "POST",
+                "datatype": "json",
+                "data": function (d) {
+                    d.StudentId = $('#StudentID').val();
+                    
+                }
+            },
+            "columns": [
+                { "data": "FullName", "autoWidth": true },
+                { "data": "SessionName", "autoWidth": true },
+                { "data": "ProgrammeName", "autoWidth": true },
+                { "data": "LevelName", "autoWidth": true },
+                { "data": "IsApproved", "autoWidth": true },
+                {
+                    "data": "CourseRegistrationId",
+                    "autoWidth": true,
+                    "render": function(data) {
+                        return '<a href="#" onclick="Detail(' + data + ')" data-toggle="tooltip" data-placement="top" title="View Details"><i class="fa fa-info-circle" aria-hidden="true">Details&nbsp;&nbsp;</i></a>' +
+                            '<a href="#" onclick="Edit(' + data + ')" data-toggle="tooltip" data-placement="top" title="Print Course registration"><i class="fa fa-pencil" aria-hidden="true" ><i />Print Details</a>';
+                    }
+                }
+                //{ "data": "EmailID", "autoWidth": true },
+                //{ "data": "Phone", "autoWidth": true },
+            ]
+        });
+        var msg = "@ViewBag.Message";
+        if (msg) {
+            toastr["success"](msg);
+        }
+
+    });
+    $(window).scroll(function(){
+        $("#mydetailBody").stop().animate({"marginTop": ($(window).scrollTop()) + "px", "marginLeft":($(window).scrollLeft()) + "px"}, "slow" );
+    });
+    function Edit(courseRegistrationId) {
+        var url = "/CourseRegistrations/PrintDetails?id=" + courseRegistrationId;
+        window.open(url, '_blank');
+    };
+
+    function Detail(courseRegistrationId) {
+
+        var url = "/CourseRegistrations/PartialDetails?id=" + courseRegistrationId;
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+
+    };
+
+    function Excel() {
+        var url = "/CourseRegistrations/ExcelUpload";
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    function AddNew() {
+        window.open('@Url.Action("Create", "CourseRegistrations")', '_self');
+                };
+
+    function PayForId() {
+        window.open('@Url.Action("Create", "IdCardPayments")', '_self');
+    };
+</script>

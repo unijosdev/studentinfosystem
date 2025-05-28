@@ -1,0 +1,146 @@
+﻿@model SwiftKampusModel.Employee.Leave.LeaveApplication
+@{
+    var noOfDays = Model.EndDate - Model.StartDate ;
+
+    double calcBusinessDays =
+        1 + ((Model.EndDate - Model.StartDate).TotalDays * 5 -
+             (Model.StartDate.DayOfWeek - Model.EndDate.DayOfWeek) * 2) / 7;
+
+    if (Model.EndDate.DayOfWeek == DayOfWeek.Saturday) {calcBusinessDays--;}
+    if (Model.StartDate.DayOfWeek == DayOfWeek.Sunday) {calcBusinessDays--;}
+
+    
+        }
+<div>
+   
+    <dl class="dl-horizontal">
+        <dt>
+            <img src="@Url.Action("RenderImage", "Staffs", new { staffId = Model.StaffId})" width="100" height="100" />
+        </dt>
+        <dd></dd>
+        <dt>
+            Total Number of Days
+        </dt>
+        <dd>@calcBusinessDays</dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LeaveType.LeaveTypeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LeaveType.LeaveTypeName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Staff.Designation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Staff.Designation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplicationDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApplicationDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReasonForLeave)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReasonForLeave)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsHalfDay)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsHalfDay)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LeaveStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LeaveStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReasonForDisApproval)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReasonForDisApproval)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsHodApproved)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsHodApproved)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsHrApproved)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsHrApproved)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Staus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Staus)
+        </dd>
+
+    </dl>
+</div>
+<a onclick="Approve(@Model.LeaveApplicationId)" class="btn btn-primary btn-lg"><i class="fa fa-plus left"></i> APPROVE LEAVE</a>
+
+<script type="text/javascript">
+    function Approve(leaveTypeId) {
+        //var url = "/LeaveApplications/Approve?id=" + leaveTypeId;
+        $.post("/LeaveApplications/Approve", { "id": leaveTypeId },
+            function (data) {
+                if (data.status) {
+                    $('#actionsList').modal("hide");
+                    toastr["success"](data.message);
+                    window.oTable.ajax.reload(); //run my_fun() ondomready
+
+                } else {
+                    toastr["error"](data.message);
+                    window.oTable.ajax.reload(); //run my_fun() ondomready
+
+                }
+            });
+        //$('#myModalDivBody').load(url,
+        //    function () {
+        //        $('#actionsList').modal("show");
+        //    });
+    };
+</script>

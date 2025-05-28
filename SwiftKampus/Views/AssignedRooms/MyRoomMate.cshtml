@@ -1,0 +1,65 @@
+﻿@model IEnumerable<SwiftKampusModel.Accomodation.StudentAssignedRoom>
+
+@{
+    ViewBag.Title = "My Room Mate";
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-6">
+        <h2>My Room Mate</h2>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+@{int studentCount = 1;}
+<div class="wrapper wrapper-content animated fadeInRight">
+
+
+    <div class="row">
+        @foreach (var item in Model)
+
+        {
+            <div class="col-md-3">
+                <div class="ibox">
+                    <div class="ibox-content ">
+                            <img class="img-responsive" width="200" height="200" src="@Url.Action("RenderImage", "Students", new {studentId = item.StudentId})" />
+                        <div class="product-desc">
+                            <span class="product-price">
+                                @studentCount
+                            </span>
+                            <h4 class="text-muted">Block => @item.Block.BlockName</h4>
+                            <a href="#" class="product-name">Room: @item.Room.RoomName (Bed Space: @item.BedSpace)</a>
+
+                            <div class="font-10">
+                                <dl>
+                                    <dd>
+                                        <b> Full Name: </b>@Html.DisplayFor(modelItem => item.Student.FullName)
+                                    </dd>
+                                    <dd>
+                                        <b> Phone Number: </b>@Html.DisplayFor(modelItem => item.Student.PhoneNumber)
+                                    </dd>
+                                    <dd>
+                                        <b> Department: </b>@Html.DisplayFor(modelItem => item.Student.Programme.ProgrammeName)
+                                    </dd>
+                                    <dd>
+                                        <b> Hostel Name: </b>@Html.DisplayFor(modelItem => item.Hostel.HostelCode)
+                                    </dd>
+                                    <dd>
+                                        <b> Session Name: </b>@Html.DisplayFor(modelItem => item.Session.SessionName)
+                                    </dd>
+                                </dl>
+                            </div>
+                            <div class="m-t text-righ">
+                                <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i class="fa fa-long-arrow-right"></i> </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            studentCount += 1;
+        }
+    </div>
+</div>
+

@@ -1,0 +1,188 @@
+﻿
+@{
+    /**/
+
+    ViewBag.Title = "Previous Course Reg";
+}
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Previous Course Reg </h5>
+                    <div class="ibox-tools">
+
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <article class="margin-bottom-xxl">
+                        <p class="lead">
+                            Please use the following parameters to get courses for student
+                        </p>
+                    </article>
+                    <div class="card-body">
+                        @using (Html.BeginForm("CreatePreviousCourseReg", "CourseRegistrations", FormMethod.Get))
+                        { 
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="form-group">
+                                    <label for="DepartmentId"><strong>Email</strong></label>
+                                    <input id="MatNum" name="MatNum" class="form-control" type="text" required placeholder=" student's Email" />
+                                    @*@Html.DropDownList("SchoolProgrammeId", null, htmlAttributes: new { @class = "form-control js-example-basic-single" })*@
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="SessionId"><strong>Session Name</strong></label>
+                                    @Html.DropDownList("SessionId", null, htmlAttributes: new { @class = "form-control js-example-basic-single" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="LEvelId"><strong>Level</strong></label>
+                                    @Html.DropDownList("LevelId", null, htmlAttributes: new { @class = "form-control js-example-basic-single" })
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="col-md-12">
+                                    <br />
+                                    <input type="submit" value="Send" class="btn btn-primary btn-lg" />
+                                </div>
+
+                            </div>
+                            
+                        </div>
+                        }
+                    </div><!--end .row -->
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
+
+<script type="text/javascript">
+
+    jQuery(function ($) {
+        //$(".select-add-placeholder").prepend("<option value='' disabled selected>Select an option...</option>");
+        $('.js-example-basic-single').select2({
+            placeholder: 'Select an option...',
+            allowClear: true
+        });
+    });
+
+
+    //$(document).ready(function () {
+    //    window.oTable = $("#Jdatatable").DataTable({
+    //        "processing": true, // for show progress bar while loading
+    //        "serverSide": true, // if it is true the preocess is done on server side
+    //        "filter": true, // disables search box
+    //        "info": true,
+    //        "stateSave": true,
+    //        "orderMulti": false, // disable multiple column loading at once
+    //        "ajax": {
+    //            "url": "/ApplicantPayments/GetIndex",
+    //            "type": "POST",
+    //            "datatype": "json",
+    //            "data": function (d) {
+    //                d.SchoolProgrammeId = $('#SchoolProgrammeId').val();
+    //                d.SessionId = $('#SessionId').val();
+    //                d.PaymentStatus = $('#PaymentStatus').val();
+    //            }
+    //        },
+    //        "columns": [
+    //            { "data": "JambRegNo", "autoWidth": true },
+    //            { "data": "FullName", "autoWidth": true },
+    //            { "data": "ApplicantEmail", "autoWidth": true },
+    //            { "data": "RRR", "autoWidth": true },
+    //            { "data": "Amount", "autoWidth": true },
+    //            { "data": "PaymentDate", "autoWidth": true },
+    //            { "data": "Message", "autoWidth": true },
+
+    //            //{
+    //            //    "data": "StudentId",
+    //            //    "autoWidth": true,
+    //            //    "render": function (data) {
+    //            //        return '<a href="#" onclick="Detail(\'' + data + '\')" data-toggle="tooltip" data-placement="top" title="Student Ledger"><i class="fa fa-info-circle" aria-hidden="true">Ledger</i></a>';
+
+    //            //    }
+    //            //}
+
+    //        ],
+    //        responsive: true,
+    //        dom: '<"html5buttons"B>lTfgitp',
+    //        buttons: [
+    //            { extend: 'copy' },
+    //            { extend: 'csv' },
+    //            { extend: 'excel', title: 'ApplicantPayment' },
+    //            { extend: 'pdf', title: 'ApplicantPayment' },
+    //            {
+    //                extend: 'print',
+    //                customize: function (win) {
+    //                    $(win.document.body).addClass('white-bg');
+    //                    $(win.document.body).css('font-size', '10px');
+    //                    $(win.document.body).find('table')
+    //                        .addClass('compact')
+    //                        .css('font-size', 'inherit');
+    //                }
+    //            }
+    //        ],
+    //        lengthMenu: [
+    //            [10, 25, 50, 100, 200, 500, 1000, 2000, 3000, 5000],
+    //            [10, 25, 50, 100, 200, 500, 1000, 2000, 3000, 5000]
+    //        ],
+    //    });
+    //});
+
+    $("#btn-search").click(function () {
+        // window.alert("sem:" + $('#SemesterId').val() + " sess:" + $('#SessionId').val());
+        window.oTable.ajax.reload();
+
+    });
+    $("#btn-download").click(function () {
+        var url = "/ApplicantPayments/DownloadReport?SchoolProgrammeId=" + $('#SchoolProgrammeId').val();
+        window.open(url, '_blank');
+
+    });
+    $("#btn-excel").click(function () {
+
+        var url = "/Students/DownloadGraduateExcelReport?SessionName=" + $('#SessionName').val() + "&DepartmentId=" + $('#DepartmentId').val() + "&Indegeneous=" + $('#Indegeneous').val();
+        window.open(url, '_self');
+    });
+
+    function Detail(studentId) {
+        var url = "/SchoolFeePayments/StudentLedger?studentId=" + studentId;
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+
+    };
+
+
+
+</script>
+
+

@@ -1,0 +1,48 @@
+﻿@model SwiftKampusModel.Department
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Department</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Faculty.FacultyCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Faculty.FacultyCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeptCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeptCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeptName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeptName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeptLocation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeptLocation)
+        </dd>
+
+    </dl>
+</div>
+

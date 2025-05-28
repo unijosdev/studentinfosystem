@@ -1,0 +1,42 @@
+﻿@model SwiftKampusModel.DeptResultType
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>DeptResultType</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Department.DeptCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Department.DeptCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResultTemplate.ResultType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResultTemplate.ResultType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SchoolProgramme.ProgrammeType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SchoolProgramme.ProgrammeType)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.DepartmentId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

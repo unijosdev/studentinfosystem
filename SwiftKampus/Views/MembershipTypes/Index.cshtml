@@ -1,0 +1,39 @@
+﻿@model IEnumerable<SwiftKampusModel.Library.MembershipType>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeOfMembership)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberOfBookToBorrow)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TypeOfMembership)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NumberOfBookToBorrow)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.MembershipTypeId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.MembershipTypeId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.MembershipTypeId })
+        </td>
+    </tr>
+}
+
+</table>

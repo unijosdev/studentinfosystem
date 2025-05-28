@@ -1,0 +1,57 @@
+﻿@model IEnumerable<SwiftKampusModel.Student>
+
+@{
+    ViewBag.Title = "Get Duplicate Matric No";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="container-fluid">
+    <h2>Duplicate Matric No Fix</h2> <br />
+    <h3 class="text-danger" style="font-weight:500;">@ViewBag.message</h3>
+
+    <div class="row">
+
+        @using (Html.BeginForm("GetDuplicateMatricNo", "Students", FormMethod.Get, new { @class = "", role = "form" }))
+        {
+            <div class="col-md-4">
+                <input name="id" class="form-control" type="text" required placeholder="Type the Matric No" /> <br />
+            </div>
+
+            <div class="col-md-4">
+                <button class="btn btn bg-primary" style="width:60%" type="submit">Check Duplicate</button>
+            </div>
+        }
+    </div>
+
+    <div class="row">
+        <table class="table-responsive table">
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Matric Number</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    foreach (var student in Model)
+                    {
+                        <tr>
+                            <th>@student.FullName</th>
+                            <th>@student.MatricNo</th>
+                            <th><a href="/Students/FixDuplicateMatricNo/@student.StudentId" class="btn btn-primary btn-sm">Remove MatriNo</a></th>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+
+@*For client side validation*@
+@Scripts.Render("~/bundles/jqueryval")

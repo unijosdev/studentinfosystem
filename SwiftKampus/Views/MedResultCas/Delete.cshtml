@@ -1,0 +1,56 @@
+﻿@model SwiftKampusModel.MedicalScience.MedResultCa
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>MedResultCa</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ResultCategoryId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResultCategoryId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResultCaName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResultCaName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MaximumScore)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaximumScore)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PassMark)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PassMark)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

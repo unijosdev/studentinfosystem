@@ -1,0 +1,299 @@
+﻿
+@model SwiftKampus.ViewModels.Fee_Management.PrintHostelAcceptanceLetterVm
+@*@model SwiftKampusModel.Accomodation.AccommodationFeePayment*@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PrintHostelAcceptanceLetter</title>
+    <style type="text/css">
+        @@media print {
+            @@page {
+                size: auto; /* auto is the initial value */
+                margin: 0mm; /* this affects the margin in the printer settings */
+            }
+
+            .hidden-print,
+            .hidden-print * {
+                display: none !important;
+            }
+
+            #Header, #Footer {
+                display: none !important;
+            }
+
+            .noprint {
+                display: none
+            }
+
+            .pagebreak {
+                /* border: 1px solid rgb(19, 11, 11);
+                    margin: 0 !important;
+                    padding: 0 !important;
+                    overflow: hidden; */
+                page-break-before: always;
+            }
+
+            .page-break {
+                display: block;
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="row wrapper border-bottom white-bg page-heading noprint">
+        <div class="col-lg-8">
+            <h2>Hostel Accommodation</h2>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="">Home</a>
+                </li>
+                <li class="breadcrumb-item">
+                    Hostel Allocation/Acceptance
+                </li>
+                <li class="breadcrumb-item active">
+                    <strong>Student Dashboard</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-4">
+            <div class="title-action">
+                @*<a href="#" class="btn btn-white"><i class="fa fa-pencil"></i> Edit </a>
+                    <a href="#" class="btn btn-white"><i class="fa fa-check "></i> Save </a>*@
+                <a href="" target="_blank" class="btn btn-primary" onClick="window.print();"><i class="fa fa-print"></i> Print </a>
+            </div>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox-content p-xl">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p>
+                                <h1 class="text-center"><b>DIRECTORATE OF STUDENT AFFAIRS</b></h1>
+                            </p>
+                        </div>
+                    </div>
+                    <table class="table table-striped">
+                        <tr>
+                            <td><img src="~/Content/Images/uijoslogo.png" width="110" height="100" /></td>
+                            <td class="text-center">
+
+                                <b>
+                                    <strong>University of Jos</strong><br>
+                                    Office Vice-Chancellor's<br>
+                                    University of Jos.<br>
+                                    Jos, Nigeria.
+                                </b>
+                            </td>
+                            <td class="text-right"><img src="@Url.Action("RenderImage", "Students",new { studentId = Model.StudentId})" width="100" height="100" /></td>
+                        </tr>
+                    </table>
+                    @*<div class="row">
+                            <div class="col-sm-4 text-right">
+                                <img src="~/Content/Images/uijoslogo.png" width="110" height="100" />
+                            </div>
+
+                            <div class="col-sm-4">
+                                <h3 class="text-center">
+
+                                    <strong>University of Jos</strong><br>
+                                    Office Vice-Chancellor's<br>
+                                    University of Jos.<br>
+                                    Jos, Nigeria
+
+                                </h3>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <img src="@Url.Action("RenderImage", "Students",new { studentId = Model.Student.StudentId})" width="100" height="100" />
+
+                            </div>
+                        </div>*@
+
+                    <div class="row">
+
+                        <div class="col-md-12">
+
+                            <p><em><h3 class="text-center">ALLOCATION/ACCEPTANCE OF HOSTEL ACCOMMODATION</h3></em></p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="table-responsive m-t">
+                        <table class="table table-bordered">
+                            @*<thead>
+                                    <tr>
+                                        <th>Item List</th>
+                                        <th>Quantity</th>
+                                        <th>Unit Price</th>
+                                        <th>Tax</th>
+                                        <th>Total Price</th>
+                                    </tr>
+                                </thead>*@
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        1.
+                                    </td>
+                                    <td>Name of Student:</td>
+                                    <td><b>@Model.firstName @Model.LastName</b></td>
+
+                                    <td>Session:</td>
+                                    <td>@Model.SessionName</td>
+                                </tr>
+                                <tr>
+                                    @*<td>
+                                            <div><strong>Wodpress Them customization</strong></div>
+                                            <small>
+                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                                Eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                            </small>
+                                        </td>*@
+                                    <td>2.</td>
+                                    <td>Sex:</td>
+                                    <td>@Model.Gender</td>
+                                    <td>Matriculation Number:</td>
+                                    <td>@Model.MatriculationNumber</td>
+                                </tr>
+                                <tr>
+                                    @*<td>
+                                            <div><strong>Angular JS & Node JS Application</strong></div>
+                                            <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</small>
+                                        </td>*@
+                                    <td>3.</td>
+                                    <td>Department:</td>
+                                    <td>@Model.Department</td>
+                                    <td>Hostel:</td>
+                                    <td>@Model.Hostel</td>
+                                </tr>
+                                <tr>
+                                    @*<td>
+                                            <div><strong>Angular JS & Node JS Application</strong></div>
+                                            <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</small>
+                                        </td>*@
+                                    <td>4.</td>
+                                    <td>Block/Compound:</td>
+                                    <td>@Model.BlockName</td>
+                                    <td>Room Name:</td>
+                                    <td>@Model.RoomName</td>
+                                </tr>
+                                @*<tr>
+                                        <td colspan="5">Desk Officer, Hostel Accommodation Officer</td>
+                                    </tr>*@
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-12">
+
+                            <p class="text-center"><em><h3>Desk Officer, Hostel Accommodation Officer</h3></em></p>
+
+                            <p>Note: This offer of accommodation is provisional. Thus, can be withdrawn or reviewed at anytime.</p>
+
+                            <p>
+                                <h3>UNDERTAKING BY STUDENTS:</h3>
+                                I have read and I undertake to abide by all the University of Jos Terms and Conditions governing accommodation in the hostels.  I consent to be ejected and suspended for one session if I sell, buy or exchange accommodation.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td><img src="@Url.Action("RenderSignature", "Students",new { studentId = Model.StudentId})" width="100" height="100" /></td>
+                                <td><img src="@Url.Action("BarcodeImage", "Home",new { barcodeText = $"{Model.firstName} {Model.MatriculationNumber} {Model.ProgrammeName} {Model.SessionName}"})" width="120" height="100" /></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Student Signature and Date: @Model.DateAssigned</strong></td>
+                                <td></td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <div class="page-break"></div>
+                    <br />
+                    <br />
+
+                    <div class="well m-t">
+                        <strong>TERMS AND CONDITIONS FOR HOSTEL ACCOMMODATION</strong>
+                        <p>The following Terms and Conditions shall apply to allocation of hostels in the University.</p>
+
+                        <ol>
+                            <li>All University Hostels remain the property of the University. Allocation of bed spaces is at discretion of the University Administration.</li>
+                            <li>No Student shall <b>buy</b> or <b>sell</b> the allocation of hostel accommodation made to him/her.  A breach of this condition shall constitute a misconduct and the student shall forfeit the accommodation.</li>
+                            <li>No Student shall squat other students, and swapping of rooms for whatever reason is not allowed.  A breach of the condition is a misconduct and the student shall forfeit the allocation.</li>
+                            <li>The use of <b>hotplate</b> is not allowed, such action shall constitute a serious misconduct which shall include forfeiture of the space allocated to the Student.</li>
+                            <li>No Student shall be allowed to make additional partitions and constructions in the hostel rooms, except those authorized and made by the University.</li>
+                            <li>Any Student who for whatever reason intends to stay in the hostel after the end of the session, must obtain a written approval from the Dean of the Directorate of Students’ Affairs.  Failure to vacate the hostel at the end of the session is a serious misconduct which shall include payment of penalty fees in the sum of One Thousand Naira <b>(₦1,000.00)</b> only per day with effect from the date to be determined by the University Administration.</li>
+                            <li>All keys must be handed over to the Hall Officer/Matron at the end of the session.  Therefore, no Student is allowed to change or modify any lock without proper authorization. All requests for any kind of modification, change, enforcement, etc. Must be routed through the Hall Officer/Matron to the Dean of Student Affairs.</li>
+                            <li>Under no circumstance should any hostel facility be used for any activity; be it religious or otherwise without written approval from the Dean of Students’ Affairs.</li>
+                            <li>Students are encouraged to route all observations, comments and issues through the Hall Offficers/Matrons to the Dean of Students’ Affairs.</li>
+                            <li>Hall Officers/Matrons are authorized to carry out random checks to ascertain occupants of any room and facility in the hostel.  As part of their routine assignment.</li>
+                        </ol>
+
+                        <p>
+                            I, <b>@Model.firstName @Model.LastName </b> of the Department of <b>@Model.Department</b> having read and understood the above stated Terms and Conditions for
+                            Hostel Accommodation, do hereby agree to be bound by them.  Failuire on my part to abide by the Terms and Conditions makes me laible to face the
+                            appropriate disciplinary actions, including forfeiture of the allocated space.
+                        </p>
+
+                    </div>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td><strong>Signature:</strong></td>
+                                <td>
+                                    <img src="@Url.Action("RenderSignature", "Students",new { studentId = Model.StudentId})" width="100" height="100" />
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td><strong>Matriculation Number:</strong></td>
+                                <td><b>@Model.MatriculationNumber</b></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Department:</strong></td>
+                                <td>@Model.Department</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Date:</strong></td>
+                                <td>@Model.DateAssigned</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <div class="text-right noprint">
+                        @*<button class="btn btn-primary"><i class="fa fa-print"></i> Print</button>*@
+                        <button class="btnn btnn-success btnn-sm" onClick="window.print();"> <i class="fa fa-print"></i> PRINT</button>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<div class="footer">
+            <div class="float-right">
+                10GB of <strong>250GB</strong> Free.
+            </div>
+            <div>
+                <strong>Copyright</strong> Example Company &copy; 2014-2018
+            </div>
+        </div>*@
+
+    @*<script type="text/javascript">
+            window.print();
+        </script>*@
+</body>
+</html>

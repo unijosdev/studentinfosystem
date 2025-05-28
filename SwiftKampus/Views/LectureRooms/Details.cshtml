@@ -1,0 +1,50 @@
+﻿@model SwiftKampusModel.TimeTable.LectureRoom
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>LectureRoom</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Building.BuildingName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Building.BuildingName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LectureRoomName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LectureRoomName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LectureRoomCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LectureRoomCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LectureRoomCapacity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LectureRoomCapacity)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @*@Html.ActionLink("Edit", "Edit", new { id = Model.LectureRoomId }) |*@
+    @Html.ActionLink("Back to List", "Index")
+</p>

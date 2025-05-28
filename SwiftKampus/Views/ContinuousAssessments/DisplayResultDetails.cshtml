@@ -1,0 +1,522 @@
+﻿@using SwiftKampus.Models
+@model IEnumerable<SwiftKampusModel.ContinuousAssessment>
+@{
+    var detail = Model.FirstOrDefault();
+    int count = 0;
+    int FailMark = 39;
+    ViewBag.Title = "Continuous Assessments Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var firstCa = Model.FirstOrDefault();
+}
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+<div class="ibox-content">
+    <a href="#" onclick="window.print()" class="btn btn-primary btn-sm"><i class="fa fa-file-excel-o"></i>&nbsp;PRINT</a>
+    @if (User.IsInRole(RoleName.VC) || User.IsInRole(RoleName.Admin) || User.IsInRole(RoleName.ExamAndRecordSupervisor))
+    {
+        if (!firstCa.IsSenateApproved)
+        {
+            <a class="btn btn-success" onclick="Edit('@firstCa.ContinuousAssessmentId')">  <i class="fa fa-pencil" aria-hidden="true">&nbsp;Approve</i></a>
+            <a class="btn btn-danger" onclick="Delete('@firstCa.ContinuousAssessmentId')"><i class="fa fa-remove" aria-hidden="true">&nbsp;Reject</i></a>
+        }
+        else
+        {
+            <h4 class="text-success">Result has been Approved</h4>
+        }
+    }
+    @if (User.IsInRole(RoleName.Dean))
+    {
+        if (!firstCa.IsFacultyApproved)
+        {
+            <a class="btn btn-success" onclick="FacultyEdit('@firstCa.ContinuousAssessmentId')">  <i class="fa fa-pencil" aria-hidden="true">&nbsp;Approve</i></a>
+            <a class="btn btn-danger" onclick="FacultyDelete('@firstCa.ContinuousAssessmentId')"><i class="fa fa-remove" aria-hidden="true">&nbsp;Reject</i></a>
+
+        }
+        else if (!firstCa.IsSenateApproved)
+        {
+            <a class="btn btn-danger" onclick="FacultyDelete('@firstCa.ContinuousAssessmentId')"><i class="fa fa-remove" aria-hidden="true">&nbsp;Reject</i></a>
+        }
+    }
+    @if (User.IsInRole(RoleName.Hod))
+    {
+        if (firstCa.IsDeptApproved)
+        {
+            if (!firstCa.IsFacultyApproved)
+            {
+                <a class="btn btn-danger" onclick="DeptDelete('@firstCa.ContinuousAssessmentId')"><i class="fa fa-remove" aria-hidden="true">&nbsp;Reject</i></a>
+            }
+        }
+        else
+        {
+            if (firstCa.Submitted)
+            {
+                <a class="btn btn-success" onclick="DeptEdit('@firstCa.ContinuousAssessmentId')"><i class="fa fa-pencil" aria-hidden="true">&nbsp;Approve</i></a>
+                <a class="btn btn-danger" onclick="DeptDelete('@firstCa.ContinuousAssessmentId')"><i class="fa fa-remove" aria-hidden="true">&nbsp;Reject</i></a>
+            }
+            else
+            {
+                <a class="btn btn-warning" href="#">Waiting for lecturer to submit</a>
+            }
+        }
+    }
+    @if (firstCa.IsSenateApproved)
+    {
+        <h4 class="text-success">Senate has approved result</h4>
+    }
+
+
+
+    <table style="width: 100%" class="border-2px">
+        <tr>
+            <td class="text-center">
+                <p class="text-center bold">
+                    <h3>UNIVERSITY OF JOS</h3>
+                    <h4>@detail.Programme.Department.Faculty.FacultyName</h4>
+                    <h4>@detail.Programme.Department.DeptName</h4>
+                    <h4> @detail.Semester.SemesterName Semester - Exam Result</h4>
+                    <h4>@detail.Sessions.SessionName</h4>
+                    <h4>@detail.Course.CourseName - @detail.Course.CourseCode (@detail.Course.Credits Unit(s))</h4>
+                </p>
+            </td>
+
+        </tr>
+    </table>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <th>No</th>
+                <th>Student Name</th>
+                <th>Matric No</th>
+                <th>CA Score</th>
+                <th>Exam Score</th>
+                <th>Total Score</th>
+                <th>Grade</th>
+                <th>Grade Point</th>
+                <th>Remark</th>
+
+            </tr>
+
+            @foreach (var item in Model)
+            {
+        <tr>
+            @{
+                count = count + 1;
+            }
+            <td>@count</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Student.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Student.MatricNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CaScore)
+            </td>
+            @if (item.IsAbsentForExam != null && item.IsAbsentForExam.Equals(true))
+            {
+                <td>ABS</td>
+            }
+            else
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExamScore)
+                </td>
+            }
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Grading)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GradePoint)
+            </td>
+            <td>
+                <!-- Change remark to either pass or fail -->
+                @if (item.Remark.Trim().ToUpper().Equals("FAIL"))
+                {
+                    @Html.Raw("Fail")
+                }
+                else
+                {
+                    @Html.Raw("Pass")
+                }
+            </td>
+            @*@if (User.IsInRole(RoleName.Admin) || User.IsInRole(RoleName.Hod))
+        {
+            <td>
+
+                <a href="#" onclick="DeleteCourse('@item.CourseRegistrationId')"><i class="fa fa-remove">Remove</i> </a>
+
+            </td>
+        }*@
+
+        </tr>
+            }
+
+        </table>
+    </div>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-4">
+            <table class="table table-responsive">
+                <tr>
+                    <th>SUMMARY</th>
+                </tr>
+                <tr>
+                    <th>A</th>
+                    <td>@Model.Count(x => x.Grading.ToUpper().Equals("A"))</td>
+                    <td></td>
+                    <th>PASS</th>
+                    <td>@Model.Count(x => x.Total > ViewBag.FailMark)</td>
+                </tr>
+                <tr>
+                    <th>B</th>
+                    <td>@Model.Count(x => x.Grading.ToUpper().Equals("B"))</td>
+                    <td></td>
+                    <th>FAIL</th>
+                    <td>@Model.Count(x => x.Total <= ViewBag.FailMark)</td>
+                </tr>
+                <tr>
+                    <th>C</th>
+                    <td>@Model.Count(x => x.Grading.ToUpper().Equals("C"))</td>
+                    <td></td>
+                    <th>ABS</th>
+                    <td>@Model.Count(x => x.IsAbsentForExam.Equals(true))</td>
+                </tr>
+                <tr>
+                    <th>D</th>
+                    <td>@Model.Count(x => x.Grading.ToUpper().Equals("D"))</td>
+                    <td></td>
+                    <th>WITHELD</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>E</th>
+                    <td>@Model.Count(x => x.Grading.ToUpper().Equals("E"))</td>
+                    <td></td>
+                    <th>TOTAL</th>
+                    <td>@Model.Count()</td>
+                </tr>
+                <tr>
+                    <th>F</th>
+                    <td>@Model.Count(x => x.Grading.ToUpper().Equals("F"))</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="col-md-3"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <p>Dean's Name</p>
+            <p>_____________________</p>
+            <p>Date: </p>
+        </div>
+        <div class="col-md-3">
+            <p>HOD's Name</p>
+            <p>_____________________</p>
+            <p>Date: </p>
+        </div>
+        <div class="col-md-3">
+            <p>Exam Coord's Name</p>
+            <p>_____________________</p>
+            <p>Date: </p>
+        </div>
+        <div class="col-md-3">
+            <p>Course Coord's Name</p>
+            <p>_____________________</p>
+            <p>Date: </p>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">UPLOAD CA</h4>
+                    @*<a class="btn btn-primary btn-sm">Create new action</a>*@
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+
+
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+
+<script type="text/javascript">
+
+    function Details(continuousAssessmentId) {
+        var url = "/ContinuousAssessments/DisplayResultDetails?id=" + continuousAssessmentId;
+        window.open(url, '_blank');
+    };
+
+    function Edit(continuousAssessmentId) {
+        swal({
+            title: "Senate Approve Result",
+            text: "Are you sure you want to Approve this result?..",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#ab973a",
+            confirmButtonText: "Yes, Approve Now!",
+            cancelButtonText: "No, Pls Cancel!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+            function (isConfirm) {
+                if (isConfirm) {
+                    var AllData = {
+                        "id": continuousAssessmentId,
+                    };
+                    var Mydata = JSON.stringify(AllData);
+
+                    $.ajax({
+                        contentType: 'application/json',
+                        type: "POST",
+                        url: "/ContinuousAssessments/SenateApproval",
+                        data: Mydata,
+                        success: function (data) {
+                            if (data.status) {
+                                swal({
+                                    title: "Great",
+                                    text: data.message,
+                                    type: "success",
+                                });
+                                //submitSearch();
+                                toastr["success"](data.message);
+                            } else {
+                                swal({
+                                    title: "Warning",
+                                    text: data.message,
+                                    type: "warning",
+                                });
+                                toastr["error"](data.message);
+                            }
+
+                        }
+                    });
+                    //swal("Great!", "Student has been cleared Successfully.", "success");
+                } else {
+
+                    //RejectStudent(studentId);
+                    swal("Oops", "Please try again", "warning");
+                }
+            });
+    };
+
+
+    function Delete(continuousAssessmentId) {
+        swal({
+            title: "Senate Reject Result",
+            text: "Are you sure you want to Reject this result?..",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#ab973a",
+            confirmButtonText: "Yes, Reject Now!",
+            cancelButtonText: "No, Pls Cancel!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+            function (isConfirm) {
+                if (isConfirm) {
+                    swal("Oops", "Please type in reason why the student is rejected", "warning");
+                    var url = "/ContinuousAssessments/DeptRejectSave?id=" + continuousAssessmentId + "&resultLevel=Senate";
+                    $('#myModalDivBody').load(url,
+                        function () {
+                            $('#actionsList').modal({
+                                show: 'true'
+                            });
+                        });
+                } else {
+
+                    swal("Oops", "Please try again", "warning");
+                }
+            });
+    };
+
+    function FacultyEdit(continuousAssessmentId) {
+        swal({
+            title: "Faculty Approve Result",
+            text: "Are you sure you want to Approve this result?..",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#ab973a",
+            confirmButtonText: "Yes, Approve Now!",
+            cancelButtonText: "No, Pls Cancel!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+            function (isConfirm) {
+                if (isConfirm) {
+                    var AllData = {
+                        "id": continuousAssessmentId,
+                    };
+                    var Mydata = JSON.stringify(AllData);
+
+                    $.ajax({
+                        contentType: 'application/json',
+                        type: "POST",
+                        url: "/ContinuousAssessments/FacultyApproval",
+                        data: Mydata,
+                        success: function (data) {
+                            if (data.status) {
+                                swal({
+                                    title: "Great",
+                                    text: data.message,
+                                    type: "success",
+                                });
+                                //submitSearch();
+                                toastr["success"](data.message);
+                            } else {
+                                swal({
+                                    title: "Warning",
+                                    text: data.message,
+                                    type: "warning",
+                                });
+                                toastr["error"](data.message);
+                            }
+
+                        }
+                    });
+                    //swal("Great!", "Student has been cleared Successfully.", "success");
+                } else {
+
+                    //RejectStudent(studentId);
+                    swal("Oops", "Please try again", "warning");
+                }
+            });
+    };
+
+
+    function FacultyDelete(continuousAssessmentId) {
+        swal({
+            title: "Reject Result",
+            text: "Are you sure you want to Reject this result?..",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#ab973a",
+            confirmButtonText: "Yes, Reject Now!",
+            cancelButtonText: "No, Pls Cancel!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+            function (isConfirm) {
+                if (isConfirm) {
+                    swal("Oops", "Please type in reason why the student is rejected", "warning");
+                    var url = "/ContinuousAssessments/DeptRejectSave?id=" + continuousAssessmentId + "&resultLevel=Faculty";
+                    $('#myModalDivBody').load(url,
+                        function () {
+                            $('#actionsList').modal({
+                                show: 'true'
+                            });
+                        });
+                } else {
+
+                    swal("Oops", "Please try again", "warning");
+                }
+            });
+    };
+
+    function DeptEdit(continuousAssessmentId) {
+        swal({
+            title: "Approve Result",
+            text: "Are you sure you want to Approve this result?..",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#ab973a",
+            confirmButtonText: "Yes, Approve Now!",
+            cancelButtonText: "No, Pls Cancel!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+            function (isConfirm) {
+                if (isConfirm) {
+                    var AllData = {
+                        "id": continuousAssessmentId,
+                    };
+                    var Mydata = JSON.stringify(AllData);
+                    $.ajax({
+                        contentType: 'application/json',
+                        type: "POST",
+                        url: "/ContinuousAssessments/DeptApproval",
+                        data: Mydata,
+                        success: function (data) {
+
+                            if (data.status) {
+                                //submitSearch();
+                                swal({
+                                    title: "Great",
+                                    text: data.message,
+                                    type: "success",
+                                });
+                                //window.oTable.ajax.reload(); //run my_fun() ondomready
+
+                                toastr["success"](data.message);
+                            } else {
+                                swal({
+                                    title: "Warning",
+                                    text: data.message,
+                                    type: "warning",
+                                });
+                                toastr["error"](data.message);
+                            }
+
+                        }
+                    });
+                } else {
+                    swal("Oops", "Please try again", "warning");
+                }
+            });
+    };
+
+
+    function DeptDelete(continuousAssessmentId) {
+        swal({
+            title: "Reject Result",
+            text: "Are you sure you want to Reject this result?..",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#ab973a",
+            confirmButtonText: "Yes, Reject Now!",
+            cancelButtonText: "No, Pls Cancel!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+            function (isConfirm) {
+                if (isConfirm) {
+                    swal("Oops", "Please type in reason why the student is rejected", "warning");
+                    var url = "/ContinuousAssessments/DeptRejectSave?id=" + continuousAssessmentId + "&resultLevel=Dept";
+                    $('#myModalDivBody').load(url,
+                        function () {
+                            //$('#actionsList').modal("show");
+                            //$('#actionsList').modal('toggle');
+                            //jQuery.noConflict();
+
+                            $('#actionsList').modal({
+                                show: 'true'
+                            });
+                        });
+                } else {
+
+                    swal("Oops", "Please try again", "warning");
+                }
+            });
+    };
+
+</script>

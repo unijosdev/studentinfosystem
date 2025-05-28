@@ -1,0 +1,178 @@
+﻿
+@{
+    ViewBag.Title = "LecturerIndex";
+}
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>List of Assigned Courses</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+
+                    </div>
+                    <div class="ibox-content">
+                        <article class="margin-bottom-xxl">
+                            <p class="lead">
+                                Please use the following parameters to perform Query
+                            </p>
+                        </article>
+                        <div class="card-body">
+                            <form class="form-inline" id="formFilter" onsubmit="return false;">
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>School Programme</label>
+                                            @Html.DropDownList("SchoolProgrammeId", (SelectList)ViewBag.SchoolProgrammeId, "", new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Session Name</label>
+                                            @Html.DropDownList("SessionId", (SelectList)ViewBag.SessionId, "", new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <br />
+                                        <button type="submit" id="btn-search" class="btn btn-primary">Search/View</button>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div><!--end .row -->
+
+                    </div>
+                    <div class="card-body table-responsive">
+                        <table id="Jdatatable" class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Course Name</th>
+                                    <th>Staff Name</th>
+                                    <th>Session Name</th>
+                                    <th>Semester Name</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">ASSIGN COURSE</h4>
+                    @*<a class="btn btn-primary btn-sm">Create new action</a>*@
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ("@ViewBag.Message") {
+            toastr["success"]("@ViewBag.Message");
+        }
+        window.oTable = $("#Jdatatable").DataTable({
+            "processing": true, // for show progress bar while loading
+            //"serverSide": true, // if it is true the preocess is done on server side
+            //"filter": true, // disables search box
+            //"info": true,
+            //"stateSave": true,
+            //"orderMulti": false, // disable multiple column loading at once
+            "ajax": {
+                "url": "/AssignedCourses/GetIndex",
+                "type": "POST",
+                "data": function (d) {
+                    return $('#formFilter').serialize();
+                },
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "CourseName", "autoWidth": true },
+                { "data": "FullName", "autoWidth": true },
+                { "data": "SessionName", "autoWidth": true },
+                { "data": "SemesterName", "autoWidth": true },
+
+                {
+                    "data": "AssignedCourseId",
+                    "autoWidth": true,
+                    "render": function (data) {
+                        return '<a class="text-bold text-primary" onclick="ViewStudent(' + data + ')" ><i class="fa fa-eye" aria-hidden="true">View Students</i></a>&nbsp;&nbsp;' +
+                            '<a class="text-bold text-primary" onclick="Student(' + data + ')" ><i class="fa fa-eye" aria-hidden="true">Take Attendace</i></a>&nbsp;&nbsp;' +
+                            '<a class="text-bold text-primary" onclick="Lecturer(' + data + ')" ><i class="fa fa-eye" aria-hidden="true">Lecturers</i></a>&nbsp;&nbsp;' +
+                            '<a class="text-bold text-primary" onclick="Timetable(' + data + ')" ><i class="fa fa-eye" aria-hidden="true" >Lecture Time<i /></a>';
+                    }
+                }                
+            ]
+        });
+
+    });
+
+    $("#btn-search").click(function () {
+        window.oTable.ajax.reload();
+    });
+
+    function ViewStudent(assignedCourseId) {
+        //var schoolProgrammeId = $('#SchoolProgrammeId').val();
+        var url = "/CourseRegistrations/DisplayRegisteredStudent?id=" + assignedCourseId;
+         window.open(url, '_blank');       
+    };
+
+    function Student(assignedCourseId) {
+        var schoolProgrammeId = $('#SchoolProgrammeId').val();
+        var url = "/AssignedCourses/PickAttendance?id=" + assignedCourseId + "&SchoolProgrammeId=" + schoolProgrammeId;
+         //window.open(url, '_self');
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    function Lecturer(assignedCourseId) {
+        var url = "/AssignedCourses/AssociateLecturer?id=" + assignedCourseId;
+
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    function Timetable(assignedCourseId) {
+        var url = "/AssignedCourses/TimeTable?id=" + assignedCourseId;
+
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+
+
+
+
+</script>

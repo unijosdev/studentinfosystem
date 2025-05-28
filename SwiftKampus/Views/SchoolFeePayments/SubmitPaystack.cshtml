@@ -1,0 +1,155 @@
+﻿@model SwiftKampus.ViewModels.Fee_Management.ConfirmPaymentVm
+
+@{
+    ViewBag.Title = "SubmitPaystack";
+}
+
+<style>
+
+    .form-submit {
+        text-align: center; /* Center-align the button */
+    }
+
+        .form-submit button {
+            padding: 15px 30px; /* Increase padding to make the button bigger */
+            font-size: 18px; /* Increase font size */
+            background-color: #4CAF50; /* Green background color */
+            color: #fff; /* White text color */
+            border: none; /* Remove button border */
+            border-radius: 5px; /* Add some border radius for a slightly rounded button */
+            cursor: pointer; /* Add cursor pointer on hover */
+        }
+
+            .form-submit button:hover {
+                background-color: #45a049; /* Darker green color on hover */
+            }
+</style>
+
+
+
+@*<img src="~/Content/Images/processing.gif" />*@
+<form id="paymentForm">
+    @*@<form id="form1" method="POST" action="https://www.remitademo.net/remita/ecomm/init.reg">*@
+    @Html.AntiForgeryToken()
+
+    <div>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.payerName)
+        @Html.HiddenFor(model => model.payerEmail)
+        @Html.HiddenFor(model => model.payerPhone)
+        @Html.HiddenFor(model => model.orderId),
+        @Html.HiddenFor(model => model.merchantId)
+        @Html.HiddenFor(model => model.serviceTypeId)
+        @Html.HiddenFor(model => model.responseurl)
+        @Html.HiddenFor(model => model.amt)
+        @Html.HiddenFor(model => model.hash)
+        @Html.HiddenFor(model => model.paymenttype)
+
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <div class="form-submit">
+
+        <button type="submit" onclick="payWithPaystack()"> Click to Proceed with the Payment</button>
+
+    </div>
+</form>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<script>
+    const paymentForm = document.getElementById('paymentForm');
+
+    paymentForm.addEventListener("submit", payWithPaystack, false);
+
+    function payWithPaystack(e) {
+        e.preventDefault();
+        let  charges = document.getElementById("amt").value * 0.015 + 100;
+
+        let amount = Math.floor(document.getElementById("amt").value) + charges;
+
+        //console.log(amount);
+        let handler = PaystackPop.setup({
+
+        key: 'pk_live_ddcb5b86d10af77de5785dfd7cb8c8a09f8094d7', // Replace with your public key
+
+        email: document.getElementById("payerEmail").value,
+
+        amount: amount * 100,
+
+        //ref: document.getElementById("orderId").value, // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+
+        // label: "Optional string that replaces customer email"
+        channels: ['card', 'bank', 'ussd', 'qr', 'mobile_money', 'bank_transfer'],
+
+        onClose: function(){
+
+        alert('Window closed.'); 
+
+    },
+
+        callback: function (response) {
+
+            $.ajax({
+                contentType: 'application/json',
+                type: "POST",
+                url: "/SchoolFeePayments/ConfrimPaymentPaystack",
+                data: JSON.stringify({
+                    RRR : response.reference,
+                    orderID : document.getElementById("orderId").value
+                    }),
+                        success: function (data) {
+                            if (data.status) {
+                                
+                                swal({
+                                    title: data.message,
+                                    type: "success",
+                                    //showCancelButton: true,
+                                    //confirmButtonColor: "#ab973a",
+                                    confirmButtonText: "Ok",
+                                    closeOnConfirm: false,
+                                    closeOnCancel: false
+                                });
+                                //submitSearch();
+                                toastr["success"](data.message);
+                                window.location.href = '/SchoolFeePayments/Index';
+                            } else {
+                                swal({
+                                    title: "Warning",
+                                    text: data.message,
+                                    type: "warning",
+                                });
+                                toastr["error"](data.message);
+                            }
+
+                        }
+                    });
+                    //swal("Great!", "Student has been cleared Successfully.", "success");
+        console.log(response);
+        //let message = 'Payment complete! Reference: ' + response.reference;
+        //alert(message);
+
+        }
+
+    });
+
+    handler.openIframe();
+
+}
+@*<script type="text/javascript">document.getElementById("form1").submit();</script>*@
+
+
+
+
+</script>

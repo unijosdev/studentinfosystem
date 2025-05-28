@@ -1,0 +1,196 @@
+﻿@model IEnumerable<SwiftKampusModel.MarketPlace.ProductCategory>
+
+@{
+    ViewBag.Title = "Category List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/AdminTemplate/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h3 align="center">Sundry and Income Charges</h3>
+                    <h5>List of Payment Types</h5>
+                    <div class="ibox-tools">
+                        <a onclick="myFunction()" class="btn btn-primary"><i class="fa fa-plus left"></i> ADD CATEGORY</a>
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                    </div>
+                </div>
+
+
+                <div class="ibox-content">
+                    <div class="table-responsive">
+                        <table id="Jdatatable" class="table table-striped table-bordered table-hover table-responsive dataTables-example">
+                            <thead>
+                                <tr>
+                                    <th>Sn</th>
+                                    <th>Name</th>
+                                    <th>Code</th>
+                                    <th>Status</th>
+                                    @*<th>Amount</th>*@
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade inmodal" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content animated">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">PAYMENT CHARGES</h4>
+                    @*<a class="btn btn-primary btn-sm">Create new action</a>*@
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/AdminTemplate/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
+<script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        window.oTable = $("#Jdatatable").DataTable({
+            "processing": true, // for show progress bar while loading
+
+            "ajax": {
+                "url": "/Category/GetIndex",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "Id", "autoWidth": true },
+                { "data": "CategoryName", "autoWidth": true },
+                { "data": "Code", "autoWidth": true },
+                { "data": "Visible", "autoWidth": true },
+                //{ "data": "Amount", "autoWidth": true },
+                {
+                    "data": "Id",
+                    "autoWidth": true,
+                    "render": function (data) {
+                        return '<a href="#" onclick="Edit(' + data + ')" >  <i class="fa fa-pencil" aria-hidden="true">&nbsp;Edit</i></a>&nbsp;&nbsp;' +
+                            '<a href="#" class="text-danger" onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" >&nbsp;Remove<i /></a>';
+                    }
+                }
+            ],
+            responsive: true,
+            dom: '<"html5buttons"B>lTfgitp',
+            buttons: [
+                { extend: 'copy' },
+                { extend: 'csv' },
+                { extend: 'excel', title: 'FacultyList' },
+                { extend: 'pdf', title: 'FacultyList' },
+
+                {
+                    extend: 'print',
+                    customize: function (win) {
+                        $(win.document.body).addClass('white-bg');
+                        $(win.document.body).css('font-size', '10px');
+
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+                    }
+                }
+            ]
+        });
+
+    });
+    function Edit(chargeId) {
+        var url = "/Category/Save?id=" + chargeId;
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    function Delete(chargeId) {
+
+        var url = "/SundryAndOtherIncomeCharge/DeleteConfirmed?id=" + chargeId;
+        //var studentId = $('#studentId').val();
+        swal({
+            title: "Are you sure you want to delete?",
+            text: "By Clicking Yes, You may NOT be able to recover data!",
+            type: "info",
+            buttons: "true",
+            dangerMode: "true",
+            showCancelButton: true,
+            confirmButtonColor: "#ab973a",
+            confirmButtonText: "Yes, Delete",
+            cancelButtonText: "No, Cancel!",
+            closeOnConfirm: true,
+            closeOnCancel: false
+        },
+            function (isConfirm) {
+                if (isConfirm) {
+
+                    $.ajax({
+                        contentType: 'application/json',
+                        type: "GET",
+                        url: '/Category/Delete?id=' + chargeId,
+                        //data: studentId,
+                        success: function (data) {
+                            if (data) {
+                                
+                                swal("Good", "Data Deleted successfully!", "success");
+                                
+                                toastr["success"](data);
+                            } else {
+                                swal({
+                                    title: "Warning",
+                                    text: "Error!, please try again",
+                                    type: "warning",
+                                });
+                                toastr["error"](data);
+                            }
+
+                        }
+                    });
+                }
+                else {
+                    //RejectStudent(studentId);
+                    swal("Good", "Operation has been cancelled successfully", "success");
+
+                }
+            });
+
+        //$('#myModalDivBody').load(url,
+        //    function () {
+        //        $('#actionsList').modal("show");
+        //    });
+    };
+    function myFunction() {
+        var url = "/Category/Save?id=0";
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+</script>

@@ -1,0 +1,104 @@
+﻿<!-- Modal -->
+<div class="modal fade modal-bf-fh" id="actionsList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="flex-center">
+                    <h4 class="modal-title">STAFF POSITION</h4>
+                    @*<a class="btn btn-primary btn-sm">Create new action</a>*@
+                </div>
+            </div>
+            <!--Body-->
+            <div class="modal-body" id="myModalDivBody">
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- /.Modal-->
+@*<a onclick="myFunction()" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#actionsList"><i class="fa fa-plus left"></i> ADD DEPARTMENT</a>*@
+<a href="#" onclick="myFunction()" class="btn btn-primary btn-lg"><i class="fa fa-plus left"></i> ADD STAFF POSITION</a>
+
+<table id="Jdatatable" class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th>Position Code</th>
+        <th>Position Name</th>
+        <th>Position Type</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+</table>
+
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        window.oTable = $("#Jdatatable").DataTable({
+            "processing": true, // for show progress bar while loading
+            //"serverSide": true, // if it is true the preocess is done on server side
+            //"filter": true, // disables search box
+            //"info": true,
+            //"stateSave": true,
+            //"orderMulti": false, // disable multiple column loading at once
+            "ajax": {
+                "url": "/StaffPositions/GetIndex",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "PositionCode", "autoWidth": true },
+                { "data": "PositionName", "autoWidth": true },
+                { "data": "PositionTypeName", "autoWidth": true },
+        
+                {
+                    "data": "StaffPositionId",
+                    "autoWidth": true,
+                    "render": function (data) {
+                        return '<a href="#" data-toggle="modal" data-target="#actionsList" onclick="Edit(' + data + ')" >  <i class="fa fa-pencil" aria-hidden="true" >&nbsp;Edit</i></a>&nbsp;&nbsp;' +
+                            '<a href="#" class="text-danger" data-toggle="modal" data-target="#actionsList"  onclick="Delete(' + data + ')" ><i class="fa fa-remove" aria-hidden="true" >&nbsp;Remove<i /></a>';
+                    }
+                }
+
+                //{ "data": "EmailID", "autoWidth": true },
+                //{ "data": "Phone", "autoWidth": true },
+            ]
+        });
+
+    });
+    function Edit(staffPositionId) {
+        var url = "/StaffPositions/Save?id=" + staffPositionId;
+        $('#myModal').appendTo("body").modal('show');
+        //window.alert(url);
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal('show');
+            });
+    };
+    function Delete(staffPositionId) {
+        var url = "/StaffPositions/Delete?id=" + staffPositionId;
+        //$('#actionsList').modal("show");
+        //window.alert(url);
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+    function myFunction() {
+        var url = "/StaffPositions/Save?id=0";
+      
+        $('#actionsList').modal('show');
+   
+        $('#myModalDivBody').load(url,
+            function () {
+                $('#actionsList').modal("show");
+            });
+    };
+</script>

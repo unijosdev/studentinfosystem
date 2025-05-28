@@ -1,0 +1,172 @@
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@ViewBag.Title - @System.Configuration.ConfigurationManager.AppSettings["SchoolName"]</title>
+
+    <!-- BEGIN META -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="uniben, unibenportal, unibenedu, unibennigeria, uniben nigeria, uniben edu">
+    <meta name="description" content="Uniben Portal @DateTime.Now.Year">
+    <!-- END META -->
+    <!-- BEGIN STYLESHEETS -->
+    
+    @*@Styles.Render("~/Content/css")*@
+    @*@Styles.Render("~/Content/fullcalendarcss")*@
+   
+    @Scripts.Render("~/bundles/scripts")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <link type="text/css" rel="stylesheet" href="~/assets/css/theme-default/libs/rickshaw/rickshaw.css?1422792967"/>
+    <link href="~/assets/css/theme-default/CombinedMinified.css" rel="stylesheet" />
+   
+    <!-- END STYLESHEETS -->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script type="text/javascript" src="../../assets/js/libs/utils/html5shiv.js?1403934957"></script>
+        <script type="text/javascript" src="../../assets/js/libs/utils/respond.min.js?1403934956"></script>
+    <![endif]-->
+</head>
+<body class="menubar-hoverable header-fixed menubar-pin ">
+   
+<!-- BEGIN HEADER-->
+<header id="header">
+    <div class="headerbar">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="headerbar-left">
+            <ul class="header-nav header-nav-options">
+                <li class="header-nav-brand">
+                    <div class="brand-holder">
+                        <a href="#">
+                            @{
+                                var schoolImage = @System.Configuration.ConfigurationManager.AppSettings["SchoolImage"];
+                            }
+                            <img class="img-responsive" src="~/Content/Images/@schoolImage"/>
+                            @*<span class="text-lg text-bold text-primary">@System.Configuration.ConfigurationManager.AppSettings["SchoolName"]</span>*@
+                        </a>
+                    </div>
+                </li>
+                @*<li>
+                    <a class="btn btn-icon-toggle menubar-toggle" data-toggle="menubar" href="javascript:void(0);">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                </li>*@
+            </ul>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="headerbar-right">
+                
+            <ul class="header-nav header-nav-options">
+                @if (!Request.IsAuthenticated)
+                {
+                    @*<li>@Html.ActionLink("Staff Registration", "RegisterStaff", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+                    <li>@Html.ActionLink("Student Registration", "RegisterStudent", "Account", routeValues: null, htmlAttributes: new { id = "registerLink"} )</li>*@
+                    <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+
+                }
+            </ul><!--end .header-nav-options -->
+            <ul class="header-nav header-nav-profile">
+
+                @if (Request.IsAuthenticated)
+                {
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle ink-reaction" data-toggle="dropdown">
+                               
+                            @if (User.IsInRole("Student"))
+                            {
+                                <img src="@Url.Action("RenderImage", "Students", new { studentId = User.Identity.GetUserName()})" width="100" height="100" />
+                                <span class="profile-info">
+                                    Hi, Student
+                                    <small>@User.Identity.GetUserName()</small>
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="profile-info">
+                                    Hi,
+                                    <small>@User.Identity.GetUserName()</small>
+                                </span>
+                            }
+
+                        </a>
+                        @*<ul class="dropdown-menu animation-dock">
+                            @*<li class="dropdown-header">Config</li>
+                            <li>@Html.ActionLink("Manage Profile", "Index", "Manage")</li>
+                            <li>@Html.ActionLink("Change Password", "ChangePassword", "Manage")</li>
+                            @*<li><a href="../../html/pages/calendar.html">School Events</a></li>
+                            <li class="divider"></li>
+                            <li><a href="../../html/pages/locked.html"><i class="fa fa-fw fa-lock"></i> Lock</a></li>
+                            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                    
+                                <li><a href="javascript:document.getElementById('logoutForm').submit()"> <i class="fa fa-fw fa-power-off text-danger"></i> Logout</a></li>
+                            }
+
+                        </ul>*@<!--end .dropdown-menu -->
+                    </li><!--end .dropdown -->
+                }
+                else
+                {
+                        
+                }
+            </ul><!--end .header-nav-profile -->
+            
+        </div><!--end #header-navbar-collapse -->
+    </div>
+</header>
+<!-- END HEADER-->
+
+
+
+<!-- BEGIN CONTENT-->
+<div id="content">
+
+    <!-- BEGIN BLANK SECTION -->
+    <section>
+               
+        <div class="section-body">
+            @RenderBody()
+        </div><!--end .section-body -->
+    </section>
+
+    <!-- BEGIN BLANK SECTION -->
+</div><!--end #content-->
+<!-- END CONTENT -->
+
+
+
+
+
+    <script src="~/assets/js/combinedJs.js"></script>
+    <script src="~/assets/js/libs/jquery/jquery-1.11.2.min.js"></script>
+    <script src="~/assets/js/core/source/AppNavigation.js"></script>
+
+
+
+
+
+@*<script type="text/javascript">
+
+
+        //Call the method on pageload
+        $(window).load(function () {
+           // window.alert(5 + 6);
+            var i = "@TempData["UserMessage"]";
+            //window.alert(i);
+            //Disply the modal popup
+            if (i) {
+                $('#simpleModal').modal('show');
+            }
+
+        });
+    </script>*@
+   
+<!-- END JAVASCRIPT -->
+@Scripts.Render("~/bundles/jquery")
+@*@Scripts.Render("~/bundles/fullcalendarjs")*@
+
+@RenderSection("scripts", required: false)
+</body>
+</html>

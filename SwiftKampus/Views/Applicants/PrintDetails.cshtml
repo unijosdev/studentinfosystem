@@ -1,0 +1,465 @@
+﻿@model SwiftKampus.ViewModels.ApplicantDetailVm
+@{
+    ViewBag.Title = "Print Form";
+    Layout = "~/Views/Shared/_LayoutPrint.cshtml";
+}
+
+    <div class="transparentbox">
+        <table style="width: 100%" class="border-2px">
+            <tr>
+                <td>
+                    <img src="~/Content/Images/unijoslogo.png" width="90" height="100" />
+                </td>
+                <td class="text-center">
+                    <h3>
+                        UNIVERSITY OF JOS
+                    </h3>
+                    <h4>
+                        <br />
+                        APPLICATION SUMMARY FORM
+                    </h4>
+                </td>
+                <td class="text-right">
+                    <img src="@Url.Action("RenderImage", "Applicants", new { studentId = $"{Model.Applicant.ApplicantEmail}" })" width="90" height="100">
+                </td>
+            </tr>
+        </table>
+        <br />
+        <h4>Applicant's Information</h4>
+
+        <table style="width: 100%">
+            <tr>
+                <th>
+                    <div class="col-md-6">
+                        <table class="table table-banded no-margin table-responsive">
+                            <tbody>
+                                <tr>
+                                    <td>FULLNAME: <strong> @Model.Applicant.FullName</strong></td>
+                                    <td style="padding-left:15em;">DATE:<strong> @DateTime.Now.Date.ToString("dd MMM yyy")</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>@*FACULTY: <strong> @Model.Student.Programme.Department.Faculty.FacultyName</strong>*@</td>
+                                    <td rowspan="3" style="padding-left:15em;">
+                                        <img src="@Url.Action("BarcodeImage", "Home",new { barcodeText = $"{Model.Applicant.ApplicantId} {Model.ApplicantPayment.ReferenceNo} {Model.Applicant.FullName}"})" width="150" height="100" />
+                                    </td>
+                                </tr>
+                                @*<tr><td>DEPARTMENT: <strong> @Model.UtmeApplicant.Programme.ProgrammeName</strong></td></tr>*@
+                                <tr><td>JAMB REG NO: <strong> @Model.Applicant.ApplicantId</strong></td></tr>
+                                <tr><td>EMAIL: <strong> @Model.Applicant.ApplicantEmail</strong></td></tr>
+                                <tr><td>PHONE NUMBER: <strong>@Model.Applicant.PhoneNumber</strong></td></tr>
+                                <tr><td>SCHOOL PROGRAMME: <strong>@Model.Applicant.SchoolProgramme.FancyName</strong></td></tr>
+                                @if (!string.IsNullOrEmpty(Model.Applicant.AvailableCourse.Programme.ProgrammeName))
+                                {
+                                    <tr><td>COURSE OF CHOICE: <strong>@Model.Applicant.AvailableCourse.Programme.ProgrammeName</strong></td></tr>
+                                }
+                                else
+                                {
+                                    <tr><td>COURSE OF CHOICE: <strong></strong></td></tr>
+
+                                }
+                                <tr><td>RRR: <strong>@Model.ApplicantPayment.ReferenceNo</strong></td></tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </th>
+                <th>
+                    <div class="col-md-6">
+                        <table class="table table-banded no-margin table-responsive">
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </th>
+            </tr>
+        </table>
+        @if (Model.SubjetCombination != null)
+        {
+            <table class="table">
+                <tr>
+                    <td>
+                        Subject Combination
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(model => model.SubjetCombination)
+                    </td>
+
+                </tr>
+            </table>
+        }
+
+        <div class="table-responsive m-t">
+            <h3>O-Level Results</h3>
+            <table style="width: 100%">
+
+                <tr>
+                    <td>
+                        <table style="width: 100%">
+                            <tr>
+                                <th>Subject Name</th>
+                                <th>Result Name</th>
+                                <th>Subject Grade</th>
+                            </tr>
+                            @{
+                                var number = 1;
+                            }
+                            @foreach (var item in Model.ApplicantOLevelResults.OrderBy(x => x.ResultName).ThenBy(x => x.Subject.CourseName))
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Subject.CourseName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ResultName)
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SubjectGrade)
+                                    </td>
+                                </tr>
+
+                            }
+
+
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        @if (Model.AttendedSchools.Count() >= 1)
+        {
+            <div class="table-responsive m-t">
+                <h3>Institution Attended</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>School Name</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Degree</th>
+                            <th>Class of Degree</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.AttendedSchools)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SchoolName)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FromDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ToDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Degree)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ClassOfDegree)
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        }
+
+        @if (Model.Referees.Count() >= 1)
+        {
+            <div class="table-responsive m-t">
+                <h3>Referees</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Full Name</th>
+                            <th>Relationship</th>
+                            <th>Address</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Referees)
+                        {
+                            <tr>
+                                <td>
+                                    @item.FullName
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Relationship)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Address)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Email)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Address)
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        }
+
+        @if (Model.NextOfKins.Count() >= 1)
+        {
+            <div class="table-responsive m-t">
+                <h3>Next of Kin</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Full Name</th>
+                            <th>Relationship</th>
+                            <th>Address</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.NextOfKins)
+                        {
+                            <tr>
+                                <td>
+                                    @item.FullName
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Relationship)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Address)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Email)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Address)
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        }
+
+        @if (Model.Qualifications.Count() >= 1)
+        {
+            <div class="table-responsive m-t">
+                <h3>Academic Qualifications</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name of Institution</th>
+                            <th>Qualification Name</th>
+                            <th>Discipline</th>
+                            <th>Grade</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Qualifications)
+                        {
+                            <tr>
+                                <td>
+                                    @item.NameOfInstitution
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.QualificationName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Discipline)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Grade)
+                                </td>
+
+
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        }
+
+        @if (Model.Publications.Count() >= 1)
+        {
+            <div class="table-responsive m-t">
+                <h3>Publications</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Institution</th>
+                            <th>Publication Type</th>
+                            <th>Publication Date</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Publications)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Title)
+                                </td>
+                                <td>
+                                    @item.Institution
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PublicationType)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PublishedDate)
+                                </td>
+
+
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        }
+
+        @if (Model.EmploymentDetails.Count() >= 1)
+        {
+            <div class="table-responsive m-t">
+                <h3>Employment Details</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Employee Name</th>
+                            <th>Address</th>
+                            <th>From</th>
+                            <th>To</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.EmploymentDetails)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EmployeeName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Address)
+                                </td>
+                                <td>
+                                    @item.FromDate
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ToDate)
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        }
+
+        @if (Model.AwardPrices.Count() >= 1)
+        {
+            <div class="table-responsive m-t">
+                <h3>Award Prices</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Awarding Body</th>
+                            <th>Academic Price</th>
+                            <th>Year</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.AwardPrices)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AwardingBody)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AcademicPrice)
+                                </td>
+                                <td>
+                                    @item.Year
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        }
+
+        @if (Model.RelevantDocuments != null && Model.RelevantDocuments.Count() > 0)
+        {
+            <div class="table-responsive m-t">
+                <h3 class="text-left">Relevant Document</h3>
+
+                <table style="width: 100%">
+                    <tr>
+                        <th> S/N </th>
+                        <th> File Name </th>
+                        @*<th> Action </th>*@
+                    </tr>
+                    @if (Model.RelevantDocuments != null)
+                    {
+                        var number12 = 1;
+
+                        foreach (var item in Model.RelevantDocuments)
+                        {
+                            <tr>
+                                <td> @number12 </td>
+                                <td> @item.FileName </td>
+                                @if (string.IsNullOrEmpty(item.FileAddress))
+                                {
+                                    <td></td>
+                                }
+                                else
+                                {
+                                    <td> <a href="~/UploadedFiles/@item.FileAddress" target="_blank">View File</a> </td>
+                                }
+                            </tr>
+                            {
+                                number12 = number12 + 1;
+                            }
+                        }
+                    }
+
+                </table>
+                <br />
+                <br />
+            </div>
+        }
+        <br />
+        <br />
+        <br />
+        <p class="text-center">
+            For further enquiries, please email us at support@unijos.edu.ng.<br />
+            Thank you for choosing UNIJOS and we wish you good luck.
+        </p>
+    </div>
+
+
+
+
