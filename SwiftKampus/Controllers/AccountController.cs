@@ -911,7 +911,6 @@ namespace SwiftKampus.Controllers
 
         public async Task<ActionResult> TestEmail()
         {
-            var apiKey = "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";
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress($"noreply@unijos.com", "University of Jos");
             var subject = $"UNIJOS NOTIFICATION";
